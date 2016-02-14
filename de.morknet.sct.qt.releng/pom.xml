@@ -13,8 +13,10 @@
 	<properties>
 		<tycho-version>0.21.0</tycho-version>
 		<tycho-extras-version>0.21.0</tycho-extras-version>
+		<xtext-version>2.8.3</xtext-version>
 		<antrun-version>1.8</antrun-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<eclipse.distro>mars</eclipse.distro>
 	</properties>
 
 	<modules>
@@ -84,35 +86,16 @@
 		</plugins>
 	</build>
 
-	<pluginRepositories>
-		<!-- Fornax Workflow Runner plugin -->
-		<pluginRepository>
-			<id>fornax</id>
-			<url>http://www.fornax-platform.org/m2/repository</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<repositories>
-		<repository>
-			<id>fornax</id>
-			<name>Fornax Repository</name>
-			<url>http://www.fornax-platform.org/m2/repository</url>
-		</repository>
 		<repository>
 			<id>release</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/mars</url>
+			<url>http://download.eclipse.org/releases/${eclipse.distro}/</url>
 		</repository>
 		<repository>
 			<id>sct</id>
 			<layout>p2</layout>
-			<url>http://updates.yakindu.org/sct/mars/releases/</url>
+			<url>http://updates.yakindu.org/sct/${eclipse.distro}/releases/</url>
 		</repository>
 	</repositories>
 </project>
