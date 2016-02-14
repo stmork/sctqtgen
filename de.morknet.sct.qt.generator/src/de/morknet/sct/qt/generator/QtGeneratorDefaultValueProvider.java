@@ -8,6 +8,7 @@ package de.morknet.sct.qt.generator;
 
 import static de.morknet.sct.qt.generator.IFeatureConstants.LIBRARY_NAME;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_BASECLASSNAME;
+import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CLASSNAME;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;

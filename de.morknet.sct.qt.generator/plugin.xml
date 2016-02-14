@@ -5,7 +5,7 @@
          point="org.yakindu.sct.generator.core.generator">
       <SCTGenerator class="de.morknet.sct.qt.generator.QtGenerator"
             description="A generator for coupling the SCT-events and Qt signals and slots"
-            id="de.morknet.sct.qt.generator"
+            id="de::morknet::sct::qt::generator"
             name="Qt-Generator for SCT"
             contentType="statechart"
             elementRefType="org.yakindu.sct.model.sgraph.Statechart">
