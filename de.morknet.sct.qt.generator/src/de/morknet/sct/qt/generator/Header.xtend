@@ -49,7 +49,7 @@ class Header
 		Q_OBJECT
 
 		QMap<sc_eventid, StatemachineTimer *> timerMap;
-		std::mutex                            mutex;
+		std::recursive_mutex                  mutex;
 
 	public:
 		«className(entry)»();

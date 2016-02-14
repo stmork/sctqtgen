@@ -97,6 +97,8 @@ class Implementation
 	 */
 	void «className(entry)»::runCycle()
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex);
+
 		«baseClassName(entry)»::runCycle();
 		react();
 	}
@@ -204,6 +206,8 @@ class Implementation
 	 */
 	void «className(entry)»::timeout(sc_eventid event)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex);
+
 		qDebug("# Time event occured with id %p", event);
 		raiseTimeEvent(event);
 		runCycle();
