@@ -53,20 +53,20 @@ class Selector
 
 	def baseClassName(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "QtGenerator"])
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue("baseClassName").stringValue
+			return f.getParameterValue(IFeatureConstants.QT_BASECLASSNAME).stringValue
 		}
-		return null
+		throw new IllegalStateException("Base class name not configured!");
 	}
 
 	def className(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "QtGenerator"])
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue("className").stringValue
+			return f.getParameterValue(IFeatureConstants.QT_CLASSNAME).stringValue
 		}
-		return null
+		throw new IllegalStateException("Class name not configured!");
 	}
 
 	def getSrcGen(GeneratorEntry it)
