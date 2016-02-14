@@ -33,15 +33,12 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		String parameterName = parameterValue.getParameter().getName();
 		if (QT_BASECLASSNAME.equals(parameterName))
 		{
-			parameterValue.setValue("default value");
+			parameterValue.setValue("AbstractStateMachine");
 		}
 	}
 
 	public IStatus validateParameterValue(FeatureParameterValue parameterValue)
 	{
-		String parameterName = parameterValue.getParameter().getName();
-		// TODO implement validation
-		// return error("Illegal parameter value");
 		return Status.OK_STATUS;
 	}
 }

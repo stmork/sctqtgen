@@ -26,7 +26,7 @@ class Selector
 	{
 		events.filter[e|e.direction == Direction.OUT].sortBy[e|e.name]
 	}
-	
+
 	def getEvents(InternalScope it)
 	{
 		events
