@@ -26,7 +26,7 @@
 	<developers>
 		<developer>
 			<name>Steffen A. Mork</name>
-			<email>linuxdev@morknet.de</email>
+			<email>linux-dev@morknet.de</email>
 			<url>http://morknet.de</url>
 		</developer>
 	</developers>
@@ -98,6 +98,11 @@
 	</pluginRepositories>
 
 	<repositories>
+        <repository>
+            <id>fornax.repository</id>
+            <name>Fornax Repository</name>
+            <url>http://www.fornax-platform.org/m2/repository</url>
+        </repository>
 		<repository>
 			<id>release</id>
 			<layout>p2</layout>
