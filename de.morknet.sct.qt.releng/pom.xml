@@ -83,6 +83,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<pluginRepositories>
 		<!-- Fornax Workflow Runner plugin -->
 		<pluginRepository>
@@ -98,25 +99,20 @@
 	</pluginRepositories>
 
 	<repositories>
-        <repository>
-            <id>fornax.repository</id>
-            <name>Fornax Repository</name>
-            <url>http://www.fornax-platform.org/m2/repository</url>
-        </repository>
+		<repository>
+			<id>fornax</id>
+			<name>Fornax Repository</name>
+			<url>http://www.fornax-platform.org/m2/repository</url>
+		</repository>
 		<repository>
 			<id>release</id>
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/luna</url>
 		</repository>
-		<repository> 
-			<id>xtext</id> 
-			<layout>p2</layout> 
-			<url>http://download.itemis.com/updates/</url> 
-		</repository> 
 		<repository>
 			<id>sct</id>
 			<layout>p2</layout>
-			<url>http://updates.yakindu.org/sct/luna/releases/</url>
+			<url>http://updates.yakindu.org/sct/mars/releases/</url>
 		</repository>
 	</repositories>
 </project>

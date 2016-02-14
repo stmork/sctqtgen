@@ -122,6 +122,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.yakindu.sct.model.sexec" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.yakindu.sct.model.stext" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.yakindu.sct.model.sgraph" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.yakindu.base.types"/>
    </requires>
 
    <plugin
