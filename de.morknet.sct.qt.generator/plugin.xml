@@ -8,7 +8,7 @@
 				name="Qt-Generator for SCT"
 				contentType="statechart"
 				elementRefType="org.yakindu.sct.model.sgraph.Statechart">
-			<FeatureLibrary library_id="org.yakindu.generator.core.features.sctbase">
+			<FeatureLibrary library_id="org.yakindu.generator.core.features">
 			</FeatureLibrary>
 			<FeatureLibrary library_id="de.morknet.sct.qt.generator.FeatureTypeLibrary">
 			</FeatureLibrary>

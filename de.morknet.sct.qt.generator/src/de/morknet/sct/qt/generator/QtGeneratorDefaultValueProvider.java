@@ -36,6 +36,10 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		{
 			parameterValue.setValue("AbstractStateMachine");
 		}
+		if (QT_CLASSNAME.equals(parameterName))
+		{
+			parameterValue.setValue("AbstractStateMachineDispatcher");
+		}
 	}
 
 	public IStatus validateParameterValue(FeatureParameterValue parameterValue)
