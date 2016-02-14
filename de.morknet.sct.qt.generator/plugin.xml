@@ -14,6 +14,10 @@
 			</FeatureLibrary>
 		</SCTGenerator>
 	</extension>
+	<extension point="org.yakindu.sct.generator.core.extensions">
+		<ExtensionGeneratorMapping fileExtension="sct" generatorId="de::morknet::sct::qt::generator">
+		</ExtensionGeneratorMapping>
+	</extension>
 	<extension point="org.yakindu.sct.generator.core.featuretypes">
 		<FeatureLibrary library_id="de.morknet.sct.qt.generator.FeatureTypeLibrary"
 				defaultProvider="de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider"
