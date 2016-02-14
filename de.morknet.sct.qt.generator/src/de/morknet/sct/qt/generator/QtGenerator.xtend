@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016  -  Steffen A. Mork
- * $Id: AbstractDcsHomeStationStateMachineDispatcher.h 42086 2016-02-08 15:19:28Z steffen.mork $
- * $Author: steffen.mork $
+ * $Id$
+ * $Author$
  */
 
 package de.morknet.sct.qt.generator
