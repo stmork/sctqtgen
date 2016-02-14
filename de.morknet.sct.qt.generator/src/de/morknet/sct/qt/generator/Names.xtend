@@ -28,16 +28,6 @@ class Names
 		className(entry) + ".cpp"
 	}
 
-	def baseClassName(GeneratorEntry it)
-	{
-		"Abstract" + getModuleName()
-	}
-
-	def className(ExecutionFlow it, GeneratorEntry entry)
-	{
-		baseClassName(entry) + "Dispatcher"
-	}
-
 	def classDefineGuard(ExecutionFlow it, GeneratorEntry entry)
 	{
 		className(entry).toUpperCase + "_H"

@@ -51,11 +51,20 @@ class Selector
 		}
 	}
 
-	def getModuleName(GeneratorEntry it)
+	def baseClassName(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "Generator"])
+		for (FeatureConfiguration f : features.filter[f|f.type.name == "QtGenerator"])
 		{
-			return f.getParameterValue("configurationModule").stringValue
+			return f.getParameterValue("baseClassName").stringValue
+		}
+		return null
+	}
+
+	def className(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == "QtGenerator"])
+		{
+			return f.getParameterValue("className").stringValue
 		}
 		return null
 	}
