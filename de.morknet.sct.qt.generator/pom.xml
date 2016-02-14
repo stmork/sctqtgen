@@ -42,6 +42,9 @@
 							<includes>
 								<include>**/*.java</include>
 							</includes>
+							<excludes>
+								<exclude>.svn/</exclude>
+							</excludes>
 						</fileset>
 						<fileset>
 							<directory>bin</directory>
@@ -49,6 +52,7 @@
 					</filesets>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
