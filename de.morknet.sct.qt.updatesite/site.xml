@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.morknet.sct.qt.feature_1.0.0.qualifier.jar" id="de.morknet.sct.qt.feature" version="1.0.0.qualifier">
+      <category name="de.morknet.sct.qt"/>
+   </feature>
+   <category-def name="de.morknet.sct.qt" label="Qt"/>
+</site>
