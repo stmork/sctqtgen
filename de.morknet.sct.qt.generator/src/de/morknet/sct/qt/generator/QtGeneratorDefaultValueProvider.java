@@ -7,7 +7,7 @@
 package de.morknet.sct.qt.generator;
 
 import static de.morknet.sct.qt.generator.IFeatureConstants.LIBRARY_NAME;
-import static de.morknet.sct.qt.generator.IFeatureConstants.MY_PARAMETER;
+import static de.morknet.sct.qt.generator.IFeatureConstants.QT_BASECLASSNAME;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -31,7 +31,8 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 			FeatureParameterValue parameterValue, EObject context)
 	{
 		String parameterName = parameterValue.getParameter().getName();
-		if (MY_PARAMETER.equals(parameterName)) {
+		if (QT_BASECLASSNAME.equals(parameterName))
+		{
 			parameterValue.setValue("default value");
 		}
 	}
