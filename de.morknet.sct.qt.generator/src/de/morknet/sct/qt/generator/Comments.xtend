@@ -22,10 +22,10 @@ class Comments
 	 * «getLicenseText()»
 	 *
 	 * NOTE: This code is automatically generated. So do not
-	 * change this file. The changes will be lost!
+	 * change this file! The changes will be lost!
 	 *
-	 * $Id$
-	 * $Author$
+	 * $«"Id"»$
+	 * $«"Author"»$
 	 */
 	'''
 
