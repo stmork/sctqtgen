@@ -61,6 +61,8 @@ class Implementation
 	 */
 	«className(entry)»::~«className(entry)»()
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex);
+
 		exit();
 		react();
 
@@ -82,6 +84,8 @@ class Implementation
 	 */
 	void «className(entry)»::start()
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex);
+
 		init();
 		initializeValues();
 		enter();
@@ -113,14 +117,16 @@ class Implementation
 	{
 		bool internalEventOccured = false;
 		«FOR scope : getInterfaceScopes()»
+			«IF hasOutEvents(scope)»
 
-			«commentScope(scope)»
-			«FOR event : getOutEvents(scope)»
-				if («instanceName(scope)».«asRaised(event)»())
-				{
-					emit «Emit(event)»(«typeGetter(event, scope)»);
-				}
-			«ENDFOR»
+				«commentScope(scope)»
+				«FOR event : getOutEvents(scope)»
+					if («instanceName(scope)».«asRaised(event)»())
+					{
+						emit «Emit(event)»(«typeGetter(event, scope)»);
+					}
+				«ENDFOR»
+			«ENDIF»
 		«ENDFOR»
 
 		«FOR scope : getInternalScopes»
@@ -137,6 +143,22 @@ class Implementation
 			runCycle();
 		}
 	}
+
+	«FOR scope : getInterfaceScopes()»
+		«IF hasInEvents(scope)»
+
+			«commentScope(scope)»
+			«FOR event : getInEvents(scope)»
+
+	void «className(entry)»::«Emit(event)»(«type(event)» «parameter(event)»)
+	{
+		qDebug("# «Emit(event)»()...");
+		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
+		runCycle();
+	}
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
 
 	/**
 	 * This method implements the canceling of the statemachine.

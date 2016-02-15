@@ -22,6 +22,21 @@ class Selector
 {
 	@Inject extension Names
 
+	def hasInEvents(Scope it)
+	{
+		events.filter[e|e.direction == Direction.IN].size > 0;
+	}
+
+	def getInEvents(Scope it)
+	{
+		events.filter[e|e.direction == Direction.IN].sortBy[e|e.name]
+	}
+
+	def hasOutEvents(Scope it)
+	{
+		events.filter[e|e.direction == Direction.OUT].size > 0;
+	}
+	
 	def getOutEvents(Scope it)
 	{
 		events.filter[e|e.direction == Direction.OUT].sortBy[e|e.name]

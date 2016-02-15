@@ -60,14 +60,25 @@ class Header
 	public slots:
 		/* Triggered from QTimer */
 		void timeout(sc_eventid event);
+		«FOR scope : getInterfaceScopes()»
+			«IF hasInEvents(scope)»
+
+				«commentScope(scope)»
+				«FOR event : getInEvents(scope)»
+					virtual void «Emit(event)»(«type(event)»);
+				«ENDFOR»
+			«ENDIF»
+		«ENDFOR»
 	
 	signals:
 		«FOR scope : getInterfaceScopes()»
-			«commentScope(scope)»
-			«FOR event : getOutEvents(scope)»
-				void «Emit(event)»(«type(event)»);
-			«ENDFOR»
+			«IF hasOutEvents(scope)»
+				«commentScope(scope)»
+				«FOR event : getOutEvents(scope)»
+					void «Emit(event)»(«type(event)»);
+				«ENDFOR»
 
+			«ENDIF»
 		«ENDFOR»
 
 	protected:

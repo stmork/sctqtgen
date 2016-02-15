@@ -92,11 +92,24 @@ class Names
 		"isRaised_" + name.toFirstLower()
 	}
 
+	def asRaise(Event it)
+	{
+		"raise_" + name.toFirstLower()
+	}
+
 	def type(Event it)
 	{
 		if (type != null)
 		{
 			"sc_" + type.name
+		}
+	}
+
+	def parameter(Event it)
+	{
+		if (type != null)
+		{
+			"input"
 		}
 	}
 
