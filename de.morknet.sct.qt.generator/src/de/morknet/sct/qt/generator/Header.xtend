@@ -38,6 +38,9 @@ class Header
 	
 	#include <mutex>
 	
+	typedef std::recursive_mutex      sc_mutex;
+	typedef std::lock_guard<sc_mutex> sc_lock;
+
 	class «className(entry)» :
 		public    QObject,
 		public    «baseClassName(entry)»,
@@ -49,7 +52,9 @@ class Header
 		Q_OBJECT
 
 		QMap<sc_eventid, StatemachineTimer *> timerMap;
-		std::recursive_mutex                  mutex;
+
+	protected:
+		sc_mutex                              mutex;
 
 	public:
 		«className(entry)»();

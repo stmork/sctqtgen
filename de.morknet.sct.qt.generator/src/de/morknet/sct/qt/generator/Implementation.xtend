@@ -61,7 +61,7 @@ class Implementation
 	 */
 	«className(entry)»::~«className(entry)»()
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex);
+		sc_lock lock(mutex);
 
 		exit();
 		react();
@@ -84,7 +84,7 @@ class Implementation
 	 */
 	void «className(entry)»::start()
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex);
+		sc_lock lock(mutex);
 
 		init();
 		initializeValues();
@@ -101,8 +101,6 @@ class Implementation
 	 */
 	void «className(entry)»::runCycle()
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex);
-
 		«baseClassName(entry)»::runCycle();
 		react();
 	}
@@ -152,6 +150,8 @@ class Implementation
 
 	void «className(entry)»::«Emit(event)»(«type(event)» «parameter(event)»)
 	{
+		sc_lock lock(mutex);
+
 		qDebug("# «Emit(event)»()...");
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
 		runCycle();
@@ -228,7 +228,7 @@ class Implementation
 	 */
 	void «className(entry)»::timeout(sc_eventid event)
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex);
+		sc_lock lock(mutex);
 
 		qDebug("# Time event occured with id %p", event);
 		raiseTimeEvent(event);
