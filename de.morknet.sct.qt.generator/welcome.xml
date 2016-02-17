@@ -1,0 +1,5 @@
+<welcomePage 
+        title="JEE6-Generator"
+        format="wrap">
+        <intro>Dieses Feature ermöglicht das einfache Generieren einer JEE-basierten Webapplikation.</intro>
+</welcomePage>
