@@ -12,10 +12,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class SgenMojo extends AbstractMojo
 {
 
-	@Parameter(name="sgen", required=true)
+	@Parameter(name = "sgen", required = true)
 	private File sgen;
 
-    /**
+	/**
 	 * Says "Hi" to the user.
 	 *
 	 */

@@ -11,6 +11,7 @@
 	<name>SCT Maven Plugin for sgen-Files</name>
 
 	<properties>
+		<eclipse.distro>mars</eclipse.distro>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -21,7 +22,6 @@
 			<version>3.3.9</version>
 		</dependency>
 
-		<!-- dependencies to annotations -->
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
@@ -53,26 +53,26 @@
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
-
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>2.8</version>
-			</extension>
-		</extensions>
 	</build>
 
-	<distributionManagement>
+	<repositories>
 		<repository>
-			<id>sctqtgen.sf.net</id>
-			<url>sftp://web.sourceforge.net/home/pfs/project/sctqtgen/repositories/maven</url>
+			<id>release</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/${eclipse.distro}/</url>
 		</repository>
-	</distributionManagement>
+
+		<repository>
+			<id>sct</id>
+			<layout>p2</layout>
+			<url>http://updates.yakindu.org/sct/${eclipse.distro}/releases/</url>
+		</repository>
+	</repositories>
 </project>
