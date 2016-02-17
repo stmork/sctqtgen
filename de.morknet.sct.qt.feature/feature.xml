@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="de.morknet.sct.qt.feature"
-      label="SCT-Qt-Generator Feature"
+      label="SCT-Qt-Generator"
       version="1.0.0.qualifier"
-      provider-name="MORKNet">
+      provider-name="MORKNet"
+      plugin="de.morknet.sct.qt.generator">
 
    <description url="https://sourceforge.net/p/sctqtgen/wiki/Home/">
       This plugin provides a generator for linking the YAKINDU SCT in and out events into a Qt signal/slot eco system. It also provides an interface to Qt timers.
    </description>
 
    <copyright url="http://morknet.de/">
-      Steffen A. Mork
+      Copyright (C) 2016 - Steffen A. Mork. All rights reserved.
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -102,6 +103,10 @@ Everyone is permitted to copy and distribute copies of this Agreement, but in or
 
 This Agreement is governed by the laws of the State of New York and the intellectual property laws of the United States of America. No party to this Agreement will bring a legal action under this Agreement more than one year after the cause of action arose. Each party waives its rights to a jury trial in any resulting litigation.
    </license>
+
+   <url>
+      <update label="SCT-Qt-Generator" url="https://sourceforge.net/projects/sctqtgen/files/repositories/release/"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.jdt.core" version="3.5.0" match="greaterOrEqual"/>
