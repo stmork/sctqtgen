@@ -61,6 +61,7 @@ class Header
 		virtual ~«className(entry)»();
 
 		void start();
+		void stop();
 
 	public slots:
 		/* Triggered from QTimer */

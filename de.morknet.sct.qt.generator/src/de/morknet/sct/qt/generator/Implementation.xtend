@@ -63,9 +63,6 @@ class Implementation
 	{
 		sc_lock lock(mutex);
 
-		exit();
-		react();
-
 		for(StatemachineTimer *timer : timerMap.values())
 		{
 			timer->stop();
@@ -89,6 +86,20 @@ class Implementation
 		init();
 		initializeValues();
 		enter();
+		react();
+	}
+
+	/**
+	 * This method stopps the statemachine an runs
+	 * the last cycle. After leaving the statemachine
+	 * the method react() is run to evaluate possible
+	 * out events.
+	 */
+	void «className(entry)»::stop()
+	{
+		sc_lock lock(mutex);
+
+		exit();
 		react();
 	}
 
