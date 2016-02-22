@@ -20,7 +20,10 @@ class Header
 	def generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
 	{
 		access.generateFile(headerFileName(flow, entry), signalDispatcher(flow, entry))
-		access.generateFile("StatemachineTimer.h", timer(entry))
+		if (generateTimer(entry))
+		{
+			access.generateFile("StatemachineTimer.h", timer(entry))
+		}
 	}
 
 	def private signalDispatcher(ExecutionFlow it, GeneratorEntry entry)
@@ -89,12 +92,12 @@ class Header
 
 	protected:
 		virtual void initializeValues() = 0;
-		virtual void runCycle();
+		virtual void runCycle()«IF isCpp11(entry)» override«ENDIF»;
 		virtual void react();
-		virtual void cancel();
+		virtual void cancel()«IF isCpp11(entry)» override«ENDIF»;
 	
-		void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic);
-		void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event);
+		void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
+		void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event)«IF isCpp11(entry)» override«ENDIF»;
 	};
 	
 	#endif // «classDefineGuard(entry)»

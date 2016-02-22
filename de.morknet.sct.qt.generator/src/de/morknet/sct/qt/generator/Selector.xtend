@@ -84,6 +84,22 @@ class Selector
 		throw new IllegalStateException("Class name not configured!");
 	}
 
+	def isCpp11(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			return f.getParameterValue(IFeatureConstants.QT_CPP11).booleanValue
+		}
+	}
+
+	def generateTimer(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			return f.getParameterValue(IFeatureConstants.QT_GENERATETIMER).booleanValue
+		}
+	}
+
 	def getSrcGen(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == "Outlet"])

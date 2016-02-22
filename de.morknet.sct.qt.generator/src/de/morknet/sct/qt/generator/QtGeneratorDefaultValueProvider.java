@@ -9,6 +9,8 @@ package de.morknet.sct.qt.generator;
 import static de.morknet.sct.qt.generator.IFeatureConstants.LIBRARY_NAME;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_BASECLASSNAME;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CLASSNAME;
+import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CPP11;
+import static de.morknet.sct.qt.generator.IFeatureConstants.QT_GENERATETIMER;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -29,9 +31,11 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 
 	@Override
 	protected void setDefaultValue(
-			FeatureParameterValue parameterValue, EObject context)
+			FeatureParameterValue parameterValue,
+			EObject context)
 	{
 		String parameterName = parameterValue.getParameter().getName();
+
 		if (QT_BASECLASSNAME.equals(parameterName))
 		{
 			parameterValue.setValue("AbstractStateMachine");
@@ -39,6 +43,14 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		if (QT_CLASSNAME.equals(parameterName))
 		{
 			parameterValue.setValue("AbstractStateMachineDispatcher");
+		}
+		if (QT_CPP11.equals(parameterName))
+		{
+			parameterValue.setValue("true");
+		}
+		if (QT_GENERATETIMER.equals(parameterName))
+		{
+			parameterValue.setValue("true");
 		}
 	}
 

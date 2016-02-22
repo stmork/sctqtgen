@@ -26,7 +26,10 @@ class Implementation
 	def generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
 	{
 		access.generateFile(implFileName(flow, entry), signalDispatcher(flow, entry))
-		access.generateFile("StatemachineTimer.cpp", timer(entry))
+		if (generateTimer(entry))
+		{
+			access.generateFile("StatemachineTimer.cpp", timer(entry))
+		}
 	}
 
 	/**
