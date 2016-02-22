@@ -1,30 +1,17 @@
+/*
+ * Copyright (C) 2016  -  Steffen A. Mork
+ * $Id$
+ * $Author$
+ */
+
 package de.morknet.sct.qt.generator
 
 import java.io.File
 import org.yakindu.sct.model.sgen.FeatureConfiguration
 import org.yakindu.sct.model.sgen.GeneratorEntry
 
-class Features {
-	
-	def getLicenseText(GeneratorEntry it)
-	{
-		var text = "";
-
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "LicenseHeader"])
-		{
-			text += f.getParameterValue("licenseText").stringValue
-			text += "\n"
-		}
-		if (text.length <= 0)
-		{
-			return "Copyright Steffen A. Mork"
-		}
-		else
-		{
-			return text
-		}
-	}
-
+class Features
+{
 	def baseClassName(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
@@ -61,6 +48,25 @@ class Features {
 		return true
 	}
 	
+
+	def getLicenseText(GeneratorEntry it)
+	{
+		var text = "";
+
+		for (FeatureConfiguration f : features.filter[f|f.type.name == "LicenseHeader"])
+		{
+			text += f.getParameterValue("licenseText").stringValue
+			text += "\n"
+		}
+		if (text.length <= 0)
+		{
+			return "Copyright Steffen A. Mork"
+		}
+		else
+		{
+			return text
+		}
+	}
 
 	def getSrcGen(GeneratorEntry it)
 	{
