@@ -23,7 +23,7 @@ class QtGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGe
 	@Inject Header header
 	@Inject Implementation impl
 	@Inject extension Names
-	@Inject extension Selector
+	@Inject extension Features
 
 	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access) {
 		access.generateFile("Log.txt", info(flow, entry))

@@ -15,6 +15,7 @@ class Header
 {
 	@Inject extension Comments
 	@Inject extension Names
+	@Inject extension Features
 	@Inject extension Selector
 
 	def generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)

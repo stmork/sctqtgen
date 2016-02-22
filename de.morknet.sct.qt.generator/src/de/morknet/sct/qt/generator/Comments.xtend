@@ -6,15 +6,15 @@
 
 package de.morknet.sct.qt.generator
 
-import org.yakindu.sct.model.stext.stext.InterfaceScope
 import com.google.inject.Inject
 import org.yakindu.sct.model.sgen.GeneratorEntry
+import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
 
 class Comments
 {
 	@Inject extension Names
-	@Inject extension Selector
+	@Inject extension Features
 
 	def fileHeader(GeneratorEntry it)
 	'''

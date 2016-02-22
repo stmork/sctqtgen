@@ -6,17 +6,17 @@
 
 package de.morknet.sct.qt.generator
 
+import com.google.inject.Inject
 import org.yakindu.base.types.Event
 import org.yakindu.sct.model.sexec.ExecutionFlow
+import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
-import com.google.inject.Inject
-import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Names
 {
-	@Inject extension Selector
+	@Inject extension Features
 
 	def headerFileName(ExecutionFlow it, GeneratorEntry entry)
 	{

@@ -15,6 +15,7 @@ class Implementation
 {
 	@Inject extension Comments
 	@Inject extension Names
+	@Inject extension Features
 	@Inject extension Selector
 
 	/**

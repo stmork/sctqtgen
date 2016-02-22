@@ -7,12 +7,9 @@
 package de.morknet.sct.qt.generator
 
 import com.google.inject.Inject
-import java.io.File
 import java.util.List
 import org.yakindu.base.types.Direction
 import org.yakindu.sct.model.sexec.ExecutionFlow
-import org.yakindu.sct.model.sgen.FeatureConfiguration
-import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
@@ -45,68 +42,6 @@ class Selector
 	def getEvents(InternalScope it)
 	{
 		events
-	}
-
-	def getLicenseText(GeneratorEntry it)
-	{
-		var text = "";
-
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "LicenseHeader"])
-		{
-			text += f.getParameterValue("licenseText").stringValue
-			text += "\n"
-		}
-		if (text.length <= 0)
-		{
-			return "Copyright Steffen A. Mork"
-		}
-		else
-		{
-			return text
-		}
-	}
-
-	def baseClassName(GeneratorEntry it)
-	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			return f.getParameterValue(IFeatureConstants.QT_BASECLASSNAME).stringValue
-		}
-		throw new IllegalStateException("Base class name not configured!");
-	}
-
-	def className(GeneratorEntry it)
-	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			return f.getParameterValue(IFeatureConstants.QT_CLASSNAME).stringValue
-		}
-		throw new IllegalStateException("Class name not configured!");
-	}
-
-	def isCpp11(GeneratorEntry it)
-	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			return f.getParameterValue(IFeatureConstants.QT_CPP11).booleanValue
-		}
-	}
-
-	def generateTimer(GeneratorEntry it)
-	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			return f.getParameterValue(IFeatureConstants.QT_GENERATETIMER).booleanValue
-		}
-	}
-
-	def getSrcGen(GeneratorEntry it)
-	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == "Outlet"])
-		{
-			return f.getParameterValue("targetFolder").stringValue + File.separator
-		}
-		return ""
 	}
 
 	def private hasOperations(Scope it)
