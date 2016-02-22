@@ -16,7 +16,12 @@ class Features
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue(IFeatureConstants.QT_BASECLASSNAME).stringValue
+			val param = f.getParameterValue(IFeatureConstants.QT_BASECLASSNAME)
+
+			if (param != null)
+			{
+				return param.stringValue
+			}
 		}
 		throw new IllegalStateException("Base class name not configured!");
 	}
@@ -25,7 +30,12 @@ class Features
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue(IFeatureConstants.QT_CLASSNAME).stringValue
+			val param = f.getParameterValue(IFeatureConstants.QT_CLASSNAME)
+	
+			if (param != null)
+			{
+				return param.stringValue
+			}
 		}
 		throw new IllegalStateException("Class name not configured!");
 	}
@@ -34,7 +44,12 @@ class Features
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue(IFeatureConstants.QT_CPP11).booleanValue
+			val param = f.getParameterValue(IFeatureConstants.QT_CPP11)
+
+			if (param != null)
+			{
+				return param.booleanValue
+			}
 		}
 		return true
 	}
@@ -43,7 +58,12 @@ class Features
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
-			return f.getParameterValue(IFeatureConstants.QT_GENERATETIMER).booleanValue
+			val param = f.getParameterValue(IFeatureConstants.QT_GENERATETIMER)
+
+			if (param != null)
+			{
+				return param.booleanValue
+			}
 		}
 		return true
 	}
@@ -54,8 +74,13 @@ class Features
 
 		for (FeatureConfiguration f : features.filter[f|f.type.name == "LicenseHeader"])
 		{
-			text += f.getParameterValue("licenseText").stringValue
-			text += "\n"
+			val param = f.getParameterValue("licenseText")
+
+			if (param != null)
+			{
+				text += f.getParameterValue("licenseText").stringValue
+				text += "\n"
+			}
 		}
 		if (text.length <= 0)
 		{
@@ -71,9 +96,13 @@ class Features
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == "Outlet"])
 		{
-			return f.getParameterValue("targetFolder").stringValue + File.separator
+			val param = f.getParameterValue("targetFolder")
+
+			if (param != null)
+			{
+				return param.stringValue + File.separator
+			}
 		}
 		return ""
 	}
-
 }
