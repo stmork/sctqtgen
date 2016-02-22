@@ -47,7 +47,6 @@ class Features
 		}
 		return true
 	}
-	
 
 	def getLicenseText(GeneratorEntry it)
 	{
