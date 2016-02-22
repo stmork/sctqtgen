@@ -1,5 +1,5 @@
 <welcomePage 
-        title="JEE6-Generator"
+        title="SCT-Qt-Generator"
         format="wrap">
-        <intro>Dieses Feature ermöglicht das einfache Generieren einer JEE-basierten Webapplikation.</intro>
+        <intro>This generator produces a wrapper between the YAKINDU SCT and a Qt application.</intro>
 </welcomePage>
