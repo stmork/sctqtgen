@@ -52,7 +52,7 @@ class Features
 				return param.booleanValue
 			}
 		}
-		return true
+		return IFeatureConstants.QT_CPP11_DEFAULT
 	}
 
 	def generateTimer(GeneratorEntry it)
@@ -66,13 +66,13 @@ class Features
 				return param.booleanValue
 			}
 		}
-		return true
+		return IFeatureConstants.QT_GENERATETIMER_DEFAULT
 	}
 
 	def isThreadSafe(GeneratorEntry it)
 	{
-		var boolean cpp11 = false
-		var boolean threadSafe = false;
+		var boolean cpp11      = IFeatureConstants.QT_CPP11_DEFAULT
+		var boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
 
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{

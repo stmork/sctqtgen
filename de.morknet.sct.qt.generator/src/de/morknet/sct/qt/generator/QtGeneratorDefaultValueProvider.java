@@ -6,12 +6,7 @@
 
 package de.morknet.sct.qt.generator;
 
-import static de.morknet.sct.qt.generator.IFeatureConstants.LIBRARY_NAME;
-import static de.morknet.sct.qt.generator.IFeatureConstants.QT_BASECLASSNAME;
-import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CLASSNAME;
-import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CPP11;
-import static de.morknet.sct.qt.generator.IFeatureConstants.QT_GENERATETIMER;
-import static de.morknet.sct.qt.generator.IFeatureConstants.QT_THREADSAFE;
+import de.morknet.sct.qt.generator.IFeatureConstants;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -27,7 +22,7 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 {
 	public boolean isProviderFor(FeatureTypeLibrary library)
 	{
-		return library.getName().equals(LIBRARY_NAME);
+		return library.getName().equals(IFeatureConstants.LIBRARY_NAME);
 	}
 
 	@Override
@@ -37,25 +32,25 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 	{
 		String parameterName = parameterValue.getParameter().getName();
 
-		if (QT_BASECLASSNAME.equals(parameterName))
+		if (IFeatureConstants.QT_BASECLASSNAME.equals(parameterName))
 		{
-			parameterValue.setValue("AbstractStateMachine");
+			parameterValue.setValue(IFeatureConstants.QT_BASECLASSNAME_DEFAULT);
 		}
-		if (QT_CLASSNAME.equals(parameterName))
+		if (IFeatureConstants.QT_CLASSNAME.equals(parameterName))
 		{
-			parameterValue.setValue("AbstractStateMachineDispatcher");
+			parameterValue.setValue(IFeatureConstants.QT_CLASSNAME_DEFAULT);
 		}
-		if (QT_CPP11.equals(parameterName))
+		if (IFeatureConstants.QT_CPP11.equals(parameterName))
 		{
-			parameterValue.setValue("true");
+			parameterValue.setValue(IFeatureConstants.QT_CPP11_DEFAULT);
 		}
-		if (QT_GENERATETIMER.equals(parameterName))
+		if (IFeatureConstants.QT_GENERATETIMER.equals(parameterName))
 		{
-			parameterValue.setValue("true");
+			parameterValue.setValue(IFeatureConstants.QT_GENERATETIMER_DEFAULT);
 		}
-		if (QT_THREADSAFE.equals(parameterName))
+		if (IFeatureConstants.QT_THREADSAFE.equals(parameterName))
 		{
-			parameterValue.setValue("false");
+			parameterValue.setValue(IFeatureConstants.QT_THREADSAFE_DEFAULT);
 		}
 	}
 
