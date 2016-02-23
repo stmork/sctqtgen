@@ -15,4 +15,5 @@ public interface IFeatureConstants
 	public static final String QT_CLASSNAME     = "className";
 	public static final String QT_CPP11         = "cpp11";
 	public static final String QT_GENERATETIMER = "generateTimer";
+	public static final String QT_THREADSAFE    = "threadSafe";
 }

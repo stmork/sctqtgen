@@ -11,6 +11,7 @@ import static de.morknet.sct.qt.generator.IFeatureConstants.QT_BASECLASSNAME;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CLASSNAME;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_CPP11;
 import static de.morknet.sct.qt.generator.IFeatureConstants.QT_GENERATETIMER;
+import static de.morknet.sct.qt.generator.IFeatureConstants.QT_THREADSAFE;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -51,6 +52,10 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		if (QT_GENERATETIMER.equals(parameterName))
 		{
 			parameterValue.setValue("true");
+		}
+		if (QT_THREADSAFE.equals(parameterName))
+		{
+			parameterValue.setValue("false");
 		}
 	}
 

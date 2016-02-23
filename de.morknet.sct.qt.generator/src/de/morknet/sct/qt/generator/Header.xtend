@@ -39,12 +39,14 @@ class Header
 	#include "«getSrcGen(entry)»«baseClassName(entry)».h"
 	#include "«getSrcGen(entry)»TimerInterface.h"
 	#include "«getSrcGen(entry)»StatemachineTimer.h"
+	«IF isThreadSafe(entry)»
 	
 	#include <mutex>
 	
 	typedef std::recursive_mutex      sc_mutex;
 	typedef std::lock_guard<sc_mutex> sc_lock;
-
+	«ENDIF»
+	
 	class «className(entry)» :
 		public    QObject,
 		public    «baseClassName(entry)»,
@@ -57,9 +59,11 @@ class Header
 
 		QMap<sc_eventid, StatemachineTimer *> timerMap;
 
+	«IF isThreadSafe(entry)»
 	protected:
 		sc_mutex                              mutex;
 
+	«ENDIF»
 	public:
 		«className(entry)»();
 		virtual ~«className(entry)»();

@@ -65,8 +65,10 @@ class Implementation
 	 */
 	«className(entry)»::~«className(entry)»()
 	{
+		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
+		«ENDIF»
 		for(StatemachineTimer *timer : timerMap.values())
 		{
 			timer->stop();
@@ -85,8 +87,10 @@ class Implementation
 	 */
 	void «className(entry)»::start()
 	{
+		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
+		«ENDIF»
 		init();
 		initializeValues();
 		enter();
@@ -101,8 +105,10 @@ class Implementation
 	 */
 	void «className(entry)»::stop()
 	{
+		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
+		«ENDIF»
 		exit();
 		react();
 	}
@@ -165,8 +171,10 @@ class Implementation
 
 	void «className(entry)»::«Emit(event)»(«type(event)» «parameter(event)»)
 	{
+		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
+		«ENDIF»
 		qDebug("# «Emit(event)»()...");
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
 		runCycle();
@@ -243,8 +251,10 @@ class Implementation
 	 */
 	void «className(entry)»::timeout(sc_eventid event)
 	{
+		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
+		«ENDIF»
 		qDebug("# Time event occured with id %p", event);
 		raiseTimeEvent(event);
 		runCycle();

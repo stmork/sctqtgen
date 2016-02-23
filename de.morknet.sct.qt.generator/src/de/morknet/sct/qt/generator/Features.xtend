@@ -8,6 +8,7 @@ package de.morknet.sct.qt.generator
 
 import java.io.File
 import org.yakindu.sct.model.sgen.FeatureConfiguration
+import org.yakindu.sct.model.sgen.FeatureParameterValue
 import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Features
@@ -66,6 +67,30 @@ class Features
 			}
 		}
 		return true
+	}
+
+	def isThreadSafe(GeneratorEntry it)
+	{
+		var boolean cpp11 = false
+		var boolean threadSafe = false;
+
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			var FeatureParameterValue param
+
+			param = f.getParameterValue(IFeatureConstants.QT_THREADSAFE)
+			if (param != null)
+			{
+				threadSafe = param.booleanValue
+			}
+
+			param = f.getParameterValue(IFeatureConstants.QT_CPP11)
+			if (param != null)
+			{
+				cpp11 = param.booleanValue
+			}
+		}
+		return cpp11 && threadSafe
 	}
 
 	def getLicenseText(GeneratorEntry it)
