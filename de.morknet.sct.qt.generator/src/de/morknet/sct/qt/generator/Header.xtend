@@ -35,7 +35,7 @@ class Header
 	#define «classDefineGuard(entry)»
 
 	#include <QObject>
-	#include <QMap>
+	#include <QHash>
 	#include "«getSrcGen(entry)»«baseClassName(entry)».h"
 	#include "«getSrcGen(entry)»TimerInterface.h"
 	#include "«getSrcGen(entry)»StatemachineTimer.h"
@@ -57,11 +57,11 @@ class Header
 	{
 		Q_OBJECT
 
-		QMap<sc_eventid, StatemachineTimer *> timerMap;
+		QHash<sc_eventid, StatemachineTimer *> timerMap;
 
 	«IF isThreadSafe(entry)»
 	protected:
-		sc_mutex                              mutex;
+		sc_mutex                               mutex;
 
 	«ENDIF»
 	public:
