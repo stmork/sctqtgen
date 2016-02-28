@@ -10,7 +10,7 @@
 	</parent>
 
 	<name>SCT-Qt-Generator Plugin</name>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.generator</artifactId>
 	<packaging>eclipse-plugin</packaging>
