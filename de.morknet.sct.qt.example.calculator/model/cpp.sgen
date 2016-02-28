@@ -1,0 +1,20 @@
+GeneratorModel for yakindu::cpp {
+
+	statechart calculator {
+
+		feature Outlet {
+			targetProject = "de.morknet.sct.qt.example.calculator"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+
+		feature  IdentifierSettings
+		{
+			moduleName = "AbstractCalculator"
+		}
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
+		}
+	}
+}

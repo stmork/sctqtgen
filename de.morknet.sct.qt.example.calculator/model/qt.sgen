@@ -1,0 +1,19 @@
+GeneratorModel for de::morknet::sct::qt::generator {
+
+	statechart calculator {
+
+		feature Outlet {
+			targetProject = "de.morknet.sct.qt.example.calculator"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+
+		feature QtSettings {
+			baseClassName = "AbstractCalculator"
+			className = "AbstractCalculatorDispatcher"
+			cpp11 = true
+			generateTimer = true
+			threadSafe = false
+		}
+	}
+}
