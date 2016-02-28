@@ -69,8 +69,17 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		for(StatemachineTimer *timer : timerMap.values())
-		{
+		«IF isCpp11(entry)»
+			for(StatemachineTimer *timer : timerMap.values())
+			{
+		«ELSE»
+			QHash<sc_eventid, StatemachineTimer *>::iterator i;
+
+			for(i = timerMap.begin();i != timerMap.end(); ++i)
+			{
+				StatemachineTimer *timer = *i;
+
+		«ENDIF»
 			timer->stop();
 			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 
