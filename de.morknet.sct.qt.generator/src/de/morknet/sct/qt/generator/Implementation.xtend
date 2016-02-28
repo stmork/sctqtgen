@@ -92,7 +92,7 @@ class Implementation
 	 * the first cycle. The virtual method initializeValues()
 	 * is for initializing some statemachine values. After
 	 * entering the statemachine the method react() is run
-	 * to evaluate possible out events.
+	 * to evaluate possible raised out events.
 	 */
 	void «className(entry)»::start()
 	{
@@ -110,7 +110,7 @@ class Implementation
 	 * This method stopps the statemachine an runs
 	 * the last cycle. After leaving the statemachine
 	 * the method react() is run to evaluate possible
-	 * out events.
+	 * raised out events.
 	 */
 	void «className(entry)»::stop()
 	{
@@ -127,7 +127,7 @@ class Implementation
 	 * documentation of YAKINDU statechart tools for
 	 * more information. After running the cycle the
 	 * method react() is run to evaluate possible
-	 * out events.
+	 * raised out events.
 	 */
 	void «className(entry)»::runCycle()
 	{
@@ -136,9 +136,9 @@ class Implementation
 	}
 
 	/**
-	 * This method converts occured out events into
+	 * This method converts raised out events into
 	 * Qt signals. Events from internal scope are
-	 * not vconverted into Qt signals. Instead a 
+	 * not converted into Qt signals. Instead a 
 	 * further runCycle() is done.
 	 */
 	void «className(entry)»::react()
