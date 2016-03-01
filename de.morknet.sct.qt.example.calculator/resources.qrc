@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="AppIcon">sctqtgen128.png</file>
+    </qresource>
+</RCC>

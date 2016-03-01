@@ -31,3 +31,6 @@ HEADERS  += mainwindow.h \
     calculatorstatemachine.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
