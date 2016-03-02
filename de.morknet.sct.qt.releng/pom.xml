@@ -25,6 +25,11 @@
 		<module>../de.morknet.sct.qt.updatesite</module>
 	</modules>
 
+	<organization>
+		<name>MORKNet</name>
+		<url>http://morknet.de/</url>
+	</organization>
+
 	<developers>
 		<developer>
 			<name>Steffen A. Mork</name>

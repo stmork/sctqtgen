@@ -15,6 +15,11 @@
 	<artifactId>de.morknet.sct.qt.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 
+	<organization>
+		<name>MORKNet</name>
+		<url>http://morknet.de/</url>
+	</organization>
+
 	<developers>
 		<developer>
 			<name>Steffen A. Mork</name>

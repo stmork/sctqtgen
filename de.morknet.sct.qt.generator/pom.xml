@@ -15,6 +15,11 @@
 	<artifactId>de.morknet.sct.qt.generator</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+	<organization>
+		<name>MORKNet</name>
+		<url>http://morknet.de/</url>
+	</organization>
+
 	<developers>
 		<developer>
 			<name>Steffen A. Mork</name>
