@@ -97,12 +97,12 @@ class Header
 
 	protected:
 		virtual void initializeValues() = 0;
-		virtual void runCycle()«IF isCpp11(entry)» override«ENDIF»;
+		virtual void runCycle() Q_DECL_OVERRIDE;
 		virtual void react();
-		virtual void cancel()«IF isCpp11(entry)» override«ENDIF»;
+		virtual void cancel() Q_DECL_OVERRIDE;
 	
-		void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
-		void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event)«IF isCpp11(entry)» override«ENDIF»;
+		void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
+		void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event) Q_DECL_OVERRIDE;
 	};
 	
 	#endif // «classDefineGuard(entry)»

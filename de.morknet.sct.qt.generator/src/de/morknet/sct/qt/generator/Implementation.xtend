@@ -225,7 +225,7 @@ class Implementation
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
 
-		if (timer == «IF isCpp11(entry)»nullptr«ELSE»NULL«ENDIF»)
+		if (timer == Q_NULLPTR)
 		{
 			timer = new StatemachineTimer(event);
 			timerMap.insert(event, timer);
@@ -246,7 +246,7 @@ class Implementation
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
 
-		if (timer != «IF isCpp11(entry)»nullptr«ELSE»NULL«ENDIF»)
+		if (timer != Q_NULLPTR)
 		{
 			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 			timer->stop();
