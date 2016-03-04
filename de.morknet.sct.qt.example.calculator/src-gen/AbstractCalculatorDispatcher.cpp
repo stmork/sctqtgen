@@ -265,7 +265,7 @@ void AbstractCalculatorDispatcher::setTimer(
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
 
-	if (timer == nullptr)
+	if (timer == Q_NULLPTR)
 	{
 		timer = new StatemachineTimer(event);
 		timerMap.insert(event, timer);
@@ -286,7 +286,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
 
-	if (timer != nullptr)
+	if (timer != Q_NULLPTR)
 	{
 		timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 		timer->stop();

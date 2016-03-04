@@ -70,12 +70,12 @@ signals:
 
 protected:
 	virtual void initializeValues() = 0;
-	virtual void runCycle() override;
+	virtual void runCycle() Q_DECL_OVERRIDE;
 	virtual void react();
-	virtual void cancel() override;
+	virtual void cancel() Q_DECL_OVERRIDE;
 
-	void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
-	void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event) override;
+	void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
+	void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event) Q_DECL_OVERRIDE;
 };
 
 #endif // ABSTRACTCALCULATORDISPATCHER_H
