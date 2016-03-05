@@ -4,5 +4,5 @@
 	This Updatesite provides a generator vor YAKINDU SCT which generates an abstraction layer between the statemachine and a Qt application.
 	</description>
 
-	<feature url="features/de.morknet.sct.qt.feature_1.0.2.qualifier.jar" id="de.morknet.sct.qt.feature" version="1.0.2.qualifier"/>
+	<feature url="features/de.morknet.sct.qt.feature_1.0.3.qualifier.jar" id="de.morknet.sct.qt.feature" version="1.0.3.qualifier"/>
 </site>

@@ -2,7 +2,7 @@
 <feature
       id="de.morknet.sct.qt.feature"
       label="SCT-Qt-Generator"
-      version="1.0.2"
+      version="1.0.3.qualifier"
       provider-name="MORKNet"
       plugin="de.morknet.sct.qt.generator">
 
