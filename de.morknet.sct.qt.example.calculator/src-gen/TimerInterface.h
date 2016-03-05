@@ -1,3 +1,4 @@
+/* Copyright (C) 2016 - Steffen A. Mork */
 
 #ifndef TIMERINTERFACE_H_
 #define TIMERINTERFACE_H_

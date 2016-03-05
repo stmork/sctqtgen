@@ -1,3 +1,4 @@
+/* Copyright (C) 2016 - Steffen A. Mork */
 
 #ifndef TIMEDSTATEMACHINEINTERFACE_H_
 #define TIMEDSTATEMACHINEINTERFACE_H_

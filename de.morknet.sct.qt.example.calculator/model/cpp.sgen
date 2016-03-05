@@ -1,8 +1,14 @@
-GeneratorModel for yakindu::cpp {
+GeneratorModel for yakindu::cpp
+{
+	statechart calculator
+	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2016 - Steffen A. Mork" 
+		}
 
-	statechart calculator {
-
-		feature Outlet {
+		feature Outlet
+		{
 			targetProject = "de.morknet.sct.qt.example.calculator"
 			targetFolder = "src-gen"
 			libraryTargetFolder = "src"
@@ -12,6 +18,7 @@ GeneratorModel for yakindu::cpp {
 		{
 			moduleName = "AbstractCalculator"
 		}
+
 		feature GeneratorOptions
 		{
 			innerFunctionVisibility = "protected"

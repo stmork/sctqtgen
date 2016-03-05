@@ -1,3 +1,4 @@
+/* Copyright (C) 2016 - Steffen A. Mork */
 
 #ifndef STATEMACHINEINTERFACE_H_
 #define STATEMACHINEINTERFACE_H_

@@ -1,5 +1,5 @@
 /*
- * Copyright Steffen A. Mork
+ * Copyright (C) 2016 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!

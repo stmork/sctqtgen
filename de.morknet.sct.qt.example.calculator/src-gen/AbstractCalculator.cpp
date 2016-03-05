@@ -1,3 +1,4 @@
+/* Copyright (C) 2016 - Steffen A. Mork */
 
 #include "AbstractCalculator.h"
 #include <string.h>

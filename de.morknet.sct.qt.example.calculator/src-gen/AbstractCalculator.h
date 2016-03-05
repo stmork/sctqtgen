@@ -1,3 +1,4 @@
+/* Copyright (C) 2016 - Steffen A. Mork */
 
 #ifndef ABSTRACTCALCULATOR_H_
 #define ABSTRACTCALCULATOR_H_
