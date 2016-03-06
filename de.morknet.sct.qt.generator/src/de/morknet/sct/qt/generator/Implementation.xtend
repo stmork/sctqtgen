@@ -158,7 +158,6 @@ class Implementation
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
-
 		«IF hasInternalEvents»
 			«FOR scope : getInternalScopes»
 

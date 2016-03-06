@@ -86,7 +86,6 @@ void AbstractCalculatorDispatcher::runCycle()
  */
 void AbstractCalculatorDispatcher::react()
 {
-	bool internalEventOccured = false;
 
 	/**********************************
 	 * Gui scope
@@ -101,17 +100,6 @@ void AbstractCalculatorDispatcher::react()
 		emit ShowAccu(ifaceGui.get_showAccu_value());
 	}
 
-
-	/**********************************
-	 * Internal scope
-	 *********************************/
-	
-
-	// Check for internal events
-	if (internalEventOccured)
-	{
-		runCycle();
-	}
 }
 
 
