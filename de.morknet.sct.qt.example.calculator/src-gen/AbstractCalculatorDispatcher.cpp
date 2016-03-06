@@ -99,7 +99,6 @@ void AbstractCalculatorDispatcher::react()
 	{
 		emit ShowAccu(ifaceGui.get_showAccu_value());
 	}
-
 }
 
 

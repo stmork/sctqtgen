@@ -1,0 +1,7 @@
+1.0.3
+ * Removed dead code generation.
+
+1.0.2
+ * Replaced C++11 keywords by Qt defines:
+   * QT_DECL_OVERRIDE
+   * QT_NULLPTR
