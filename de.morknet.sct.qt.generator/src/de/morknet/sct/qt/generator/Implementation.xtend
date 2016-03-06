@@ -143,7 +143,9 @@ class Implementation
 	 */
 	void «className(entry)»::react()
 	{
-		bool internalEventOccured = false;
+		«IF hasInternalEvents»
+			bool internalEventOccured = false;
+		«ENDIF»
 		«FOR scope : getInterfaceScopes()»
 			«IF hasOutEvents(scope)»
 
@@ -157,19 +159,21 @@ class Implementation
 			«ENDIF»
 		«ENDFOR»
 
-		«FOR scope : getInternalScopes»
+		«IF hasInternalEvents»
+			«FOR scope : getInternalScopes»
 
-			«commentScope(scope)»
-			«FOR event : getEvents(scope)»
-				internalEventOccured |= «instanceName(scope)».«asRaised(event)»();
+				«commentScope(scope)»
+				«FOR event : getEvents(scope)»
+					internalEventOccured |= «instanceName(scope)».«asRaised(event)»();
+				«ENDFOR»
 			«ENDFOR»
-		«ENDFOR»
 
-		// Check for internal events
-		if (internalEventOccured)
-		{
-			runCycle();
-		}
+			// Check for internal events
+			if (internalEventOccured)
+			{
+				runCycle();
+			}
+		«ENDIF»
 	}
 
 	«FOR scope : getInterfaceScopes()»

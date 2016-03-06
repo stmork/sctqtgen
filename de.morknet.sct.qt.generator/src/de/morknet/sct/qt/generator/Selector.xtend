@@ -9,6 +9,7 @@ package de.morknet.sct.qt.generator
 import com.google.inject.Inject
 import java.util.List
 import org.yakindu.base.types.Direction
+import org.yakindu.base.types.Event
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
@@ -62,5 +63,21 @@ class Selector
 	def Iterable<InternalScope> getInternalScopes(ExecutionFlow it)
 	{
 		return scopes.filter(typeof(InternalScope));
+	}
+
+	def int countInternalEvents(ExecutionFlow it)
+	{
+		var count = 0;
+
+		for (InternalScope scope : internalScopes)
+		{
+			count += getEvents(scope).size();
+		}
+		return count;
+	}
+
+	def boolean hasInternalEvents(ExecutionFlow it)
+	{
+		return countInternalEvents > 0
 	}
 }
