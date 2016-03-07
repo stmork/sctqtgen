@@ -47,6 +47,10 @@ class Header
 	typedef std::lock_guard<sc_mutex> sc_lock;
 	«ENDIF»
 	
+	/**
+	 * This class provides a link layer which wires the in and out events
+	 * to the signal and slots of a Qt application.
+	 */
 	class «className(entry)» :
 		public    QObject,
 		public    «baseClassName(entry)»,
@@ -61,14 +65,39 @@ class Header
 
 	«IF isThreadSafe(entry)»
 	protected:
+		/** This mutex is used to provide thread safety. */
 		sc_mutex                               mutex;
 
 	«ENDIF»
 	public:
+		/**
+		 * The constructor initializes the Qt event layer and the YAKINDU
+		 * statemachine. This layer implements all OCBs and signal/slot
+		 * management.
+		 */
 		«className(entry)»();
+
+		/**
+		 * The destructor frees all resources allocated from this
+		 * Qt/SCT layer.
+		 */
 		virtual ~«className(entry)»();
 
+		/**
+		 * This method initializes the statemachine an runs
+		 * the first cycle. The virtual method initializeValues()
+		 * is for initializing some statemachine values. After
+		 * entering the statemachine the method react() is run
+		 * to evaluate possible raised out events.
+		 */
 		void start();
+
+		/**
+		 * This method stopps the statemachine an runs
+		 * the last cycle. After leaving the statemachine
+		 * the method react() is run to evaluate possible
+		 * raised out events.
+		 */
 		void stop();
 
 	public slots:
@@ -96,13 +125,34 @@ class Header
 		«ENDFOR»
 
 	protected:
+		/**
+		 * This method is intended to initialize possible ressources of
+		 * this Qt/SCT layer.
+		 */
 		virtual void initializeValues() = 0;
+
+		/**
+		 * This runs a single statemachine cycle. See
+		 * documentation of YAKINDU statechart tools for
+		 * more information. After running the cycle the
+		 * method react() is run to evaluate possible
+		 * raised out events.
+		 */
 		virtual void runCycle() Q_DECL_OVERRIDE;
-		virtual void react();
-		virtual void cancel() Q_DECL_OVERRIDE;
 	
-		void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
-		void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event) Q_DECL_OVERRIDE;
+		/**
+		 * This method converts raised out events into
+		 * Qt signals. Events from internal scope are
+		 * not converted into Qt signals. Instead a 
+		 * further runCycle() is done.
+		 */
+		virtual void react();
+	
+		virtual void setTimer(TimedStatemachineInterface* statemachine,
+			sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
+		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
+			sc_eventid event) Q_DECL_OVERRIDE;
+		virtual void cancel() Q_DECL_OVERRIDE;
 	};
 	
 	#endif // «classDefineGuard(entry)»
@@ -121,19 +171,41 @@ class Header
 	#include "«getSrcGen()»sc_types.h"
 	#include "«getSrcGen()»StatemachineInterface.h"
 
+	/**
+	 * This class represents a single timer instance for the YAKINDU
+	 * SCT. The implementation uses the QTimer class of Qt.
+	 */
 	class StatemachineTimer :  public QTimer
 	{
 		Q_OBJECT
 	
+		/** This is the unique identifier from YAKINDU SCT. */
 		sc_eventid event_id;
 	
 	public:
+		/**
+		 * The constructor initializes the timer identified by
+		 * the unique sc_eventid.
+		 *
+		 * param id The unique YAKINDU SCT timer id.
+		 */
 		StatemachineTimer(sc_eventid id);
 	
 	public slots:
+		/**
+		 * This slot converts the occured timeout event into a signal
+		 * which informs the statemachine about an timeout event
+		 * including the sc_eventid.
+		 */
 		void in_timeout();
 	
 	signals:
+		/**
+		 * This method signal sends the sc_eventId to the statemachine
+		 * in case of a timeout event.
+		 *
+		 * @param evid The sc_eventid which uniquely identifies this timer.
+		 */
 		void out_timeout(sc_eventid evid);
 	};
 	
