@@ -69,6 +69,7 @@ public slots:
 	 * @param event The timer event id which uniquely identifies the timer.
 	 */
 	void timeout(sc_eventid event);
+
 	/**********************************
 	 * Gui scope
 	 *********************************/
@@ -77,128 +78,96 @@ public slots:
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button0.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button0( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button1.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button1( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button2.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button2( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button3.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button3( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button4.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button4( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button5.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button5( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button6.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button6( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button7.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button7( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button8.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button8( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button9.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void Button9( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonAdd.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonAdd( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonClear.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonClear( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonDiv.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonDiv( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonEquals.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonEquals( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonMult.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonMult( );
 
 	/**
 	 * This callback acts as a slot for
 	 * the in event ButtonSub.
-	*
-	* @param  The  event parameter.
 	 */
 	virtual void ButtonSub( );
 
@@ -210,17 +179,15 @@ signals:
 
 	/**
 	 * This out event emits signal Exit.
-	*
-	* @param  The  event parameter.
 	 */
-	void Exit();
+	void Exit( );
 
 	/**
 	 * This out event emits signal ShowAccu.
-	*
-	* @param input The input event parameter.
+	 *
+	 * @param input The input event parameter.
 	 */
-	void ShowAccu(sc_integer);
+	void ShowAccu(sc_integer input);
 
 protected:
 	/**

@@ -1,5 +1,6 @@
 1.0.3
  * Removed dead code generation.
+ * Added comments for Doxygen.
 
 1.0.2
  * Replaced C++11 keywords by Qt defines:
