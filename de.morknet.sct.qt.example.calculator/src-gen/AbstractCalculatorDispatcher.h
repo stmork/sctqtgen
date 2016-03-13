@@ -65,26 +65,105 @@ public:
 public slots:
 	/* Triggered from QTimer */
 	void timeout(sc_eventid event);
-
 	/**********************************
 	 * Gui scope
 	 *********************************/
 	
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button0.
+	 */
 	virtual void Button0();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button1.
+	 */
 	virtual void Button1();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button2.
+	 */
 	virtual void Button2();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button3.
+	 */
 	virtual void Button3();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button4.
+	 */
 	virtual void Button4();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button5.
+	 */
 	virtual void Button5();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button6.
+	 */
 	virtual void Button6();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button7.
+	 */
 	virtual void Button7();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button8.
+	 */
 	virtual void Button8();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event Button9.
+	 */
 	virtual void Button9();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonAdd.
+	 */
 	virtual void ButtonAdd();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonClear.
+	 */
 	virtual void ButtonClear();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonDiv.
+	 */
 	virtual void ButtonDiv();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonEquals.
+	 */
 	virtual void ButtonEquals();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonMult.
+	 */
 	virtual void ButtonMult();
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event ButtonSub.
+	 */
 	virtual void ButtonSub();
 
 signals:
@@ -92,9 +171,16 @@ signals:
 	 * Gui scope
 	 *********************************/
 	
-	void Exit();
-	void ShowAccu(sc_integer);
 
+	/**
+	 * This out event emits signal Exit.
+	 */
+	void Exit();
+
+	/**
+	 * This out event emits signal ShowAccu.
+	 */
+	void ShowAccu(sc_integer);
 
 protected:
 	/**

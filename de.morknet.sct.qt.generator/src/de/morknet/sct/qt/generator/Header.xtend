@@ -101,7 +101,9 @@ class Header
 		void stop();
 
 	public slots:
-		/* Triggered from QTimer */
+		/**
+		 * This slot is triggered from QTimer
+		 */
 		void timeout(sc_eventid event);
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
@@ -111,8 +113,12 @@ class Header
 					/**
 					 * This callback acts as a slot for
 					 * the in event «event.name».
+					«IF event != null»
+					 *
+					 * @param «parameter(event)» The «parameter(event)» event parameter.
+					«ENDIF»
 					 */
-					virtual void «Emit(event)»(«type(event)»);
+					virtual void «Emit(event)»(«type(event)» «parameter(event)»);
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
@@ -125,6 +131,10 @@ class Header
 
 					/**
 					 * This out event emits signal «event.name».
+					«IF event != null»
+					 *
+					 * @param «parameter(event)» The «parameter(event)» event parameter.
+					«ENDIF»
 					 */
 					void «Emit(event)»(«type(event)»);
 				«ENDFOR»
