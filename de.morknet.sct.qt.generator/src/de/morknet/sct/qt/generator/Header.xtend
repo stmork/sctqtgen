@@ -131,7 +131,6 @@ class Header
 			«IF hasOutEvents(scope)»
 				«commentScope(scope)»
 				«FOR event : getOutEvents(scope)»
-
 					/**
 					 * This out event emits signal «event.name».
 					 «IF event.type != null»
@@ -140,6 +139,7 @@ class Header
 					 «ENDIF»
 					 */
 					void «Emit(event)»(«type(event)» «parameter(event)»);
+
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
@@ -207,7 +207,7 @@ class Header
 		 * The constructor initializes the timer identified by
 		 * the unique sc_eventid.
 		 *
-		 * param id The unique YAKINDU SCT timer id.
+		 * @param id The unique YAKINDU SCT timer id.
 		 */
 		StatemachineTimer(sc_eventid id);
 	
