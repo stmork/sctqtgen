@@ -116,10 +116,10 @@ class Header
 					/**
 					 * This callback acts as a slot for
 					 * the in event «event.name».
-					«IF event != null»
+					 «IF event.type != null»
 					 *
 					 * @param «parameter(event)» The «parameter(event)» event parameter.
-					«ENDIF»
+					 «ENDIF»
 					 */
 					virtual void «Emit(event)»(«type(event)» «parameter(event)»);
 				«ENDFOR»
@@ -134,10 +134,10 @@ class Header
 
 					/**
 					 * This out event emits signal «event.name».
-					«IF event != null»
+					 «IF event.type != null»
 					 *
 					 * @param «parameter(event)» The «parameter(event)» event parameter.
-					«ENDIF»
+					 «ENDIF»
 					 */
 					void «Emit(event)»(«type(event)» «parameter(event)»);
 				«ENDFOR»
