@@ -209,7 +209,24 @@ class Header
 		 * @param id The unique YAKINDU SCT timer id.
 		 */
 		StatemachineTimer(sc_eventid id);
-	
+
+«IF isCpp11»
+	/**
+	 * Remove default constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer() = delete;
+
+	/**
+	 * Remove copy constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer(const StatemachineTimer &timer) = delete;
+
+	/**
+	 * Remove move constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer(StatemachineTimer && timer) = delete;
+«ENDIF»
+
 	public slots:
 		/**
 		 * This slot converts the occured timeout event into a signal
