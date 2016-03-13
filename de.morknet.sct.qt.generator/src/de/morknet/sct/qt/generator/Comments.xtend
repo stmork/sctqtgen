@@ -34,6 +34,7 @@ class Comments
 		/**********************************
 		 * «name(it)» scope
 		 *********************************/
+
 	'''
 
 	def dispatch commentScope(InternalScope it)

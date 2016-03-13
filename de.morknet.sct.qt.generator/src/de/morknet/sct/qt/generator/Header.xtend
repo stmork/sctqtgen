@@ -112,7 +112,6 @@ class Header
 			«IF hasInEvents(scope)»
 				«commentScope(scope)»
 				«FOR event : getInEvents(scope)»
-
 					/**
 					 * This callback acts as a slot for
 					 * the in event «event.name».
@@ -122,6 +121,7 @@ class Header
 					 «ENDIF»
 					 */
 					virtual void «Emit(event)»(«type(event)» «parameter(event)»);
+
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
