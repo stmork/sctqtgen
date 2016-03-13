@@ -38,13 +38,6 @@ AbstractCalculatorDispatcher::~AbstractCalculatorDispatcher()
 	}
 }
 
-/**
- * This method initializes the statemachine an runs
- * the first cycle. The virtual method initializeValues()
- * is for initializing some statemachine values. After
- * entering the statemachine the method react() is run
- * to evaluate possible raised out events.
- */
 void AbstractCalculatorDispatcher::start()
 {
 	init();
@@ -53,37 +46,18 @@ void AbstractCalculatorDispatcher::start()
 	react();
 }
 
-/**
- * This method stopps the statemachine an runs
- * the last cycle. After leaving the statemachine
- * the method react() is run to evaluate possible
- * raised out events.
- */
 void AbstractCalculatorDispatcher::stop()
 {
 	exit();
 	react();
 }
 
-/**
- * This runs a single statemachine cycle. See
- * documentation of YAKINDU statechart tools for
- * more information. After running the cycle the
- * method react() is run to evaluate possible
- * raised out events.
- */
 void AbstractCalculatorDispatcher::runCycle()
 {
 	AbstractCalculator::runCycle();
 	react();
 }
 
-/**
- * This method converts raised out events into
- * Qt signals. Events from internal scope are
- * not converted into Qt signals. Instead a 
- * further runCycle() is done.
- */
 void AbstractCalculatorDispatcher::react()
 {
 

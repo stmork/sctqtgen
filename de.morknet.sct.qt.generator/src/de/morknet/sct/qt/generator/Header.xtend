@@ -105,9 +105,13 @@ class Header
 		void timeout(sc_eventid event);
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
-
 				«commentScope(scope)»
 				«FOR event : getInEvents(scope)»
+
+					/**
+					 * This callback acts as a slot for
+					 * the in event «event.name».
+					 */
 					virtual void «Emit(event)»(«type(event)»);
 				«ENDFOR»
 			«ENDIF»
@@ -118,9 +122,12 @@ class Header
 			«IF hasOutEvents(scope)»
 				«commentScope(scope)»
 				«FOR event : getOutEvents(scope)»
+
+					/**
+					 * This out event emits signal «event.name».
+					 */
 					void «Emit(event)»(«type(event)»);
 				«ENDFOR»
-
 			«ENDIF»
 		«ENDFOR»
 
