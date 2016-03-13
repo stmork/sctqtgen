@@ -73,7 +73,6 @@ public slots:
 	/**********************************
 	 * Gui scope
 	 *********************************/
-	
 
 	/**
 	 * This callback acts as a slot for
@@ -175,7 +174,6 @@ signals:
 	/**********************************
 	 * Gui scope
 	 *********************************/
-	
 
 	/**
 	 * This out event emits signal Exit.
