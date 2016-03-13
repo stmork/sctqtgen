@@ -107,6 +107,7 @@ class Header
 		 * @param event The timer event id which uniquely identifies the timer.
 		 */
 		void timeout(sc_eventid event);
+
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
 				«commentScope(scope)»
@@ -138,7 +139,7 @@ class Header
 					 * @param «parameter(event)» The «parameter(event)» event parameter.
 					«ENDIF»
 					 */
-					void «Emit(event)»(«type(event)»);
+					void «Emit(event)»(«type(event)» «parameter(event)»);
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
