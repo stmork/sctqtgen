@@ -184,10 +184,9 @@ class Header
 
 	#ifndef STATEMACHINETIMER_H
 	#define STATEMACHINETIMER_H
-	
-	#include <QMap>
+
 	#include <QTimer>
-	
+
 	#include "«getSrcGen()»sc_types.h"
 	#include "«getSrcGen()»StatemachineInterface.h"
 
