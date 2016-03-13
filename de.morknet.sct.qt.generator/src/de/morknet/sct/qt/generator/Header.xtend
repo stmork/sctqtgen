@@ -102,7 +102,9 @@ class Header
 
 	public slots:
 		/**
-		 * This slot is triggered from QTimer
+		 * This slot is triggered from QTimer.
+		 *
+		 * @param event The timer event id which uniquely identifies the timer.
 		 */
 		void timeout(sc_eventid event);
 		«FOR scope : getInterfaceScopes()»
