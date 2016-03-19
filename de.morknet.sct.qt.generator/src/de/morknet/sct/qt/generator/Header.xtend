@@ -237,12 +237,12 @@ class Header
 	
 	signals:
 		/**
-		 * This method signal sends the sc_eventId to the statemachine
+		 * This method signal emits the sc_eventid to the statemachine
 		 * in case of a timeout event.
 		 *
-		 * @param evid The sc_eventid which uniquely identifies this timer.
+		 * @param id The sc_eventid which uniquely identifies this timer.
 		 */
-		void out_timeout(sc_eventid evid);
+		void out_timeout(sc_eventid id);
 	};
 	
 	#endif // STATEMACHINETIMER_H

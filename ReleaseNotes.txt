@@ -1,3 +1,7 @@
+1.0.4
+ * Corrected Doxygen comments.
+ * Declared some deleted constructors in case of C++11.
+
 1.0.3
  * Removed dead code generation.
  * Added comments for Doxygen.
