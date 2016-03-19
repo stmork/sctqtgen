@@ -42,7 +42,10 @@ class QtGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGe
 		«FOR Scope scope : flow.scopes»
 		Scope: «name(scope)»
 			«FOR op : scope.eContents.filter(OperationDefinition)»
-			Op:    «op.name»
+			Op:    «op.name» : «op.type»
+				«FOR param : op.parameters»
+					«param.name» : «param.type»
+				«ENDFOR»
 			«ENDFOR»
 			«FOR event : scope.events»
 			Event: «event.name» «event.direction» «event.type»

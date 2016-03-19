@@ -64,6 +64,7 @@ void AbstractCalculatorDispatcher::react()
 	/**********************************
 	 * Gui scope
 	 *********************************/
+	
 	if (ifaceGui.isRaised_exit())
 	{
 		emit Exit();
@@ -78,6 +79,7 @@ void AbstractCalculatorDispatcher::react()
 /**********************************
  * Gui scope
  *********************************/
+
 
 void AbstractCalculatorDispatcher::Button0( )
 {

@@ -11,7 +11,6 @@
 #ifndef STATEMACHINETIMER_H
 #define STATEMACHINETIMER_H
 
-#include <QMap>
 #include <QTimer>
 
 #include "src-gen/sc_types.h"
@@ -33,9 +32,24 @@ public:
 	 * The constructor initializes the timer identified by
 	 * the unique sc_eventid.
 	 *
-	 * param id The unique YAKINDU SCT timer id.
+	 * @param id The unique YAKINDU SCT timer id.
 	 */
 	StatemachineTimer(sc_eventid id);
+
+/**
+ * Remove default constructor since we definitely need the timer event id!.
+ */
+StatemachineTimer() = delete;
+
+/**
+ * Remove copy constructor since we definitely need the timer event id!.
+ */
+StatemachineTimer(const StatemachineTimer &timer) = delete;
+
+/**
+ * Remove move constructor since we definitely need the timer event id!.
+ */
+StatemachineTimer(StatemachineTimer && timer) = delete;
 
 public slots:
 	/**
@@ -47,12 +61,12 @@ public slots:
 
 signals:
 	/**
-	 * This method signal sends the sc_eventId to the statemachine
+	 * This method signal emits the sc_eventid to the statemachine
 	 * in case of a timeout event.
 	 *
-	 * @param evid The sc_eventid which uniquely identifies this timer.
+	 * @param id The sc_eventid which uniquely identifies this timer.
 	 */
-	void out_timeout(sc_eventid evid);
+	void out_timeout(sc_eventid id);
 };
 
 #endif // STATEMACHINETIMER_H

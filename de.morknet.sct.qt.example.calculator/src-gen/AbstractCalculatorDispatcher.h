@@ -73,7 +73,7 @@ public slots:
 	/**********************************
 	 * Gui scope
 	 *********************************/
-
+	
 	/**
 	 * This callback acts as a slot for
 	 * the in event Button0.
@@ -170,11 +170,12 @@ public slots:
 	 */
 	virtual void ButtonSub( );
 
+
 signals:
 	/**********************************
 	 * Gui scope
 	 *********************************/
-
+	
 	/**
 	 * This out event emits signal Exit.
 	 */
@@ -186,6 +187,7 @@ signals:
 	 * @param input The input event parameter.
 	 */
 	void ShowAccu(sc_integer input);
+
 
 protected:
 	/**
