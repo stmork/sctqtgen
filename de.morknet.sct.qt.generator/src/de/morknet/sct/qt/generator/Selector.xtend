@@ -9,7 +9,6 @@ package de.morknet.sct.qt.generator
 import com.google.inject.Inject
 import java.util.List
 import org.yakindu.base.types.Direction
-import org.yakindu.base.types.Event
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
