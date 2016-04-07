@@ -2,9 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
 	<extension point="org.yakindu.sct.generator.core.generator">
-		<SCTGenerator class="de.morknet.sct.qt.generator.QtCodeGenerator"
+		<SCTGenerator class="de.morknet.sct.qt.generator.QtGenerator"
 				description="A generator for coupling the SCT-events and Qt signals and slots"
 				id="de::morknet::sct::qt::generator"
+				icon="sctqtgen.gif"
 				name="Qt-Generator for SCT"
 				contentType="statechart"
 				elementRefType="org.yakindu.sct.model.sgraph.Statechart">

@@ -36,20 +36,20 @@ public:
 	 */
 	StatemachineTimer(sc_eventid id);
 
-/**
- * Remove default constructor since we definitely need the timer event id!.
- */
-StatemachineTimer() = delete;
+	/**
+	 * Remove default constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer() = delete;
 
-/**
- * Remove copy constructor since we definitely need the timer event id!.
- */
-StatemachineTimer(const StatemachineTimer &timer) = delete;
+	/**
+	 * Remove copy constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer(const StatemachineTimer &timer) = delete;
 
-/**
- * Remove move constructor since we definitely need the timer event id!.
- */
-StatemachineTimer(StatemachineTimer && timer) = delete;
+	/**
+	 * Remove move constructor since we definitely need the timer event id!.
+	 */
+	StatemachineTimer(StatemachineTimer && timer) = delete;
 
 public slots:
 	/**

@@ -1,3 +1,6 @@
+1.0.5
+ * Updated to YAKINDU SCT 2.6.0 API.
+
 1.0.4
  * Corrected Doxygen comments.
  * Declared some deleted constructors in case of C++11.
