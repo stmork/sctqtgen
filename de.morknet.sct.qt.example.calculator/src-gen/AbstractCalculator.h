@@ -10,7 +10,8 @@
 /*! \file Header of the state machine 'calculator'.
 */
 
-class AbstractCalculator : public TimedStatemachineInterface, public StatemachineInterface {
+class AbstractCalculator : public TimedStatemachineInterface, public StatemachineInterface
+{
 	
 	public:
 		
@@ -19,71 +20,73 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		~AbstractCalculator();
 		
 		/*! Enumeration of all states */ 
-		typedef enum {
+		typedef enum
+		{
 			main_region_active,
 			main_region__final_,
 			Calculator_last_state
 		} CalculatorStates;
 		
 		//! Inner class for gui interface scope.
-		class SCI_Gui {
+		class SCI_Gui
+		{
 			
 			public:
-				/*! Raises the in event 'Button0' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button0' that is defined in the interface scope 'gui'. */
 				void raise_button0();
 				
-				/*! Raises the in event 'Button1' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button1' that is defined in the interface scope 'gui'. */
 				void raise_button1();
 				
-				/*! Raises the in event 'Button2' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button2' that is defined in the interface scope 'gui'. */
 				void raise_button2();
 				
-				/*! Raises the in event 'Button3' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button3' that is defined in the interface scope 'gui'. */
 				void raise_button3();
 				
-				/*! Raises the in event 'Button4' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button4' that is defined in the interface scope 'gui'. */
 				void raise_button4();
 				
-				/*! Raises the in event 'Button5' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button5' that is defined in the interface scope 'gui'. */
 				void raise_button5();
 				
-				/*! Raises the in event 'Button6' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button6' that is defined in the interface scope 'gui'. */
 				void raise_button6();
 				
-				/*! Raises the in event 'Button7' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button7' that is defined in the interface scope 'gui'. */
 				void raise_button7();
 				
-				/*! Raises the in event 'Button8' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button8' that is defined in the interface scope 'gui'. */
 				void raise_button8();
 				
-				/*! Raises the in event 'Button9' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'Button9' that is defined in the interface scope 'gui'. */
 				void raise_button9();
 				
-				/*! Raises the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
 				void raise_buttonAdd();
 				
-				/*! Raises the in event 'ButtonSub' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
 				void raise_buttonSub();
 				
-				/*! Raises the in event 'ButtonMult' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
 				void raise_buttonMult();
 				
-				/*! Raises the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
 				void raise_buttonDiv();
 				
-				/*! Raises the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
 				void raise_buttonEquals();
 				
-				/*! Raises the in event 'ButtonClear' that is defined in the interface scope 'gui'. */ 
+				/*! Raises the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
 				void raise_buttonClear();
 				
-				/*! Checks if the out event 'Exit' that is defined in the interface scope 'gui' has been raised. */ 
+				/*! Checks if the out event 'Exit' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_exit();
 				
-				/*! Checks if the out event 'ShowAccu' that is defined in the interface scope 'gui' has been raised. */ 
+				/*! Checks if the out event 'ShowAccu' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_showAccu();
 				
-				/*! Gets the value of the out event 'ShowAccu' that is defined in the interface scope 'gui'. */ 
+				/*! Gets the value of the out event 'ShowAccu' that is defined in the interface scope 'gui'. */
 				sc_integer get_showAccu_value();
 				
 				
@@ -116,7 +119,8 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		
 		
 		//! Inner class for internal interface scope operation callbacks.
-		class InternalSCI_OCB {
+		class InternalSCI_OCB
+		{
 			public:
 				virtual ~InternalSCI_OCB() = 0;
 				
@@ -147,15 +151,15 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		void runCycle();
 		
 		/*!
-		* Checks if the statemachine is active (until 2.4.1 this method was used for states).
-		* A statemachine is active if it was entered. It is inactive if it has not been entered at all or if it was exited.
+		* Checks if the state machine is active (until 2.4.1 this method was used for states).
+		* A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		*/
 		sc_boolean isActive();
 		
 		
 		/*!
 		* Checks if all active states are final. 
-		* If there are no active states then the statemachine is considered as inactive and this method returns false.
+		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
 		sc_boolean isFinal();
 		
@@ -171,19 +175,20 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 	protected:
 	
 		//! Inner class for internal interface scope.
-		class InternalSCI {
+		class InternalSCI
+		{
 			
 			public:
-				/*! Gets the value of the variable 'operand' that is defined in the internal scope. */ 
+				/*! Gets the value of the variable 'operand' that is defined in the internal scope. */
 				sc_integer get_operand();
 				
-				/*! Sets the value of the variable 'operand' that is defined in the internal scope. */ 
+				/*! Sets the value of the variable 'operand' that is defined in the internal scope. */
 				void set_operand(sc_integer value);
 				
-				/*! Gets the value of the variable 'accu' that is defined in the internal scope. */ 
+				/*! Gets the value of the variable 'accu' that is defined in the internal scope. */
 				sc_integer get_accu();
 				
-				/*! Sets the value of the variable 'accu' that is defined in the internal scope. */ 
+				/*! Sets the value of the variable 'accu' that is defined in the internal scope. */
 				void set_accu(sc_integer value);
 				
 				

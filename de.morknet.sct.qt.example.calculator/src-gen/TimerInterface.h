@@ -9,9 +9,10 @@
 class TimedStatemachineInterface;
 
 /*
- * Basic interface for statemachines.
+ * Basic interface for state machines.
  */
-class TimerInterface {
+class TimerInterface
+{
 	public:
 		
 		virtual ~TimerInterface() = 0;
