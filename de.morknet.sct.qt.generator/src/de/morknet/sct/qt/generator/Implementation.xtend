@@ -211,7 +211,15 @@ class Implementation
 		timer->setSingleShot(!isPeriodic);
 		timer->start();
 		timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
-		qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+
+		if (time >= 2000)
+		{
+			qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+		}
+		else
+		{
+			qDebug("# Activated timer %p with timeout %dms.", event, time);
+		}
 	}
 
 	/**
