@@ -158,7 +158,7 @@ class Header
 		 * method react() is run to evaluate possible
 		 * raised out events.
 		 */
-		virtual void runCycle() Q_DECL_OVERRIDE;
+		virtual void runCycle()«IF isCpp11(entry)» override«ENDIF»;
 	
 		/**
 		 * This method converts raised out events into
@@ -169,10 +169,10 @@ class Header
 		virtual void react();
 	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
+			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event) Q_DECL_OVERRIDE;
-		virtual void cancel() Q_DECL_OVERRIDE;
+			sc_eventid event)«IF isCpp11(entry)» override«ENDIF»;
+		virtual void cancel()«IF isCpp11(entry)» override«ENDIF»;
 	};
 	
 	#endif // «classDefineGuard(entry)»

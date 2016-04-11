@@ -11,7 +11,7 @@ GeneratorModel for de::morknet::sct::qt::generator
 		{
 			targetProject = "de.morknet.sct.qt.example.calculator"
 			targetFolder = "src-gen"
-			libraryTargetFolder = "src"
+			libraryTargetFolder = "src-gen"
 		}
 
 		feature QtSettings
