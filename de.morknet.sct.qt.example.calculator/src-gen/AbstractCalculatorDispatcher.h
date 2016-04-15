@@ -203,7 +203,7 @@ protected:
 	 * method react() is run to evaluate possible
 	 * raised out events.
 	 */
-	virtual void runCycle() Q_DECL_OVERRIDE;
+	virtual void runCycle() override;
 
 	/**
 	 * This method converts raised out events into
@@ -214,10 +214,10 @@ protected:
 	virtual void react();
 
 	virtual void setTimer(TimedStatemachineInterface* statemachine,
-		sc_eventid event, sc_integer time, sc_boolean isPeriodic) Q_DECL_OVERRIDE;
+		sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
 	virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-		sc_eventid event) Q_DECL_OVERRIDE;
-	virtual void cancel() Q_DECL_OVERRIDE;
+		sc_eventid event) override;
+	virtual void cancel() override;
 };
 
 #endif // ABSTRACTCALCULATORDISPATCHER_H

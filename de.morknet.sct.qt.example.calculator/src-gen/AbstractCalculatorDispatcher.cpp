@@ -226,7 +226,7 @@ void AbstractCalculatorDispatcher::setTimer(
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
 
-	if (timer == Q_NULLPTR)
+	if (timer == nullptr)
 	{
 		timer = new StatemachineTimer(event);
 		timerMap.insert(event, timer);
@@ -235,7 +235,15 @@ void AbstractCalculatorDispatcher::setTimer(
 	timer->setSingleShot(!isPeriodic);
 	timer->start();
 	timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
-	qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+
+	if (time >= 2000)
+	{
+		qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+	}
+	else
+	{
+		qDebug("# Activated timer %p with timeout %dms.", event, time);
+	}
 }
 
 /**
@@ -247,7 +255,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
 
-	if (timer != Q_NULLPTR)
+	if (timer != nullptr)
 	{
 		timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 		timer->stop();
