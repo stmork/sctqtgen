@@ -10,7 +10,7 @@
 	</parent>
 
 	<name>SCT-Qt-Generator Feature</name>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.5</version>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
