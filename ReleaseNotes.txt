@@ -1,3 +1,6 @@
+1.0.6
+ * clearing events on enter() and exit().
+
 1.0.5
  * Updated to YAKINDU SCT 2.6.0 API.
  * Reverted Qt5 keywords back to C++11 for Qt4 compatibility:
