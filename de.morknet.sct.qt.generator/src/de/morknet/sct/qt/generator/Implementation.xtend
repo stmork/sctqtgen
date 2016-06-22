@@ -95,6 +95,8 @@ class Implementation
 		«ENDIF»
 		init();
 		initializeValues();
+
+		clearOutEvents();
 		enter();
 		react();
 	}
@@ -105,6 +107,7 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
+		clearOutEvents();
 		exit();
 		react();
 	}
