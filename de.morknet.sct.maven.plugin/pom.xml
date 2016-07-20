@@ -11,7 +11,7 @@
 	<name>SCT Maven Plugin for sgen-Files</name>
 
 	<properties>
-		<eclipse.distro>mars</eclipse.distro>
+		<eclipse.distro>neon</eclipse.distro>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

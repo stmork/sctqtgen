@@ -42,12 +42,15 @@ void AbstractCalculatorDispatcher::start()
 {
 	init();
 	initializeValues();
+
+	clearOutEvents();
 	enter();
 	react();
 }
 
 void AbstractCalculatorDispatcher::stop()
 {
+	clearOutEvents();
 	exit();
 	react();
 }

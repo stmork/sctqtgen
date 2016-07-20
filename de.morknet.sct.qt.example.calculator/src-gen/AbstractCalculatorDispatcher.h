@@ -29,6 +29,11 @@ class AbstractCalculatorDispatcher :
 {
 	Q_OBJECT
 
+private:
+	/**
+	 * The QMap which maps von sc_eventid to a real
+	 * StatemachineTimer instance.
+	 */
 	QHash<sc_eventid, StatemachineTimer *> timerMap;
 
 public:
