@@ -1,3 +1,8 @@
+1.0.7
+ * New location of the update sites.
+ * The init() method is invoked early in the constructor now
+   instead of the starting of the state machine. This allows
+   better preinitialization of the state machine.
 1.0.6
  * clearing events on enter() and exit().
 
