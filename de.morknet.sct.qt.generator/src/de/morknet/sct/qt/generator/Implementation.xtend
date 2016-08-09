@@ -56,6 +56,7 @@ class Implementation
 		«FOR scope : ocbScopes»
 			«ocbNameSetter(scope)»(this);
 		«ENDFOR»
+		init();
 	}
 
 	/**
@@ -93,7 +94,7 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		init();
+		// Do some custom initialization.
 		initializeValues();
 
 		clearOutEvents();
