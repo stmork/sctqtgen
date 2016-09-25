@@ -1,5 +1,5 @@
 instructions.configure=\
-org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:https${#58}//sourceforge.net/projects/sctqtgen/files/repositories/release/,enabled:false,name:SCT-Qt-Generator Release);\
-org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:1,location:https${#58}//sourceforge.net/projects/sctqtgen/files/repositories/release/,enabled:false,name:SCT-Qt-Generator Release);\
-org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:https${#58}//sourceforge.net/projects/sctqtgen/files/repositories/snapshot/,enabled:true,name:SCT-Qt-Generator Snapshot);\
-org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:1,location:https${#58}//sourceforge.net/projects/sctqtgen/files/repositories/snapshot/,enabled:true,name:SCT-Qt-Generator Snapshot);
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//sctqtgen.sourceforge.net/updates/release/,enabled:false,name:SCT-Qt-Generator Release);\
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:1,location:http${#58}//sctqtgen.sourceforge.net/updates/release/,enabled:false,name:SCT-Qt-Generator Release);\
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//sctqtgen.sourceforge.net/updates/snapshot/,enabled:true,name:SCT-Qt-Generator Snapshot);\
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:1,location:http${#58}//sctqtgen.sourceforge.net/updates/snapshot/,enabled:true,name:SCT-Qt-Generator Snapshot);
