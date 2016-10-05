@@ -17,8 +17,9 @@ import org.yakindu.sct.model.sgen.FeatureParameterValue
 import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
+import org.yakindu.sct.generator.core.ISCTGenerator
 
-class QtGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGenerator
+class QtGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
 	@Inject Header header
 	@Inject Implementation impl
