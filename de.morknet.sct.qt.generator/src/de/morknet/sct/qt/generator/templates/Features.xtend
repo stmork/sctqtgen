@@ -4,12 +4,13 @@
  * $Author$
  */
 
-package de.morknet.sct.qt.generator
+package de.morknet.sct.qt.generator.templates
 
 import java.io.File
 import org.yakindu.sct.model.sgen.FeatureConfiguration
 import org.yakindu.sct.model.sgen.FeatureParameterValue
 import org.yakindu.sct.model.sgen.GeneratorEntry
+import de.morknet.sct.qt.generator.IFeatureConstants
 
 class Features
 {

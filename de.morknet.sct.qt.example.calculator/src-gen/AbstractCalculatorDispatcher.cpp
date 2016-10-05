@@ -20,6 +20,7 @@ AbstractCalculatorDispatcher::AbstractCalculatorDispatcher()
 {
 	AbstractCalculator::setTimer(this);
 	setInternalSCI_OCB(this);
+	init();
 }
 
 /**
@@ -40,7 +41,7 @@ AbstractCalculatorDispatcher::~AbstractCalculatorDispatcher()
 
 void AbstractCalculatorDispatcher::start()
 {
-	init();
+	// Do some custom initialization.
 	initializeValues();
 
 	clearOutEvents();

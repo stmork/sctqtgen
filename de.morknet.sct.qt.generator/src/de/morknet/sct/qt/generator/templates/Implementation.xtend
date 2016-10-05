@@ -4,7 +4,7 @@
  * $Author$
  */
 
-package de.morknet.sct.qt.generator
+package de.morknet.sct.qt.generator.templates
 
 import com.google.inject.Inject
 import org.eclipse.xtext.generator.IFileSystemAccess
