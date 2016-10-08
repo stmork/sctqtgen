@@ -147,16 +147,12 @@ public class StatemachineGenerator {
 				"org.yakindu.sct.generator.feature.java",
 				absoluteCppLibrariesDir + "/GenericJavaFeatureTypeLibrary.xmi",
 				new GenericJavaLibraryDefaultValueProvider());
+		addLibraryDescriptor(
+				"org.yakindu.sct.generator.feature.cpp",
+				absoluteCppLibrariesDir + "/CppFeatureTypeLibrary.xmi",
+				new GenericJavaLibraryDefaultValueProvider());
 
-		if (0 == 0)
-		{
-			addLibraryDescriptor(
-					"org.yakindu.sct.generator.feature.cpp",
-					absoluteCppLibrariesDir + "/CppFeatureTypeLibrary.xmi",
-					new GenericJavaLibraryDefaultValueProvider());
-		}
-		else
-		{
+		/*
 			URI uri = URI.createPlatformPluginURI("/org.yakindu.sct.generator.cpp/library/FeatureTypeLibrary.xmi", false);
 
 			System.out.println(uri);
@@ -164,7 +160,7 @@ public class StatemachineGenerator {
 					"org.yakindu.sct.generator.feature.cpp",
 					uri,
 					new CDefaultFeatureValueProvider()));
-		}
+		 */
 
 		addLibraryDescriptor(
 				"org.yakindu.generator.core.features.sctbase",
