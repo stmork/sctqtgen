@@ -22,7 +22,6 @@ import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ResourceSetGlobalScopeProvider;
 import org.yakindu.sct.domain.extension.DomainRegistry;
 import org.yakindu.sct.domain.extension.IDomainDescriptor;
-import org.yakindu.sct.generator.c.features.CDefaultFeatureValueProvider;
 import org.yakindu.sct.generator.core.GeneratorExecutor;
 import org.yakindu.sct.generator.core.extensions.GeneratorExtensions;
 import org.yakindu.sct.generator.core.extensions.LibraryExtensions;
