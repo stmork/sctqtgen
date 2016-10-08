@@ -64,19 +64,6 @@ public class StatemachineGenerator {
 			"/workspace/sctqtgen/de.morknet.sct.qt.generator/library";
 	private String absoluteWorkspaceDir = System.getProperty("user.dir") + "/..";
 
-	public static void main(String[] args)
-	{
-		StatemachineGenerator generator = new StatemachineGenerator();
-		String [] models =
-			{
-					"../de.gira.qt.wsapvpp/model/home.sct",
-					"../de.gira.qt.wsapvpp/model/qt.sgen",
-					"../de.gira.qt.wsapvpp/model/home.sgen"
-			};
-
-		generator.doIt(models);
-	}
-
 	public void doIt(final String [] args)
 	{
 		log.info("Starting build...");
