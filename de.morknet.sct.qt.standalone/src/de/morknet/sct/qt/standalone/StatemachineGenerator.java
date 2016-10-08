@@ -60,8 +60,8 @@ public class StatemachineGenerator {
 	private static final Charset encoding = StandardCharsets.UTF_8;
 
 	private String absoluteCppLibrariesDir = System.getProperty("user.dir") + "/libraries";
-	private String absoluteQtLibrariesDir = System.getProperty("user.home") + 
-			"/workspace/sctqtgen/de.morknet.sct.qt.generator/library";
+	private String absoluteQtLibrariesDir = System.getProperty("user.dir") + 
+			"../de.morknet.sct.qt.generator/library";
 	private String absoluteWorkspaceDir = System.getProperty("user.dir") + "/..";
 
 	public void doIt(final String [] args)
