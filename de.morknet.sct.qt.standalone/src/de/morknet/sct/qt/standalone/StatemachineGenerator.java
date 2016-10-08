@@ -59,9 +59,7 @@ public class StatemachineGenerator {
 	private ResourceSet resourceSet;
 	private static final Charset encoding = StandardCharsets.UTF_8;
 
-	private String absoluteCppLibrariesDir = System.getProperty("user.dir") + "/libraries";
-	private String absoluteQtLibrariesDir = System.getProperty("user.dir") + 
-			"../de.morknet.sct.qt.generator/library";
+	private String absoluteLibrariesDir = System.getProperty("user.dir") + "/libraries";
 	private String absoluteWorkspaceDir = System.getProperty("user.dir") + "/..";
 
 	public void doIt(final String [] args)
@@ -77,6 +75,11 @@ public class StatemachineGenerator {
 		loadSCTModels(args);
 
 		generateAll();
+	}
+
+	public void setLibrariesDir(final String dir)
+	{
+		this.absoluteLibrariesDir = dir;
 	}
 
 	protected void loadSCTModels(final String [] args)
@@ -123,19 +126,19 @@ public class StatemachineGenerator {
 	{
 		addLibraryDescriptor(
 				"org.yakindu.generator.core.features",
-				absoluteCppLibrariesDir + "/CoreFeatureTypeLibrary.xmi",
+				absoluteLibrariesDir + "/CoreFeatureTypeLibrary.xmi",
 				new CoreLibraryDefaultFeatureValueProvider());
 		addLibraryDescriptor(
 				"org.yakindu.generator.core.features",
-				absoluteCppLibrariesDir + "/CoreFeatureTypeLibrary.xmi",
+				absoluteLibrariesDir + "/CoreFeatureTypeLibrary.xmi",
 				new CoreLibraryDefaultFeatureValueProvider());
 		addLibraryDescriptor(
 				"org.yakindu.sct.generator.feature.java",
-				absoluteCppLibrariesDir + "/GenericJavaFeatureTypeLibrary.xmi",
+				absoluteLibrariesDir + "/GenericJavaFeatureTypeLibrary.xmi",
 				new GenericJavaLibraryDefaultValueProvider());
 		addLibraryDescriptor(
 				"org.yakindu.sct.generator.feature.cpp",
-				absoluteCppLibrariesDir + "/CppFeatureTypeLibrary.xmi",
+				absoluteLibrariesDir + "/CppFeatureTypeLibrary.xmi",
 				new GenericJavaLibraryDefaultValueProvider());
 
 		/*
@@ -150,11 +153,11 @@ public class StatemachineGenerator {
 
 		addLibraryDescriptor(
 				"org.yakindu.generator.core.features.sctbase",
-				absoluteCppLibrariesDir + "/SCTBaseFeatureLibrary.xmi",
+				absoluteLibrariesDir + "/SCTBaseFeatureLibrary.xmi",
 				new SCTBaseLibaryDefaultFeatureValueProvider());
 		addLibraryDescriptor(
 				"de.morknet.sct.qt.generator.FeatureTypeLibrary",
-				absoluteQtLibrariesDir + "/FeatureTypeLibrary.xmi",
+				absoluteLibrariesDir + "/QtFeatureTypeLibrary.xmi",
 				new QtGeneratorDefaultValueProvider());
 	}
 
