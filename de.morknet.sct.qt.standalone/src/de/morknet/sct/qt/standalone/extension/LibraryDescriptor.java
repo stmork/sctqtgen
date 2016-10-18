@@ -7,9 +7,7 @@ package de.morknet.sct.qt.standalone.extension;
 
 import org.eclipse.emf.common.util.URI;
 import org.yakindu.sct.generator.core.extensions.ILibraryDescriptor;
-import org.yakindu.sct.generator.core.library.IDefaultFeatureValueProvider;
-
-import com.google.inject.Injector;
+import org.yakindu.sct.generator.core.features.IDefaultFeatureValueProvider;
 
 public class LibraryDescriptor implements ILibraryDescriptor {
 
@@ -36,12 +34,5 @@ public class LibraryDescriptor implements ILibraryDescriptor {
 	@Override
 	public IDefaultFeatureValueProvider createFeatureValueProvider() {
 		return defaultFeatureValueProvider;
-	}
-
-	@Override
-	public org.yakindu.sct.generator.core.library.IDefaultFeatureValueProvider createFeatureValueProvider(
-			Injector arg0) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

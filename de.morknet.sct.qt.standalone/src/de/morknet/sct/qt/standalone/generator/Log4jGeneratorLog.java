@@ -8,6 +8,7 @@ package de.morknet.sct.qt.standalone.generator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.yakindu.sct.generator.core.impl.IGeneratorLog;
 
 import com.google.common.collect.Lists;
 

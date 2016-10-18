@@ -122,23 +122,44 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.xtend.typesystem.emf" version="0.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.xbase.lib" version="2.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtend.lib" version="2.0.1" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.generator.core" version="2.8.0" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.generator.c" version="2.7.1" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.model.sgen" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.model.sexec" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.model.stext" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.sct.model.sgraph" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.yakindu.base.types.edit" version="2.5.0" match="greaterOrEqual"/>
+      <import plugin="org.yakindu.sct.generator.core" version="2.7.0" match="equivalent"/>
+      <import plugin="org.yakindu.sct.generator.c" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.model.sgen" version="2.5.0"/>
+      <import plugin="org.yakindu.sct.model.sexec" version="2.5.0"/>
+      <import plugin="org.yakindu.sct.model.stext" version="2.5.0"/>
+      <import plugin="org.yakindu.sct.model.sgraph" version="2.5.0"/>
+      <import plugin="org.yakindu.base.types.edit" version="2.5.0"/>
+      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.core"/>
+      <import plugin="org.eclipse.gmf.runtime.notation.edit"/>
+      <import plugin="org.eclipse.swt"/>
       <import feature="org.yakindu.sct.generator.java" version="2.6.0"/>
       <import feature="org.yakindu.sct" version="2.6.0"/>
       <import feature="org.yakindu.sct.generator" version="2.6.0"/>
       <import feature="org.yakindu.sct.generator.c" version="2.6.0"/>
       <import feature="org.yakindu.sct.generator.cpp" version="2.6.0"/>
       <import feature="org.yakindu.sct.generator.java" version="2.6.0"/>
+      <import plugin="org.yakindu.sct.model.sgen" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.model.stext" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.model.resource" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.domain" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.domain.generic" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.generator.genmodel" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.generator.cpp" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.generator.java" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.sct.model.stext.ui" version="2.7.1" match="equivalent"/>
+      <import plugin="org.yakindu.base.xtext.utils.jface" version="2.7.1" match="equivalent"/>
    </requires>
 
    <plugin
          id="de.morknet.sct.qt.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.morknet.sct.qt.standalone"
          download-size="0"
          install-size="0"
          version="0.0.0"

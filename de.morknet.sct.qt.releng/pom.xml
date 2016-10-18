@@ -21,6 +21,7 @@
 
 	<modules>
 		<module>../de.morknet.sct.qt.generator</module>
+		<module>../de.morknet.sct.qt.standalone</module>
 		<module>../de.morknet.sct.qt.feature</module>
 		<module>../de.morknet.sct.qt.updatesite</module>
 	</modules>

@@ -21,12 +21,17 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ResourceSetGlobalScopeProvider;
 import org.yakindu.sct.domain.extension.DomainRegistry;
+import org.yakindu.sct.domain.extension.IDomainDescriptor;
+import org.yakindu.sct.generator.core.GeneratorExecutor;
 import org.yakindu.sct.generator.core.extensions.GeneratorExtensions;
 import org.yakindu.sct.generator.core.extensions.LibraryExtensions;
-import org.yakindu.sct.generator.core.library.IDefaultFeatureValueProvider;
-import org.yakindu.sct.generator.core.library.impl.CoreLibraryDefaultFeatureValueProvider;
+import org.yakindu.sct.generator.core.features.IDefaultFeatureValueProvider;
+import org.yakindu.sct.generator.core.features.impl.CoreLibraryDefaultFeatureValueProvider;
+import org.yakindu.sct.generator.core.features.impl.GenericJavaLibraryDefaultValueProvider;
+import org.yakindu.sct.generator.core.features.impl.SCTBaseLibaryDefaultFeatureValueProvider;
 import org.yakindu.sct.generator.genmodel.SGenRuntimeModule;
 import org.yakindu.sct.generator.genmodel.SGenStandaloneSetup;
+import org.yakindu.sct.model.resource.SCTResourceFactory;
 import org.yakindu.sct.model.sgen.GeneratorModel;
 import org.yakindu.sct.model.sgen.SGenPackage;
 import org.yakindu.sct.model.stext.STextRuntimeModule;
@@ -41,7 +46,7 @@ import com.google.inject.util.Modules;
 
 import de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider;
 import de.morknet.sct.qt.standalone.extension.CppGeneratorDescriptor;
-import de.morknet.sct.qt.standalone.extension.GenericDomainDescriptor;
+import de.morknet.sct.qt.standalone.extension.GenericDomainDesciptor;
 import de.morknet.sct.qt.standalone.extension.JavaGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.LibraryDescriptor;
 import de.morknet.sct.qt.standalone.extension.QtGeneratorDescriptor;
@@ -162,7 +167,7 @@ public class StatemachineGenerator {
 	}
 
 	protected void initSCTDomain() {
-		IDomainDescriptor domainDescriptor = new GenericDomainDescriptor(absoluteWorkspaceDir, encoding);
+		IDomainDescriptor domainDescriptor = new GenericDomainDesciptor(absoluteWorkspaceDir, encoding);
 		DomainRegistry.getDomainDescriptors().add(domainDescriptor);
 	}
 
