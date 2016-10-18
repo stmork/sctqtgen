@@ -46,7 +46,7 @@ import com.google.inject.util.Modules;
 
 import de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider;
 import de.morknet.sct.qt.standalone.extension.CppGeneratorDescriptor;
-import de.morknet.sct.qt.standalone.extension.GenericDomainDesciptor;
+import de.morknet.sct.qt.standalone.extension.GenericDomainDescriptor;
 import de.morknet.sct.qt.standalone.extension.JavaGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.LibraryDescriptor;
 import de.morknet.sct.qt.standalone.extension.QtGeneratorDescriptor;
@@ -167,7 +167,7 @@ public class StatemachineGenerator {
 	}
 
 	protected void initSCTDomain() {
-		IDomainDescriptor domainDescriptor = new GenericDomainDesciptor(absoluteWorkspaceDir, encoding);
+		IDomainDescriptor domainDescriptor = new GenericDomainDescriptor(absoluteWorkspaceDir, encoding);
 		DomainRegistry.getDomainDescriptors().add(domainDescriptor);
 	}
 
