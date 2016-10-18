@@ -29,9 +29,11 @@ import com.google.inject.name.Named;
 
 public class StandaloneFileSystemAccess extends AbstractFileSystemAccess implements ISCTFileSystemAccess {
 	private static final Logger LOG = Logger.getLogger(StandaloneFileSystemAccess.class);
+
 	@Inject
 	@Named(StandaloneGeneratorModule.ENCODING)
 	protected Charset encoding;
+
 	@Inject
 	@Named(StandaloneGeneratorModule.BASE_DIR)
 	protected String absoluteBaseDir;

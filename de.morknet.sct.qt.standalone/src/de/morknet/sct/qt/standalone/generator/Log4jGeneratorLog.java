@@ -13,8 +13,8 @@ import org.yakindu.sct.generator.core.impl.IGeneratorLog;
 import com.google.common.collect.Lists;
 
 public class Log4jGeneratorLog implements IGeneratorLog {
-	private static final Logger LOG = Logger.getLogger(Log4jGeneratorLog.class);
-	private static final List<String> lines = Lists.newArrayList();
+	private static final Logger          LOG = Logger.getLogger(Log4jGeneratorLog.class);
+	private static final List<String>    lines = Lists.newArrayList();
 	private static final List<Throwable> throwables = Lists.newArrayList();
 
 	@Override
