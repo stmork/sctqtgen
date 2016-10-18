@@ -5,14 +5,15 @@
 
 package de.morknet.sct.qt.standalone.extension;
 
+import java.net.URL;
 import java.util.List;
 
-import org.eclipse.swt.graphics.Image;
-import org.yakindu.sct.generator.core.ISCTGenerator;
+import org.yakindu.sct.generator.core.execution.IGeneratorEntryExecutor;
 import org.yakindu.sct.generator.core.extensions.IGeneratorDescriptor;
-import org.yakindu.sct.generator.java.JavaCodeGenerator;
+import org.yakindu.sct.model.sgen.GeneratorEntry;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Module;
 
 public class JavaGeneratorDescriptor implements IGeneratorDescriptor {
 	@Override
@@ -26,11 +27,6 @@ public class JavaGeneratorDescriptor implements IGeneratorDescriptor {
 				"org.yakindu.generator.core.features",
 				"org.yakindu.generator.core.features.sctbase",
 				"org.yakindu.sct.generator.feature.java");
-	}
-
-	@Override
-	public Image getImage() {
-		return null;
 	}
 
 	@Override
@@ -54,7 +50,19 @@ public class JavaGeneratorDescriptor implements IGeneratorDescriptor {
 	}
 
 	@Override
-	public ISCTGenerator createGenerator() {
-		return new JavaCodeGenerator();
+	public IGeneratorEntryExecutor createExecutor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Module getBindings(GeneratorEntry arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public URL getImagePath() {
+		return null;
 	}
 }

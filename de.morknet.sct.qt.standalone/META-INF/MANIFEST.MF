@@ -25,6 +25,7 @@ Require-Bundle: de.morknet.sct.qt.generator;visibility:=reexport,
  org.yakindu.sct.domain;bundle-version="2.7.1";visibility:=reexport,
  org.yakindu.sct.domain.generic;bundle-version="2.7.1";visibility:=reexport,
  org.yakindu.sct.model.stext.ui;bundle-version="2.7.1";visibility:=reexport,
- org.yakindu.base.xtext.utils.jface;bundle-version="2.7.1";visibility:=reexport
+ org.yakindu.base.xtext.utils.jface;bundle-version="2.7.1";visibility:=reexport,
+ org.yakindu.sct.domain.generic.generator;bundle-version="2.8.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: MORKNet

@@ -19,12 +19,12 @@ import de.morknet.sct.qt.standalone.generator.Log4jGeneratorLog;
 import de.morknet.sct.qt.standalone.generator.StandaloneFileSystemAccess;
 import de.morknet.sct.qt.standalone.generator.StandaloneGeneratorModule;
 
-public class GenericDomainDesciptor implements IDomainDescriptor {
+public class GenericDomainDescriptor implements IDomainDescriptor {
 
 	private String genRootDir;
 	private Charset encoding;
 
-	public GenericDomainDesciptor(String genRootDir, Charset encoding) {
+	public GenericDomainDescriptor(String genRootDir, Charset encoding) {
 		this.genRootDir = genRootDir;
 		this.encoding = encoding;
 	}

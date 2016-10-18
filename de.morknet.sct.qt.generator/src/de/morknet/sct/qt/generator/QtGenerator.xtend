@@ -12,9 +12,8 @@ import de.morknet.sct.qt.generator.templates.Implementation
 import de.morknet.sct.qt.generator.templates.Names
 import javax.inject.Inject
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.yakindu.sct.generator.core.AbstractWorkspaceGenerator
+import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.yakindu.sct.generator.core.ISCTGenerator
-import org.yakindu.sct.generator.core.impl.IExecutionFlowGenerator
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sexec.ExecutionState
 import org.yakindu.sct.model.sgen.FeatureConfiguration
@@ -23,7 +22,7 @@ import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
 
-class QtGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGenerator, ISCTGenerator
+class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
 	@Inject Header header
 	@Inject Implementation impl
