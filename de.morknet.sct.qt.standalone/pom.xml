@@ -10,7 +10,7 @@
 	</parent>
 
 	<name>SCT-Qt-Standalone Plugin</name>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>1.0.8</version>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.standalone</artifactId>
 	<packaging>eclipse-plugin</packaging>
