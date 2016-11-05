@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.generator.AbstractFileSystemAccess;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.OutputConfiguration;
-import org.yakindu.sct.generator.core.features.ICoreFeatureConstants;
 import org.yakindu.sct.generator.core.filesystem.ISCTFileSystemAccess;
 
 import com.google.inject.Inject;
@@ -174,13 +173,9 @@ public class StandaloneFileSystemAccess extends AbstractFileSystemAccess impleme
 	}
 
 	@Override
-	public IFileSystemAccess getIFileSystemAccess() {
-		return this;
-	}
-
-	@Override
-	public void afterGeneration() {
-		// currently nothing
+	public void setContext(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

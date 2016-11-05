@@ -8,9 +8,6 @@ package de.morknet.sct.qt.standalone.extension;
 import java.nio.charset.Charset;
 
 import org.eclipse.swt.graphics.Image;
-import org.yakindu.sct.domain.extension.IDomainDescriptor;
-import org.yakindu.sct.domain.extension.IDomainInjectorProvider;
-import org.yakindu.sct.domain.generic.extension.GenericDomainInjectorProvider;
 
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
@@ -19,8 +16,8 @@ import de.morknet.sct.qt.standalone.generator.Log4jGeneratorLog;
 import de.morknet.sct.qt.standalone.generator.StandaloneFileSystemAccess;
 import de.morknet.sct.qt.standalone.generator.StandaloneGeneratorModule;
 
-public class GenericDomainDescriptor implements IDomainDescriptor {
-
+public class GenericDomainDescriptor implements IDomainDescriptor
+{
 	private String genRootDir;
 	private Charset encoding;
 

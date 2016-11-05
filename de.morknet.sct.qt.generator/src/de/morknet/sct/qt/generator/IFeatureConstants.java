@@ -4,7 +4,6 @@
  * $Author$
  */
 
-
 package de.morknet.sct.qt.generator;
 
 public interface IFeatureConstants

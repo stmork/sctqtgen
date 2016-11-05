@@ -6,13 +6,7 @@
 
 package de.morknet.sct.qt.generator;
 
-import org.yakindu.sct.generator.core.impl.GenericJavaBasedGenerator;
-import org.yakindu.sct.model.sexec.ExecutionFlow;
-import org.yakindu.sct.model.sgen.GeneratorEntry;
-import org.yakindu.sct.model.sgraph.Statechart;
-
-import com.google.inject.Inject;
-
+/*
 public class QtCodeGenerator extends GenericJavaBasedGenerator
 {
 	@Inject
@@ -30,3 +24,4 @@ public class QtCodeGenerator extends GenericJavaBasedGenerator
 		delegate.generate(flow, entry, sctFsa.getIFileSystemAccess());
 	}
 }
+*/

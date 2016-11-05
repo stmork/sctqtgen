@@ -33,7 +33,7 @@ class Selector
 	{
 		events.filter[e|e.direction == Direction.OUT].size > 0;
 	}
-	
+
 	def getOutEvents(Scope it)
 	{
 		events.filter[e|e.direction == Direction.OUT].sortBy[e|e.name]

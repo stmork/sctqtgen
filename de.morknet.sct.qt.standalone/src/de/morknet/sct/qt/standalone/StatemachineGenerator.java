@@ -16,22 +16,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ResourceSetGlobalScopeProvider;
 import org.yakindu.sct.domain.extension.DomainRegistry;
-import org.yakindu.sct.domain.extension.IDomainDescriptor;
-import org.yakindu.sct.generator.core.GeneratorExecutor;
+import org.yakindu.sct.generator.core.execution.GeneratorExecutorLookup;
 import org.yakindu.sct.generator.core.extensions.GeneratorExtensions;
 import org.yakindu.sct.generator.core.extensions.LibraryExtensions;
-import org.yakindu.sct.generator.core.features.IDefaultFeatureValueProvider;
-import org.yakindu.sct.generator.core.features.impl.CoreLibraryDefaultFeatureValueProvider;
-import org.yakindu.sct.generator.core.features.impl.GenericJavaLibraryDefaultValueProvider;
-import org.yakindu.sct.generator.core.features.impl.SCTBaseLibaryDefaultFeatureValueProvider;
+import org.yakindu.sct.generator.core.library.IDefaultFeatureValueProvider;
+import org.yakindu.sct.generator.core.library.impl.CoreLibraryDefaultFeatureValueProvider;
 import org.yakindu.sct.generator.genmodel.SGenRuntimeModule;
 import org.yakindu.sct.generator.genmodel.SGenStandaloneSetup;
-import org.yakindu.sct.model.resource.SCTResourceFactory;
 import org.yakindu.sct.model.sgen.GeneratorModel;
 import org.yakindu.sct.model.sgen.SGenPackage;
 import org.yakindu.sct.model.stext.STextRuntimeModule;
@@ -44,9 +39,8 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
-import de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider;
-import de.morknet.sct.qt.standalone.extension.CppGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.GenericDomainDescriptor;
+import de.morknet.sct.qt.standalone.extension.CppGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.JavaGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.LibraryDescriptor;
 import de.morknet.sct.qt.standalone.extension.QtGeneratorDescriptor;
@@ -101,7 +95,8 @@ public class StatemachineGenerator {
 			if (content instanceof GeneratorModel)
 				genModels.add((GeneratorModel) content);
 		}
-		for (GeneratorModel generatorModel : genModels) {
+		for (GeneratorModel generatorModel : genModels)
+		{
 			new GeneratorExecutor().executeGenerator(generatorModel);
 		}
 	}
@@ -135,11 +130,11 @@ public class StatemachineGenerator {
 		addLibraryDescriptor(
 				"org.yakindu.sct.generator.feature.java",
 				absoluteLibrariesDir + "/GenericJavaFeatureTypeLibrary.xmi",
-				new GenericJavaLibraryDefaultValueProvider());
+				new CoreLibraryDefaultFeatureValueProvider());
 		addLibraryDescriptor(
 				"org.yakindu.sct.generator.feature.cpp",
 				absoluteLibrariesDir + "/CppFeatureTypeLibrary.xmi",
-				new GenericJavaLibraryDefaultValueProvider());
+				new CoreLibraryDefaultFeatureValueProvider());
 
 		/*
 			URI uri = URI.createPlatformPluginURI("/org.yakindu.sct.generator.cpp/library/FeatureTypeLibrary.xmi", false);
