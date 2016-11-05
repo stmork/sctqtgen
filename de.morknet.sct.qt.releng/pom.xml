@@ -6,17 +6,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.releng</artifactId>
-	<version>1.0.0</version>
+	<version>1.1</version>
 	<packaging>pom</packaging>
 
 	<!-- this is the parent POM from which all modules inherit common settings -->
 	<properties>
-		<tycho-version>0.21.0</tycho-version>
-		<tycho-extras-version>0.21.0</tycho-extras-version>
+		<tycho-version>0.24.0</tycho-version>
+		<tycho-extras-version>0.24.0</tycho-extras-version>
 		<xtext-version>2.9.2</xtext-version>
 		<antrun-version>1.8</antrun-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<eclipse.distro>mars</eclipse.distro>
+		<source.update.site>http://sctqtgen.sourceforge.net/updates/release/</source.update.site>
 	</properties>
 
 	<modules>

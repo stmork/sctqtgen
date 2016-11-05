@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.ResourceSetGlobalScopeProvider;
@@ -40,6 +41,7 @@ import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
 import de.morknet.sct.qt.standalone.extension.GenericDomainDescriptor;
+import de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider;
 import de.morknet.sct.qt.standalone.extension.CppGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.JavaGeneratorDescriptor;
 import de.morknet.sct.qt.standalone.extension.LibraryDescriptor;
