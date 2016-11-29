@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Calculator example standalone generator
-Bundle-SymbolicName: de.morknet.sct.qt.example.calculator.standalone
-Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: MORKNet
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: de.morknet.sct.qt.standalone;bundle-version="1.1.0.qualifier"
