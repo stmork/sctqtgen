@@ -10,7 +10,7 @@
 	</parent>
 
 	<name>SCT-Qt-Generator Update Site</name>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.updatesite</artifactId>
 	<packaging>eclipse-repository</packaging>
