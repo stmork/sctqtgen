@@ -2,6 +2,7 @@
 
 #include "AbstractCalculator.h"
 #include <string.h>
+
 /*! \file Implementation of the state machine 'calculator'
 */
 
@@ -127,10 +128,10 @@ TimerInterface* AbstractCalculator::getTimer()
 
 void AbstractCalculator::raiseTimeEvent(sc_eventid evid)
 {
-	if ((evid >= &timeEvents) && (evid < &timeEvents + sizeof(timeEvents)))
+	if ((evid >= (sc_eventid)timeEvents) && (evid < (sc_eventid)(&timeEvents[timeEventsCount])))
 	{
 		*(sc_boolean*)evid = true;
-	}
+	}				
 }
 
 sc_boolean AbstractCalculator::isStateActive(CalculatorStates state)
@@ -496,7 +497,7 @@ void AbstractCalculator::effect_main_region_active_lr15_lr15()
 void AbstractCalculator::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timer->setTimer(this, &timeEvents[0], 30 * 1000, false);
+	timer->setTimer(this, (sc_eventid)(&timeEvents[0]), 30 * 1000, false);
 	ifaceInternalSCI.accu = 0;
 	ifaceInternalSCI.operand = 0;
 }
@@ -505,7 +506,7 @@ void AbstractCalculator::enact_main_region_active()
 void AbstractCalculator::exact_main_region_active()
 {
 	/* Exit action for state 'active'. */
-	timer->unsetTimer(this, &timeEvents[0]);
+	timer->unsetTimer(this, (sc_eventid)(&timeEvents[0]));
 }
 
 /* 'default' enter sequence for state active */

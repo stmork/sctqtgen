@@ -201,8 +201,10 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_integer maxOrthogonalStates = 1;
 		
+		//! number of time events used by the state machine.
+		static const sc_integer timeEventsCount = 1;
 		TimerInterface* timer;
-		sc_boolean timeEvents[1];
+		sc_boolean timeEvents[timeEventsCount];
 		
 		CalculatorStates stateConfVector[maxOrthogonalStates];
 		

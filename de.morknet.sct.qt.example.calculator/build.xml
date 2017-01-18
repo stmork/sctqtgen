@@ -7,9 +7,8 @@
 			<arg value="--launcher.ini"/>
 			<arg value="${eclipse.home}/headless.ini"/>
 
-			<arg value="-m"/><arg value="model/calculator.sct"/>
-			<arg value="-g"/><arg value="model/cpp.sgen"/>
-			<arg value="-g"/><arg value="model/qt.sgen"/>
+			<arg value="-m"/><arg
+			value="model/calculator.sct,model/cpp.sgen,model/qt.sgen"/>
 		</exec>
 	</target>
 </project>

@@ -53,6 +53,9 @@ void CalculatorStateMachine::Equals()
 	case DIV:
 		accu = op / accu;
 		break;
+	default:
+		// Intentionally left blank
+		break;
 	}
 	operation = NONE;
 	ifaceInternalSCI.set_operand(accu);
