@@ -35,12 +35,16 @@ class Header
 	#define «classDefineGuard(entry)»
 
 	#include <QObject>
+	«IF hasTimers()»
 	#include <QHash>
+	«ENDIF»
 	#include "«getSrcGen(entry)»«baseClassName(entry)».h"
+	«IF hasTimers()»
 	#include "«getSrcGen(entry)»TimerInterface.h"
 	#include "«getSrcGen(entry)»StatemachineTimer.h"
+	«ENDIF»
 	«IF isThreadSafe(entry)»
-	
+
 	#include <mutex>
 	
 	typedef std::recursive_mutex      sc_mutex;
@@ -53,21 +57,23 @@ class Header
 	 */
 	class «className(entry)» :
 		public    QObject,
-		public    «baseClassName(entry)»,
-		«FOR scope : getOcbScopes()»
-		protected «baseClassName(entry)»::«ocbName(scope)»,
-		«ENDFOR»
-		protected TimerInterface
+		public    «baseClassName(entry)»«FOR scope : getOcbScopes()»,
+		protected «baseClassName(entry)»::«ocbName(scope)»«ENDFOR»«IF hasTimers()»,
+		protected TimerInterface«ENDIF»
 	{
 		Q_OBJECT
 
+	«IF hasTimers() || isThreadSafe(entry)»
 	private:
+	«ENDIF»
+	«IF hasTimers()»
 		/**
 		 * The QMap which maps von sc_eventid to a real
 		 * StatemachineTimer instance.
 		 */
 		QHash<sc_eventid, StatemachineTimer *> timerMap;
 
+	«ENDIF»
 	«IF isThreadSafe(entry)»
 	protected:
 		/** This mutex is used to provide thread safety. */
@@ -106,6 +112,7 @@ class Header
 		void stop();
 
 	public slots:
+		«IF hasTimers»
 		/**
 		 * This slot is triggered from QTimer.
 		 *
@@ -113,6 +120,7 @@ class Header
 		 */
 		void timeout(sc_eventid event);
 
+		«ENDIF»
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
 				«commentScope(scope)»
@@ -164,7 +172,7 @@ class Header
 		 * raised out events.
 		 */
 		virtual void runCycle()«IF isCpp11(entry)» override«ENDIF»;
-	
+
 		/**
 		 * This method converts raised out events into
 		 * Qt signals. Events from internal scope are
@@ -172,12 +180,14 @@ class Header
 		 * further runCycle() is done.
 		 */
 		virtual void react();
-	
+	«IF hasTimers()»
+
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
 			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
 			sc_eventid event)«IF isCpp11(entry)» override«ENDIF»;
 		virtual void cancel()«IF isCpp11(entry)» override«ENDIF»;
+	«ENDIF»
 	};
 	
 	#endif // «classDefineGuard(entry)»

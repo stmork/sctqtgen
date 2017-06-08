@@ -1,0 +1,22 @@
+GeneratorModel for de::morknet::sct::qt::generator
+{
+	statechart default
+	{
+
+		feature QtSettings
+		{
+			baseClassName = "AbstractStateMachine"
+			className = "AbstractStateMachineDispatcher"
+			cpp11 = true
+			generateTimer = true
+			threadSafe = false
+		}
+
+		feature Outlet
+		{
+			targetProject = "de.morknet.sct.qt.example.timerless"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+	}
+}

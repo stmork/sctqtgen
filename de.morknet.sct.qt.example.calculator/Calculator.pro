@@ -16,23 +16,29 @@ TEMPLATE = app
 generate.commands = ant
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    src-gen/AbstractCalculator.cpp \
-    src-gen/AbstractCalculatorDispatcher.cpp \
-    src-gen/StatemachineTimer.cpp \
-    calculatorstatemachine.cpp
+	mainwindow.cpp \
+	src-gen/AbstractCalculator.cpp \
+	src-gen/AbstractCalculatorDispatcher.cpp \
+	src-gen/StatemachineTimer.cpp \
+	calculatorstatemachine.cpp
 
 HEADERS  += mainwindow.h \
-    src-gen/AbstractCalculator.h \
-    src-gen/AbstractCalculatorDispatcher.h \
-    src-gen/sc_types.h \
-    src-gen/StatemachineInterface.h \
-    src-gen/StatemachineTimer.h \
-    src-gen/TimedStatemachineInterface.h \
-    src-gen/TimerInterface.h \
-    calculatorstatemachine.h
+	src-gen/AbstractCalculator.h \
+	src-gen/AbstractCalculatorDispatcher.h \
+	src-gen/sc_types.h \
+	src-gen/StatemachineInterface.h \
+	src-gen/StatemachineTimer.h \
+	src-gen/TimedStatemachineInterface.h \
+	src-gen/TimerInterface.h \
+	calculatorstatemachine.h
 
 FORMS    += mainwindow.ui
 
 RESOURCES += \
     resources.qrc
+
+linux-*
+{
+	target.path = ./calculator
+	INSTALLS += target
+}

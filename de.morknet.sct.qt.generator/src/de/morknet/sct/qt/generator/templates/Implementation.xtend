@@ -52,7 +52,9 @@ class Implementation
 	 */
 	«className(entry)»::«className(entry)»()
 	{
+		«IF hasTimers»
 		«baseClassName(entry)»::setTimer(this);
+		«ENDIF»
 		«FOR scope : ocbScopes»
 			«ocbNameSetter(scope)»(this);
 		«ENDFOR»
@@ -66,6 +68,7 @@ class Implementation
 	 */
 	«className(entry)»::~«className(entry)»()
 	{
+		«IF hasTimers»
 		«IF isThreadSafe(entry)»
 		sc_lock lock(mutex);
 
@@ -86,6 +89,7 @@ class Implementation
 
 			delete timer;
 		}
+		«ENDIF»
 	}
 
 	void «className(entry)»::start()
@@ -172,6 +176,7 @@ class Implementation
 			«ENDFOR»
 		«ENDIF»
 	«ENDFOR»
+	«IF hasTimers»
 
 	/**
 	 * This method implements the canceling of the statemachine.
@@ -257,6 +262,7 @@ class Implementation
 		raiseTimeEvent(event);
 		runCycle();
 	}
+	«ENDIF»
 	'''
 
 	def private timer(GeneratorEntry it)

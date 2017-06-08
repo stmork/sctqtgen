@@ -14,6 +14,7 @@ import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
+import org.yakindu.sct.model.stext.stext.TimeEventSpec
 
 class Selector
 {
@@ -78,5 +79,10 @@ class Selector
 	def boolean hasInternalEvents(ExecutionFlow it)
 	{
 		return countInternalEvents > 0
+	}
+
+	def boolean hasTimers(ExecutionFlow it)
+	{
+		eContents.filter(TimeEventSpec).size > 0
 	}
 }
