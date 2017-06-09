@@ -46,11 +46,11 @@ class Header
 	«IF isThreadSafe(entry)»
 
 	#include <mutex>
-	
+
 	typedef std::recursive_mutex      sc_mutex;
 	typedef std::lock_guard<sc_mutex> sc_lock;
 	«ENDIF»
-	
+
 	/**
 	 * This class provides a link layer which wires the in and out events
 	 * to the signal and slots of a Qt application.
@@ -63,10 +63,8 @@ class Header
 	{
 		Q_OBJECT
 
-	«IF hasTimers() || isThreadSafe(entry)»
-	private:
-	«ENDIF»
 	«IF hasTimers()»
+	private:
 		/**
 		 * The QMap which maps von sc_eventid to a real
 		 * StatemachineTimer instance.
@@ -128,7 +126,7 @@ class Header
 					/**
 					 * This callback acts as a slot for
 					 * the in event «event.name».
-					 «IF event.type != null»
+					 «IF event.type !== null»
 					 *
 					 * @param «parameter(event)» The «parameter(event)» event parameter.
 					 «ENDIF»
@@ -138,7 +136,7 @@ class Header
 				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
-	
+
 	signals:
 		«FOR scope : getInterfaceScopes()»
 			«IF hasOutEvents(scope)»
@@ -146,7 +144,7 @@ class Header
 				«FOR event : getOutEvents(scope)»
 					/**
 					 * This out event emits signal «event.name».
-					 «IF event.type != null»
+					 «IF event.type !== null»
 					 *
 					 * @param «parameter(event)» The «parameter(event)» event parameter.
 					 «ENDIF»
@@ -181,7 +179,7 @@ class Header
 		 */
 		virtual void react();
 	«IF hasTimers()»
-
+	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
 			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
