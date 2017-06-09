@@ -1,5 +1,6 @@
 1.1.1
  * Support for timerless statecharts.
+ * Added additional simple example without timers.
 
 1.1.0
  * Reflect new custom generator API of YAKINDU SCT 2.8 and

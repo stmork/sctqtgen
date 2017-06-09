@@ -10,11 +10,11 @@ import com.google.inject.Inject
 import java.util.List
 import org.yakindu.base.types.Direction
 import org.yakindu.sct.model.sexec.ExecutionFlow
+import org.yakindu.sct.model.sexec.TimeEvent
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
-import org.yakindu.sct.model.stext.stext.TimeEventSpec
 
 class Selector
 {
@@ -83,6 +83,6 @@ class Selector
 
 	def boolean hasTimers(ExecutionFlow it)
 	{
-		eContents.filter(TimeEventSpec).size > 0
+		eAllContents.filter(TimeEvent).size > 0
 	}
 }

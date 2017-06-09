@@ -10,6 +10,7 @@ import de.morknet.sct.qt.generator.templates.Features
 import de.morknet.sct.qt.generator.templates.Header
 import de.morknet.sct.qt.generator.templates.Implementation
 import de.morknet.sct.qt.generator.templates.Names
+import de.morknet.sct.qt.generator.templates.Selector
 import javax.inject.Inject
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.yakindu.sct.generator.core.ISCTGenerator
@@ -21,22 +22,29 @@ import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
 import org.yakindu.sct.generator.core.IExecutionFlowGenerator
+import org.eclipse.emf.ecore.EObject
+import org.yakindu.sct.model.sexec.TimeEvent
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
 	@Inject Header header
 	@Inject Implementation impl
+	@Inject Selector selector
 	@Inject extension Names
 	@Inject extension Features
 
 	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access) {
 		access.generateFile("Log.txt", info(flow, entry))
+//		access.generateFile("Elements.txt", elements(flow, entry))
 		header.generate(flow, entry, access)
 		impl.generate(flow, entry, access)
 	}
 
 	def private info(ExecutionFlow flow, GeneratorEntry entry) '''
 		«getLicenseText(entry)»
+		Has internal events: «selector.hasInternalEvents(flow)»
+		Has timers:          «selector.hasTimers(flow)»
+
 		«FOR FeatureConfiguration f : entry.features»
 		Feature: «f.type.name»
 			«FOR FeatureParameterValue v : f.parameterValues»
@@ -45,6 +53,8 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 		«ENDFOR»
 		«FOR Scope scope : flow.scopes»
 		Scope: «name(scope)»
+			Has in events:  «selector.hasInEvents(scope)»
+			Has out events: «selector.hasOutEvents(scope)»
 			«FOR op : scope.eContents.filter(OperationDefinition)»
 			Op:    «op.name» : «op.type»
 				«FOR param : op.parameters»
@@ -61,6 +71,17 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 
 		«FOR ExecutionState state : flow.states»
 		State: «state.name.replaceFirst(flow.name+'\\.','')»
+		«ENDFOR»
+	'''
+
+	def private elements(ExecutionFlow flow, GeneratorEntry entry) '''
+		«FOR EObject o : flow.eAllContents.toList»
+		«o»
+		«ENDFOR»
+
+		Timers:
+		«FOR TimeEvent t : flow.eAllContents.filter(TimeEvent).toList»
+		«t»
 		«ENDFOR»
 	'''
 }
