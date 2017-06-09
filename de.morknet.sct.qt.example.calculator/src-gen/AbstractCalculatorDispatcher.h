@@ -30,11 +30,11 @@ class AbstractCalculatorDispatcher :
 	Q_OBJECT
 
 private:
-/**
- * The QMap which maps von sc_eventid to a real
- * StatemachineTimer instance.
- */
-QHash<sc_eventid, StatemachineTimer *> timerMap;
+	/**
+	 * The QMap which maps von sc_eventid to a real
+	 * StatemachineTimer instance.
+	 */
+	QHash<sc_eventid, StatemachineTimer *> timerMap;
 
 public:
 	/**
@@ -218,11 +218,11 @@ protected:
 	 */
 	virtual void react();
 
-virtual void setTimer(TimedStatemachineInterface* statemachine,
-	sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
-virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-	sc_eventid event) override;
-virtual void cancel() override;
+	virtual void setTimer(TimedStatemachineInterface* statemachine,
+		sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
+	virtual void unsetTimer(TimedStatemachineInterface* statemachine,
+		sc_eventid event) override;
+	virtual void cancel() override;
 };
 
 #endif // ABSTRACTCALCULATORDISPATCHER_H
