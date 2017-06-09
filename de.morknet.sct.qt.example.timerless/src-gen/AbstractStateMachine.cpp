@@ -1,3 +1,4 @@
+/* Copyright (C) 2017 - Steffen A. Mork */
 
 #include "AbstractStateMachine.h"
 #include <string.h>

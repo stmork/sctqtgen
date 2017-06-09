@@ -1,3 +1,4 @@
+/* Copyright (C) 2017 - Steffen A. Mork */
 
 #ifndef ABSTRACTSTATEMACHINE_H_
 #define ABSTRACTSTATEMACHINE_H_

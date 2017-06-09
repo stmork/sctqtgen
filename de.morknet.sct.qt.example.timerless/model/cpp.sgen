@@ -2,6 +2,11 @@ GeneratorModel for yakindu::cpp
 {
 	statechart default
 	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2017 - Steffen A. Mork" 
+		}
+
 		feature Outlet
 		{
 			targetProject = "de.morknet.sct.qt.example.timerless"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 - Steffen A. Mork
+ * Copyright (C) 2017 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!
@@ -12,7 +12,10 @@
 #define ABSTRACTCALCULATORDISPATCHER_H
 
 #include <QObject>
+#include <QHash>
 #include "src-gen/AbstractCalculator.h"
+#include "src-gen/TimerInterface.h"
+#include "src-gen/StatemachineTimer.h"
 
 /**
  * This class provides a link layer which wires the in and out events
@@ -21,9 +24,17 @@
 class AbstractCalculatorDispatcher :
 	public    QObject,
 	public    AbstractCalculator,
-	protected AbstractCalculator::InternalSCI_OCB
+	protected AbstractCalculator::InternalSCI_OCB,
+	protected TimerInterface
 {
 	Q_OBJECT
+
+private:
+/**
+ * The QMap which maps von sc_eventid to a real
+ * StatemachineTimer instance.
+ */
+QHash<sc_eventid, StatemachineTimer *> timerMap;
 
 public:
 	/**
@@ -57,6 +68,13 @@ public:
 	void stop();
 
 public slots:
+	/**
+	 * This slot is triggered from QTimer.
+	 *
+	 * @param event The timer event id which uniquely identifies the timer.
+	 */
+	void timeout(sc_eventid event);
+
 	/**********************************
 	 * Gui scope
 	 *********************************/
@@ -199,6 +217,12 @@ protected:
 	 * further runCycle() is done.
 	 */
 	virtual void react();
+
+virtual void setTimer(TimedStatemachineInterface* statemachine,
+	sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
+virtual void unsetTimer(TimedStatemachineInterface* statemachine,
+	sc_eventid event) override;
+virtual void cancel() override;
 };
 
 #endif // ABSTRACTCALCULATORDISPATCHER_H
