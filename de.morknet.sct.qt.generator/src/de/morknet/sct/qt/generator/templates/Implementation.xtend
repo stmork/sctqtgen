@@ -221,7 +221,7 @@ class Implementation
 		timer->start();
 		timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 
-		if (time >= 2000)
+		if ((time >= 1000) && ((time % 1000) == 0))
 		{
 			qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
 		}
