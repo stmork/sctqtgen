@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016  -  Steffen A. Mork
+ * Copyright (C) 2017  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -34,8 +34,11 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	@Inject extension Features
 
 	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access) {
-		access.generateFile("Log.txt", info(flow, entry))
-//		access.generateFile("Elements.txt", elements(flow, entry))
+		if (isDebug(entry))
+		{
+			access.generateFile("Log.txt", info(flow, entry))
+			access.generateFile("Elements.txt", elements(flow, entry))
+		}
 		header.generate(flow, entry, access)
 		impl.generate(flow, entry, access)
 	}

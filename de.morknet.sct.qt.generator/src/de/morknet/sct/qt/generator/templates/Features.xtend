@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016  -  Steffen A. Mork
+ * Copyright (C) 2017  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -40,6 +40,20 @@ class Features
 			}
 		}
 		throw new IllegalStateException("Class name not configured!");
+	}
+
+	def isDebug(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			val param = f.getParameterValue(IFeatureConstants.QT_DEBUG)
+
+			if (param != null)
+			{
+				return param.booleanValue
+			}
+		}
+		return IFeatureConstants.QT_DEBUG_DEFAULT
 	}
 
 	def isCpp11(GeneratorEntry it)

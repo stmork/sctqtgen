@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016  -  Steffen A. Mork
+ * Copyright (C) 2017  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -51,6 +51,14 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		if (IFeatureConstants.QT_THREADSAFE.equals(parameterName))
 		{
 			parameterValue.setValue(IFeatureConstants.QT_THREADSAFE_DEFAULT);
+		}
+		if (IFeatureConstants.QT_DEBUG.equals(parameterName))
+		{
+			parameterValue.setValue(IFeatureConstants.QT_DEBUG_DEFAULT);
+		}
+		if (IFeatureConstants.QT_CAMEL_CALSE.equals(parameterName))
+		{
+			parameterValue.setValue(IFeatureConstants.QT_CAMEL_CALSE_DEFAULT);
 		}
 	}
 
