@@ -1,3 +1,6 @@
+1.1.2
+ * Debug logging support.
+
 1.1.1
  * Support for timerless statecharts.
  * Added additional simple example without timers.

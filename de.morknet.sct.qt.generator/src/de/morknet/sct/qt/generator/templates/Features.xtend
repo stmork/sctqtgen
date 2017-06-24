@@ -9,11 +9,45 @@ package de.morknet.sct.qt.generator.templates
 import de.morknet.sct.qt.generator.IFeatureConstants
 import java.io.File
 import org.yakindu.sct.model.sgen.FeatureConfiguration
-import org.yakindu.sct.model.sgen.FeatureParameterValue
 import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Features
 {
+	private boolean debug = IFeatureConstants.QT_DEBUG_DEFAULT;
+	private boolean cpp11 = IFeatureConstants.QT_CPP11_DEFAULT;
+	private boolean genTimer = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
+	private boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
+
+	def init(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			var param = f.getParameterValue(IFeatureConstants.QT_DEBUG)
+			if (param != null)
+			{
+				debug = param.booleanValue
+			}
+
+			param = f.getParameterValue(IFeatureConstants.QT_CPP11)
+			if (param != null)
+			{
+				cpp11 = param.booleanValue
+			}
+
+			param = f.getParameterValue(IFeatureConstants.QT_GENERATETIMER)
+			if (param != null)
+			{
+				genTimer = param.booleanValue
+			}
+
+			param = f.getParameterValue(IFeatureConstants.QT_THREADSAFE)
+			if (param != null)
+			{
+				threadSafe = param.booleanValue
+			}
+		}
+	}
+
 	def baseClassName(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
@@ -44,67 +78,21 @@ class Features
 
 	def isDebug(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			val param = f.getParameterValue(IFeatureConstants.QT_DEBUG)
-
-			if (param != null)
-			{
-				return param.booleanValue
-			}
-		}
-		return IFeatureConstants.QT_DEBUG_DEFAULT
+		return debug
 	}
 
 	def isCpp11(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			val param = f.getParameterValue(IFeatureConstants.QT_CPP11)
-
-			if (param != null)
-			{
-				return param.booleanValue
-			}
-		}
-		return IFeatureConstants.QT_CPP11_DEFAULT
+		return cpp11
 	}
 
 	def generateTimer(GeneratorEntry it)
 	{
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			val param = f.getParameterValue(IFeatureConstants.QT_GENERATETIMER)
-
-			if (param != null)
-			{
-				return param.booleanValue
-			}
-		}
-		return IFeatureConstants.QT_GENERATETIMER_DEFAULT
+		return genTimer
 	}
 
 	def isThreadSafe(GeneratorEntry it)
 	{
-		var boolean cpp11      = IFeatureConstants.QT_CPP11_DEFAULT
-		var boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
-
-		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
-		{
-			var FeatureParameterValue param
-
-			param = f.getParameterValue(IFeatureConstants.QT_THREADSAFE)
-			if (param != null)
-			{
-				threadSafe = param.booleanValue
-			}
-
-			param = f.getParameterValue(IFeatureConstants.QT_CPP11)
-			if (param != null)
-			{
-				cpp11 = param.booleanValue
-			}
-		}
 		return cpp11 && threadSafe
 	}
 
