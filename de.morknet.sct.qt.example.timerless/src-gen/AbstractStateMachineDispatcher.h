@@ -14,6 +14,8 @@
 #include <QObject>
 #include "src-gen/AbstractStateMachine.h"
 
+#define QT_SCT_DEBUG 1
+
 /**
  * This class provides a link layer which wires the in and out events
  * to the signal and slots of a Qt application.
