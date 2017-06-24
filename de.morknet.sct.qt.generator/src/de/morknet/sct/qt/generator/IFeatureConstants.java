@@ -24,6 +24,6 @@ public interface IFeatureConstants
 	public static final boolean QT_CPP11_DEFAULT         = true;
 	public static final boolean QT_GENERATETIMER_DEFAULT = true;
 	public static final boolean QT_THREADSAFE_DEFAULT    = false;
-	public static final boolean QT_DEBUG_DEFAULT         = false;
+	public static final boolean QT_DEBUG_DEFAULT         = true;
 	public static final boolean QT_CAMEL_CALSE_DEFAULT   = true;
 }
