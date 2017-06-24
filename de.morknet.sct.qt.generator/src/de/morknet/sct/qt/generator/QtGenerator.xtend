@@ -33,7 +33,9 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	@Inject extension Names
 	@Inject extension Features
 
-	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access) {
+	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
+	{
+		initFeatures(entry)
 		if (isDebug(entry))
 		{
 			access.generateFile("Log.txt", info(flow, entry))

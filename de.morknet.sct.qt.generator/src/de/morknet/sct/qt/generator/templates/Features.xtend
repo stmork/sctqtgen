@@ -18,7 +18,7 @@ class Features
 	private boolean genTimer = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
 	private boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
 
-	def init(GeneratorEntry it)
+	def initFeatures(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
