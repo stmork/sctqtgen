@@ -50,6 +50,10 @@ class Header
 	typedef std::recursive_mutex      sc_mutex;
 	typedef std::lock_guard<sc_mutex> sc_lock;
 	«ENDIF»
+	«IF isDebug(entry)»
+
+	#define QT_SCT_DEBUG 1
+	«ENDIF»
 
 	/**
 	 * This class provides a link layer which wires the in and out events
