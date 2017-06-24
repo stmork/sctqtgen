@@ -43,7 +43,9 @@ class Implementation
 	«fileHeader(entry)»
 
 	#include "«getSrcGen(entry) + headerFileName(entry)»"
+	«IF isDebug(entry)»
 	#include <QtDebug>
+	«ENDIF»
 	
 	/**
 	 * The callback instances are setup inside this constructor.
@@ -169,7 +171,9 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
+		«IF isDebug(entry)»
 		qDebug("# «Emit(event)»()...");
+		«ENDIF»
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
 		runCycle();
 	}
@@ -184,7 +188,9 @@ class Implementation
 	 */
 	void «className(entry)»::cancel()
 	{
+		«IF isDebug(entry)»
 		qDebug("# Cancel.");
+		«ENDIF»
 	}
 
 	/*********************************************************************/
@@ -220,6 +226,7 @@ class Implementation
 		timer->setSingleShot(!isPeriodic);
 		timer->start();
 		timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
+		«IF isDebug(entry)»
 
 		if ((time >= 1000) && ((time % 1000) == 0))
 		{
@@ -229,6 +236,7 @@ class Implementation
 		{
 			qDebug("# Activated timer %p with timeout %dms.", event, time);
 		}
+		«ENDIF»
 	}
 
 	/**
@@ -244,7 +252,9 @@ class Implementation
 		{
 			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 			timer->stop();
+			«IF isDebug(entry)»
 			qDebug("# Disabled timer %p.", event);
+			«ENDIF»
 		}
 	}
 
@@ -258,7 +268,9 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
+		«IF isDebug(entry)»
 		qDebug("# Time event occured with id %p", event);
+		«ENDIF»
 		raiseTimeEvent(event);
 		runCycle();
 	}
