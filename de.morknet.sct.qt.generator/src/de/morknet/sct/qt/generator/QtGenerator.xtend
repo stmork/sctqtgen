@@ -36,6 +36,7 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
 	{
 		initFeatures(entry)
+
 		if (isDebug(entry))
 		{
 			access.generateFile("Log.txt", info(flow, entry))

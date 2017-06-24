@@ -13,10 +13,10 @@ import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Features
 {
-	private boolean debug = IFeatureConstants.QT_DEBUG_DEFAULT;
-	private boolean cpp11 = IFeatureConstants.QT_CPP11_DEFAULT;
-	private boolean genTimer = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
-	private boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
+	private static boolean debug      = IFeatureConstants.QT_DEBUG_DEFAULT;
+	private static boolean cpp11      = IFeatureConstants.QT_CPP11_DEFAULT;
+	private static boolean genTimer   = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
+	private static boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
 
 	def initFeatures(GeneratorEntry it)
 	{
