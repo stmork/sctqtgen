@@ -25,11 +25,11 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
 	src-gen/AbstractCalculator.h \
 	src-gen/AbstractCalculatorDispatcher.h \
-	src-gen/sc_types.h \
 	src-gen/StatemachineInterface.h \
 	src-gen/StatemachineTimer.h \
-	src-gen/TimedStatemachineInterface.h \
-	src-gen/TimerInterface.h \
+	src/sc_types.h \
+	src/TimedStatemachineInterface.h \
+	src/TimerInterface.h \
 	calculatorstatemachine.h
 
 FORMS    += mainwindow.ui

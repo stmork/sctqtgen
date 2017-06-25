@@ -132,6 +132,20 @@ class Features
 		}
 	}
 
+	def getSrc(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == "Outlet"])
+		{
+			val param = f.getParameterValue("libraryTargetFolder")
+
+			if (param !== null)
+			{
+				return param.stringValue + File.separator
+			}
+		}
+		return ""
+	}
+
 	def getSrcGen(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == "Outlet"])

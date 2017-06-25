@@ -3,9 +3,9 @@
 #ifndef ABSTRACTCALCULATOR_H_
 #define ABSTRACTCALCULATOR_H_
 
-#include "sc_types.h"
+#include "../src/sc_types.h"
 #include "StatemachineInterface.h"
-#include "TimedStatemachineInterface.h"
+#include "../src/TimedStatemachineInterface.h"
 
 /*! \file Header of the state machine 'calculator'.
 */

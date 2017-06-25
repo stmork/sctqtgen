@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QHash>
 #include "src-gen/AbstractCalculator.h"
-#include "src-gen/TimerInterface.h"
+#include "src/TimerInterface.h"
 #include "src-gen/StatemachineTimer.h"
 
 #define QT_SCT_DEBUG 1

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016  -  Steffen A. Mork
+ * Copyright (C) 2017  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -40,7 +40,7 @@ class Header
 	«ENDIF»
 	#include "«getSrcGen(entry)»«baseClassName(entry)».h"
 	«IF hasTimers()»
-	#include "«getSrcGen(entry)»TimerInterface.h"
+	#include "«getSrc(entry)»TimerInterface.h"
 	#include "«getSrcGen(entry)»StatemachineTimer.h"
 	«ENDIF»
 	«IF isThreadSafe()»
@@ -204,7 +204,7 @@ class Header
 
 	#include <QTimer>
 
-	#include "«getSrcGen()»sc_types.h"
+	#include "«getSrc()»sc_types.h"
 	#include "«getSrcGen()»StatemachineInterface.h"
 
 	/**

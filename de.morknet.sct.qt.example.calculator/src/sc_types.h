@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 - Steffen A. Mork */
+/* Copyright (C) 2017 - Steffen A. Mork */
 
 #ifndef SC_TYPES_H_
 #define SC_TYPES_H_
