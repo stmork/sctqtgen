@@ -21,6 +21,8 @@ GeneratorModel for de::morknet::sct::qt::generator
 			cpp11 = true
 			generateTimer = true
 			threadSafe = false
+			debug = true
+			camelCase = false
 		}
 	}
 }
