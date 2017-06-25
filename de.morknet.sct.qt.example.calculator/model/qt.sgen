@@ -22,7 +22,7 @@ GeneratorModel for de::morknet::sct::qt::generator
 			generateTimer = true
 			threadSafe = false
 			debug = true
-			camelCase = false
+			camelCase = true
 		}
 	}
 }
