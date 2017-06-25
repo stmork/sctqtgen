@@ -13,7 +13,7 @@
 
 #include <QTimer>
 
-#include "src-gen/sc_types.h"
+#include "src/sc_types.h"
 #include "src-gen/StatemachineInterface.h"
 
 /**

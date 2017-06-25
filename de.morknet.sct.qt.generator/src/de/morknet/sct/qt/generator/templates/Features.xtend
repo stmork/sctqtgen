@@ -50,7 +50,7 @@ class Features
 			param = f.getParameterValue(IFeatureConstants.QT_CAMEL_CALSE)
 			if (param !== null)
 			{
-				threadSafe = param.booleanValue
+				camelCase = param.booleanValue
 			}
 		}
 	}

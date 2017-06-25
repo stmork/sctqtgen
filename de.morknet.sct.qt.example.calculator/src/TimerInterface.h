@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 - Steffen A. Mork */
+/* Copyright (C) 2017 - Steffen A. Mork */
 
 #ifndef TIMERINTERFACE_H_
 #define TIMERINTERFACE_H_
@@ -8,8 +8,7 @@
 //forward declaration of TimedStatemachineInterface to avoid cyclic dependency
 class TimedStatemachineInterface;
 
-/*
- * Basic interface for state machines.
+/*! \file Basic interface for state machines.
  */
 class TimerInterface
 {
@@ -17,19 +16,16 @@ class TimerInterface
 		
 		virtual ~TimerInterface() = 0;
 	
-		/*
-		 * Starts the timing for a time event.
+		/*! Starts the timing for a time event.
 		 */ 
 		virtual void setTimer(TimedStatemachineInterface* statemachine, sc_eventid event, sc_integer time, sc_boolean isPeriodic) = 0;
 		
-		/*
-		 * Unsets the given time event.
+		/*! Unsets the given time event.
 		 */
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine, sc_eventid event) = 0;
 	
-		/*
-		 * Cancel timer service. Use this to end possible timing threads and free
-		 * memory resources.
+		/*! Cancel timer service. Use this to end possible timing threads and free
+		 	 memory resources.
 		 */
 		virtual void cancel() = 0;
 };

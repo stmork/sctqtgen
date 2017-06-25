@@ -86,11 +86,11 @@ class Names
 	{
 		if (isCamelCase())
 		{
-			name.toFirstUpper()
+			return name.toFirstUpper()
 		}
 		else
 		{
-			name.toFirstLower()
+			return name.toFirstLower()
 		}
 	}
 
