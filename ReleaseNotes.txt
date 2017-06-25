@@ -1,5 +1,8 @@
 1.1.2
  * Debug logging support.
+ * Camel case vs. lower camel case now configurable for
+   signal and slot generation.
+ * Corrected type library path generation.
 
 1.1.1
  * Support for timerless statecharts.
