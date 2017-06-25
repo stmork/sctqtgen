@@ -27,7 +27,7 @@ class Implementation
 	def generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
 	{
 		access.generateFile(implFileName(flow, entry), signalDispatcher(flow, entry))
-		if (generateTimer(entry))
+		if (generateTimer())
 		{
 			access.generateFile("StatemachineTimer.cpp", timer(entry))
 		}
@@ -43,7 +43,7 @@ class Implementation
 	«fileHeader(entry)»
 
 	#include "«getSrcGen(entry) + headerFileName(entry)»"
-	«IF isDebug(entry)»
+	«IF isDebug()»
 	#include <QtDebug>
 	«ENDIF»
 	
@@ -71,11 +71,11 @@ class Implementation
 	«className(entry)»::~«className(entry)»()
 	{
 		«IF hasTimers»
-		«IF isThreadSafe(entry)»
+		«IF isThreadSafe()»
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		«IF isCpp11(entry)»
+		«IF isCpp11()»
 			for(StatemachineTimer *timer : timerMap.values())
 			{
 		«ELSE»
@@ -96,7 +96,7 @@ class Implementation
 
 	void «className(entry)»::start()
 	{
-		«IF isThreadSafe(entry)»
+		«IF isThreadSafe()»
 		sc_lock lock(mutex);
 
 		«ENDIF»
@@ -110,7 +110,7 @@ class Implementation
 
 	void «className(entry)»::stop()
 	{
-		«IF isThreadSafe(entry)»
+		«IF isThreadSafe()»
 		sc_lock lock(mutex);
 
 		«ENDIF»
@@ -167,11 +167,11 @@ class Implementation
 
 	void «className(entry)»::«Emit(event)»(«type(event)» «parameter(event)»)
 	{
-		«IF isThreadSafe(entry)»
+		«IF isThreadSafe()»
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		«IF isDebug(entry)»
+		«IF isDebug()»
 		qDebug("# «Emit(event)»()...");
 		«ENDIF»
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
@@ -188,7 +188,7 @@ class Implementation
 	 */
 	void «className(entry)»::cancel()
 	{
-		«IF isDebug(entry)»
+		«IF isDebug()»
 		qDebug("# Cancel.");
 		«ENDIF»
 	}
@@ -217,7 +217,7 @@ class Implementation
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
 
-		if (timer == «IF isCpp11(entry)»nullptr«ELSE»NULL«ENDIF»)
+		if (timer == «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
 			timer = new StatemachineTimer(event);
 			timerMap.insert(event, timer);
@@ -226,7 +226,7 @@ class Implementation
 		timer->setSingleShot(!isPeriodic);
 		timer->start();
 		timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
-		«IF isDebug(entry)»
+		«IF isDebug()»
 
 		if ((time >= 1000) && ((time % 1000) == 0))
 		{
@@ -248,11 +248,11 @@ class Implementation
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
 
-		if (timer != «IF isCpp11(entry)»nullptr«ELSE»NULL«ENDIF»)
+		if (timer != «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
 			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 			timer->stop();
-			«IF isDebug(entry)»
+			«IF isDebug()»
 			qDebug("# Disabled timer %p.", event);
 			«ENDIF»
 		}
@@ -264,11 +264,11 @@ class Implementation
 	 */
 	void «className(entry)»::timeout(sc_eventid event)
 	{
-		«IF isThreadSafe(entry)»
+		«IF isThreadSafe()»
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		«IF isDebug(entry)»
+		«IF isDebug()»
 		qDebug("# Time event occured with id %p", event);
 		«ENDIF»
 		raiseTimeEvent(event);

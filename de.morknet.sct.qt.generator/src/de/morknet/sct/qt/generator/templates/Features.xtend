@@ -17,31 +17,38 @@ class Features
 	private static boolean cpp11      = IFeatureConstants.QT_CPP11_DEFAULT;
 	private static boolean genTimer   = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
 	private static boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
+	private static boolean camelCase  = IFeatureConstants.QT_CAMEL_CALSE_DEFAULT;
 
 	def initFeatures(GeneratorEntry it)
 	{
 		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
 		{
 			var param = f.getParameterValue(IFeatureConstants.QT_DEBUG)
-			if (param != null)
+			if (param !== null)
 			{
 				debug = param.booleanValue
 			}
 
 			param = f.getParameterValue(IFeatureConstants.QT_CPP11)
-			if (param != null)
+			if (param !== null)
 			{
 				cpp11 = param.booleanValue
 			}
 
 			param = f.getParameterValue(IFeatureConstants.QT_GENERATETIMER)
-			if (param != null)
+			if (param !== null)
 			{
 				genTimer = param.booleanValue
 			}
 
 			param = f.getParameterValue(IFeatureConstants.QT_THREADSAFE)
-			if (param != null)
+			if (param !== null)
+			{
+				threadSafe = param.booleanValue
+			}
+
+			param = f.getParameterValue(IFeatureConstants.QT_CAMEL_CALSE)
+			if (param !== null)
 			{
 				threadSafe = param.booleanValue
 			}
@@ -54,7 +61,7 @@ class Features
 		{
 			val param = f.getParameterValue(IFeatureConstants.QT_BASECLASSNAME)
 
-			if (param != null)
+			if (param !== null)
 			{
 				return param.stringValue
 			}
@@ -68,7 +75,7 @@ class Features
 		{
 			val param = f.getParameterValue(IFeatureConstants.QT_CLASSNAME)
 	
-			if (param != null)
+			if (param !== null)
 			{
 				return param.stringValue
 			}
@@ -76,24 +83,29 @@ class Features
 		throw new IllegalStateException("Class name not configured!");
 	}
 
-	def isDebug(GeneratorEntry it)
+	def isDebug()
 	{
 		return debug
 	}
 
-	def isCpp11(GeneratorEntry it)
+	def isCpp11()
 	{
 		return cpp11
 	}
 
-	def generateTimer(GeneratorEntry it)
+	def generateTimer()
 	{
 		return genTimer
 	}
 
-	def isThreadSafe(GeneratorEntry it)
+	def isThreadSafe()
 	{
 		return cpp11 && threadSafe
+	}
+
+	def isCamelCase()
+	{
+		return camelCase
 	}
 
 	def getLicenseText(GeneratorEntry it)
@@ -104,7 +116,7 @@ class Features
 		{
 			val param = f.getParameterValue("licenseText")
 
-			if (param != null)
+			if (param !== null)
 			{
 				text += f.getParameterValue("licenseText").stringValue
 				text += "\n"
@@ -126,7 +138,7 @@ class Features
 		{
 			val param = f.getParameterValue("targetFolder")
 
-			if (param != null)
+			if (param !== null)
 			{
 				return param.stringValue + File.separator
 			}

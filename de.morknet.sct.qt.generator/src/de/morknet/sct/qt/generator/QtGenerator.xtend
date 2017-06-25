@@ -37,7 +37,7 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	{
 		initFeatures(entry)
 
-		if (isDebug(entry))
+		if (isDebug())
 		{
 			access.generateFile("Log.txt", info(flow, entry))
 			access.generateFile("Elements.txt", elements(flow, entry))

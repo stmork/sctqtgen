@@ -84,7 +84,14 @@ class Names
 
 	def Emit(Event it)
 	{
-		name.toFirstUpper();
+		if (isCamelCase())
+		{
+			name.toFirstUpper()
+		}
+		else
+		{
+			name.toFirstLower()
+		}
 	}
 
 	def asRaised(Event it)
@@ -99,7 +106,7 @@ class Names
 
 	def type(Event it)
 	{
-		if (type != null)
+		if (type !== null)
 		{
 			"sc_" + type.name
 		}
@@ -107,7 +114,7 @@ class Names
 
 	def parameter(Event it)
 	{
-		if (type != null)
+		if (type !== null)
 		{
 			"input"
 		}
@@ -115,7 +122,7 @@ class Names
 
 	def typeGetter(Event it, Scope scope)
 	{
-		if (it.type != null)
+		if (it.type !== null)
 		{
 			instanceName(scope) + ".get_" + name.toFirstLower + "_value()" 
 		}

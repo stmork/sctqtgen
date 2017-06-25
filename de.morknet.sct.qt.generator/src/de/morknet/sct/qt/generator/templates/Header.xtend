@@ -21,7 +21,7 @@ class Header
 	def generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
 	{
 		access.generateFile(headerFileName(flow, entry), signalDispatcher(flow, entry))
-		if (generateTimer(entry))
+		if (generateTimer())
 		{
 			access.generateFile("StatemachineTimer.h", timer(entry))
 		}
@@ -43,14 +43,14 @@ class Header
 	#include "«getSrcGen(entry)»TimerInterface.h"
 	#include "«getSrcGen(entry)»StatemachineTimer.h"
 	«ENDIF»
-	«IF isThreadSafe(entry)»
+	«IF isThreadSafe()»
 
 	#include <mutex>
 
 	typedef std::recursive_mutex      sc_mutex;
 	typedef std::lock_guard<sc_mutex> sc_lock;
 	«ENDIF»
-	«IF isDebug(entry)»
+	«IF isDebug()»
 
 	#define QT_SCT_DEBUG 1
 	«ENDIF»
@@ -76,7 +76,7 @@ class Header
 		QHash<sc_eventid, StatemachineTimer *> timerMap;
 
 	«ENDIF»
-	«IF isThreadSafe(entry)»
+	«IF isThreadSafe()»
 	protected:
 		/** This mutex is used to provide thread safety. */
 		sc_mutex                               mutex;
@@ -173,7 +173,7 @@ class Header
 		 * method react() is run to evaluate possible
 		 * raised out events.
 		 */
-		virtual void runCycle()«IF isCpp11(entry)» override«ENDIF»;
+		virtual void runCycle()«IF isCpp11()» override«ENDIF»;
 
 		/**
 		 * This method converts raised out events into
@@ -185,10 +185,10 @@ class Header
 	«IF hasTimers()»
 	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11(entry)» override«ENDIF»;
+			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11()» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event)«IF isCpp11(entry)» override«ENDIF»;
-		virtual void cancel()«IF isCpp11(entry)» override«ENDIF»;
+			sc_eventid event)«IF isCpp11()» override«ENDIF»;
+		virtual void cancel()«IF isCpp11()» override«ENDIF»;
 	«ENDIF»
 	};
 	
