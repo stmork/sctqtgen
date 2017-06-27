@@ -225,7 +225,7 @@ class Header
 		 *
 		 * @param id The unique YAKINDU SCT timer id.
 		 */
-		StatemachineTimer(sc_eventid id);
+		explicit StatemachineTimer(sc_eventid id);
 
 		«IF isCpp11»
 			/**
