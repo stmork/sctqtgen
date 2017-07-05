@@ -3,6 +3,7 @@
  * Camel case vs. lower camel case now configurable for
    signal and slot generation.
  * Corrected type library path generation.
+ * Organize logging in a callback method.
 
 1.1.1
  * Support for timerless statecharts.

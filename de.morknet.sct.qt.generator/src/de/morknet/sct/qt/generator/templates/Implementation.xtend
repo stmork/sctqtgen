@@ -172,7 +172,7 @@ class Implementation
 
 		«ENDIF»
 		«IF isDebug()»
-		qDebug("# «Emit(event)»()...");
+		sctQtDebug("«Emit(event)»()...");
 		«ENDIF»
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
 		runCycle();
@@ -189,8 +189,13 @@ class Implementation
 	void «className(entry)»::cancel()
 	{
 		«IF isDebug()»
-		qDebug("# Cancel.");
+		sctQtDebug("Cancel.");
 		«ENDIF»
+	}
+
+	void «className(entry)»::sctQtLog(const QString &message) const
+	{
+		qDebug() << message;
 	}
 
 	/*********************************************************************/
@@ -230,11 +235,11 @@ class Implementation
 
 		if ((time >= 1000) && ((time % 1000) == 0))
 		{
-			qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+			sctQtDebug(QString::asprintf("Activated timer %p with timeout %ds.", event, time / 1000));
 		}
 		else
 		{
-			qDebug("# Activated timer %p with timeout %dms.", event, time);
+			sctQtDebug(QString::asprintf("Activated timer %p with timeout %dms.", event, time));
 		}
 		«ENDIF»
 	}
@@ -253,7 +258,7 @@ class Implementation
 			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 			timer->stop();
 			«IF isDebug()»
-			qDebug("# Disabled timer %p.", event);
+			sctQtDebug(QString::asprintf("Disabled timer %p.", event));
 			«ENDIF»
 		}
 	}
@@ -269,7 +274,7 @@ class Implementation
 
 		«ENDIF»
 		«IF isDebug()»
-		qDebug("# Time event occured with id %p", event);
+		sctQtDebug(QString::asprintf("Time event occured with id %p", event));
 		«ENDIF»
 		raiseTimeEvent(event);
 		runCycle();

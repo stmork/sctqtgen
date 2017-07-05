@@ -182,6 +182,14 @@ class Header
 		 * further runCycle() is done.
 		 */
 		virtual void react();
+
+		/**
+		 * This method prints debug messages and may be
+		 * overloaded to customize debug logging.
+		 *
+		 * @param message The message to log.
+		 */
+		virtual void sctQtDebug(const QString &message) const;
 	«IF hasTimers()»
 	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
