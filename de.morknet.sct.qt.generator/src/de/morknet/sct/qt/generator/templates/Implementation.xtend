@@ -159,6 +159,11 @@ class Implementation
 		«ENDIF»
 	}
 
+	void «className(entry)»::sctQtDebug(const QString &message) const
+	{
+		qDebug() << message;
+	}
+
 	«FOR scope : getInterfaceScopes()»
 		«IF hasInEvents(scope)»
 
@@ -180,11 +185,6 @@ class Implementation
 			«ENDFOR»
 		«ENDIF»
 	«ENDFOR»
-
-	void «className(entry)»::sctQtLog(const QString &message) const
-	{
-		qDebug() << message;
-	}
 	«IF hasTimers»
 
 	/**

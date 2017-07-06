@@ -82,3 +82,8 @@ void AbstractStateMachineDispatcher::Clicked( )
 	ifaceGui.raise_clicked();
 	runCycle();
 }
+
+void AbstractStateMachineDispatcher::sctQtLog(const QString &message) const
+{
+	qDebug() << message;
+}
