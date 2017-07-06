@@ -70,6 +70,11 @@ void AbstractStateMachineDispatcher::react()
 	}
 }
 
+void AbstractStateMachineDispatcher::sctQtDebug(const QString &message) const
+{
+	qDebug() << message;
+}
+
 
 /**********************************
  * Gui scope
@@ -81,9 +86,4 @@ void AbstractStateMachineDispatcher::Clicked( )
 	sctQtDebug("Clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
-}
-
-void AbstractStateMachineDispatcher::sctQtLog(const QString &message) const
-{
-	qDebug() << message;
 }

@@ -79,6 +79,11 @@ void AbstractCalculatorDispatcher::react()
 	}
 }
 
+void AbstractCalculatorDispatcher::sctQtDebug(const QString &message) const
+{
+	qDebug() << message;
+}
+
 
 /**********************************
  * Gui scope
@@ -204,11 +209,6 @@ void AbstractCalculatorDispatcher::ButtonSub( )
 void AbstractCalculatorDispatcher::cancel()
 {
 	sctQtDebug("Cancel.");
-}
-
-void AbstractCalculatorDispatcher::sctQtLog(const QString &message) const
-{
-	qDebug() << message;
 }
 
 /*********************************************************************/
