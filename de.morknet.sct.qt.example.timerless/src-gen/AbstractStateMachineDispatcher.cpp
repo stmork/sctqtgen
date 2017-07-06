@@ -78,7 +78,7 @@ void AbstractStateMachineDispatcher::react()
 
 void AbstractStateMachineDispatcher::Clicked( )
 {
-	qDebug("# Clicked()...");
+	sctQtDebug("Clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
 }

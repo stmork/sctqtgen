@@ -34,7 +34,7 @@ public:
 	 *
 	 * @param id The unique YAKINDU SCT timer id.
 	 */
-	StatemachineTimer(sc_eventid id);
+	explicit StatemachineTimer(sc_eventid id);
 
 	/**
 	 * Remove default constructor since we definitely need the timer event id!.

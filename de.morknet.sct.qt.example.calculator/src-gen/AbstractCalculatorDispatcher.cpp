@@ -87,112 +87,112 @@ void AbstractCalculatorDispatcher::react()
 
 void AbstractCalculatorDispatcher::Button0( )
 {
-	qDebug("# Button0()...");
+	sctQtDebug("Button0()...");
 	ifaceGui.raise_button0();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button1( )
 {
-	qDebug("# Button1()...");
+	sctQtDebug("Button1()...");
 	ifaceGui.raise_button1();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button2( )
 {
-	qDebug("# Button2()...");
+	sctQtDebug("Button2()...");
 	ifaceGui.raise_button2();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button3( )
 {
-	qDebug("# Button3()...");
+	sctQtDebug("Button3()...");
 	ifaceGui.raise_button3();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button4( )
 {
-	qDebug("# Button4()...");
+	sctQtDebug("Button4()...");
 	ifaceGui.raise_button4();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button5( )
 {
-	qDebug("# Button5()...");
+	sctQtDebug("Button5()...");
 	ifaceGui.raise_button5();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button6( )
 {
-	qDebug("# Button6()...");
+	sctQtDebug("Button6()...");
 	ifaceGui.raise_button6();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button7( )
 {
-	qDebug("# Button7()...");
+	sctQtDebug("Button7()...");
 	ifaceGui.raise_button7();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button8( )
 {
-	qDebug("# Button8()...");
+	sctQtDebug("Button8()...");
 	ifaceGui.raise_button8();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button9( )
 {
-	qDebug("# Button9()...");
+	sctQtDebug("Button9()...");
 	ifaceGui.raise_button9();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonAdd( )
 {
-	qDebug("# ButtonAdd()...");
+	sctQtDebug("ButtonAdd()...");
 	ifaceGui.raise_buttonAdd();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonClear( )
 {
-	qDebug("# ButtonClear()...");
+	sctQtDebug("ButtonClear()...");
 	ifaceGui.raise_buttonClear();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonDiv( )
 {
-	qDebug("# ButtonDiv()...");
+	sctQtDebug("ButtonDiv()...");
 	ifaceGui.raise_buttonDiv();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonEquals( )
 {
-	qDebug("# ButtonEquals()...");
+	sctQtDebug("ButtonEquals()...");
 	ifaceGui.raise_buttonEquals();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonMult( )
 {
-	qDebug("# ButtonMult()...");
+	sctQtDebug("ButtonMult()...");
 	ifaceGui.raise_buttonMult();
 	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonSub( )
 {
-	qDebug("# ButtonSub()...");
+	sctQtDebug("ButtonSub()...");
 	ifaceGui.raise_buttonSub();
 	runCycle();
 }
@@ -203,7 +203,12 @@ void AbstractCalculatorDispatcher::ButtonSub( )
  */
 void AbstractCalculatorDispatcher::cancel()
 {
-	qDebug("# Cancel.");
+	sctQtDebug("Cancel.");
+}
+
+void AbstractCalculatorDispatcher::sctQtLog(const QString &message) const
+{
+	qDebug() << message;
 }
 
 /*********************************************************************/
@@ -242,11 +247,11 @@ void AbstractCalculatorDispatcher::setTimer(
 
 	if ((time >= 1000) && ((time % 1000) == 0))
 	{
-		qDebug("# Activated timer %p with timeout %ds.", event, time / 1000);
+		sctQtDebug(QString::asprintf("Activated timer %p with timeout %ds.", event, time / 1000));
 	}
 	else
 	{
-		qDebug("# Activated timer %p with timeout %dms.", event, time);
+		sctQtDebug(QString::asprintf("Activated timer %p with timeout %dms.", event, time));
 	}
 }
 
@@ -263,7 +268,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
 	{
 		timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 		timer->stop();
-		qDebug("# Disabled timer %p.", event);
+		sctQtDebug(QString::asprintf("Disabled timer %p.", event));
 	}
 }
 
@@ -273,7 +278,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
  */
 void AbstractCalculatorDispatcher::timeout(sc_eventid event)
 {
-	qDebug("# Time event occured with id %p", event);
+	sctQtDebug(QString::asprintf("Time event occured with id %p", event));
 	raiseTimeEvent(event);
 	runCycle();
 }

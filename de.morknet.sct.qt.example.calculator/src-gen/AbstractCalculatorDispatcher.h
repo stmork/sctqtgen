@@ -220,6 +220,14 @@ protected:
 	 */
 	virtual void react();
 
+	/**
+	 * This method prints debug messages and may be
+	 * overloaded to customize debug logging.
+	 *
+	 * @param message The message to log.
+	 */
+	virtual void sctQtDebug(const QString &message) const;
+
 	virtual void setTimer(TimedStatemachineInterface* statemachine,
 		sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
 	virtual void unsetTimer(TimedStatemachineInterface* statemachine,

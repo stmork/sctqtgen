@@ -180,6 +180,11 @@ class Implementation
 			«ENDFOR»
 		«ENDIF»
 	«ENDFOR»
+
+	void «className(entry)»::sctQtLog(const QString &message) const
+	{
+		qDebug() << message;
+	}
 	«IF hasTimers»
 
 	/**
@@ -191,11 +196,6 @@ class Implementation
 		«IF isDebug()»
 		sctQtDebug("Cancel.");
 		«ENDIF»
-	}
-
-	void «className(entry)»::sctQtLog(const QString &message) const
-	{
-		qDebug() << message;
 	}
 
 	/*********************************************************************/
