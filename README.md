@@ -58,6 +58,29 @@ make use of timers.
 
 **Note:** You have also set the cpp11 parameter to *true* because the generator makes use of the C++11 mutexes!
 
+#### debug (boolean, optional, since V1.1.2)
+Until version 1.1.1 the generator places some qDebug() calls into the
+generated code to make debugging easier. Now this is done using the 
+~~~
+    virtual void sctQtDebug(const QString &message) const;
+~~~
+callback. So you can overload this method for some appropriate logging.
+
+Additionally the you can turn off generating the log calls for release
+builds. The default logging method is generated anyway so there is no need
+to adjust your overloaded code.
+
+The header contains the
+~~~
+#define QT_SCT_DEBUG 1
+~~~
+definition in the case if this debug flag is true.
+
+#### camelCase (boolean, optional, since V1.1.2)
+If this flags is true the signal and slot names are camel case which is the
+default. Otherwise the names are generates as lower camel case like Qt is
+using.
+
 ## Generated code
 The generated code implements the following methods of the statemachines base class:
 1. Initialisation of all SCT operation callbacks (so called OCB).
