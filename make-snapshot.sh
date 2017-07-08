@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION_OLD=1.1.2
-VERSION_NEW=1.1.3
+VERSION_OLD=1.1.3
+VERSION_NEW=1.1.4
 
 for FILE in de.morknet.sct.qt.*/pom.xml
 do
