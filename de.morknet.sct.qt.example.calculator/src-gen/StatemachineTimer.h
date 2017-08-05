@@ -14,7 +14,7 @@
 #include <QTimer>
 
 #include "src/sc_types.h"
-#include "src-gen/StatemachineInterface.h"
+#include "src/StatemachineInterface.h"
 
 /**
  * This class represents a single timer instance for the YAKINDU

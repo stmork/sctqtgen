@@ -6,10 +6,9 @@
 /*! \file Implementation of the state machine 'default'
 */
 
+
 AbstractStateMachine::AbstractStateMachine()
 {
-	
-	
 	stateConfVectorPosition = 0;
 	
 }
@@ -43,7 +42,7 @@ void AbstractStateMachine::exit()
 	exseq_main_region();
 }
 
-sc_boolean AbstractStateMachine::isActive()
+sc_boolean AbstractStateMachine::isActive() const
 {
 	return stateConfVector[0] != Default_last_state;
 }
@@ -51,7 +50,7 @@ sc_boolean AbstractStateMachine::isActive()
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-sc_boolean AbstractStateMachine::isFinal()
+sc_boolean AbstractStateMachine::isFinal() const
 {
    return false;}
 
@@ -59,7 +58,6 @@ void AbstractStateMachine::runCycle()
 {
 	
 	clearOutEvents();
-	
 	for (stateConfVectorPosition = 0;
 		stateConfVectorPosition < maxOrthogonalStates;
 		stateConfVectorPosition++)
@@ -81,7 +79,6 @@ void AbstractStateMachine::runCycle()
 			break;
 		}
 	}
-	
 	clearInEvents();
 }
 
@@ -97,15 +94,15 @@ void AbstractStateMachine::clearOutEvents()
 }
 
 
-sc_boolean AbstractStateMachine::isStateActive(DefaultStates state)
+sc_boolean AbstractStateMachine::isStateActive(DefaultStates state) const
 {
 	switch (state)
 	{
 		case main_region_State_Off : 
-			return (sc_boolean) (stateConfVector[0] == main_region_State_Off
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_STATE_OFF] == main_region_State_Off
 			);
 		case main_region_State_On : 
-			return (sc_boolean) (stateConfVector[0] == main_region_State_On
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_STATE_ON] == main_region_State_On
 			);
 		default: return false;
 	}
@@ -115,23 +112,21 @@ AbstractStateMachine::SCI_Gui* AbstractStateMachine::getSCI_Gui()
 {
 	return &ifaceGui;
 }
-
+/* Functions for event clicked in interface SCI_Gui */
 void AbstractStateMachine::SCI_Gui::raise_clicked()
 {
 	clicked_raised = true;
 }
-
-sc_boolean AbstractStateMachine::SCI_Gui::isRaised_on()
+/* Functions for event on in interface SCI_Gui */
+sc_boolean AbstractStateMachine::SCI_Gui::isRaised_on() const
 {
 	return on_raised;
 }
-
-sc_boolean AbstractStateMachine::SCI_Gui::isRaised_off()
+/* Functions for event off in interface SCI_Gui */
+sc_boolean AbstractStateMachine::SCI_Gui::isRaised_off() const
 {
 	return off_raised;
 }
-
-
 
 // implementations of all internal functions
 
@@ -259,5 +254,6 @@ void AbstractStateMachine::react_main_region__entry_Default()
 	/* Default react sequence for initial entry  */
 	enseq_main_region_State_Off_default();
 }
+
 
 

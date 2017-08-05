@@ -4,14 +4,20 @@
 #define ABSTRACTSTATEMACHINE_H_
 
 #include "../src/sc_types.h"
-#include "StatemachineInterface.h"
+#include "../src/StatemachineInterface.h"
+#include <deque>
+#include <functional>
 
 /*! \file Header of the state machine 'default'.
 */
 
+
+/*! Define indices of states in the StateConfVector */
+#define SCVI_MAIN_REGION_STATE_OFF 0
+#define SCVI_MAIN_REGION_STATE_ON 0
+
 class AbstractStateMachine : public StatemachineInterface
 {
-	
 	public:
 		
 		AbstractStateMachine();
@@ -21,9 +27,9 @@ class AbstractStateMachine : public StatemachineInterface
 		/*! Enumeration of all states */ 
 		typedef enum
 		{
+			Default_last_state,
 			main_region_State_Off,
-			main_region_State_On,
-			Default_last_state
+			main_region_State_On
 		} DefaultStates;
 		
 		//! Inner class for gui interface scope.
@@ -35,10 +41,10 @@ class AbstractStateMachine : public StatemachineInterface
 				void raise_clicked();
 				
 				/*! Checks if the out event 'on' that is defined in the interface scope 'gui' has been raised. */
-				sc_boolean isRaised_on();
+				sc_boolean isRaised_on() const;
 				
 				/*! Checks if the out event 'off' that is defined in the interface scope 'gui' has been raised. */
-				sc_boolean isRaised_off();
+				sc_boolean isRaised_off() const;
 				
 				
 			protected:
@@ -47,37 +53,40 @@ class AbstractStateMachine : public StatemachineInterface
 				sc_boolean on_raised;
 				sc_boolean off_raised;
 		};
-				
 		
 		/*! Returns an instance of the interface class 'SCI_Gui'. */
 		SCI_Gui* getSCI_Gui();
 		
 		
-		void init();
+		/*
+		 * Functions inherited from StatemachineInterface
+		 */
+		virtual void init();
 		
-		void enter();
+		virtual void enter();
 		
-		void exit();
+		virtual void exit();
 		
-		void runCycle();
+		virtual void runCycle();
 		
 		/*!
 		* Checks if the state machine is active (until 2.4.1 this method was used for states).
 		* A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		*/
-		sc_boolean isActive();
+		virtual sc_boolean isActive() const;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		sc_boolean isFinal();
+		virtual sc_boolean isFinal() const;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(DefaultStates state);
-	
+		sc_boolean isStateActive(DefaultStates state) const;
+		
+		
 	protected:
 	
 	
@@ -111,5 +120,10 @@ class AbstractStateMachine : public StatemachineInterface
 		void clearInEvents();
 		void clearOutEvents();
 		
+		
 };
+
+
+
+
 #endif /* ABSTRACTSTATEMACHINE_H_ */
