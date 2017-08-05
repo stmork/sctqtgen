@@ -4,15 +4,21 @@
 #define ABSTRACTCALCULATOR_H_
 
 #include "../src/sc_types.h"
-#include "StatemachineInterface.h"
+#include "../src/StatemachineInterface.h"
 #include "../src/TimedStatemachineInterface.h"
+#include <deque>
+#include <functional>
 
 /*! \file Header of the state machine 'calculator'.
 */
 
+
+/*! Define indices of states in the StateConfVector */
+#define SCVI_MAIN_REGION_ACTIVE 0
+#define SCVI_MAIN_REGION__FINAL_ 0
+
 class AbstractCalculator : public TimedStatemachineInterface, public StatemachineInterface
 {
-	
 	public:
 		
 		AbstractCalculator();
@@ -22,9 +28,9 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		/*! Enumeration of all states */ 
 		typedef enum
 		{
+			Calculator_last_state,
 			main_region_active,
-			main_region__final_,
-			Calculator_last_state
+			main_region__final_
 		} CalculatorStates;
 		
 		//! Inner class for gui interface scope.
@@ -81,13 +87,13 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 				void raise_buttonClear();
 				
 				/*! Checks if the out event 'Exit' that is defined in the interface scope 'gui' has been raised. */
-				sc_boolean isRaised_exit();
+				sc_boolean isRaised_exit() const;
 				
 				/*! Checks if the out event 'ShowAccu' that is defined in the interface scope 'gui' has been raised. */
-				sc_boolean isRaised_showAccu();
+				sc_boolean isRaised_showAccu() const;
 				
 				/*! Gets the value of the out event 'ShowAccu' that is defined in the interface scope 'gui'. */
-				sc_integer get_showAccu_value();
+				sc_integer get_showAccu_value() const;
 				
 				
 			protected:
@@ -112,11 +118,9 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 				sc_boolean ShowAccu_raised;
 				sc_integer ShowAccu_value;
 		};
-				
 		
 		/*! Returns an instance of the interface class 'SCI_Gui'. */
 		SCI_Gui* getSCI_Gui();
-		
 		
 		//! Inner class for internal interface scope operation callbacks.
 		class InternalSCI_OCB
@@ -142,36 +146,45 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		/*! Set the working instance of the operation callback interface 'InternalSCI_OCB'. */
 		void setInternalSCI_OCB(InternalSCI_OCB* operationCallback);
 		
-		void init();
+		/*
+		 * Functions inherited from StatemachineInterface
+		 */
+		virtual void init();
 		
-		void enter();
+		virtual void enter();
 		
-		void exit();
+		virtual void exit();
 		
-		void runCycle();
+		virtual void runCycle();
 		
 		/*!
 		* Checks if the state machine is active (until 2.4.1 this method was used for states).
 		* A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		*/
-		sc_boolean isActive();
+		virtual sc_boolean isActive() const;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		sc_boolean isFinal();
+		virtual sc_boolean isFinal() const;
 		
-		void setTimer(TimerInterface* timer);
+		/*
+		 * Functions inherited from TimedStatemachineInterface
+		 */
+		virtual void setTimer(TimerInterface* timer);
 		
-		TimerInterface* getTimer();
+		virtual TimerInterface* getTimer();
 		
-		void raiseTimeEvent(sc_eventid event);
+		virtual void raiseTimeEvent(sc_eventid event);
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(CalculatorStates state);
-	
+		sc_boolean isStateActive(CalculatorStates state) const;
+		
+		//! number of time events used by the state machine.
+		static const sc_integer timeEventsCount = 1;
+		
 	protected:
 	
 		//! Inner class for internal interface scope.
@@ -180,13 +193,13 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 			
 			public:
 				/*! Gets the value of the variable 'operand' that is defined in the internal scope. */
-				sc_integer get_operand();
+				sc_integer get_operand() const;
 				
 				/*! Sets the value of the variable 'operand' that is defined in the internal scope. */
 				void set_operand(sc_integer value);
 				
 				/*! Gets the value of the variable 'accu' that is defined in the internal scope. */
-				sc_integer get_accu();
+				sc_integer get_accu() const;
 				
 				/*! Sets the value of the variable 'accu' that is defined in the internal scope. */
 				void set_accu(sc_integer value);
@@ -201,8 +214,6 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_integer maxOrthogonalStates = 1;
 		
-		//! number of time events used by the state machine.
-		static const sc_integer timeEventsCount = 1;
 		TimerInterface* timer;
 		sc_boolean timeEvents[timeEventsCount];
 		
@@ -216,8 +227,6 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		
 		// prototypes of all internal functions
 		
-		sc_boolean check_main_region_active_tr0_tr0();
-		sc_boolean check_main_region_active_tr1_tr1();
 		sc_boolean check_main_region_active_lr1_lr1();
 		sc_boolean check_main_region_active_lr2_lr2();
 		sc_boolean check_main_region_active_lr3_lr3();
@@ -233,8 +242,8 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		sc_boolean check_main_region_active_lr13_lr13();
 		sc_boolean check_main_region_active_lr14_lr14();
 		sc_boolean check_main_region_active_lr15_lr15();
-		void effect_main_region_active_tr0();
-		void effect_main_region_active_tr1();
+		sc_boolean check_main_region_active_tr0_tr0();
+		sc_boolean check_main_region_active_tr1_tr1();
 		void effect_main_region_active_lr1_lr1();
 		void effect_main_region_active_lr2_lr2();
 		void effect_main_region_active_lr3_lr3();
@@ -250,6 +259,8 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		void effect_main_region_active_lr13_lr13();
 		void effect_main_region_active_lr14_lr14();
 		void effect_main_region_active_lr15_lr15();
+		void effect_main_region_active_tr0();
+		void effect_main_region_active_tr1();
 		void enact_main_region_active();
 		void exact_main_region_active();
 		void enseq_main_region_active_default();
@@ -264,6 +275,11 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		void clearInEvents();
 		void clearOutEvents();
 		
+		
 };
+
+
 inline AbstractCalculator::InternalSCI_OCB::~InternalSCI_OCB() {}
+
+
 #endif /* ABSTRACTCALCULATOR_H_ */

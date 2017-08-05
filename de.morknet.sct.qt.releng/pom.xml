@@ -104,7 +104,7 @@
 		<repository>
 			<id>sct</id>
 			<layout>p2</layout>
-			<url>http://updates.yakindu.org/sct/releases/</url>
+			<url>http://updates.yakindu.org/statecharts/releases/</url>
 		</repository>
 	</repositories>
 </project>

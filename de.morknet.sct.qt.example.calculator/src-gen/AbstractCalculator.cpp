@@ -6,11 +6,10 @@
 /*! \file Implementation of the state machine 'calculator'
 */
 
+
 AbstractCalculator::AbstractCalculator()
 {
-	
 	ifaceInternalSCI_OCB = null;
-	
 	stateConfVectorPosition = 0;
 	
 	timer = null;
@@ -48,12 +47,12 @@ void AbstractCalculator::exit()
 	exseq_main_region();
 }
 
-sc_boolean AbstractCalculator::isActive()
+sc_boolean AbstractCalculator::isActive() const
 {
 	return stateConfVector[0] != Calculator_last_state;
 }
 
-sc_boolean AbstractCalculator::isFinal()
+sc_boolean AbstractCalculator::isFinal() const
 {
 	return (stateConfVector[0] == main_region__final_);
 }
@@ -62,7 +61,6 @@ void AbstractCalculator::runCycle()
 {
 	
 	clearOutEvents();
-	
 	for (stateConfVectorPosition = 0;
 		stateConfVectorPosition < maxOrthogonalStates;
 		stateConfVectorPosition++)
@@ -84,7 +82,6 @@ void AbstractCalculator::runCycle()
 			break;
 		}
 	}
-	
 	clearInEvents();
 }
 
@@ -134,15 +131,15 @@ void AbstractCalculator::raiseTimeEvent(sc_eventid evid)
 	}				
 }
 
-sc_boolean AbstractCalculator::isStateActive(CalculatorStates state)
+sc_boolean AbstractCalculator::isStateActive(CalculatorStates state) const
 {
 	switch (state)
 	{
 		case main_region_active : 
-			return (sc_boolean) (stateConfVector[0] == main_region_active
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_ACTIVE] == main_region_active
 			);
 		case main_region__final_ : 
-			return (sc_boolean) (stateConfVector[0] == main_region__final_
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION__FINAL_] == main_region__final_
 			);
 		default: return false;
 	}
@@ -152,105 +149,101 @@ AbstractCalculator::SCI_Gui* AbstractCalculator::getSCI_Gui()
 {
 	return &ifaceGui;
 }
-
+/* Functions for event Button0 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button0()
 {
 	Button0_raised = true;
 }
-
+/* Functions for event Button1 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button1()
 {
 	Button1_raised = true;
 }
-
+/* Functions for event Button2 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button2()
 {
 	Button2_raised = true;
 }
-
+/* Functions for event Button3 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button3()
 {
 	Button3_raised = true;
 }
-
+/* Functions for event Button4 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button4()
 {
 	Button4_raised = true;
 }
-
+/* Functions for event Button5 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button5()
 {
 	Button5_raised = true;
 }
-
+/* Functions for event Button6 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button6()
 {
 	Button6_raised = true;
 }
-
+/* Functions for event Button7 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button7()
 {
 	Button7_raised = true;
 }
-
+/* Functions for event Button8 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button8()
 {
 	Button8_raised = true;
 }
-
+/* Functions for event Button9 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button9()
 {
 	Button9_raised = true;
 }
-
+/* Functions for event ButtonAdd in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonAdd()
 {
 	ButtonAdd_raised = true;
 }
-
+/* Functions for event ButtonSub in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonSub()
 {
 	ButtonSub_raised = true;
 }
-
+/* Functions for event ButtonMult in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonMult()
 {
 	ButtonMult_raised = true;
 }
-
+/* Functions for event ButtonDiv in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonDiv()
 {
 	ButtonDiv_raised = true;
 }
-
+/* Functions for event ButtonEquals in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonEquals()
 {
 	ButtonEquals_raised = true;
 }
-
+/* Functions for event ButtonClear in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonClear()
 {
 	ButtonClear_raised = true;
 }
-
-sc_boolean AbstractCalculator::SCI_Gui::isRaised_exit()
+/* Functions for event Exit in interface SCI_Gui */
+sc_boolean AbstractCalculator::SCI_Gui::isRaised_exit() const
 {
 	return Exit_raised;
 }
-
-sc_boolean AbstractCalculator::SCI_Gui::isRaised_showAccu()
+/* Functions for event ShowAccu in interface SCI_Gui */
+sc_boolean AbstractCalculator::SCI_Gui::isRaised_showAccu() const
 {
 	return ShowAccu_raised;
 }
-
-sc_integer AbstractCalculator::SCI_Gui::get_showAccu_value()
+sc_integer AbstractCalculator::SCI_Gui::get_showAccu_value() const
 {
 	return ShowAccu_value;
 }
-
-
-
-sc_integer AbstractCalculator::InternalSCI::get_operand()
+sc_integer AbstractCalculator::InternalSCI::get_operand() const
 {
 	return operand;
 }
@@ -260,7 +253,7 @@ void AbstractCalculator::InternalSCI::set_operand(sc_integer value)
 	operand = value;
 }
 
-sc_integer AbstractCalculator::InternalSCI::get_accu()
+sc_integer AbstractCalculator::InternalSCI::get_accu() const
 {
 	return accu;
 }
@@ -276,16 +269,6 @@ void AbstractCalculator::setInternalSCI_OCB(InternalSCI_OCB* operationCallback)
 }
 
 // implementations of all internal functions
-
-sc_boolean AbstractCalculator::check_main_region_active_tr0_tr0()
-{
-	return timeEvents[0];
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_tr1_tr1()
-{
-	return ifaceGui.ButtonEquals_raised;
-}
 
 sc_boolean AbstractCalculator::check_main_region_active_lr1_lr1()
 {
@@ -362,20 +345,14 @@ sc_boolean AbstractCalculator::check_main_region_active_lr15_lr15()
 	return ifaceGui.ButtonClear_raised;
 }
 
-void AbstractCalculator::effect_main_region_active_tr0()
+sc_boolean AbstractCalculator::check_main_region_active_tr0_tr0()
 {
-	exseq_main_region_active();
-	ifaceGui.Exit_raised = true;
-	enseq_main_region__final__default();
+	return timeEvents[0];
 }
 
-void AbstractCalculator::effect_main_region_active_tr1()
+sc_boolean AbstractCalculator::check_main_region_active_tr1_tr1()
 {
-	exseq_main_region_active();
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	enseq_main_region_active_default();
+	return ifaceGui.ButtonEquals_raised;
 }
 
 void AbstractCalculator::effect_main_region_active_lr1_lr1()
@@ -491,6 +468,22 @@ void AbstractCalculator::effect_main_region_active_lr15_lr15()
 	ifaceInternalSCI.operand = 0;
 	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
 	ifaceGui.ShowAccu_raised = true;
+}
+
+void AbstractCalculator::effect_main_region_active_tr0()
+{
+	exseq_main_region_active();
+	ifaceGui.Exit_raised = true;
+	enseq_main_region__final__default();
+}
+
+void AbstractCalculator::effect_main_region_active_tr1()
+{
+	exseq_main_region_active();
+	ifaceInternalSCI_OCB->Equals();
+	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+	ifaceGui.ShowAccu_raised = true;
+	enseq_main_region_active_default();
 }
 
 /* Entry action for state 'active'. */
@@ -652,7 +645,6 @@ void AbstractCalculator::react_main_region_active()
 /* The reactions of state null. */
 void AbstractCalculator::react_main_region__final_()
 {
-	/* The reactions of state null. */
 }
 
 /* Default react sequence for initial entry  */
@@ -661,5 +653,6 @@ void AbstractCalculator::react_main_region__entry_Default()
 	/* Default react sequence for initial entry  */
 	enseq_main_region_active_default();
 }
+
 
 
