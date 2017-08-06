@@ -6,7 +6,7 @@
 		<relativePath>../de.morknet.sct.qt.releng/pom.xml</relativePath>
 		<groupId>de.morknet.sct.qt</groupId>
 		<artifactId>de.morknet.sct.qt.releng</artifactId>
-		<version>1.1</version>
+		<version>1.2</version>
 	</parent>
 
 	<name>SCT-Qt-Generator Update Site</name>

@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.morknet.sct.qt</groupId>
 	<artifactId>de.morknet.sct.qt.releng</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<packaging>pom</packaging>
 
 	<!-- this is the parent POM from which all modules inherit common settings -->
@@ -22,9 +22,6 @@
 
 	<modules>
 		<module>../de.morknet.sct.qt.generator</module>
-<!--
-		<module>../de.morknet.sct.qt.standalone</module>
--->
 		<module>../de.morknet.sct.qt.feature</module>
 		<module>../de.morknet.sct.qt.updatesite</module>
 	</modules>
@@ -101,10 +98,23 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/${eclipse.distro}/</url>
 		</repository>
+
 		<repository>
 			<id>sct</id>
 			<layout>p2</layout>
-			<url>http://updates.yakindu.org/statecharts/releases/</url>
+			<url>http://updates.yakindu.com/sct/releases/</url>
+		</repository>
+
+		<repository>
+			<id>statecharts</id>
+			<layout>p2</layout>
+			<url>http://updates.yakindu.com/statecharts/releases/</url>
+		</repository>
+
+		<repository>
+			<id>sct-pro</id>
+			<layout>p2</layout>
+			<url>http://updates.yakindu.com/sctpro/releases/</url>
 		</repository>
 	</repositories>
 </project>
