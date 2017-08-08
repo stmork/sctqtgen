@@ -213,7 +213,6 @@ class Header
 	#include <QTimer>
 
 	#include "«getSrc()»sc_types.h"
-	#include "«getSrc()»StatemachineInterface.h"
 
 	/**
 	 * This class represents a single timer instance for the YAKINDU
