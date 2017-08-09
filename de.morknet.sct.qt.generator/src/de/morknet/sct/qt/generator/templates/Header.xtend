@@ -97,7 +97,7 @@ class Header
 		virtual ~«className(entry)»();
 
 		/**
-		 * This method initializes the statemachine an runs
+		 * This method initializes the statemachine and runs
 		 * the first cycle. The virtual method initializeValues()
 		 * is for initializing some statemachine values. After
 		 * entering the statemachine the method react() is run
@@ -106,7 +106,7 @@ class Header
 		void start();
 
 		/**
-		 * This method stopps the statemachine an runs
+		 * This method stopps the statemachine and runs
 		 * the last cycle. After leaving the statemachine
 		 * the method react() is run to evaluate possible
 		 * raised out events.
