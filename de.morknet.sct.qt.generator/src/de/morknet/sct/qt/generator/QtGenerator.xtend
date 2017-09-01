@@ -24,6 +24,7 @@ import org.yakindu.sct.model.stext.stext.OperationDefinition
 import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.eclipse.emf.ecore.EObject
 import org.yakindu.sct.model.sexec.TimeEvent
+import org.yakindu.sct.model.stext.stext.EventRaisingExpression
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
@@ -81,6 +82,7 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	'''
 
 	def private elements(ExecutionFlow flow, GeneratorEntry entry) '''
+		Flow:
 		«FOR EObject o : flow.eAllContents.toList»
 		«o»
 		«ENDFOR»
