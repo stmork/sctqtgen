@@ -106,7 +106,7 @@ class Header
 		void start();
 
 		/**
-		 * This method stopps the statemachine and runs
+		 * This method stops the statemachine and runs
 		 * the last cycle. After leaving the statemachine
 		 * the method react() is run to evaluate possible
 		 * raised out events.
