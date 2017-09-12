@@ -45,6 +45,9 @@ class Implementation
 	#include "«getSrcGen(entry) + headerFileName(entry)»"
 	«IF isDebug()»
 	#include <QtDebug>
+	«IF hasTimers»
+	#include <inttypes.h>
+	«ENDIF»
 	«ENDIF»
 	
 	/**
@@ -235,11 +238,11 @@ class Implementation
 
 		if ((time >= 1000) && ((time % 1000) == 0))
 		{
-			sctQtDebug(QString::asprintf("Activated timer %p with timeout %ds.", event, time / 1000));
+			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
 		}
 		else
 		{
-			sctQtDebug(QString::asprintf("Activated timer %p with timeout %dms.", event, time));
+			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %dms.", event, time));
 		}
 		«ENDIF»
 	}
@@ -258,7 +261,7 @@ class Implementation
 			timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
 			timer->stop();
 			«IF isDebug()»
-			sctQtDebug(QString::asprintf("Disabled timer %p.", event));
+			sctQtDebug(QString::asprintf("Disabled timer %" PRIxPTR ".", event));
 			«ENDIF»
 		}
 	}
@@ -274,7 +277,7 @@ class Implementation
 
 		«ENDIF»
 		«IF isDebug()»
-		sctQtDebug(QString::asprintf("Time event occured with id %p", event));
+		sctQtDebug(QString::asprintf("Time event occured with id %" PRIxPTR ".", event));
 		«ENDIF»
 		raiseTimeEvent(event);
 		runCycle();
