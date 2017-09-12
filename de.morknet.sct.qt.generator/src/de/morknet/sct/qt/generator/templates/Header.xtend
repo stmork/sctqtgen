@@ -223,7 +223,7 @@ class Header
 		Q_OBJECT
 	
 		/** This is the unique identifier from YAKINDU SCT. */
-		sc_eventid event_id;
+		const sc_eventid event_id;
 	
 	public:
 		/**
@@ -232,7 +232,7 @@ class Header
 		 *
 		 * @param id The unique YAKINDU SCT timer id.
 		 */
-		explicit StatemachineTimer(sc_eventid id);
+		explicit StatemachineTimer(const sc_eventid id);
 
 		«IF isCpp11»
 			/**
