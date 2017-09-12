@@ -24,7 +24,7 @@ class StatemachineTimer :  public QTimer
 	Q_OBJECT
 
 	/** This is the unique identifier from YAKINDU SCT. */
-	sc_eventid event_id;
+	const sc_eventid event_id;
 
 public:
 	/**
@@ -33,7 +33,7 @@ public:
 	 *
 	 * @param id The unique YAKINDU SCT timer id.
 	 */
-	explicit StatemachineTimer(sc_eventid id);
+	explicit StatemachineTimer(const sc_eventid id);
 
 	/**
 	 * Remove default constructor since we definitely need the timer event id!.

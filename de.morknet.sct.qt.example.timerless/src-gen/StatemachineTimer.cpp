@@ -10,11 +10,9 @@
 
 #include "src-gen/StatemachineTimer.h"
 
-StatemachineTimer::StatemachineTimer(sc_eventid id)
+StatemachineTimer::StatemachineTimer(const sc_eventid id) : event_id(id)
 {
-	event_id = id;
-
-	connect(this, SIGNAL(timeout()), this, SLOT(in_timeout()));
+	connect(this, &StatemachineTimer::timeout, this, &StatemachineTimer::in_timeout);
 }
 
 void StatemachineTimer::in_timeout()

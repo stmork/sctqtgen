@@ -10,6 +10,7 @@
 
 #include "src-gen/AbstractCalculatorDispatcher.h"
 #include <QtDebug>
+#include <inttypes.h>
 
 /**
  * The callback instances are setup inside this constructor.
@@ -32,8 +33,8 @@ AbstractCalculatorDispatcher::~AbstractCalculatorDispatcher()
 {
 	for(StatemachineTimer *timer : timerMap.values())
 	{
+		timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &AbstractCalculatorDispatcher::timeout);
 		timer->stop();
-		timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 
 		delete timer;
 	}
@@ -243,15 +244,15 @@ void AbstractCalculatorDispatcher::setTimer(
 	timer->setInterval(time);
 	timer->setSingleShot(!isPeriodic);
 	timer->start();
-	timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
+	timer->connect(timer, &StatemachineTimer::out_timeout, this, &AbstractCalculatorDispatcher::timeout);
 
 	if ((time >= 1000) && ((time % 1000) == 0))
 	{
-		sctQtDebug(QString::asprintf("Activated timer %p with timeout %ds.", event, time / 1000));
+		sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
 	}
 	else
 	{
-		sctQtDebug(QString::asprintf("Activated timer %p with timeout %dms.", event, time));
+		sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %dms.", event, time));
 	}
 }
 
@@ -266,9 +267,9 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
 
 	if (timer != nullptr)
 	{
-		timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
+		timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &AbstractCalculatorDispatcher::timeout);
 		timer->stop();
-		sctQtDebug(QString::asprintf("Disabled timer %p.", event));
+		sctQtDebug(QString::asprintf("Disabled timer %" PRIxPTR ".", event));
 	}
 }
 
@@ -278,7 +279,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
  */
 void AbstractCalculatorDispatcher::timeout(sc_eventid event)
 {
-	sctQtDebug(QString::asprintf("Time event occured with id %p", event));
+	sctQtDebug(QString::asprintf("Time event occured with id %" PRIxPTR ".", event));
 	raiseTimeEvent(event);
 	runCycle();
 }

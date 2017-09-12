@@ -1,3 +1,6 @@
+1.2.1
+ * Generator improvements concerning code quality.
+
 1.2.0
  * Support for new YAKINDU SCT 3.x
 
