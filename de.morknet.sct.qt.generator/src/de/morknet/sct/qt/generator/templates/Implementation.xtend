@@ -86,8 +86,8 @@ class Implementation
 				StatemachineTimer *timer = *i;
 
 		«ENDIF»
+			timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
 			timer->stop();
-			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
 
 			delete timer;
 		}
@@ -230,7 +230,7 @@ class Implementation
 		timer->setInterval(time);
 		timer->setSingleShot(!isPeriodic);
 		timer->start();
-		timer->connect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
+		timer->connect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
 		«IF isDebug()»
 
 		if ((time >= 1000) && ((time % 1000) == 0))
@@ -255,7 +255,7 @@ class Implementation
 
 		if (timer != «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
-			timer->disconnect(timer, SIGNAL(out_timeout(sc_eventid)), this, SLOT(timeout(sc_eventid)));
+			timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
 			timer->stop();
 			«IF isDebug()»
 			sctQtDebug(QString::asprintf("Disabled timer %p.", event));
@@ -290,7 +290,7 @@ class Implementation
 
 	StatemachineTimer::StatemachineTimer(const sc_eventid id) : event_id(id)
 	{
-		connect(this, SIGNAL(timeout()), this, SLOT(in_timeout()));
+		connect(this, &StatemachineTimer::timeout, this, &StatemachineTimer::in_timeout);
 	}
 	
 	void StatemachineTimer::in_timeout()
