@@ -220,7 +220,9 @@ class Implementation
 	 */
 	void «className(entry)»::setTimer(
 			TimedStatemachineInterface *statemachine,
-			sc_eventid event, sc_integer time, sc_boolean isPeriodic)
+			const sc_eventid event,
+			const sc_integer time,
+			const sc_boolean isPeriodic)
 	{
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
@@ -251,7 +253,9 @@ class Implementation
 	 * This method deinitialize a timer belonging to a sc_eventid. The timer
 	 * is not deleted but disconnected from Qt signal/slot.
 	 */
-	void «className(entry)»::unsetTimer(TimedStatemachineInterface *statemachine, sc_eventid event)
+	void «className(entry)»::unsetTimer(
+		TimedStatemachineInterface *statemachine,
+		const sc_eventid event)
 	{
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
@@ -270,7 +274,7 @@ class Implementation
 	 * This Qt slot is signalled by a timer belonging to the given
 	 * sc_eventid.
 	 */
-	void «className(entry)»::timeout(sc_eventid event)
+	void «className(entry)»::timeout(const sc_eventid event)
 	{
 		«IF isThreadSafe()»
 		sc_lock lock(mutex);

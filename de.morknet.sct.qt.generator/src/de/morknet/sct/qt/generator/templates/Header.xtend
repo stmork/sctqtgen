@@ -120,7 +120,7 @@ class Header
 		 *
 		 * @param event The timer event id which uniquely identifies the timer.
 		 */
-		void timeout(sc_eventid event);
+		void timeout(const sc_eventid event);
 
 		«ENDIF»
 		«FOR scope : getInterfaceScopes()»
@@ -193,9 +193,11 @@ class Header
 	«IF hasTimers()»
 	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event, sc_integer time, sc_boolean isPeriodic)«IF isCpp11()» override«ENDIF»;
+			const sc_eventid event,
+			const sc_integer time,
+			const sc_boolean isPeriodic)«IF isCpp11()» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-			sc_eventid event)«IF isCpp11()» override«ENDIF»;
+			const sc_eventid event)«IF isCpp11()» override«ENDIF»;
 		virtual void cancel()«IF isCpp11()» override«ENDIF»;
 	«ENDIF»
 	};
