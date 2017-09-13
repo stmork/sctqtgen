@@ -75,7 +75,7 @@ public slots:
 	 *
 	 * @param event The timer event id which uniquely identifies the timer.
 	 */
-	void timeout(sc_eventid event);
+	void timeout(const sc_eventid event);
 
 	/**********************************
 	 * Gui scope
@@ -229,9 +229,11 @@ protected:
 	virtual void sctQtDebug(const QString &message) const;
 
 	virtual void setTimer(TimedStatemachineInterface* statemachine,
-		sc_eventid event, sc_integer time, sc_boolean isPeriodic) override;
+		const sc_eventid event,
+		const sc_integer time,
+		const sc_boolean isPeriodic) override;
 	virtual void unsetTimer(TimedStatemachineInterface* statemachine,
-		sc_eventid event) override;
+		const sc_eventid event) override;
 	virtual void cancel() override;
 };
 

@@ -231,7 +231,9 @@ void AbstractCalculatorDispatcher::cancel()
  */
 void AbstractCalculatorDispatcher::setTimer(
 		TimedStatemachineInterface *statemachine,
-		sc_eventid event, sc_integer time, sc_boolean isPeriodic)
+		const sc_eventid event,
+		const sc_integer time,
+		const sc_boolean isPeriodic)
 {
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
@@ -260,7 +262,9 @@ void AbstractCalculatorDispatcher::setTimer(
  * This method deinitialize a timer belonging to a sc_eventid. The timer
  * is not deleted but disconnected from Qt signal/slot.
  */
-void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statemachine, sc_eventid event)
+void AbstractCalculatorDispatcher::unsetTimer(
+	TimedStatemachineInterface *statemachine,
+	const sc_eventid event)
 {
 	Q_UNUSED(statemachine);
 	StatemachineTimer *timer = timerMap[event];
@@ -277,7 +281,7 @@ void AbstractCalculatorDispatcher::unsetTimer(TimedStatemachineInterface *statem
  * This Qt slot is signalled by a timer belonging to the given
  * sc_eventid.
  */
-void AbstractCalculatorDispatcher::timeout(sc_eventid event)
+void AbstractCalculatorDispatcher::timeout(const sc_eventid event)
 {
 	sctQtDebug(QString::asprintf("Time event occured with id %" PRIxPTR ".", event));
 	raiseTimeEvent(event);
