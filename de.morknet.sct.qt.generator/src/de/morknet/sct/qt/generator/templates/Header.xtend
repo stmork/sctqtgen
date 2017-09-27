@@ -113,7 +113,7 @@ class Header
 		 */
 		void stop();
 
-	public slots:
+	private slots:
 		«IF hasTimers»
 		/**
 		 * This slot is triggered from QTimer.
@@ -123,6 +123,7 @@ class Header
 		void timeout(const sc_eventid event);
 
 		«ENDIF»
+	public slots:
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
 				«commentScope(scope)»

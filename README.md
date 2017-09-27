@@ -66,9 +66,9 @@ generated code to make debugging easier. Now this is done using the
 ~~~
 callback. So you can overload this method for some appropriate logging.
 
-Additionally the you can turn off generating the log calls for release
-builds. The default logging method is generated anyway so there is no need
-to adjust your overloaded code.
+Additionally you can turn off generating the log calls for release builds.
+The default logging method is generated anyway so there is no need to adjust
+your overloaded code.
 
 The header contains the
 ~~~
