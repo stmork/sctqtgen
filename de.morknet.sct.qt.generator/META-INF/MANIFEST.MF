@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Qt-Generator for YAKINDU SCT
 Bundle-SymbolicName: de.morknet.sct.qt.generator; singleton:=true
-Bundle-Version: 1.2.1
+Bundle-Version: 1.2.2.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: MORKNet
 Export-Package: de.morknet.sct.qt.generator
