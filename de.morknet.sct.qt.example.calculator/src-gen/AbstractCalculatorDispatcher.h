@@ -69,7 +69,7 @@ public:
 	 */
 	void stop();
 
-public slots:
+private slots:
 	/**
 	 * This slot is triggered from QTimer.
 	 *
@@ -77,6 +77,7 @@ public slots:
 	 */
 	void timeout(const sc_eventid event);
 
+public slots:
 	/**********************************
 	 * Gui scope
 	 *********************************/

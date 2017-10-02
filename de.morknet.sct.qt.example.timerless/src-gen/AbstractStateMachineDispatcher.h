@@ -57,6 +57,7 @@ public:
 	 */
 	void stop();
 
+private slots:
 public slots:
 	/**********************************
 	 * Gui scope
