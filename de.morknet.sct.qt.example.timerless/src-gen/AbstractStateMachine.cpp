@@ -7,10 +7,10 @@
 */
 
 
-AbstractStateMachine::AbstractStateMachine()
+AbstractStateMachine::AbstractStateMachine():
+	stateConfVectorPosition(0),
+	ifaceGui()
 {
-	stateConfVectorPosition = 0;
-	
 }
 
 AbstractStateMachine::~AbstractStateMachine()

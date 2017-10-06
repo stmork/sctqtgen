@@ -5,8 +5,6 @@
 
 #include "../src/sc_types.h"
 #include "../src/StatemachineInterface.h"
-#include <deque>
-#include <functional>
 
 /*! \file Header of the state machine 'default'.
 */
@@ -90,6 +88,7 @@ class AbstractStateMachine : public StatemachineInterface
 	protected:
 	
 	
+	
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_integer maxOrthogonalStates = 1;
 		
@@ -122,7 +121,6 @@ class AbstractStateMachine : public StatemachineInterface
 		
 		
 };
-
 
 
 

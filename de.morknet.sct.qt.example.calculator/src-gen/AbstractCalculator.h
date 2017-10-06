@@ -6,8 +6,6 @@
 #include "../src/sc_types.h"
 #include "../src/StatemachineInterface.h"
 #include "../src/TimedStatemachineInterface.h"
-#include <deque>
-#include <functional>
 
 /*! \file Header of the state machine 'calculator'.
 */
@@ -173,7 +171,7 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		/*
 		 * Functions inherited from TimedStatemachineInterface
 		 */
-		virtual void setTimer(TimerInterface* timer);
+		virtual void setTimer(TimerInterface* timerInterface);
 		
 		virtual TimerInterface* getTimer();
 		
@@ -185,7 +183,14 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		//! number of time events used by the state machine.
 		static const sc_integer timeEventsCount = 1;
 		
+		//! number of time events that can be active at once.
+		static const sc_integer parallelTimeEventsCount = 1;
+		
 	protected:
+	
+		AbstractCalculator(const AbstractCalculator &rhs);
+		
+		AbstractCalculator& operator=(const AbstractCalculator&);
 	
 		//! Inner class for internal interface scope.
 		class InternalSCI
@@ -277,7 +282,6 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		
 		
 };
-
 
 inline AbstractCalculator::InternalSCI_OCB::~InternalSCI_OCB() {}
 

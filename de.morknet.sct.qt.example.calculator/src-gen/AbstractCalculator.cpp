@@ -7,12 +7,13 @@
 */
 
 
-AbstractCalculator::AbstractCalculator()
+AbstractCalculator::AbstractCalculator():
+	timer(null),
+	stateConfVectorPosition(0),
+	ifaceGui(),
+	ifaceInternalSCI(),
+	ifaceInternalSCI_OCB(null)
 {
-	ifaceInternalSCI_OCB = null;
-	stateConfVectorPosition = 0;
-	
-	timer = null;
 }
 
 AbstractCalculator::~AbstractCalculator()
@@ -113,9 +114,9 @@ void AbstractCalculator::clearOutEvents()
 }
 
 
-void AbstractCalculator::setTimer(TimerInterface* timer)
+void AbstractCalculator::setTimer(TimerInterface* timerInterface)
 {
-	this->timer = timer;
+	this->timer = timerInterface;
 }
 
 TimerInterface* AbstractCalculator::getTimer()
