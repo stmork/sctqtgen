@@ -226,19 +226,24 @@ class Implementation
 	{
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
+	const bool high_precision = (time % 1000) == 0;
 
 		if (timer == «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
 			timer = new StatemachineTimer(event);
 			timerMap.insert(event, timer);
 		}
+		if (high_precision)
+		{
+			timer->setTimerType(Qt::TimerType::PreciseTimer);
+		}
 		timer->setInterval(time);
 		timer->setSingleShot(!isPeriodic);
-		timer->start();
 		timer->connect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
+		timer->start();
 		«IF isDebug()»
 
-		if ((time >= 1000) && ((time % 1000) == 0))
+		if ((time >= 1000) && high_precision)
 		{
 			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
 		}
