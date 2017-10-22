@@ -226,7 +226,7 @@ class Implementation
 	{
 		Q_UNUSED(statemachine);
 		StatemachineTimer *timer = timerMap[event];
-	const bool high_precision = (time % 1000) == 0;
+		const bool high_precision = (time % 1000) != 0;
 
 		if (timer == «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
@@ -243,7 +243,7 @@ class Implementation
 		timer->start();
 		«IF isDebug()»
 
-		if ((time >= 1000) && high_precision)
+		if ((time >= 1000) && (!high_precision))
 		{
 			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
 		}
