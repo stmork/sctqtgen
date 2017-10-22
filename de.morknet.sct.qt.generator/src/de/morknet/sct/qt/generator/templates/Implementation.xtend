@@ -243,13 +243,13 @@ class Implementation
 		timer->start();
 		«IF isDebug()»
 
-		if ((time >= 1000) && (!high_precision))
+		if (high_precision)
 		{
-			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
+			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %dms.", event, time));
 		}
 		else
 		{
-			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %dms.", event, time));
+			sctQtDebug(QString::asprintf("Activated timer %" PRIxPTR " with timeout %ds.", event, time / 1000));
 		}
 		«ENDIF»
 	}
