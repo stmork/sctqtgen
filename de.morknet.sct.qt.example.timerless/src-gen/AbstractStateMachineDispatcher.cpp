@@ -22,7 +22,7 @@ AbstractStateMachineDispatcher::AbstractStateMachineDispatcher()
 }
 
 /**
- * The destructor calls the statemachines exit() method,
+ * The destructor calls the statemachine's exit() method,
  * calls the react() method for processing outgoing signals
  * and frees all known timer.
  */
@@ -62,10 +62,12 @@ void AbstractStateMachineDispatcher::react()
 	
 	if (ifaceGui.isRaised_off())
 	{
+		sctQtDebug("emit Off()...");
 		emit Off();
 	}
 	if (ifaceGui.isRaised_on())
 	{
+		sctQtDebug("emit On()...");
 		emit On();
 	}
 }

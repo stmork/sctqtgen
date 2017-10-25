@@ -25,7 +25,7 @@ AbstractCalculatorDispatcher::AbstractCalculatorDispatcher()
 }
 
 /**
- * The destructor calls the statemachines exit() method,
+ * The destructor calls the statemachine's exit() method,
  * calls the react() method for processing outgoing signals
  * and frees all known timer.
  */
@@ -72,10 +72,12 @@ void AbstractCalculatorDispatcher::react()
 	
 	if (ifaceGui.isRaised_exit())
 	{
+		sctQtDebug("emit Exit()...");
 		emit Exit();
 	}
 	if (ifaceGui.isRaised_showAccu())
 	{
+		sctQtDebug("emit ShowAccu()...");
 		emit ShowAccu(ifaceGui.get_showAccu_value());
 	}
 }
@@ -244,10 +246,7 @@ void AbstractCalculatorDispatcher::setTimer(
 		timer = new StatemachineTimer(event);
 		timerMap.insert(event, timer);
 	}
-	if (high_precision)
-	{
-		timer->setTimerType(Qt::TimerType::PreciseTimer);
-	}
+	timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);
 	timer->setInterval(time);
 	timer->setSingleShot(!isPeriodic);
 	timer->connect(timer, &StatemachineTimer::out_timeout, this, &AbstractCalculatorDispatcher::timeout);
