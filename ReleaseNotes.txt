@@ -1,3 +1,10 @@
+1.2.2
+ * Using a high precision timer if there are milliseconds
+   in timer definitions. E.G.: "after 2 s" or "every 3000 ms"
+   uses a Qt::QTimerType::CoarseTimer, but a 311 ms or
+   3153 ms definition uses a high precision timer.
+ * Debug logging in out event occurences.
+
 1.2.1
  * Generator improvements concerning code quality.
 

@@ -67,7 +67,7 @@ class Implementation
 	}
 
 	/**
-	 * The destructor calls the statemachines exit() method,
+	 * The destructor calls the statemachine's exit() method,
 	 * calls the react() method for processing outgoing signals
 	 * and frees all known timer.
 	 */
@@ -140,6 +140,9 @@ class Implementation
 				«FOR event : getOutEvents(scope)»
 					if («instanceName(scope)».«asRaised(event)»())
 					{
+						«IF isDebug()»
+						sctQtDebug("emit «Emit(event)»()...");
+						«ENDIF»
 						emit «Emit(event)»(«typeGetter(event, scope)»);
 					}
 				«ENDFOR»
@@ -233,10 +236,7 @@ class Implementation
 			timer = new StatemachineTimer(event);
 			timerMap.insert(event, timer);
 		}
-		if (high_precision)
-		{
-			timer->setTimerType(Qt::TimerType::PreciseTimer);
-		}
+		timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);
 		timer->setInterval(time);
 		timer->setSingleShot(!isPeriodic);
 		timer->connect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
