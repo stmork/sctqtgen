@@ -96,6 +96,17 @@ class Header
 		 */
 		virtual ~«className(entry)»();
 
+	private slots:
+		«IF hasTimers»
+		/**
+		 * This slot is triggered from QTimer.
+		 *
+		 * @param event The timer event id which uniquely identifies the timer.
+		 */
+		void timeout(const sc_eventid event);
+
+		«ENDIF»
+	public slots:
 		/**
 		 * This method initializes the statemachine and runs
 		 * the first cycle. The virtual method initializeValues()
@@ -113,17 +124,6 @@ class Header
 		 */
 		void stop();
 
-	private slots:
-		«IF hasTimers»
-		/**
-		 * This slot is triggered from QTimer.
-		 *
-		 * @param event The timer event id which uniquely identifies the timer.
-		 */
-		void timeout(const sc_eventid event);
-
-		«ENDIF»
-	public slots:
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
 				«commentScope(scope)»
@@ -233,9 +233,10 @@ class Header
 		 * The constructor initializes the timer identified by
 		 * the unique sc_eventid.
 		 *
+		 * @param parent The parent QObject to insert this timer object in.
 		 * @param id The unique YAKINDU SCT timer id.
 		 */
-		explicit StatemachineTimer(const sc_eventid id);
+		explicit StatemachineTimer(QObject * parent, const sc_eventid id);
 
 		«IF isCpp11»
 			/**

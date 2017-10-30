@@ -243,7 +243,7 @@ void AbstractCalculatorDispatcher::setTimer(
 
 	if (timer == nullptr)
 	{
-		timer = new StatemachineTimer(event);
+		timer = new StatemachineTimer(this, event);
 		timerMap.insert(event, timer);
 	}
 	timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);

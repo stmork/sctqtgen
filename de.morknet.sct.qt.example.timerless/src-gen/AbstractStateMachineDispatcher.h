@@ -40,6 +40,8 @@ public:
 	 */
 	virtual ~AbstractStateMachineDispatcher();
 
+private slots:
+public slots:
 	/**
 	 * This method initializes the statemachine and runs
 	 * the first cycle. The virtual method initializeValues()
@@ -57,8 +59,6 @@ public:
 	 */
 	void stop();
 
-private slots:
-public slots:
 	/**********************************
 	 * Gui scope
 	 *********************************/

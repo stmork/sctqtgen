@@ -52,6 +52,15 @@ public:
 	 */
 	virtual ~AbstractCalculatorDispatcher();
 
+private slots:
+	/**
+	 * This slot is triggered from QTimer.
+	 *
+	 * @param event The timer event id which uniquely identifies the timer.
+	 */
+	void timeout(const sc_eventid event);
+
+public slots:
 	/**
 	 * This method initializes the statemachine and runs
 	 * the first cycle. The virtual method initializeValues()
@@ -69,15 +78,6 @@ public:
 	 */
 	void stop();
 
-private slots:
-	/**
-	 * This slot is triggered from QTimer.
-	 *
-	 * @param event The timer event id which uniquely identifies the timer.
-	 */
-	void timeout(const sc_eventid event);
-
-public slots:
 	/**********************************
 	 * Gui scope
 	 *********************************/

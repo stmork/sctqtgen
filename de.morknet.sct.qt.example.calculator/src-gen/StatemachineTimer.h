@@ -31,9 +31,10 @@ public:
 	 * The constructor initializes the timer identified by
 	 * the unique sc_eventid.
 	 *
+	 * @param parent The parent QObject to insert this timer object in.
 	 * @param id The unique YAKINDU SCT timer id.
 	 */
-	explicit StatemachineTimer(const sc_eventid id);
+	explicit StatemachineTimer(QObject * parent, const sc_eventid id);
 
 	/**
 	 * Remove default constructor since we definitely need the timer event id!.

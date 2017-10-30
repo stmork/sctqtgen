@@ -3,7 +3,10 @@
    in timer definitions. E.G.: "after 2 s" or "every 3000 ms"
    uses a Qt::QTimerType::CoarseTimer, but a 311 ms or
    3153 ms definition uses a high precision timer.
- * Debug logging in out event occurences.
+ * Debug logging of Qt signal occurences.
+ * Timer object are now QObject children of the statemachine.
+ * Refactored methods start() and stop() as slots to make
+   the adaptor inter threadable.
 
 1.2.1
  * Generator improvements concerning code quality.

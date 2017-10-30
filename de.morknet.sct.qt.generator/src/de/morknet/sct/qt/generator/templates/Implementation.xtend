@@ -233,7 +233,7 @@ class Implementation
 
 		if (timer == «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
-			timer = new StatemachineTimer(event);
+			timer = new StatemachineTimer(this, event);
 			timerMap.insert(event, timer);
 		}
 		timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);
@@ -300,7 +300,9 @@ class Implementation
 
 	#include "«getSrcGen()»StatemachineTimer.h"
 
-	StatemachineTimer::StatemachineTimer(const sc_eventid id) : event_id(id)
+	StatemachineTimer::StatemachineTimer(
+		QObject * parent,
+		const sc_eventid id) : QTimer(parent), event_id(id)
 	{
 		connect(this, &StatemachineTimer::timeout, this, &StatemachineTimer::in_timeout);
 	}

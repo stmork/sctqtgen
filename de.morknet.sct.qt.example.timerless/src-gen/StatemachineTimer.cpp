@@ -10,7 +10,9 @@
 
 #include "src-gen/StatemachineTimer.h"
 
-StatemachineTimer::StatemachineTimer(const sc_eventid id) : event_id(id)
+StatemachineTimer::StatemachineTimer(
+	QObject * parent,
+	const sc_eventid id) : QTimer(parent), event_id(id)
 {
 	connect(this, &StatemachineTimer::timeout, this, &StatemachineTimer::in_timeout);
 }
