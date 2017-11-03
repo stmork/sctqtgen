@@ -75,6 +75,11 @@ void AbstractDelay::runCycle()
 			react_main_region_Do_Something();
 			break;
 		}
+		case main_region_Wait :
+		{
+			react_main_region_Wait();
+			break;
+		}
 		default:
 			break;
 		}
@@ -86,12 +91,16 @@ void AbstractDelay::clearInEvents()
 {
 	ifaceGui.button1_raised = false;
 	ifaceGui.button2_raised = false;
+	ifaceGui.complete_raised = false;
 }
 
 void AbstractDelay::clearOutEvents()
 {
 	ifaceGui.stateA_raised = false;
 	ifaceGui.doSomething_raised = false;
+	ifaceGui.stopping_raised = false;
+	ifaceGui.triggerStop_raised = false;
+	ifaceGui.stopped_raised = false;
 }
 
 
@@ -104,6 +113,9 @@ sc_boolean AbstractDelay::isStateActive(DelayedExitStates state) const
 			);
 		case main_region_Do_Something : 
 			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_DO_SOMETHING] == main_region_Do_Something
+			);
+		case main_region_Wait : 
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_WAIT] == main_region_Wait
 			);
 		default: return false;
 	}
@@ -123,6 +135,11 @@ void AbstractDelay::SCI_Gui::raise_button2()
 {
 	button2_raised = true;
 }
+/* Functions for event complete in interface SCI_Gui */
+void AbstractDelay::SCI_Gui::raise_complete()
+{
+	complete_raised = true;
+}
 /* Functions for event stateA in interface SCI_Gui */
 sc_boolean AbstractDelay::SCI_Gui::isRaised_stateA() const
 {
@@ -133,8 +150,32 @@ sc_boolean AbstractDelay::SCI_Gui::isRaised_doSomething() const
 {
 	return doSomething_raised;
 }
+/* Functions for event stopping in interface SCI_Gui */
+sc_boolean AbstractDelay::SCI_Gui::isRaised_stopping() const
+{
+	return stopping_raised;
+}
+sc_boolean AbstractDelay::SCI_Gui::get_stopping_value() const
+{
+	return stopping_value;
+}
+/* Functions for event triggerStop in interface SCI_Gui */
+sc_boolean AbstractDelay::SCI_Gui::isRaised_triggerStop() const
+{
+	return triggerStop_raised;
+}
+/* Functions for event stopped in interface SCI_Gui */
+sc_boolean AbstractDelay::SCI_Gui::isRaised_stopped() const
+{
+	return stopped_raised;
+}
 
 // implementations of all internal functions
+
+sc_boolean AbstractDelay::check_main_region_StateA_lr1_lr1()
+{
+	return ifaceGui.button1_raised;
+}
 
 sc_boolean AbstractDelay::check_main_region_StateA_tr0_tr0()
 {
@@ -151,6 +192,16 @@ sc_boolean AbstractDelay::check_main_region_Do_Something_tr1_tr1()
 	return ifaceGui.button2_raised;
 }
 
+sc_boolean AbstractDelay::check_main_region_Wait_tr0_tr0()
+{
+	return ifaceGui.complete_raised;
+}
+
+void AbstractDelay::effect_main_region_StateA_lr1_lr1()
+{
+	ifaceGui.stopped_raised = true;
+}
+
 void AbstractDelay::effect_main_region_StateA_tr0()
 {
 	exseq_main_region_StateA();
@@ -160,13 +211,19 @@ void AbstractDelay::effect_main_region_StateA_tr0()
 void AbstractDelay::effect_main_region_Do_Something_tr0()
 {
 	exseq_main_region_Do_Something();
-	enseq_main_region_StateA_default();
+	enseq_main_region_Wait_default();
 }
 
 void AbstractDelay::effect_main_region_Do_Something_tr1()
 {
 	exseq_main_region_Do_Something();
 	enseq_main_region_Do_Something_default();
+}
+
+void AbstractDelay::effect_main_region_Wait_tr0()
+{
+	exseq_main_region_Wait();
+	enseq_main_region_StateA_default();
 }
 
 /* Entry action for state 'StateA'. */
@@ -181,6 +238,29 @@ void AbstractDelay::enact_main_region_Do_Something()
 {
 	/* Entry action for state 'Do Something'. */
 	ifaceGui.doSomething_raised = true;
+}
+
+/* Entry action for state 'Wait'. */
+void AbstractDelay::enact_main_region_Wait()
+{
+	/* Entry action for state 'Wait'. */
+	ifaceGui.stopping_value = true;
+	ifaceGui.stopping_raised = true;
+}
+
+/* Exit action for state 'Do Something'. */
+void AbstractDelay::exact_main_region_Do_Something()
+{
+	/* Exit action for state 'Do Something'. */
+	ifaceGui.triggerStop_raised = true;
+}
+
+/* Exit action for state 'Wait'. */
+void AbstractDelay::exact_main_region_Wait()
+{
+	/* Exit action for state 'Wait'. */
+	ifaceGui.stopping_value = false;
+	ifaceGui.stopping_raised = true;
 }
 
 /* 'default' enter sequence for state StateA */
@@ -198,6 +278,15 @@ void AbstractDelay::enseq_main_region_Do_Something_default()
 	/* 'default' enter sequence for state Do Something */
 	enact_main_region_Do_Something();
 	stateConfVector[0] = main_region_Do_Something;
+	stateConfVectorPosition = 0;
+}
+
+/* 'default' enter sequence for state Wait */
+void AbstractDelay::enseq_main_region_Wait_default()
+{
+	/* 'default' enter sequence for state Wait */
+	enact_main_region_Wait();
+	stateConfVector[0] = main_region_Wait;
 	stateConfVectorPosition = 0;
 }
 
@@ -222,6 +311,16 @@ void AbstractDelay::exseq_main_region_Do_Something()
 	/* Default exit sequence for state Do Something */
 	stateConfVector[0] = DelayedExit_last_state;
 	stateConfVectorPosition = 0;
+	exact_main_region_Do_Something();
+}
+
+/* Default exit sequence for state Wait */
+void AbstractDelay::exseq_main_region_Wait()
+{
+	/* Default exit sequence for state Wait */
+	stateConfVector[0] = DelayedExit_last_state;
+	stateConfVectorPosition = 0;
+	exact_main_region_Wait();
 }
 
 /* Default exit sequence for region main region */
@@ -241,6 +340,11 @@ void AbstractDelay::exseq_main_region()
 			exseq_main_region_Do_Something();
 			break;
 		}
+		case main_region_Wait :
+		{
+			exseq_main_region_Wait();
+			break;
+		}
 		default: break;
 	}
 }
@@ -252,7 +356,13 @@ void AbstractDelay::react_main_region_StateA()
 	if (check_main_region_StateA_tr0_tr0())
 	{ 
 		effect_main_region_StateA_tr0();
-	} 
+	}  else
+	{
+		if (check_main_region_StateA_lr1_lr1())
+		{ 
+			effect_main_region_StateA_lr1_lr1();
+		} 
+	}
 }
 
 /* The reactions of state Do Something. */
@@ -269,6 +379,16 @@ void AbstractDelay::react_main_region_Do_Something()
 			effect_main_region_Do_Something_tr1();
 		} 
 	}
+}
+
+/* The reactions of state Wait. */
+void AbstractDelay::react_main_region_Wait()
+{
+	/* The reactions of state Wait. */
+	if (check_main_region_Wait_tr0_tr0())
+	{ 
+		effect_main_region_Wait_tr0();
+	} 
 }
 
 /* Default react sequence for initial entry  */

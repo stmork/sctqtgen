@@ -75,6 +75,12 @@ public slots:
 	 */
 	virtual void button2( );
 
+	/**
+	 * This callback acts as a slot for
+	 * the in event complete.
+	 */
+	virtual void complete( );
+
 
 signals:
 	/**********************************
@@ -90,6 +96,23 @@ signals:
 	 * This out event emits signal stateA.
 	 */
 	void stateA( );
+
+	/**
+	 * This out event emits signal stopped.
+	 */
+	void stopped( );
+
+	/**
+	 * This out event emits signal stopping.
+	 *
+	 * @param input The input event parameter.
+	 */
+	void stopping(sc_boolean input);
+
+	/**
+	 * This out event emits signal triggerStop.
+	 */
+	void triggerStop( );
 
 
 protected:

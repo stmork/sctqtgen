@@ -7,12 +7,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	timer.setInterval(1000);
+	timer.setSingleShot(true);
+
 	connect (ui->pushButton1, &QPushButton::clicked, &dsm, &AbstractDelayDispatcher::button1);
 	connect (ui->pushButton2, &QPushButton::clicked, &dsm, &AbstractDelayDispatcher::button2);
 	connect (ui->exitButton,  &QPushButton::clicked, this, &MainWindow::exit);
 
+	connect (&timer, &QTimer::timeout, &dsm, &AbstractDelayDispatcher::complete);
 	connect (&dsm, &AbstractDelayDispatcher::stateA,      this, &MainWindow::stateA);
 	connect (&dsm, &AbstractDelayDispatcher::doSomething, this, &MainWindow::doSomething);
+	connect (&dsm, &AbstractDelayDispatcher::triggerStop, this, &MainWindow::triggerStop);
+	connect (&dsm, &AbstractDelayDispatcher::stopping,    this, &MainWindow::stopping);
 
 	dsm.start();
 }
@@ -43,6 +49,16 @@ void MainWindow::stateA()
 void MainWindow::doSomething()
 {
 	ui->label->setText(tr("Do something!"));
+}
+
+void MainWindow::stopping(bool waiting)
+{
+	ui->waiting->setText(tr(waiting ? "Waiting..." : ""));
+}
+
+void MainWindow::triggerStop()
+{
+	timer.start();
 }
 
 void MainWindow::exit()

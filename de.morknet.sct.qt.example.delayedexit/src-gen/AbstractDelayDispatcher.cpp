@@ -70,6 +70,21 @@ void AbstractDelayDispatcher::react()
 		sctQtDebug("emit stateA()...");
 		emit stateA();
 	}
+	if (ifaceGui.isRaised_stopped())
+	{
+		sctQtDebug("emit stopped()...");
+		emit stopped();
+	}
+	if (ifaceGui.isRaised_stopping())
+	{
+		sctQtDebug("emit stopping()...");
+		emit stopping(ifaceGui.get_stopping_value());
+	}
+	if (ifaceGui.isRaised_triggerStop())
+	{
+		sctQtDebug("emit triggerStop()...");
+		emit triggerStop();
+	}
 }
 
 void AbstractDelayDispatcher::sctQtDebug(const QString &message) const
@@ -94,5 +109,12 @@ void AbstractDelayDispatcher::button2( )
 {
 	sctQtDebug("button2()...");
 	ifaceGui.raise_button2();
+	runCycle();
+}
+
+void AbstractDelayDispatcher::complete( )
+{
+	sctQtDebug("complete()...");
+	ifaceGui.raise_complete();
 	runCycle();
 }

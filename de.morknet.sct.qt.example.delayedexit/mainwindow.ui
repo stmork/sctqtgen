@@ -28,6 +28,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="waiting">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton1">
         <property name="text">
          <string>Button 1</string>

@@ -13,6 +13,7 @@
 /*! Define indices of states in the StateConfVector */
 #define SCVI_MAIN_REGION_STATEA 0
 #define SCVI_MAIN_REGION_DO_SOMETHING 0
+#define SCVI_MAIN_REGION_WAIT 0
 
 class AbstractDelay : public StatemachineInterface
 {
@@ -27,7 +28,8 @@ class AbstractDelay : public StatemachineInterface
 		{
 			DelayedExit_last_state,
 			main_region_StateA,
-			main_region_Do_Something
+			main_region_Do_Something,
+			main_region_Wait
 		} DelayedExitStates;
 		
 		//! Inner class for gui interface scope.
@@ -41,19 +43,39 @@ class AbstractDelay : public StatemachineInterface
 				/*! Raises the in event 'button2' that is defined in the interface scope 'gui'. */
 				void raise_button2();
 				
+				/*! Raises the in event 'complete' that is defined in the interface scope 'gui'. */
+				void raise_complete();
+				
 				/*! Checks if the out event 'stateA' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_stateA() const;
 				
 				/*! Checks if the out event 'doSomething' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_doSomething() const;
 				
+				/*! Checks if the out event 'stopping' that is defined in the interface scope 'gui' has been raised. */
+				sc_boolean isRaised_stopping() const;
+				
+				/*! Gets the value of the out event 'stopping' that is defined in the interface scope 'gui'. */
+				sc_boolean get_stopping_value() const;
+				
+				/*! Checks if the out event 'triggerStop' that is defined in the interface scope 'gui' has been raised. */
+				sc_boolean isRaised_triggerStop() const;
+				
+				/*! Checks if the out event 'stopped' that is defined in the interface scope 'gui' has been raised. */
+				sc_boolean isRaised_stopped() const;
+				
 				
 			protected:
 				friend class AbstractDelay;
 				sc_boolean button1_raised;
 				sc_boolean button2_raised;
+				sc_boolean complete_raised;
 				sc_boolean stateA_raised;
 				sc_boolean doSomething_raised;
+				sc_boolean stopping_raised;
+				sc_boolean stopping_value;
+				sc_boolean triggerStop_raised;
+				sc_boolean stopped_raised;
 		};
 		
 		/*! Returns an instance of the interface class 'SCI_Gui'. */
@@ -105,22 +127,32 @@ class AbstractDelay : public StatemachineInterface
 		
 		// prototypes of all internal functions
 		
+		sc_boolean check_main_region_StateA_lr1_lr1();
 		sc_boolean check_main_region_StateA_tr0_tr0();
 		sc_boolean check_main_region_Do_Something_tr0_tr0();
 		sc_boolean check_main_region_Do_Something_tr1_tr1();
+		sc_boolean check_main_region_Wait_tr0_tr0();
+		void effect_main_region_StateA_lr1_lr1();
 		void effect_main_region_StateA_tr0();
 		void effect_main_region_Do_Something_tr0();
 		void effect_main_region_Do_Something_tr1();
+		void effect_main_region_Wait_tr0();
 		void enact_main_region_StateA();
 		void enact_main_region_Do_Something();
+		void enact_main_region_Wait();
+		void exact_main_region_Do_Something();
+		void exact_main_region_Wait();
 		void enseq_main_region_StateA_default();
 		void enseq_main_region_Do_Something_default();
+		void enseq_main_region_Wait_default();
 		void enseq_main_region_default();
 		void exseq_main_region_StateA();
 		void exseq_main_region_Do_Something();
+		void exseq_main_region_Wait();
 		void exseq_main_region();
 		void react_main_region_StateA();
 		void react_main_region_Do_Something();
+		void react_main_region_Wait();
 		void react_main_region__entry_Default();
 		void clearInEvents();
 		void clearOutEvents();

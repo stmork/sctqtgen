@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include "delayedstatemachine.h"
 
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 
 private:
 	DelayedStateMachine dsm;
+	QTimer              timer;
 
 public:
 	explicit MainWindow(QWidget *parent = 0);
@@ -29,6 +31,8 @@ private:
 private slots:
 	void stateA();
 	void doSomething();
+	void stopping(bool waiting);
+	void triggerStop();
 	void exit();
 };
 
