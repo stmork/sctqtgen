@@ -28,8 +28,7 @@ SOURCES += \
 	mainwindow.cpp \
 	delayedstatemachine.cpp \
 	src-gen/AbstractDelay.cpp \
-	src-gen/AbstractDelayDispatcher.cpp \
-	src-gen/StatemachineTimer.cpp
+	src-gen/AbstractDelayDispatcher.cpp
 
 HEADERS += \
 	mainwindow.h \

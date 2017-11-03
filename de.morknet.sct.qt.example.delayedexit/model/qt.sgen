@@ -19,7 +19,7 @@ GeneratorModel for de::morknet::sct::qt::generator
 			baseClassName = "AbstractDelay"
 			className = "AbstractDelayDispatcher"
 			cpp11 = true
-			generateTimer = true
+			generateTimer = false
 			threadSafe = false
 			debug = true
 			camelCase = false

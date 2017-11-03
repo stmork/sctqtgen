@@ -13,7 +13,8 @@
 /*! Define indices of states in the StateConfVector */
 #define SCVI_MAIN_REGION_STATEA 0
 #define SCVI_MAIN_REGION_DO_SOMETHING 0
-#define SCVI_MAIN_REGION_WAIT 0
+#define SCVI_MAIN_REGION_WAIT_BUTTON_1 0
+#define SCVI_MAIN_REGION_WAIT_BUTTON_2 0
 
 class AbstractDelay : public StatemachineInterface
 {
@@ -29,7 +30,8 @@ class AbstractDelay : public StatemachineInterface
 			DelayedExit_last_state,
 			main_region_StateA,
 			main_region_Do_Something,
-			main_region_Wait
+			main_region_Wait_Button_1,
+			main_region_Wait_Button_2
 		} DelayedExitStates;
 		
 		//! Inner class for gui interface scope.
@@ -131,28 +133,35 @@ class AbstractDelay : public StatemachineInterface
 		sc_boolean check_main_region_StateA_tr0_tr0();
 		sc_boolean check_main_region_Do_Something_tr0_tr0();
 		sc_boolean check_main_region_Do_Something_tr1_tr1();
-		sc_boolean check_main_region_Wait_tr0_tr0();
+		sc_boolean check_main_region_Wait_Button_1_tr0_tr0();
+		sc_boolean check_main_region_Wait_Button_2_tr0_tr0();
 		void effect_main_region_StateA_lr1_lr1();
 		void effect_main_region_StateA_tr0();
 		void effect_main_region_Do_Something_tr0();
 		void effect_main_region_Do_Something_tr1();
-		void effect_main_region_Wait_tr0();
+		void effect_main_region_Wait_Button_1_tr0();
+		void effect_main_region_Wait_Button_2_tr0();
 		void enact_main_region_StateA();
 		void enact_main_region_Do_Something();
-		void enact_main_region_Wait();
+		void enact_main_region_Wait_Button_1();
+		void enact_main_region_Wait_Button_2();
 		void exact_main_region_Do_Something();
-		void exact_main_region_Wait();
+		void exact_main_region_Wait_Button_1();
+		void exact_main_region_Wait_Button_2();
 		void enseq_main_region_StateA_default();
 		void enseq_main_region_Do_Something_default();
-		void enseq_main_region_Wait_default();
+		void enseq_main_region_Wait_Button_1_default();
+		void enseq_main_region_Wait_Button_2_default();
 		void enseq_main_region_default();
 		void exseq_main_region_StateA();
 		void exseq_main_region_Do_Something();
-		void exseq_main_region_Wait();
+		void exseq_main_region_Wait_Button_1();
+		void exseq_main_region_Wait_Button_2();
 		void exseq_main_region();
 		void react_main_region_StateA();
 		void react_main_region_Do_Something();
-		void react_main_region_Wait();
+		void react_main_region_Wait_Button_1();
+		void react_main_region_Wait_Button_2();
 		void react_main_region__entry_Default();
 		void clearInEvents();
 		void clearOutEvents();

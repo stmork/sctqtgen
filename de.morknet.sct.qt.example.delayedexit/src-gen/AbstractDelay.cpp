@@ -75,9 +75,14 @@ void AbstractDelay::runCycle()
 			react_main_region_Do_Something();
 			break;
 		}
-		case main_region_Wait :
+		case main_region_Wait_Button_1 :
 		{
-			react_main_region_Wait();
+			react_main_region_Wait_Button_1();
+			break;
+		}
+		case main_region_Wait_Button_2 :
+		{
+			react_main_region_Wait_Button_2();
 			break;
 		}
 		default:
@@ -114,8 +119,11 @@ sc_boolean AbstractDelay::isStateActive(DelayedExitStates state) const
 		case main_region_Do_Something : 
 			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_DO_SOMETHING] == main_region_Do_Something
 			);
-		case main_region_Wait : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_WAIT] == main_region_Wait
+		case main_region_Wait_Button_1 : 
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_WAIT_BUTTON_1] == main_region_Wait_Button_1
+			);
+		case main_region_Wait_Button_2 : 
+			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_WAIT_BUTTON_2] == main_region_Wait_Button_2
 			);
 		default: return false;
 	}
@@ -184,15 +192,20 @@ sc_boolean AbstractDelay::check_main_region_StateA_tr0_tr0()
 
 sc_boolean AbstractDelay::check_main_region_Do_Something_tr0_tr0()
 {
-	return ifaceGui.button1_raised;
+	return ifaceGui.button2_raised;
 }
 
 sc_boolean AbstractDelay::check_main_region_Do_Something_tr1_tr1()
 {
-	return ifaceGui.button2_raised;
+	return ifaceGui.button1_raised;
 }
 
-sc_boolean AbstractDelay::check_main_region_Wait_tr0_tr0()
+sc_boolean AbstractDelay::check_main_region_Wait_Button_1_tr0_tr0()
+{
+	return ifaceGui.complete_raised;
+}
+
+sc_boolean AbstractDelay::check_main_region_Wait_Button_2_tr0_tr0()
 {
 	return ifaceGui.complete_raised;
 }
@@ -211,19 +224,25 @@ void AbstractDelay::effect_main_region_StateA_tr0()
 void AbstractDelay::effect_main_region_Do_Something_tr0()
 {
 	exseq_main_region_Do_Something();
-	enseq_main_region_Wait_default();
+	enseq_main_region_Wait_Button_2_default();
 }
 
 void AbstractDelay::effect_main_region_Do_Something_tr1()
 {
 	exseq_main_region_Do_Something();
-	enseq_main_region_Do_Something_default();
+	enseq_main_region_Wait_Button_1_default();
 }
 
-void AbstractDelay::effect_main_region_Wait_tr0()
+void AbstractDelay::effect_main_region_Wait_Button_1_tr0()
 {
-	exseq_main_region_Wait();
+	exseq_main_region_Wait_Button_1();
 	enseq_main_region_StateA_default();
+}
+
+void AbstractDelay::effect_main_region_Wait_Button_2_tr0()
+{
+	exseq_main_region_Wait_Button_2();
+	enseq_main_region_Do_Something_default();
 }
 
 /* Entry action for state 'StateA'. */
@@ -240,10 +259,18 @@ void AbstractDelay::enact_main_region_Do_Something()
 	ifaceGui.doSomething_raised = true;
 }
 
-/* Entry action for state 'Wait'. */
-void AbstractDelay::enact_main_region_Wait()
+/* Entry action for state 'Wait Button 1'. */
+void AbstractDelay::enact_main_region_Wait_Button_1()
 {
-	/* Entry action for state 'Wait'. */
+	/* Entry action for state 'Wait Button 1'. */
+	ifaceGui.stopping_value = true;
+	ifaceGui.stopping_raised = true;
+}
+
+/* Entry action for state 'Wait Button 2'. */
+void AbstractDelay::enact_main_region_Wait_Button_2()
+{
+	/* Entry action for state 'Wait Button 2'. */
 	ifaceGui.stopping_value = true;
 	ifaceGui.stopping_raised = true;
 }
@@ -255,10 +282,18 @@ void AbstractDelay::exact_main_region_Do_Something()
 	ifaceGui.triggerStop_raised = true;
 }
 
-/* Exit action for state 'Wait'. */
-void AbstractDelay::exact_main_region_Wait()
+/* Exit action for state 'Wait Button 1'. */
+void AbstractDelay::exact_main_region_Wait_Button_1()
 {
-	/* Exit action for state 'Wait'. */
+	/* Exit action for state 'Wait Button 1'. */
+	ifaceGui.stopping_value = false;
+	ifaceGui.stopping_raised = true;
+}
+
+/* Exit action for state 'Wait Button 2'. */
+void AbstractDelay::exact_main_region_Wait_Button_2()
+{
+	/* Exit action for state 'Wait Button 2'. */
 	ifaceGui.stopping_value = false;
 	ifaceGui.stopping_raised = true;
 }
@@ -281,12 +316,21 @@ void AbstractDelay::enseq_main_region_Do_Something_default()
 	stateConfVectorPosition = 0;
 }
 
-/* 'default' enter sequence for state Wait */
-void AbstractDelay::enseq_main_region_Wait_default()
+/* 'default' enter sequence for state Wait Button 1 */
+void AbstractDelay::enseq_main_region_Wait_Button_1_default()
 {
-	/* 'default' enter sequence for state Wait */
-	enact_main_region_Wait();
-	stateConfVector[0] = main_region_Wait;
+	/* 'default' enter sequence for state Wait Button 1 */
+	enact_main_region_Wait_Button_1();
+	stateConfVector[0] = main_region_Wait_Button_1;
+	stateConfVectorPosition = 0;
+}
+
+/* 'default' enter sequence for state Wait Button 2 */
+void AbstractDelay::enseq_main_region_Wait_Button_2_default()
+{
+	/* 'default' enter sequence for state Wait Button 2 */
+	enact_main_region_Wait_Button_2();
+	stateConfVector[0] = main_region_Wait_Button_2;
 	stateConfVectorPosition = 0;
 }
 
@@ -314,13 +358,22 @@ void AbstractDelay::exseq_main_region_Do_Something()
 	exact_main_region_Do_Something();
 }
 
-/* Default exit sequence for state Wait */
-void AbstractDelay::exseq_main_region_Wait()
+/* Default exit sequence for state Wait Button 1 */
+void AbstractDelay::exseq_main_region_Wait_Button_1()
 {
-	/* Default exit sequence for state Wait */
+	/* Default exit sequence for state Wait Button 1 */
 	stateConfVector[0] = DelayedExit_last_state;
 	stateConfVectorPosition = 0;
-	exact_main_region_Wait();
+	exact_main_region_Wait_Button_1();
+}
+
+/* Default exit sequence for state Wait Button 2 */
+void AbstractDelay::exseq_main_region_Wait_Button_2()
+{
+	/* Default exit sequence for state Wait Button 2 */
+	stateConfVector[0] = DelayedExit_last_state;
+	stateConfVectorPosition = 0;
+	exact_main_region_Wait_Button_2();
 }
 
 /* Default exit sequence for region main region */
@@ -340,9 +393,14 @@ void AbstractDelay::exseq_main_region()
 			exseq_main_region_Do_Something();
 			break;
 		}
-		case main_region_Wait :
+		case main_region_Wait_Button_1 :
 		{
-			exseq_main_region_Wait();
+			exseq_main_region_Wait_Button_1();
+			break;
+		}
+		case main_region_Wait_Button_2 :
+		{
+			exseq_main_region_Wait_Button_2();
 			break;
 		}
 		default: break;
@@ -381,13 +439,23 @@ void AbstractDelay::react_main_region_Do_Something()
 	}
 }
 
-/* The reactions of state Wait. */
-void AbstractDelay::react_main_region_Wait()
+/* The reactions of state Wait Button 1. */
+void AbstractDelay::react_main_region_Wait_Button_1()
 {
-	/* The reactions of state Wait. */
-	if (check_main_region_Wait_tr0_tr0())
+	/* The reactions of state Wait Button 1. */
+	if (check_main_region_Wait_Button_1_tr0_tr0())
 	{ 
-		effect_main_region_Wait_tr0();
+		effect_main_region_Wait_Button_1_tr0();
+	} 
+}
+
+/* The reactions of state Wait Button 2. */
+void AbstractDelay::react_main_region_Wait_Button_2()
+{
+	/* The reactions of state Wait Button 2. */
+	if (check_main_region_Wait_Button_2_tr0_tr0())
+	{ 
+		effect_main_region_Wait_Button_2_tr0();
 	} 
 }
 
