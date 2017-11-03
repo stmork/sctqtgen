@@ -1,0 +1,28 @@
+GeneratorModel for de::morknet::sct::qt::generator
+{
+	statechart DelayedExit
+	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2017 - Steffen A. Mork" 
+		}
+
+		feature Outlet
+		{
+			targetProject = "de.morknet.sct.qt.example.delayedexit"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+
+		feature QtSettings
+		{
+			baseClassName = "AbstractDelay"
+			className = "AbstractDelayDispatcher"
+			cpp11 = true
+			generateTimer = true
+			threadSafe = false
+			debug = true
+			camelCase = false
+		}
+	}
+}

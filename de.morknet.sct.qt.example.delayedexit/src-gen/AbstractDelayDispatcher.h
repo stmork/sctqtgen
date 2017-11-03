@@ -1,0 +1,128 @@
+/*
+ * Copyright (C) 2017 - Steffen A. Mork
+ *
+ * NOTE: This code is automatically generated. So do not
+ * change this file! The changes will be lost!
+ *
+ * $Id$
+ * $Author$
+ */
+
+#ifndef ABSTRACTDELAYDISPATCHER_H
+#define ABSTRACTDELAYDISPATCHER_H
+
+#include <QObject>
+#include "src-gen/AbstractDelay.h"
+
+#define QT_SCT_DEBUG 1
+
+/**
+ * This class provides a link layer which wires the in and out events
+ * to the signal and slots of a Qt application.
+ */
+class AbstractDelayDispatcher :
+	public    QObject,
+	public    AbstractDelay
+{
+	Q_OBJECT
+
+public:
+	/**
+	 * The constructor initializes the Qt event layer and the YAKINDU
+	 * statemachine. This layer implements all OCBs and signal/slot
+	 * management.
+	 */
+	AbstractDelayDispatcher();
+
+	/**
+	 * The destructor frees all resources allocated from this
+	 * Qt/SCT layer.
+	 */
+	virtual ~AbstractDelayDispatcher();
+
+private slots:
+public slots:
+	/**
+	 * This method initializes the statemachine and runs
+	 * the first cycle. The virtual method initializeValues()
+	 * is for initializing some statemachine values. After
+	 * entering the statemachine the method react() is run
+	 * to evaluate possible raised out events.
+	 */
+	void start();
+
+	/**
+	 * This method stops the statemachine and runs
+	 * the last cycle. After leaving the statemachine
+	 * the method react() is run to evaluate possible
+	 * raised out events.
+	 */
+	void stop();
+
+	/**********************************
+	 * Gui scope
+	 *********************************/
+	
+	/**
+	 * This callback acts as a slot for
+	 * the in event button1.
+	 */
+	virtual void button1( );
+
+	/**
+	 * This callback acts as a slot for
+	 * the in event button2.
+	 */
+	virtual void button2( );
+
+
+signals:
+	/**********************************
+	 * Gui scope
+	 *********************************/
+	
+	/**
+	 * This out event emits signal doSomething.
+	 */
+	void doSomething( );
+
+	/**
+	 * This out event emits signal stateA.
+	 */
+	void stateA( );
+
+
+protected:
+	/**
+	 * This method is intended to initialize possible ressources of
+	 * this Qt/SCT layer.
+	 */
+	virtual void initializeValues() = 0;
+
+	/**
+	 * This runs a single statemachine cycle. See
+	 * documentation of YAKINDU statechart tools for
+	 * more information. After running the cycle the
+	 * method react() is run to evaluate possible
+	 * raised out events.
+	 */
+	virtual void runCycle() override;
+
+	/**
+	 * This method converts raised out events into
+	 * Qt signals. Events from internal scope are
+	 * not converted into Qt signals. Instead a 
+	 * further runCycle() is done.
+	 */
+	virtual void react();
+
+	/**
+	 * This method prints debug messages and may be
+	 * overloaded to customize debug logging.
+	 *
+	 * @param message The message to log.
+	 */
+	virtual void sctQtDebug(const QString &message) const;
+};
+
+#endif // ABSTRACTDELAYDISPATCHER_H

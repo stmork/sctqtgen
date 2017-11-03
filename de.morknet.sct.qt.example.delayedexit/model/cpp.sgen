@@ -1,0 +1,27 @@
+GeneratorModel for yakindu::cpp
+{
+	statechart DelayedExit
+	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2017 - Steffen A. Mork" 
+		}
+
+		feature Outlet
+		{
+			targetProject = "de.morknet.sct.qt.example.delayedexit"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+
+		feature  IdentifierSettings
+		{
+			moduleName = "AbstractDelay"
+		}
+
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
+		}
+	}
+}
