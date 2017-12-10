@@ -35,15 +35,15 @@ void AbstractStateMachineDispatcher::start()
 	// Do some custom initialization.
 	initializeValues();
 
-	clearOutEvents();
-	enter();
+	AbstractStateMachine::clearOutEvents();
+	AbstractStateMachine::enter();
 	react();
 }
 
 void AbstractStateMachineDispatcher::stop()
 {
-	clearOutEvents();
-	exit();
+	AbstractStateMachine::clearOutEvents();
+	AbstractStateMachine::exit();
 	react();
 }
 
@@ -62,13 +62,13 @@ void AbstractStateMachineDispatcher::react()
 	
 	if (ifaceGui.isRaised_off())
 	{
-		sctQtDebug("emit off()...");
-		emit off();
+		sctQtDebug("emit Off()...");
+		emit Off();
 	}
 	if (ifaceGui.isRaised_on())
 	{
-		sctQtDebug("emit on()...");
-		emit on();
+		sctQtDebug("emit On()...");
+		emit On();
 	}
 }
 
@@ -83,9 +83,9 @@ void AbstractStateMachineDispatcher::sctQtDebug(const QString &message) const
  *********************************/
 
 
-void AbstractStateMachineDispatcher::clicked( )
+void AbstractStateMachineDispatcher::Clicked( )
 {
-	sctQtDebug("clicked()...");
+	sctQtDebug("Clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
 }

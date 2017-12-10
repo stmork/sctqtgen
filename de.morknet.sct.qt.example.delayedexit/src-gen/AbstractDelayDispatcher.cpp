@@ -35,15 +35,15 @@ void AbstractDelayDispatcher::start()
 	// Do some custom initialization.
 	initializeValues();
 
-	clearOutEvents();
-	enter();
+	AbstractDelay::clearOutEvents();
+	AbstractDelay::enter();
 	react();
 }
 
 void AbstractDelayDispatcher::stop()
 {
-	clearOutEvents();
-	exit();
+	AbstractDelay::clearOutEvents();
+	AbstractDelay::exit();
 	react();
 }
 
