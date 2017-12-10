@@ -63,7 +63,7 @@ class Implementation
 		«FOR scope : ocbScopes»
 			«ocbNameSetter(scope)»(this);
 		«ENDFOR»
-		init();
+		«baseClassName(entry)»::init();
 	}
 
 	/**
