@@ -8,5 +8,6 @@
     <parameters name="threadSafe" comment="This parameter controls whether the generated source should be thread safe. Note that this option works only together with C++11" optional="true" parameterType="BOOLEAN"/>
     <parameters name="debug" comment="This parameter controls debug logging and generating some information files." optional="true" parameterType="BOOLEAN"/>
     <parameters name="camelCase" comment="This parameter decides the naming of Qt signals." optional="true" parameterType="BOOLEAN"/>
+    <parameters name="qtBaseClass" comment="The Qt base class to use." optional="true"/>
   </types>
 </sgen:FeatureTypeLibrary>

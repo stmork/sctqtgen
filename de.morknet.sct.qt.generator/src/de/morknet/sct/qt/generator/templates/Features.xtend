@@ -13,11 +13,11 @@ import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Features
 {
-	private static boolean debug      = IFeatureConstants.QT_DEBUG_DEFAULT;
-	private static boolean cpp11      = IFeatureConstants.QT_CPP11_DEFAULT;
-	private static boolean genTimer   = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
-	private static boolean threadSafe = IFeatureConstants.QT_THREADSAFE_DEFAULT;
-	private static boolean camelCase  = IFeatureConstants.QT_CAMEL_CALSE_DEFAULT;
+	private static boolean debug       = IFeatureConstants.QT_DEBUG_DEFAULT;
+	private static boolean cpp11       = IFeatureConstants.QT_CPP11_DEFAULT;
+	private static boolean genTimer    = IFeatureConstants.QT_GENERATETIMER_DEFAULT;
+	private static boolean threadSafe  = IFeatureConstants.QT_THREADSAFE_DEFAULT;
+	private static boolean camelCase   = IFeatureConstants.QT_CAMEL_CASE_DEFAULT;
 
 	def initFeatures(GeneratorEntry it)
 	{
@@ -47,7 +47,7 @@ class Features
 				threadSafe = param.booleanValue
 			}
 
-			param = f.getParameterValue(IFeatureConstants.QT_CAMEL_CALSE)
+			param = f.getParameterValue(IFeatureConstants.QT_CAMEL_CASE)
 			if (param !== null)
 			{
 				camelCase = param.booleanValue
@@ -67,6 +67,20 @@ class Features
 			}
 		}
 		throw new IllegalStateException("Base class name not configured!");
+	}
+
+	def qtBaseClass(GeneratorEntry it)
+	{
+		for (FeatureConfiguration f : features.filter[f|f.type.name == IFeatureConstants.QT_FEATURE])
+		{
+			val param = f.getParameterValue(IFeatureConstants.QT_BASE_CLASS)
+
+			if (param !== null)
+			{
+				return param.stringValue
+			}
+		}
+		return IFeatureConstants.QT_BASE_CLASS_DEFAULT
 	}
 
 	def className(GeneratorEntry it)

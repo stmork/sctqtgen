@@ -106,8 +106,8 @@ class Implementation
 		// Do some custom initialization.
 		initializeValues();
 
-		clearOutEvents();
-		enter();
+		«baseClassName(entry)»::clearOutEvents();
+		«baseClassName(entry)»::enter();
 		react();
 	}
 
@@ -117,8 +117,8 @@ class Implementation
 		sc_lock lock(mutex);
 
 		«ENDIF»
-		clearOutEvents();
-		exit();
+		«baseClassName(entry)»::clearOutEvents();
+		«baseClassName(entry)»::exit();
 		react();
 	}
 

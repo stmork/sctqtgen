@@ -45,15 +45,15 @@ void AbstractCalculatorDispatcher::start()
 	// Do some custom initialization.
 	initializeValues();
 
-	clearOutEvents();
-	enter();
+	AbstractCalculator::clearOutEvents();
+	AbstractCalculator::enter();
 	react();
 }
 
 void AbstractCalculatorDispatcher::stop()
 {
-	clearOutEvents();
-	exit();
+	AbstractCalculator::clearOutEvents();
+	AbstractCalculator::exit();
 	react();
 }
 

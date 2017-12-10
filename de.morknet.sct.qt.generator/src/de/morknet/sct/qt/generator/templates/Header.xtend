@@ -34,7 +34,7 @@ class Header
 	#ifndef «classDefineGuard(entry)»
 	#define «classDefineGuard(entry)»
 
-	#include <QObject>
+	#include <«qtBaseClass(entry)»>
 	«IF hasTimers()»
 	#include <QHash>
 	«ENDIF»
@@ -60,7 +60,7 @@ class Header
 	 * to the signal and slots of a Qt application.
 	 */
 	class «className(entry)» :
-		public    QObject,
+		public    «qtBaseClass(entry)»,
 		public    «baseClassName(entry)»«FOR scope : getOcbScopes()»,
 		protected «baseClassName(entry)»::«ocbName(scope)»«ENDFOR»«IF hasTimers()»,
 		protected TimerInterface«ENDIF»

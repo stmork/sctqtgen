@@ -56,9 +56,13 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		{
 			parameterValue.setValue(IFeatureConstants.QT_DEBUG_DEFAULT);
 		}
-		if (IFeatureConstants.QT_CAMEL_CALSE.equals(parameterName))
+		if (IFeatureConstants.QT_CAMEL_CASE.equals(parameterName))
 		{
-			parameterValue.setValue(IFeatureConstants.QT_CAMEL_CALSE_DEFAULT);
+			parameterValue.setValue(IFeatureConstants.QT_CAMEL_CASE_DEFAULT);
+		}
+		if (IFeatureConstants.QT_BASE_CLASS.equals(parameterName))
+		{
+			parameterValue.setValue(IFeatureConstants.QT_BASE_CLASS_DEFAULT);
 		}
 	}
 
