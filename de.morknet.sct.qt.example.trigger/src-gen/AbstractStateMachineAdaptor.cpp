@@ -72,18 +72,18 @@ void AbstractStateMachineAdaptor::react()
 	
 	if (ifaceGui.isRaised_lanes())
 	{
-		sctQtDebug("emit Lanes()...");
-		emit Lanes();
+		sctQtDebug("emit lanes()...");
+		emit lanes();
 	}
 	if (ifaceGui.isRaised_update())
 	{
-		sctQtDebug("emit Update()...");
-		emit Update();
+		sctQtDebug("emit update()...");
+		emit update();
 	}
 	if (ifaceGui.isRaised_wait())
 	{
-		sctQtDebug("emit Wait()...");
-		emit Wait();
+		sctQtDebug("emit wait()...");
+		emit wait();
 	}
 
 	/**********************************
@@ -110,9 +110,9 @@ void AbstractStateMachineAdaptor::sctQtDebug(const QString &message) const
  *********************************/
 
 
-void AbstractStateMachineAdaptor::Pressed( )
+void AbstractStateMachineAdaptor::pressed( )
 {
-	sctQtDebug("Pressed()...");
+	sctQtDebug("pressed()...");
 	ifaceGui.raise_pressed();
 	runCycle();
 }

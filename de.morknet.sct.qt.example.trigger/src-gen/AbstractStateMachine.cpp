@@ -252,6 +252,11 @@ sc_boolean AbstractStateMachine::check_main_region_Lanes_r3_C_tr0_tr0()
 	return timeEvents[2];
 }
 
+sc_boolean AbstractStateMachine::check_main_region_Lanes_guard_wait_lr0_lr0()
+{
+	return true;
+}
+
 sc_boolean AbstractStateMachine::check_main_region_Lanes_guard_wait_tr0_tr0()
 {
 	return (ifaceInternalSCI.trigger_raised) && (ifaceGui.counter == 3);
@@ -267,7 +272,6 @@ void AbstractStateMachine::effect_main_region_Lanes_r1_A_tr0()
 {
 	exseq_main_region_Lanes_r1_A();
 	ifaceGui.counter += 1;
-	ifaceGui.update_raised = true;
 	ifaceInternalSCI.trigger_raised = true;
 	enseq_main_region_Lanes_r1__final__default();
 }
@@ -276,7 +280,6 @@ void AbstractStateMachine::effect_main_region_Lanes_r2_B_tr0()
 {
 	exseq_main_region_Lanes_r2_B();
 	ifaceGui.counter += 1;
-	ifaceGui.update_raised = true;
 	ifaceInternalSCI.trigger_raised = true;
 	enseq_main_region_Lanes_r2__final__default();
 }
@@ -285,9 +288,13 @@ void AbstractStateMachine::effect_main_region_Lanes_r3_C_tr0()
 {
 	exseq_main_region_Lanes_r3_C();
 	ifaceGui.counter += 1;
-	ifaceGui.update_raised = true;
 	ifaceInternalSCI.trigger_raised = true;
 	enseq_main_region_Lanes_r3__final__default();
+}
+
+void AbstractStateMachine::effect_main_region_Lanes_guard_wait_lr0_lr0()
+{
+	ifaceGui.update_raised = true;
 }
 
 void AbstractStateMachine::effect_main_region_Lanes_guard_wait_tr0()
@@ -301,6 +308,7 @@ void AbstractStateMachine::enact_main_region_Wait()
 {
 	/* Entry action for state 'Wait'. */
 	ifaceGui.wait_raised = true;
+	ifaceGui.update_raised = true;
 }
 
 /* Entry action for state 'Lanes'. */
@@ -323,14 +331,14 @@ void AbstractStateMachine::enact_main_region_Lanes_r1_A()
 void AbstractStateMachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timer->setTimer(this, (sc_eventid)(&timeEvents[1]), 3 * 1000, false);
+	timer->setTimer(this, (sc_eventid)(&timeEvents[1]), 1 * 1000, false);
 }
 
 /* Entry action for state 'C'. */
 void AbstractStateMachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timer->setTimer(this, (sc_eventid)(&timeEvents[2]), 2500, false);
+	timer->setTimer(this, (sc_eventid)(&timeEvents[2]), 1500, false);
 }
 
 /* Exit action for state 'A'. */
@@ -752,7 +760,10 @@ void AbstractStateMachine::react_main_region_Lanes_guard_wait()
 	if (check_main_region_Lanes_guard_wait_tr0_tr0())
 	{ 
 		effect_main_region_Lanes_guard_wait_tr0();
-	} 
+	}  else
+	{
+		effect_main_region_Lanes_guard_wait_lr0_lr0();
+	}
 }
 
 /* Default react sequence for initial entry  */

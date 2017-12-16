@@ -85,7 +85,7 @@ public slots:
 	 * This callback acts as a slot for
 	 * the in event pressed.
 	 */
-	virtual void Pressed( );
+	virtual void pressed( );
 
 
 signals:
@@ -96,17 +96,17 @@ signals:
 	/**
 	 * This out event emits signal lanes.
 	 */
-	void Lanes( );
+	void lanes( );
 
 	/**
 	 * This out event emits signal update.
 	 */
-	void Update( );
+	void update( );
 
 	/**
 	 * This out event emits signal wait.
 	 */
-	void Wait( );
+	void wait( );
 
 
 protected:

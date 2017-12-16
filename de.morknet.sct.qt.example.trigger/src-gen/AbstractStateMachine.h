@@ -166,11 +166,13 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 		sc_boolean check_main_region_Lanes_r1_A_tr0_tr0();
 		sc_boolean check_main_region_Lanes_r2_B_tr0_tr0();
 		sc_boolean check_main_region_Lanes_r3_C_tr0_tr0();
+		sc_boolean check_main_region_Lanes_guard_wait_lr0_lr0();
 		sc_boolean check_main_region_Lanes_guard_wait_tr0_tr0();
 		void effect_main_region_Wait_tr0();
 		void effect_main_region_Lanes_r1_A_tr0();
 		void effect_main_region_Lanes_r2_B_tr0();
 		void effect_main_region_Lanes_r3_C_tr0();
+		void effect_main_region_Lanes_guard_wait_lr0_lr0();
 		void effect_main_region_Lanes_guard_wait_tr0();
 		void enact_main_region_Wait();
 		void enact_main_region_Lanes();
