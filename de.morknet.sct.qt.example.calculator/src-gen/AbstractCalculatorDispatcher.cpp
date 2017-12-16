@@ -21,7 +21,7 @@ AbstractCalculatorDispatcher::AbstractCalculatorDispatcher()
 {
 	AbstractCalculator::setTimer(this);
 	setInternalSCI_OCB(this);
-	init();
+	AbstractCalculator::init();
 }
 
 /**

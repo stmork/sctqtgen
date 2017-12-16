@@ -18,7 +18,7 @@
  */
 AbstractDelayDispatcher::AbstractDelayDispatcher()
 {
-	init();
+	AbstractDelay::init();
 }
 
 /**

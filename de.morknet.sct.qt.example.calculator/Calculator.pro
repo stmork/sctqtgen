@@ -47,7 +47,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 RESOURCES += \
-    resources.qrc
+	resources.qrc
 
 linux-*
 {

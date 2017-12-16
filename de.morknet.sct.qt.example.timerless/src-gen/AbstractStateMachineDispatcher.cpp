@@ -18,7 +18,7 @@
  */
 AbstractStateMachineDispatcher::AbstractStateMachineDispatcher()
 {
-	init();
+	AbstractStateMachine::init();
 }
 
 /**

@@ -1,3 +1,6 @@
+1.2.3
+ * Configurable Qt base class.
+
 1.2.2
  * Using a high precision timer if there are milliseconds
    in timer definitions. E.G.: "after 2 s" or "every 3000 ms"
