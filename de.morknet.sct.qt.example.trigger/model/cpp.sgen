@@ -1,0 +1,27 @@
+GeneratorModel for yakindu::cpp
+{
+	statechart trigger
+	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2017 - Steffen A. Mork" 
+		}
+
+		feature Outlet
+		{
+			targetProject = "de.morknet.sct.qt.example.trigger"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src-lib"
+		}
+
+		feature  IdentifierSettings
+		{
+			moduleName = "AbstractStateMachine"
+		}
+
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
+		}
+	}
+}
