@@ -6,9 +6,8 @@
 		<exec executable="${eclipse.home}/eclipse" dir=".">
 			<arg value="--launcher.ini"/>
 			<arg value="${eclipse.home}/headless.ini"/>
-
-			<arg value="-m"/><arg
-			value="model/trigger.sct,model/cpp.sgen,model/qt.sgen"/>
+			<arg value="-d"/><arg value=".."/>
+			<arg value="-m"/><arg value="de.morknet.sct.qt.example.trigger"/>
 		</exec>
 	</target>
 </project>
