@@ -118,7 +118,7 @@ class AbstractDelay : public StatemachineInterface
 	
 	
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc_integer maxOrthogonalStates = 1;
+		static const sc_ushort maxOrthogonalStates = 1;
 		
 		
 		DelayedExitStates stateConfVector[maxOrthogonalStates];

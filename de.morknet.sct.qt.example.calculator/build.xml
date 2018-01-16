@@ -4,11 +4,9 @@
 
 	<target name="generate">
 		<exec executable="${eclipse.home}/eclipse" dir=".">
-			<arg value="--launcher.ini"/>
-			<arg value="${eclipse.home}/headless.ini"/>
-
-			<arg value="-m"/><arg
-			value="model/calculator.sct,model/cpp.sgen,model/qt.sgen"/>
+			<arg value="--launcher.ini"/><arg value="${eclipse.home}/headless.ini"/>
+			<arg value="-d"/><arg value="${basedir}"/>
+			<arg value="-m"/><arg value="model/calculator.sct,model/cpp.sgen,model/qt.sgen"/>
 		</exec>
 	</target>
 </project>

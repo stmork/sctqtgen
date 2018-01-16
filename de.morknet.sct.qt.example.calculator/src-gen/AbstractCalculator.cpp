@@ -23,7 +23,7 @@ AbstractCalculator::~AbstractCalculator()
 
 void AbstractCalculator::init()
 {
-	for (int i = 0; i < maxOrthogonalStates; ++i)
+	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
 		stateConfVector[i] = Calculator_last_state;
 	
 	stateConfVectorPosition = 0;

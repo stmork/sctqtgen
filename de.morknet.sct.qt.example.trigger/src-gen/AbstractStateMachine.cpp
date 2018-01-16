@@ -22,7 +22,7 @@ AbstractStateMachine::~AbstractStateMachine()
 
 void AbstractStateMachine::init()
 {
-	for (int i = 0; i < maxOrthogonalStates; ++i)
+	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
 		stateConfVector[i] = Trigger_last_state;
 	
 	stateConfVectorPosition = 0;
