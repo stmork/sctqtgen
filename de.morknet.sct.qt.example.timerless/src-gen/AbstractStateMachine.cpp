@@ -3,7 +3,7 @@
 #include "AbstractStateMachine.h"
 #include <string.h>
 
-/*! \file Implementation of the state machine 'default'
+/*! \file Implementation of the state machine 'Timerless'
 */
 
 
@@ -21,7 +21,7 @@ AbstractStateMachine::~AbstractStateMachine()
 void AbstractStateMachine::init()
 {
 	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = Default_last_state;
+		stateConfVector[i] = Timerless_last_state;
 	
 	stateConfVectorPosition = 0;
 
@@ -32,19 +32,19 @@ void AbstractStateMachine::init()
 
 void AbstractStateMachine::enter()
 {
-	/* Default enter sequence for statechart default */
+	/* Default enter sequence for statechart Timerless */
 	enseq_main_region_default();
 }
 
 void AbstractStateMachine::exit()
 {
-	/* Default exit sequence for statechart default */
+	/* Default exit sequence for statechart Timerless */
 	exseq_main_region();
 }
 
 sc_boolean AbstractStateMachine::isActive() const
 {
-	return stateConfVector[0] != Default_last_state;
+	return stateConfVector[0] != Timerless_last_state;
 }
 
 /* 
@@ -94,7 +94,7 @@ void AbstractStateMachine::clearOutEvents()
 }
 
 
-sc_boolean AbstractStateMachine::isStateActive(DefaultStates state) const
+sc_boolean AbstractStateMachine::isStateActive(TimerlessStates state) const
 {
 	switch (state)
 	{
@@ -194,7 +194,7 @@ void AbstractStateMachine::enseq_main_region_default()
 void AbstractStateMachine::exseq_main_region_State_Off()
 {
 	/* Default exit sequence for state State Off */
-	stateConfVector[0] = Default_last_state;
+	stateConfVector[0] = Timerless_last_state;
 	stateConfVectorPosition = 0;
 }
 
@@ -202,7 +202,7 @@ void AbstractStateMachine::exseq_main_region_State_Off()
 void AbstractStateMachine::exseq_main_region_State_On()
 {
 	/* Default exit sequence for state State On */
-	stateConfVector[0] = Default_last_state;
+	stateConfVector[0] = Timerless_last_state;
 	stateConfVectorPosition = 0;
 	exact_main_region_State_On();
 }
@@ -211,7 +211,7 @@ void AbstractStateMachine::exseq_main_region_State_On()
 void AbstractStateMachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of default.main_region) at position 0... */
+	/* Handle exit of all possible states (of Timerless.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case main_region_State_Off :

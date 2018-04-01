@@ -7,7 +7,7 @@
 #include "../src/StatemachineInterface.h"
 #include "../src/TimedStatemachineInterface.h"
 
-/*! \file Header of the state machine 'calculator'.
+/*! \file Header of the state machine 'Calculator'.
 */
 
 

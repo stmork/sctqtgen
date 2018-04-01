@@ -1,6 +1,6 @@
 GeneratorModel for yakindu::cpp
 {
-	statechart calculator
+	statechart Calculator
 	{
 		feature LicenseHeader
 		{

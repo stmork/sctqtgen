@@ -6,7 +6,7 @@
 #include "../src/sc_types.h"
 #include "../src/StatemachineInterface.h"
 
-/*! \file Header of the state machine 'default'.
+/*! \file Header of the state machine 'Timerless'.
 */
 
 
@@ -25,10 +25,10 @@ class AbstractStateMachine : public StatemachineInterface
 		/*! Enumeration of all states */ 
 		typedef enum
 		{
-			Default_last_state,
+			Timerless_last_state,
 			main_region_State_Off,
 			main_region_State_On
-		} DefaultStates;
+		} TimerlessStates;
 		
 		//! Inner class for gui interface scope.
 		class SCI_Gui
@@ -82,7 +82,7 @@ class AbstractStateMachine : public StatemachineInterface
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(DefaultStates state) const;
+		sc_boolean isStateActive(TimerlessStates state) const;
 		
 		
 	protected:
@@ -93,7 +93,7 @@ class AbstractStateMachine : public StatemachineInterface
 		static const sc_ushort maxOrthogonalStates = 1;
 		
 		
-		DefaultStates stateConfVector[maxOrthogonalStates];
+		TimerlessStates stateConfVector[maxOrthogonalStates];
 		
 		sc_ushort stateConfVectorPosition;
 		

@@ -3,7 +3,7 @@
 #include "AbstractCalculator.h"
 #include <string.h>
 
-/*! \file Implementation of the state machine 'calculator'
+/*! \file Implementation of the state machine 'Calculator'
 */
 
 
@@ -31,20 +31,20 @@ void AbstractCalculator::init()
 	clearInEvents();
 	clearOutEvents();
 	
-	/* Default init sequence for statechart calculator */
+	/* Default init sequence for statechart Calculator */
 	ifaceInternalSCI.operand = 0;
 	ifaceInternalSCI.accu = 0;
 }
 
 void AbstractCalculator::enter()
 {
-	/* Default enter sequence for statechart calculator */
+	/* Default enter sequence for statechart Calculator */
 	enseq_main_region_default();
 }
 
 void AbstractCalculator::exit()
 {
-	/* Default exit sequence for statechart calculator */
+	/* Default exit sequence for statechart Calculator */
 	exseq_main_region();
 }
 
@@ -548,7 +548,7 @@ void AbstractCalculator::exseq_main_region__final_()
 void AbstractCalculator::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of calculator.main_region) at position 0... */
+	/* Handle exit of all possible states (of Calculator.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case main_region_active :

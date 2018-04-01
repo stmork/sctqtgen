@@ -3,7 +3,7 @@
 #include "AbstractStateMachine.h"
 #include <string.h>
 
-/*! \file Implementation of the state machine 'trigger'
+/*! \file Implementation of the state machine 'Trigger'
 */
 
 
@@ -30,19 +30,19 @@ void AbstractStateMachine::init()
 	clearInEvents();
 	clearOutEvents();
 	
-	/* Default init sequence for statechart trigger */
+	/* Default init sequence for statechart Trigger */
 	ifaceGui.counter = 0;
 }
 
 void AbstractStateMachine::enter()
 {
-	/* Default enter sequence for statechart trigger */
+	/* Default enter sequence for statechart Trigger */
 	enseq_main_region_default();
 }
 
 void AbstractStateMachine::exit()
 {
-	/* Default exit sequence for statechart trigger */
+	/* Default exit sequence for statechart Trigger */
 	exseq_main_region();
 }
 
@@ -557,7 +557,7 @@ void AbstractStateMachine::exseq_main_region_Lanes_guard_wait()
 void AbstractStateMachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of trigger.main_region) at position 0... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case main_region_Wait :
@@ -577,7 +577,7 @@ void AbstractStateMachine::exseq_main_region()
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of trigger.main_region) at position 1... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
 		case main_region_Lanes_r2_B :
@@ -592,7 +592,7 @@ void AbstractStateMachine::exseq_main_region()
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of trigger.main_region) at position 2... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
 		case main_region_Lanes_r3_C :
@@ -607,7 +607,7 @@ void AbstractStateMachine::exseq_main_region()
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of trigger.main_region) at position 3... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
 		case main_region_Lanes_guard_wait :
@@ -623,7 +623,7 @@ void AbstractStateMachine::exseq_main_region()
 void AbstractStateMachine::exseq_main_region_Lanes_r1()
 {
 	/* Default exit sequence for region r1 */
-	/* Handle exit of all possible states (of trigger.main_region.Lanes.r1) at position 0... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r1) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case main_region_Lanes_r1_A :
@@ -644,7 +644,7 @@ void AbstractStateMachine::exseq_main_region_Lanes_r1()
 void AbstractStateMachine::exseq_main_region_Lanes_r2()
 {
 	/* Default exit sequence for region r2 */
-	/* Handle exit of all possible states (of trigger.main_region.Lanes.r2) at position 1... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r2) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
 		case main_region_Lanes_r2_B :
@@ -665,7 +665,7 @@ void AbstractStateMachine::exseq_main_region_Lanes_r2()
 void AbstractStateMachine::exseq_main_region_Lanes_r3()
 {
 	/* Default exit sequence for region r3 */
-	/* Handle exit of all possible states (of trigger.main_region.Lanes.r3) at position 2... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r3) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
 		case main_region_Lanes_r3_C :
@@ -686,7 +686,7 @@ void AbstractStateMachine::exseq_main_region_Lanes_r3()
 void AbstractStateMachine::exseq_main_region_Lanes_guard()
 {
 	/* Default exit sequence for region guard */
-	/* Handle exit of all possible states (of trigger.main_region.Lanes.guard) at position 3... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.guard) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
 		case main_region_Lanes_guard_wait :

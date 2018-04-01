@@ -1,6 +1,6 @@
 GeneratorModel for de::morknet::sct::qt::generator
 {
-	statechart calculator
+	statechart Calculator
 	{
 		feature LicenseHeader
 		{

@@ -30,10 +30,10 @@ Scope: Internal
 Scope: Abstract Scope
 	Has in events:  false
 	Has out events: false
-	Event: trigger.main_region.Lanes.r1.A_time_event_0 local 
-	Event: trigger.main_region.Lanes.r2.B_time_event_0 local 
-	Event: trigger.main_region.Lanes.r3.C_time_event_0 local 
-The name of the Statemachine is 'trigger'
+	Event: Trigger.main_region.Lanes.r1.A_time_event_0 local 
+	Event: Trigger.main_region.Lanes.r2.B_time_event_0 local 
+	Event: Trigger.main_region.Lanes.r3.C_time_event_0 local 
+The name of the Statemachine is 'Trigger'
 
 The Statemachine has the following states:
 

@@ -7,7 +7,7 @@
 #include "../src-lib/StatemachineInterface.h"
 #include "../src-lib/TimedStatemachineInterface.h"
 
-/*! \file Header of the state machine 'trigger'.
+/*! \file Header of the state machine 'Trigger'.
 */
 
 
