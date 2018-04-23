@@ -103,7 +103,7 @@ class Header
 		 *
 		 * @param event The timer event id which uniquely identifies the timer.
 		 */
-		void timeout(const sc_eventid event);
+		void sct_timeout(const sc_eventid event);
 
 		«ENDIF»
 	public slots:

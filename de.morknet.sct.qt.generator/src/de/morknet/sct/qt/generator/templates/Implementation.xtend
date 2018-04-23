@@ -89,7 +89,9 @@ class Implementation
 				StatemachineTimer *timer = *i;
 
 		«ENDIF»
-			timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
+			timer->disconnect(
+				timer, &StatemachineTimer::out_timeout,
+				this, &«className(entry)»::sct_timeout);
 			timer->stop();
 
 			delete timer;
@@ -219,7 +221,7 @@ class Implementation
 	 * connected via a Qt signal into this class for statemachine
 	 * callback. Note that a timer may be reinitialized!
 	 *
-	 * @see timeout()
+	 * @see sct_timeout()
 	 */
 	void «className(entry)»::setTimer(
 			TimedStatemachineInterface *statemachine,
@@ -239,7 +241,9 @@ class Implementation
 		timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);
 		timer->setInterval(time);
 		timer->setSingleShot(!isPeriodic);
-		timer->connect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
+		timer->connect(
+			timer, &StatemachineTimer::out_timeout,
+			this, &«className(entry)»::sct_timeout);
 		timer->start();
 		«IF isDebug()»
 
@@ -267,7 +271,9 @@ class Implementation
 
 		if (timer != «IF isCpp11()»nullptr«ELSE»NULL«ENDIF»)
 		{
-			timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &«className(entry)»::timeout);
+			timer->disconnect(
+				timer, &StatemachineTimer::out_timeout,
+				this, &«className(entry)»::sct_timeout);
 			timer->stop();
 			«IF isDebug()»
 			sctQtDebug(QString::asprintf("Disabled timer %" PRIxPTR ".", event));
@@ -279,7 +285,7 @@ class Implementation
 	 * This Qt slot is signalled by a timer belonging to the given
 	 * sc_eventid.
 	 */
-	void «className(entry)»::timeout(const sc_eventid event)
+	void «className(entry)»::sct_timeout(const sc_eventid event)
 	{
 		«IF isThreadSafe()»
 		sc_lock lock(mutex);
