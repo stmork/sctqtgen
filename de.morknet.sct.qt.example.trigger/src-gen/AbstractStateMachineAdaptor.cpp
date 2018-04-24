@@ -32,7 +32,9 @@ AbstractStateMachineAdaptor::~AbstractStateMachineAdaptor()
 {
 	for(StatemachineTimer *timer : timerMap.values())
 	{
-		timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &AbstractStateMachineAdaptor::timeout);
+		timer->disconnect(
+			timer, &StatemachineTimer::out_timeout,
+			this, &AbstractStateMachineAdaptor::sct_timeout);
 		timer->stop();
 
 		delete timer;
@@ -141,7 +143,7 @@ void AbstractStateMachineAdaptor::cancel()
  * connected via a Qt signal into this class for statemachine
  * callback. Note that a timer may be reinitialized!
  *
- * @see timeout()
+ * @see sct_timeout()
  */
 void AbstractStateMachineAdaptor::setTimer(
 		TimedStatemachineInterface *statemachine,
@@ -161,7 +163,9 @@ void AbstractStateMachineAdaptor::setTimer(
 	timer->setTimerType(high_precision ? Qt::TimerType::PreciseTimer : Qt::TimerType::CoarseTimer);
 	timer->setInterval(time);
 	timer->setSingleShot(!isPeriodic);
-	timer->connect(timer, &StatemachineTimer::out_timeout, this, &AbstractStateMachineAdaptor::timeout);
+	timer->connect(
+		timer, &StatemachineTimer::out_timeout,
+		this, &AbstractStateMachineAdaptor::sct_timeout);
 	timer->start();
 
 	if (high_precision)
@@ -187,7 +191,9 @@ void AbstractStateMachineAdaptor::unsetTimer(
 
 	if (timer != nullptr)
 	{
-		timer->disconnect(timer, &StatemachineTimer::out_timeout, this, &AbstractStateMachineAdaptor::timeout);
+		timer->disconnect(
+			timer, &StatemachineTimer::out_timeout,
+			this, &AbstractStateMachineAdaptor::sct_timeout);
 		timer->stop();
 		sctQtDebug(QString::asprintf("Disabled timer %" PRIxPTR ".", event));
 	}
@@ -197,7 +203,7 @@ void AbstractStateMachineAdaptor::unsetTimer(
  * This Qt slot is signalled by a timer belonging to the given
  * sc_eventid.
  */
-void AbstractStateMachineAdaptor::timeout(const sc_eventid event)
+void AbstractStateMachineAdaptor::sct_timeout(const sc_eventid event)
 {
 	sctQtDebug(QString::asprintf("Time event occured with id %" PRIxPTR ".", event));
 	raiseTimeEvent(event);
