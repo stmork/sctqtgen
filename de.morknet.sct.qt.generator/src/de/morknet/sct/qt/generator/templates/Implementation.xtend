@@ -171,6 +171,8 @@ class Implementation
 	{
 	«IF isDebug()»
 		qDebug() << message;
+	«ELSE»
+		Q_UNUSED(message)
 	«ENDIF»
 	}
 
