@@ -1,3 +1,7 @@
+1.2.4
+ * Renamed timer slot.
+ * Non debug version compiles now.
+
 1.2.3
  * Configurable Qt base class.
 

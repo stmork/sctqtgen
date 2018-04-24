@@ -169,7 +169,9 @@ class Implementation
 
 	void «className(entry)»::sctQtDebug(const QString &message) const
 	{
+	«IF isDebug()»
 		qDebug() << message;
+	«ENDIF»
 	}
 
 	«FOR scope : getInterfaceScopes()»
