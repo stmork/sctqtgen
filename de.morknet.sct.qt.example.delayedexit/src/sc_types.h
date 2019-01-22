@@ -18,8 +18,12 @@ typedef bool           sc_boolean;
 
 typedef intptr_t       sc_eventid;
 
+#ifndef sc_null
+#	define sc_null     nullptr
+#endif
+
 #ifndef null
-	#define null 0
+#	define null        0
 #endif
 
 #endif /* SC_TYPES_H_ */

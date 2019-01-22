@@ -37,21 +37,22 @@ public:
 	explicit StatemachineTimer(QObject * parent, const sc_eventid id);
 
 	/**
-	 * Remove default constructor since we definitely need the timer event id!.
+	 * Remove default constructor since we definitely don't need the timer event id!.
 	 */
 	StatemachineTimer() = delete;
 
 	/**
-	 * Remove copy constructor since we definitely need the timer event id!.
+	 * Remove copy constructor since we definitely don't need more than one timer
+	 * with the same event id!.
 	 */
 	StatemachineTimer(const StatemachineTimer &timer) = delete;
 
 	/**
-	 * Remove move constructor since we definitely need the timer event id!.
+	 * Remove move constructor since we definitely don't need timer move around!.
 	 */
 	StatemachineTimer(StatemachineTimer && timer) = delete;
 
-public slots:
+private slots:
 	/**
 	 * This slot converts the occured timeout event into a signal
 	 * which informs the statemachine about an timeout event

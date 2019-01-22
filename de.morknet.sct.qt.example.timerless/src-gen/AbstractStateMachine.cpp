@@ -1,15 +1,16 @@
 /* Copyright (C) 2017 - Steffen A. Mork */
 
 #include "AbstractStateMachine.h"
-#include <string.h>
 
 /*! \file Implementation of the state machine 'Timerless'
 */
 
 
-AbstractStateMachine::AbstractStateMachine():
-	stateConfVectorPosition(0),
-	ifaceGui()
+
+
+AbstractStateMachine::AbstractStateMachine()  :
+stateConfVectorPosition(0),
+ifaceGui()
 {
 }
 
@@ -67,12 +68,12 @@ void AbstractStateMachine::runCycle()
 		{
 		case main_region_State_Off :
 		{
-			react_main_region_State_Off();
+			main_region_State_Off_react(true);
 			break;
 		}
 		case main_region_State_On :
 		{
-			react_main_region_State_On();
+			main_region_State_On_react(true);
 			break;
 		}
 		default:
@@ -130,28 +131,6 @@ sc_boolean AbstractStateMachine::SCI_Gui::isRaised_off() const
 
 // implementations of all internal functions
 
-sc_boolean AbstractStateMachine::check_main_region_State_Off_tr0_tr0()
-{
-	return ifaceGui.clicked_raised;
-}
-
-sc_boolean AbstractStateMachine::check_main_region_State_On_tr0_tr0()
-{
-	return ifaceGui.clicked_raised;
-}
-
-void AbstractStateMachine::effect_main_region_State_Off_tr0()
-{
-	exseq_main_region_State_Off();
-	enseq_main_region_State_On_default();
-}
-
-void AbstractStateMachine::effect_main_region_State_On_tr0()
-{
-	exseq_main_region_State_On();
-	enseq_main_region_State_Off_default();
-}
-
 /* Entry action for state 'State On'. */
 void AbstractStateMachine::enact_main_region_State_On()
 {
@@ -187,7 +166,7 @@ void AbstractStateMachine::enseq_main_region_State_On_default()
 void AbstractStateMachine::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_main_region__entry_Default();
+	react_Timerless_main_region__entry_Default();
 }
 
 /* Default exit sequence for state State Off */
@@ -228,31 +207,56 @@ void AbstractStateMachine::exseq_main_region()
 	}
 }
 
-/* The reactions of state State Off. */
-void AbstractStateMachine::react_main_region_State_Off()
-{
-	/* The reactions of state State Off. */
-	if (check_main_region_State_Off_tr0_tr0())
-	{ 
-		effect_main_region_State_Off_tr0();
-	} 
-}
-
-/* The reactions of state State On. */
-void AbstractStateMachine::react_main_region_State_On()
-{
-	/* The reactions of state State On. */
-	if (check_main_region_State_On_tr0_tr0())
-	{ 
-		effect_main_region_State_On_tr0();
-	} 
-}
-
 /* Default react sequence for initial entry  */
-void AbstractStateMachine::react_main_region__entry_Default()
+void AbstractStateMachine::react_Timerless_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_State_Off_default();
+}
+
+sc_boolean AbstractStateMachine::react() {
+	/* State machine reactions. */
+	return false;
+}
+
+sc_boolean AbstractStateMachine::main_region_State_Off_react(const sc_boolean try_transition) {
+	/* The reactions of state State Off. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.clicked_raised)
+			{ 
+				exseq_main_region_State_Off();
+				enseq_main_region_State_On_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_State_On_react(const sc_boolean try_transition) {
+	/* The reactions of state State On. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.clicked_raised)
+			{ 
+				exseq_main_region_State_On();
+				enseq_main_region_State_Off_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
 }
 
 

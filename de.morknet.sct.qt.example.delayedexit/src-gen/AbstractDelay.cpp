@@ -1,15 +1,16 @@
 /* Copyright (C) 2017 - Steffen A. Mork */
 
 #include "AbstractDelay.h"
-#include <string.h>
 
 /*! \file Implementation of the state machine 'DelayedExit'
 */
 
 
-AbstractDelay::AbstractDelay():
-	stateConfVectorPosition(0),
-	ifaceGui()
+
+
+AbstractDelay::AbstractDelay()  :
+stateConfVectorPosition(0),
+ifaceGui()
 {
 }
 
@@ -67,22 +68,22 @@ void AbstractDelay::runCycle()
 		{
 		case main_region_StateA :
 		{
-			react_main_region_StateA();
+			main_region_StateA_react(true);
 			break;
 		}
 		case main_region_Do_Something :
 		{
-			react_main_region_Do_Something();
+			main_region_Do_Something_react(true);
 			break;
 		}
 		case main_region_Wait_Button_1 :
 		{
-			react_main_region_Wait_Button_1();
+			main_region_Wait_Button_1_react(true);
 			break;
 		}
 		case main_region_Wait_Button_2 :
 		{
-			react_main_region_Wait_Button_2();
+			main_region_Wait_Button_2_react(true);
 			break;
 		}
 		default:
@@ -180,71 +181,6 @@ sc_boolean AbstractDelay::SCI_Gui::isRaised_stopped() const
 
 // implementations of all internal functions
 
-sc_boolean AbstractDelay::check_main_region_StateA_lr1_lr1()
-{
-	return ifaceGui.button1_raised;
-}
-
-sc_boolean AbstractDelay::check_main_region_StateA_tr0_tr0()
-{
-	return ifaceGui.button1_raised || ifaceGui.button2_raised;
-}
-
-sc_boolean AbstractDelay::check_main_region_Do_Something_tr0_tr0()
-{
-	return ifaceGui.button2_raised;
-}
-
-sc_boolean AbstractDelay::check_main_region_Do_Something_tr1_tr1()
-{
-	return ifaceGui.button1_raised;
-}
-
-sc_boolean AbstractDelay::check_main_region_Wait_Button_1_tr0_tr0()
-{
-	return ifaceGui.complete_raised;
-}
-
-sc_boolean AbstractDelay::check_main_region_Wait_Button_2_tr0_tr0()
-{
-	return ifaceGui.complete_raised;
-}
-
-void AbstractDelay::effect_main_region_StateA_lr1_lr1()
-{
-	ifaceGui.stopped_raised = true;
-}
-
-void AbstractDelay::effect_main_region_StateA_tr0()
-{
-	exseq_main_region_StateA();
-	enseq_main_region_Do_Something_default();
-}
-
-void AbstractDelay::effect_main_region_Do_Something_tr0()
-{
-	exseq_main_region_Do_Something();
-	enseq_main_region_Wait_Button_2_default();
-}
-
-void AbstractDelay::effect_main_region_Do_Something_tr1()
-{
-	exseq_main_region_Do_Something();
-	enseq_main_region_Wait_Button_1_default();
-}
-
-void AbstractDelay::effect_main_region_Wait_Button_1_tr0()
-{
-	exseq_main_region_Wait_Button_1();
-	enseq_main_region_StateA_default();
-}
-
-void AbstractDelay::effect_main_region_Wait_Button_2_tr0()
-{
-	exseq_main_region_Wait_Button_2();
-	enseq_main_region_Do_Something_default();
-}
-
 /* Entry action for state 'StateA'. */
 void AbstractDelay::enact_main_region_StateA()
 {
@@ -338,7 +274,7 @@ void AbstractDelay::enseq_main_region_Wait_Button_2_default()
 void AbstractDelay::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_main_region__entry_Default();
+	react_DelayedExit_main_region__entry_Default();
 }
 
 /* Default exit sequence for state StateA */
@@ -407,63 +343,110 @@ void AbstractDelay::exseq_main_region()
 	}
 }
 
-/* The reactions of state StateA. */
-void AbstractDelay::react_main_region_StateA()
-{
-	/* The reactions of state StateA. */
-	if (check_main_region_StateA_tr0_tr0())
-	{ 
-		effect_main_region_StateA_tr0();
-	}  else
-	{
-		if (check_main_region_StateA_lr1_lr1())
-		{ 
-			effect_main_region_StateA_lr1_lr1();
-		} 
-	}
-}
-
-/* The reactions of state Do Something. */
-void AbstractDelay::react_main_region_Do_Something()
-{
-	/* The reactions of state Do Something. */
-	if (check_main_region_Do_Something_tr0_tr0())
-	{ 
-		effect_main_region_Do_Something_tr0();
-	}  else
-	{
-		if (check_main_region_Do_Something_tr1_tr1())
-		{ 
-			effect_main_region_Do_Something_tr1();
-		} 
-	}
-}
-
-/* The reactions of state Wait Button 1. */
-void AbstractDelay::react_main_region_Wait_Button_1()
-{
-	/* The reactions of state Wait Button 1. */
-	if (check_main_region_Wait_Button_1_tr0_tr0())
-	{ 
-		effect_main_region_Wait_Button_1_tr0();
-	} 
-}
-
-/* The reactions of state Wait Button 2. */
-void AbstractDelay::react_main_region_Wait_Button_2()
-{
-	/* The reactions of state Wait Button 2. */
-	if (check_main_region_Wait_Button_2_tr0_tr0())
-	{ 
-		effect_main_region_Wait_Button_2_tr0();
-	} 
-}
-
 /* Default react sequence for initial entry  */
-void AbstractDelay::react_main_region__entry_Default()
+void AbstractDelay::react_DelayedExit_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_StateA_default();
+}
+
+sc_boolean AbstractDelay::react() {
+	/* State machine reactions. */
+	return false;
+}
+
+sc_boolean AbstractDelay::main_region_StateA_react(const sc_boolean try_transition) {
+	/* The reactions of state StateA. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if ((ifaceGui.button1_raised) || (ifaceGui.button2_raised))
+			{ 
+				exseq_main_region_StateA();
+				enseq_main_region_Do_Something_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	if (((did_transition) == (false)))
+	{ 
+		if (ifaceGui.button1_raised)
+		{ 
+			ifaceGui.stopped_raised = true;
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractDelay::main_region_Do_Something_react(const sc_boolean try_transition) {
+	/* The reactions of state Do Something. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.button2_raised)
+			{ 
+				exseq_main_region_Do_Something();
+				enseq_main_region_Wait_Button_2_default();
+			}  else
+			{
+				if (ifaceGui.button1_raised)
+				{ 
+					exseq_main_region_Do_Something();
+					enseq_main_region_Wait_Button_1_default();
+				}  else
+				{
+					did_transition = false;
+				}
+			}
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractDelay::main_region_Wait_Button_1_react(const sc_boolean try_transition) {
+	/* The reactions of state Wait Button 1. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.complete_raised)
+			{ 
+				exseq_main_region_Wait_Button_1();
+				enseq_main_region_StateA_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractDelay::main_region_Wait_Button_2_react(const sc_boolean try_transition) {
+	/* The reactions of state Wait Button 2. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.complete_raised)
+			{ 
+				exseq_main_region_Wait_Button_2();
+				enseq_main_region_Do_Something_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
 }
 
 

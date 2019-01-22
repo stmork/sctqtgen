@@ -1,18 +1,19 @@
 /* Copyright (C) 2017 - Steffen A. Mork */
 
 #include "AbstractCalculator.h"
-#include <string.h>
 
 /*! \file Implementation of the state machine 'Calculator'
 */
 
 
-AbstractCalculator::AbstractCalculator():
-	timer(null),
-	stateConfVectorPosition(0),
-	ifaceGui(),
-	ifaceInternalSCI(),
-	ifaceInternalSCI_OCB(null)
+
+
+AbstractCalculator::AbstractCalculator()  :
+timer(sc_null),
+stateConfVectorPosition(0),
+ifaceGui(),
+ifaceInternalSCI(),
+ifaceInternalSCI_OCB(sc_null)
 {
 }
 
@@ -71,12 +72,12 @@ void AbstractCalculator::runCycle()
 		{
 		case main_region_active :
 		{
-			react_main_region_active();
+			main_region_active_react(true);
 			break;
 		}
 		case main_region__final_ :
 		{
-			react_main_region__final_();
+			main_region__final__react(true);
 			break;
 		}
 		default:
@@ -122,6 +123,10 @@ void AbstractCalculator::setTimer(TimerInterface* timerInterface)
 TimerInterface* AbstractCalculator::getTimer()
 {
 	return timer;
+}
+
+sc_integer AbstractCalculator::getNumberOfParallelTimeEvents() {
+	return parallelTimeEventsCount;
 }
 
 void AbstractCalculator::raiseTimeEvent(sc_eventid evid)
@@ -271,227 +276,11 @@ void AbstractCalculator::setInternalSCI_OCB(InternalSCI_OCB* operationCallback)
 
 // implementations of all internal functions
 
-sc_boolean AbstractCalculator::check_main_region_active_lr1_lr1()
-{
-	return ifaceGui.Button0_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr2_lr2()
-{
-	return ifaceGui.Button1_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr3_lr3()
-{
-	return ifaceGui.Button2_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr4_lr4()
-{
-	return ifaceGui.Button3_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr5_lr5()
-{
-	return ifaceGui.Button4_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr6_lr6()
-{
-	return ifaceGui.Button5_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr7_lr7()
-{
-	return ifaceGui.Button6_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr8_lr8()
-{
-	return ifaceGui.Button7_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr9_lr9()
-{
-	return ifaceGui.Button8_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr10_lr10()
-{
-	return ifaceGui.Button9_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr11_lr11()
-{
-	return ifaceGui.ButtonAdd_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr12_lr12()
-{
-	return ifaceGui.ButtonSub_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr13_lr13()
-{
-	return ifaceGui.ButtonMult_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr14_lr14()
-{
-	return ifaceGui.ButtonDiv_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_lr15_lr15()
-{
-	return ifaceGui.ButtonClear_raised;
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_tr0_tr0()
-{
-	return timeEvents[0];
-}
-
-sc_boolean AbstractCalculator::check_main_region_active_tr1_tr1()
-{
-	return ifaceGui.ButtonEquals_raised;
-}
-
-void AbstractCalculator::effect_main_region_active_lr1_lr1()
-{
-	ifaceInternalSCI_OCB->Digit(0);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr2_lr2()
-{
-	ifaceInternalSCI_OCB->Digit(1);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr3_lr3()
-{
-	ifaceInternalSCI_OCB->Digit(2);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr4_lr4()
-{
-	ifaceInternalSCI_OCB->Digit(3);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr5_lr5()
-{
-	ifaceInternalSCI_OCB->Digit(4);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr6_lr6()
-{
-	ifaceInternalSCI_OCB->Digit(5);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr7_lr7()
-{
-	ifaceInternalSCI_OCB->Digit(6);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr8_lr8()
-{
-	ifaceInternalSCI_OCB->Digit(7);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr9_lr9()
-{
-	ifaceInternalSCI_OCB->Digit(8);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr10_lr10()
-{
-	ifaceInternalSCI_OCB->Digit(9);
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_lr11_lr11()
-{
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	ifaceInternalSCI_OCB->Add();
-	ifaceInternalSCI.accu = 0;
-}
-
-void AbstractCalculator::effect_main_region_active_lr12_lr12()
-{
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	ifaceInternalSCI_OCB->Sub();
-	ifaceInternalSCI.accu = 0;
-}
-
-void AbstractCalculator::effect_main_region_active_lr13_lr13()
-{
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	ifaceInternalSCI_OCB->Mult();
-	ifaceInternalSCI.accu = 0;
-}
-
-void AbstractCalculator::effect_main_region_active_lr14_lr14()
-{
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	ifaceInternalSCI_OCB->Div();
-	ifaceInternalSCI.accu = 0;
-}
-
-void AbstractCalculator::effect_main_region_active_lr15_lr15()
-{
-	ifaceInternalSCI_OCB->Clear();
-	ifaceInternalSCI.accu = 0;
-	ifaceInternalSCI.operand = 0;
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
-	ifaceGui.ShowAccu_raised = true;
-}
-
-void AbstractCalculator::effect_main_region_active_tr0()
-{
-	exseq_main_region_active();
-	ifaceGui.Exit_raised = true;
-	enseq_main_region__final__default();
-}
-
-void AbstractCalculator::effect_main_region_active_tr1()
-{
-	exseq_main_region_active();
-	ifaceInternalSCI_OCB->Equals();
-	ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-	ifaceGui.ShowAccu_raised = true;
-	enseq_main_region_active_default();
-}
-
 /* Entry action for state 'active'. */
 void AbstractCalculator::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timer->setTimer(this, (sc_eventid)(&timeEvents[0]), 30 * 1000, false);
+	timer->setTimer(this, (sc_eventid)(&timeEvents[0]), (30 * 1000), false);
 	ifaceInternalSCI.accu = 0;
 	ifaceInternalSCI.operand = 0;
 }
@@ -524,7 +313,7 @@ void AbstractCalculator::enseq_main_region__final__default()
 void AbstractCalculator::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_main_region__entry_Default();
+	react_Calculator_main_region__entry_Default();
 }
 
 /* Default exit sequence for state active */
@@ -565,94 +354,163 @@ void AbstractCalculator::exseq_main_region()
 	}
 }
 
-/* The reactions of state active. */
-void AbstractCalculator::react_main_region_active()
-{
-	/* The reactions of state active. */
-	if (check_main_region_active_tr0_tr0())
-	{ 
-		effect_main_region_active_tr0();
-	}  else
-	{
-		if (check_main_region_active_tr1_tr1())
-		{ 
-			effect_main_region_active_tr1();
-		}  else
-		{
-			if (check_main_region_active_lr1_lr1())
-			{ 
-				effect_main_region_active_lr1_lr1();
-			} 
-			if (check_main_region_active_lr2_lr2())
-			{ 
-				effect_main_region_active_lr2_lr2();
-			} 
-			if (check_main_region_active_lr3_lr3())
-			{ 
-				effect_main_region_active_lr3_lr3();
-			} 
-			if (check_main_region_active_lr4_lr4())
-			{ 
-				effect_main_region_active_lr4_lr4();
-			} 
-			if (check_main_region_active_lr5_lr5())
-			{ 
-				effect_main_region_active_lr5_lr5();
-			} 
-			if (check_main_region_active_lr6_lr6())
-			{ 
-				effect_main_region_active_lr6_lr6();
-			} 
-			if (check_main_region_active_lr7_lr7())
-			{ 
-				effect_main_region_active_lr7_lr7();
-			} 
-			if (check_main_region_active_lr8_lr8())
-			{ 
-				effect_main_region_active_lr8_lr8();
-			} 
-			if (check_main_region_active_lr9_lr9())
-			{ 
-				effect_main_region_active_lr9_lr9();
-			} 
-			if (check_main_region_active_lr10_lr10())
-			{ 
-				effect_main_region_active_lr10_lr10();
-			} 
-			if (check_main_region_active_lr11_lr11())
-			{ 
-				effect_main_region_active_lr11_lr11();
-			} 
-			if (check_main_region_active_lr12_lr12())
-			{ 
-				effect_main_region_active_lr12_lr12();
-			} 
-			if (check_main_region_active_lr13_lr13())
-			{ 
-				effect_main_region_active_lr13_lr13();
-			} 
-			if (check_main_region_active_lr14_lr14())
-			{ 
-				effect_main_region_active_lr14_lr14();
-			} 
-			if (check_main_region_active_lr15_lr15())
-			{ 
-				effect_main_region_active_lr15_lr15();
-			} 
-		}
-	}
-}
-
-/* The reactions of state null. */
-void AbstractCalculator::react_main_region__final_()
-{
-}
-
 /* Default react sequence for initial entry  */
-void AbstractCalculator::react_main_region__entry_Default()
+void AbstractCalculator::react_Calculator_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_active_default();
+}
+
+sc_boolean AbstractCalculator::react() {
+	/* State machine reactions. */
+	return false;
+}
+
+sc_boolean AbstractCalculator::main_region_active_react(const sc_boolean try_transition) {
+	/* The reactions of state active. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (timeEvents[0])
+			{ 
+				exseq_main_region_active();
+				ifaceGui.Exit_raised = true;
+				enseq_main_region__final__default();
+			}  else
+			{
+				if (ifaceGui.ButtonEquals_raised)
+				{ 
+					exseq_main_region_active();
+					ifaceInternalSCI_OCB->Equals();
+					ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+					ifaceGui.ShowAccu_raised = true;
+					enseq_main_region_active_default();
+				}  else
+				{
+					did_transition = false;
+				}
+			}
+		} 
+	} 
+	if (((did_transition) == (false)))
+	{ 
+		if (ifaceGui.Button0_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(0);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button1_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(1);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button2_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(2);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button3_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(3);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button4_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(4);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button5_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(5);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button6_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(6);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button7_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(7);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button8_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(8);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.Button9_raised)
+		{ 
+			ifaceInternalSCI_OCB->Digit(9);
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+		if (ifaceGui.ButtonAdd_raised)
+		{ 
+			ifaceInternalSCI_OCB->Equals();
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceGui.ShowAccu_raised = true;
+			ifaceInternalSCI_OCB->Add();
+			ifaceInternalSCI.accu = 0;
+		} 
+		if (ifaceGui.ButtonSub_raised)
+		{ 
+			ifaceInternalSCI_OCB->Equals();
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceGui.ShowAccu_raised = true;
+			ifaceInternalSCI_OCB->Sub();
+			ifaceInternalSCI.accu = 0;
+		} 
+		if (ifaceGui.ButtonMult_raised)
+		{ 
+			ifaceInternalSCI_OCB->Equals();
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceGui.ShowAccu_raised = true;
+			ifaceInternalSCI_OCB->Mult();
+			ifaceInternalSCI.accu = 0;
+		} 
+		if (ifaceGui.ButtonDiv_raised)
+		{ 
+			ifaceInternalSCI_OCB->Equals();
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceGui.ShowAccu_raised = true;
+			ifaceInternalSCI_OCB->Div();
+			ifaceInternalSCI.accu = 0;
+		} 
+		if (ifaceGui.ButtonClear_raised)
+		{ 
+			ifaceInternalSCI_OCB->Clear();
+			ifaceInternalSCI.accu = 0;
+			ifaceInternalSCI.operand = 0;
+			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceGui.ShowAccu_raised = true;
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractCalculator::main_region__final__react(const sc_boolean try_transition) {
+	/* The reactions of state null. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			did_transition = false;
+		} 
+	} 
+	return did_transition;
 }
 
 

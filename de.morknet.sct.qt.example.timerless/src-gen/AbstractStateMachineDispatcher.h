@@ -67,7 +67,7 @@ public slots:
 	 * This callback acts as a slot for
 	 * the in event clicked.
 	 */
-	virtual void clicked( );
+	virtual void Clicked( );
 
 
 signals:
@@ -78,12 +78,12 @@ signals:
 	/**
 	 * This out event emits signal off.
 	 */
-	void off( );
+	void Off( );
 
 	/**
 	 * This out event emits signal on.
 	 */
-	void on( );
+	void On( );
 
 
 protected:

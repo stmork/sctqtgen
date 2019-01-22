@@ -3,6 +3,7 @@
 #ifndef ABSTRACTSTATEMACHINE_H_
 #define ABSTRACTSTATEMACHINE_H_
 
+
 #include "../src/sc_types.h"
 #include "../src/StatemachineInterface.h"
 
@@ -14,10 +15,10 @@
 #define SCVI_MAIN_REGION_STATE_OFF 0
 #define SCVI_MAIN_REGION_STATE_ON 0
 
+
 class AbstractStateMachine : public StatemachineInterface
 {
 	public:
-		
 		AbstractStateMachine();
 		
 		~AbstractStateMachine();
@@ -29,20 +30,24 @@ class AbstractStateMachine : public StatemachineInterface
 			main_region_State_Off,
 			main_region_State_On
 		} TimerlessStates;
+					
+		static const sc_integer numStates = 2;
 		
 		//! Inner class for gui interface scope.
 		class SCI_Gui
 		{
-			
 			public:
 				/*! Raises the in event 'clicked' that is defined in the interface scope 'gui'. */
 				void raise_clicked();
 				
+				
 				/*! Checks if the out event 'on' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_on() const;
 				
+				
 				/*! Checks if the out event 'off' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_off() const;
+				
 				
 				
 			protected:
@@ -50,6 +55,8 @@ class AbstractStateMachine : public StatemachineInterface
 				sc_boolean clicked_raised;
 				sc_boolean on_raised;
 				sc_boolean off_raised;
+				
+				
 		};
 		
 		/*! Returns an instance of the interface class 'SCI_Gui'. */
@@ -85,12 +92,13 @@ class AbstractStateMachine : public StatemachineInterface
 		sc_boolean isStateActive(TimerlessStates state) const;
 		
 		
+		
 	protected:
-	
-	
-	
+		
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_ushort maxOrthogonalStates = 1;
+		
 		
 		
 		TimerlessStates stateConfVector[maxOrthogonalStates];
@@ -101,10 +109,6 @@ class AbstractStateMachine : public StatemachineInterface
 		
 		// prototypes of all internal functions
 		
-		sc_boolean check_main_region_State_Off_tr0_tr0();
-		sc_boolean check_main_region_State_On_tr0_tr0();
-		void effect_main_region_State_Off_tr0();
-		void effect_main_region_State_On_tr0();
 		void enact_main_region_State_On();
 		void exact_main_region_State_On();
 		void enseq_main_region_State_Off_default();
@@ -113,14 +117,21 @@ class AbstractStateMachine : public StatemachineInterface
 		void exseq_main_region_State_Off();
 		void exseq_main_region_State_On();
 		void exseq_main_region();
-		void react_main_region_State_Off();
-		void react_main_region_State_On();
-		void react_main_region__entry_Default();
+		void react_Timerless_main_region__entry_Default();
+		sc_boolean react();
+		sc_boolean main_region_State_Off_react(const sc_boolean try_transition);
+		sc_boolean main_region_State_On_react(const sc_boolean try_transition);
 		void clearInEvents();
 		void clearOutEvents();
 		
 		
+		
+		
+	private:
+		
+		
 };
+
 
 
 
