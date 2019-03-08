@@ -3,6 +3,7 @@
 #ifndef ABSTRACTSTATEMACHINE_H_
 #define ABSTRACTSTATEMACHINE_H_
 
+
 #include "../src-lib/sc_types.h"
 #include "../src-lib/StatemachineInterface.h"
 #include "../src-lib/TimedStatemachineInterface.h"
@@ -22,10 +23,10 @@
 #define SCVI_MAIN_REGION_LANES_R3__FINAL_ 2
 #define SCVI_MAIN_REGION_LANES_GUARD_WAIT 3
 
+
 class AbstractStateMachine : public TimedStatemachineInterface, public StatemachineInterface
 {
 	public:
-		
 		AbstractStateMachine();
 		
 		~AbstractStateMachine();
@@ -44,29 +45,35 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 			main_region_Lanes_r3__final_,
 			main_region_Lanes_guard_wait
 		} TriggerStates;
+					
+		static const sc_integer numStates = 9;
 		
 		//! Inner class for gui interface scope.
 		class SCI_Gui
 		{
-			
 			public:
 				/*! Raises the in event 'pressed' that is defined in the interface scope 'gui'. */
 				void raise_pressed();
 				
+				
 				/*! Checks if the out event 'update' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_update() const;
+				
 				
 				/*! Checks if the out event 'wait' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_wait() const;
 				
+				
 				/*! Checks if the out event 'lanes' that is defined in the interface scope 'gui' has been raised. */
 				sc_boolean isRaised_lanes() const;
+				
 				
 				/*! Gets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
 				sc_integer get_counter() const;
 				
 				/*! Sets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
 				void set_counter(sc_integer value);
+				
 				
 				
 			protected:
@@ -76,6 +83,8 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 				sc_boolean wait_raised;
 				sc_boolean lanes_raised;
 				sc_integer counter;
+				
+				
 		};
 		
 		/*! Returns an instance of the interface class 'SCI_Gui'. */
@@ -115,6 +124,8 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 		
 		virtual void raiseTimeEvent(sc_eventid event);
 		
+		virtual sc_integer getNumberOfParallelTimeEvents();
+		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
 		sc_boolean isStateActive(TriggerStates state) const;
 		
@@ -124,16 +135,14 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 		//! number of time events that can be active at once.
 		static const sc_integer parallelTimeEventsCount = 3;
 		
-	protected:
-	
-		AbstractStateMachine(const AbstractStateMachine &rhs);
 		
+	protected:
+		AbstractStateMachine(const AbstractStateMachine &rhs);
 		AbstractStateMachine& operator=(const AbstractStateMachine&);
-	
+		
 		//! Inner class for internal interface scope.
 		class InternalSCI
 		{
-			
 			public:
 				/*! Raises the in event 'trigger' that is defined in the internal scope. */
 				void raise_trigger();
@@ -142,16 +151,20 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 				sc_boolean isRaised_trigger() const;
 				
 				
+				
 			protected:
 				friend class AbstractStateMachine;
 				sc_boolean trigger_raised;
+				
+				
 		};
-	
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc_ushort maxOrthogonalStates = 4;
 		
 		TimerInterface* timer;
 		sc_boolean timeEvents[timeEventsCount];
+		
 		
 		TriggerStates stateConfVector[maxOrthogonalStates];
 		
@@ -162,18 +175,6 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 		
 		// prototypes of all internal functions
 		
-		sc_boolean check_main_region_Wait_tr0_tr0();
-		sc_boolean check_main_region_Lanes_r1_A_tr0_tr0();
-		sc_boolean check_main_region_Lanes_r2_B_tr0_tr0();
-		sc_boolean check_main_region_Lanes_r3_C_tr0_tr0();
-		sc_boolean check_main_region_Lanes_guard_wait_lr0_lr0();
-		sc_boolean check_main_region_Lanes_guard_wait_tr0_tr0();
-		void effect_main_region_Wait_tr0();
-		void effect_main_region_Lanes_r1_A_tr0();
-		void effect_main_region_Lanes_r2_B_tr0();
-		void effect_main_region_Lanes_r3_C_tr0();
-		void effect_main_region_Lanes_guard_wait_lr0_lr0();
-		void effect_main_region_Lanes_guard_wait_tr0();
 		void enact_main_region_Wait();
 		void enact_main_region_Lanes();
 		void enact_main_region_Lanes_r1_A();
@@ -210,24 +211,32 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 		void exseq_main_region_Lanes_r2();
 		void exseq_main_region_Lanes_r3();
 		void exseq_main_region_Lanes_guard();
-		void react_main_region_Wait();
-		void react_main_region_Lanes_r1_A();
-		void react_main_region_Lanes_r1__final_();
-		void react_main_region_Lanes_r2_B();
-		void react_main_region_Lanes_r2__final_();
-		void react_main_region_Lanes_r3_C();
-		void react_main_region_Lanes_r3__final_();
-		void react_main_region_Lanes_guard_wait();
 		void react_main_region__entry_Default();
 		void react_main_region_Lanes_r1__entry_Default();
 		void react_main_region_Lanes_r2__entry_Default();
 		void react_main_region_Lanes_r3__entry_Default();
 		void react_main_region_Lanes_guard__entry_Default();
+		sc_boolean react();
+		sc_boolean main_region_Wait_react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r1_A_react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r1__final__react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r2_B_react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r2__final__react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r3_C_react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_r3__final__react(const sc_boolean try_transition);
+		sc_boolean main_region_Lanes_guard_wait_react(const sc_boolean try_transition);
 		void clearInEvents();
 		void clearOutEvents();
 		
 		
+		
+		
+	private:
+		
+		
 };
+
 
 
 

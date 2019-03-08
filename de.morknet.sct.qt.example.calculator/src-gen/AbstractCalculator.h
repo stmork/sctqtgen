@@ -276,7 +276,7 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		void exseq_main_region_active();
 		void exseq_main_region__final_();
 		void exseq_main_region();
-		void react_Calculator_main_region__entry_Default();
+		void react_main_region__entry_Default();
 		sc_boolean react();
 		sc_boolean main_region_active_react(const sc_boolean try_transition);
 		sc_boolean main_region__final__react(const sc_boolean try_transition);

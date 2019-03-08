@@ -313,7 +313,7 @@ void AbstractCalculator::enseq_main_region__final__default()
 void AbstractCalculator::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_Calculator_main_region__entry_Default();
+	react_main_region__entry_Default();
 }
 
 /* Default exit sequence for state active */
@@ -355,7 +355,7 @@ void AbstractCalculator::exseq_main_region()
 }
 
 /* Default react sequence for initial entry  */
-void AbstractCalculator::react_Calculator_main_region__entry_Default()
+void AbstractCalculator::react_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_active_default();

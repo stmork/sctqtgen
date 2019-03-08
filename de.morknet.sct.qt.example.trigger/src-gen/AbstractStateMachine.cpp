@@ -1,17 +1,18 @@
 /* Copyright (C) 2017 - Steffen A. Mork */
 
 #include "AbstractStateMachine.h"
-#include <string.h>
 
 /*! \file Implementation of the state machine 'Trigger'
 */
 
 
-AbstractStateMachine::AbstractStateMachine():
-	timer(null),
-	stateConfVectorPosition(0),
-	ifaceGui(),
-	ifaceInternalSCI()
+
+
+AbstractStateMachine::AbstractStateMachine()  :
+timer(sc_null),
+stateConfVectorPosition(0),
+ifaceGui(),
+ifaceInternalSCI()
 {
 }
 
@@ -71,42 +72,42 @@ void AbstractStateMachine::runCycle()
 		{
 		case main_region_Wait :
 		{
-			react_main_region_Wait();
+			main_region_Wait_react(true);
 			break;
 		}
 		case main_region_Lanes_r1_A :
 		{
-			react_main_region_Lanes_r1_A();
+			main_region_Lanes_r1_A_react(true);
 			break;
 		}
 		case main_region_Lanes_r1__final_ :
 		{
-			react_main_region_Lanes_r1__final_();
+			main_region_Lanes_r1__final__react(true);
 			break;
 		}
 		case main_region_Lanes_r2_B :
 		{
-			react_main_region_Lanes_r2_B();
+			main_region_Lanes_r2_B_react(true);
 			break;
 		}
 		case main_region_Lanes_r2__final_ :
 		{
-			react_main_region_Lanes_r2__final_();
+			main_region_Lanes_r2__final__react(true);
 			break;
 		}
 		case main_region_Lanes_r3_C :
 		{
-			react_main_region_Lanes_r3_C();
+			main_region_Lanes_r3_C_react(true);
 			break;
 		}
 		case main_region_Lanes_r3__final_ :
 		{
-			react_main_region_Lanes_r3__final_();
+			main_region_Lanes_r3__final__react(true);
 			break;
 		}
 		case main_region_Lanes_guard_wait :
 		{
-			react_main_region_Lanes_guard_wait();
+			main_region_Lanes_guard_wait_react(true);
 			break;
 		}
 		default:
@@ -141,6 +142,10 @@ void AbstractStateMachine::setTimer(TimerInterface* timerInterface)
 TimerInterface* AbstractStateMachine::getTimer()
 {
 	return timer;
+}
+
+sc_integer AbstractStateMachine::getNumberOfParallelTimeEvents() {
+	return parallelTimeEventsCount;
 }
 
 void AbstractStateMachine::raiseTimeEvent(sc_eventid evid)
@@ -232,77 +237,6 @@ sc_boolean AbstractStateMachine::InternalSCI::isRaised_trigger() const
 
 // implementations of all internal functions
 
-sc_boolean AbstractStateMachine::check_main_region_Wait_tr0_tr0()
-{
-	return ifaceGui.pressed_raised;
-}
-
-sc_boolean AbstractStateMachine::check_main_region_Lanes_r1_A_tr0_tr0()
-{
-	return timeEvents[0];
-}
-
-sc_boolean AbstractStateMachine::check_main_region_Lanes_r2_B_tr0_tr0()
-{
-	return timeEvents[1];
-}
-
-sc_boolean AbstractStateMachine::check_main_region_Lanes_r3_C_tr0_tr0()
-{
-	return timeEvents[2];
-}
-
-sc_boolean AbstractStateMachine::check_main_region_Lanes_guard_wait_lr0_lr0()
-{
-	return true;
-}
-
-sc_boolean AbstractStateMachine::check_main_region_Lanes_guard_wait_tr0_tr0()
-{
-	return (ifaceInternalSCI.trigger_raised) && (ifaceGui.counter == 3);
-}
-
-void AbstractStateMachine::effect_main_region_Wait_tr0()
-{
-	exseq_main_region_Wait();
-	enseq_main_region_Lanes_default();
-}
-
-void AbstractStateMachine::effect_main_region_Lanes_r1_A_tr0()
-{
-	exseq_main_region_Lanes_r1_A();
-	ifaceGui.counter += 1;
-	ifaceInternalSCI.trigger_raised = true;
-	enseq_main_region_Lanes_r1__final__default();
-}
-
-void AbstractStateMachine::effect_main_region_Lanes_r2_B_tr0()
-{
-	exseq_main_region_Lanes_r2_B();
-	ifaceGui.counter += 1;
-	ifaceInternalSCI.trigger_raised = true;
-	enseq_main_region_Lanes_r2__final__default();
-}
-
-void AbstractStateMachine::effect_main_region_Lanes_r3_C_tr0()
-{
-	exseq_main_region_Lanes_r3_C();
-	ifaceGui.counter += 1;
-	ifaceInternalSCI.trigger_raised = true;
-	enseq_main_region_Lanes_r3__final__default();
-}
-
-void AbstractStateMachine::effect_main_region_Lanes_guard_wait_lr0_lr0()
-{
-	ifaceGui.update_raised = true;
-}
-
-void AbstractStateMachine::effect_main_region_Lanes_guard_wait_tr0()
-{
-	exseq_main_region_Lanes();
-	enseq_main_region_Wait_default();
-}
-
 /* Entry action for state 'Wait'. */
 void AbstractStateMachine::enact_main_region_Wait()
 {
@@ -331,7 +265,7 @@ void AbstractStateMachine::enact_main_region_Lanes_r1_A()
 void AbstractStateMachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timer->setTimer(this, (sc_eventid)(&timeEvents[1]), 1 * 1000, false);
+	timer->setTimer(this, (sc_eventid)(&timeEvents[1]), (1 * 1000), false);
 }
 
 /* Entry action for state 'C'. */
@@ -698,74 +632,6 @@ void AbstractStateMachine::exseq_main_region_Lanes_guard()
 	}
 }
 
-/* The reactions of state Wait. */
-void AbstractStateMachine::react_main_region_Wait()
-{
-	/* The reactions of state Wait. */
-	if (check_main_region_Wait_tr0_tr0())
-	{ 
-		effect_main_region_Wait_tr0();
-	} 
-}
-
-/* The reactions of state A. */
-void AbstractStateMachine::react_main_region_Lanes_r1_A()
-{
-	/* The reactions of state A. */
-	if (check_main_region_Lanes_r1_A_tr0_tr0())
-	{ 
-		effect_main_region_Lanes_r1_A_tr0();
-	} 
-}
-
-/* The reactions of state null. */
-void AbstractStateMachine::react_main_region_Lanes_r1__final_()
-{
-}
-
-/* The reactions of state B. */
-void AbstractStateMachine::react_main_region_Lanes_r2_B()
-{
-	/* The reactions of state B. */
-	if (check_main_region_Lanes_r2_B_tr0_tr0())
-	{ 
-		effect_main_region_Lanes_r2_B_tr0();
-	} 
-}
-
-/* The reactions of state null. */
-void AbstractStateMachine::react_main_region_Lanes_r2__final_()
-{
-}
-
-/* The reactions of state C. */
-void AbstractStateMachine::react_main_region_Lanes_r3_C()
-{
-	/* The reactions of state C. */
-	if (check_main_region_Lanes_r3_C_tr0_tr0())
-	{ 
-		effect_main_region_Lanes_r3_C_tr0();
-	} 
-}
-
-/* The reactions of state null. */
-void AbstractStateMachine::react_main_region_Lanes_r3__final_()
-{
-}
-
-/* The reactions of state wait. */
-void AbstractStateMachine::react_main_region_Lanes_guard_wait()
-{
-	/* The reactions of state wait. */
-	if (check_main_region_Lanes_guard_wait_tr0_tr0())
-	{ 
-		effect_main_region_Lanes_guard_wait_tr0();
-	}  else
-	{
-		effect_main_region_Lanes_guard_wait_lr0_lr0();
-	}
-}
-
 /* Default react sequence for initial entry  */
 void AbstractStateMachine::react_main_region__entry_Default()
 {
@@ -799,6 +665,158 @@ void AbstractStateMachine::react_main_region_Lanes_guard__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_Lanes_guard_wait_default();
+}
+
+sc_boolean AbstractStateMachine::react() {
+	/* State machine reactions. */
+	return false;
+}
+
+sc_boolean AbstractStateMachine::main_region_Wait_react(const sc_boolean try_transition) {
+	/* The reactions of state Wait. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			if (ifaceGui.pressed_raised)
+			{ 
+				exseq_main_region_Wait();
+				enseq_main_region_Lanes_default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_react(const sc_boolean try_transition) {
+	/* The reactions of state Lanes. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((react()) == (false)))
+		{ 
+			did_transition = false;
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r1_A_react(const sc_boolean try_transition) {
+	/* The reactions of state A. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((main_region_Lanes_react(try_transition)) == (false)))
+		{ 
+			if (timeEvents[0])
+			{ 
+				exseq_main_region_Lanes_r1_A();
+				ifaceGui.counter += 1;
+				ifaceInternalSCI.trigger_raised = true;
+				enseq_main_region_Lanes_r1__final__default();
+			}  else
+			{
+				did_transition = false;
+			}
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r1__final__react(const sc_boolean try_transition) {
+	/* The reactions of state null. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((main_region_Lanes_react(try_transition)) == (false)))
+		{ 
+			did_transition = false;
+		} 
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r2_B_react(const sc_boolean try_transition) {
+	/* The reactions of state B. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (timeEvents[1])
+		{ 
+			exseq_main_region_Lanes_r2_B();
+			ifaceGui.counter += 1;
+			ifaceInternalSCI.trigger_raised = true;
+			enseq_main_region_Lanes_r2__final__default();
+		}  else
+		{
+			did_transition = false;
+		}
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r2__final__react(const sc_boolean try_transition) {
+	/* The reactions of state null. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		did_transition = false;
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r3_C_react(const sc_boolean try_transition) {
+	/* The reactions of state C. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (timeEvents[2])
+		{ 
+			exseq_main_region_Lanes_r3_C();
+			ifaceGui.counter += 1;
+			ifaceInternalSCI.trigger_raised = true;
+			enseq_main_region_Lanes_r3__final__default();
+		}  else
+		{
+			did_transition = false;
+		}
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_r3__final__react(const sc_boolean try_transition) {
+	/* The reactions of state null. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		did_transition = false;
+	} 
+	return did_transition;
+}
+
+sc_boolean AbstractStateMachine::main_region_Lanes_guard_wait_react(const sc_boolean try_transition) {
+	/* The reactions of state wait. */
+	sc_boolean did_transition = try_transition;
+	if (try_transition)
+	{ 
+		if (((ifaceInternalSCI.trigger_raised)) && ((((ifaceGui.counter) == (3)))))
+		{ 
+			exseq_main_region_Lanes();
+			enseq_main_region_Wait_default();
+		}  else
+		{
+			did_transition = false;
+		}
+	} 
+	if (((did_transition) == (false)))
+	{ 
+		ifaceGui.update_raised = true;
+	} 
+	return did_transition;
 }
 
 

@@ -159,7 +159,7 @@ class AbstractDelay : public StatemachineInterface
 		void exseq_main_region_Wait_Button_1();
 		void exseq_main_region_Wait_Button_2();
 		void exseq_main_region();
-		void react_DelayedExit_main_region__entry_Default();
+		void react_main_region__entry_Default();
 		sc_boolean react();
 		sc_boolean main_region_StateA_react(const sc_boolean try_transition);
 		sc_boolean main_region_Do_Something_react(const sc_boolean try_transition);

@@ -274,7 +274,7 @@ void AbstractDelay::enseq_main_region_Wait_Button_2_default()
 void AbstractDelay::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_DelayedExit_main_region__entry_Default();
+	react_main_region__entry_Default();
 }
 
 /* Default exit sequence for state StateA */
@@ -344,7 +344,7 @@ void AbstractDelay::exseq_main_region()
 }
 
 /* Default react sequence for initial entry  */
-void AbstractDelay::react_DelayedExit_main_region__entry_Default()
+void AbstractDelay::react_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_StateA_default();

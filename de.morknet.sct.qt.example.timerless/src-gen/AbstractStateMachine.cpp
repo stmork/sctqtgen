@@ -166,7 +166,7 @@ void AbstractStateMachine::enseq_main_region_State_On_default()
 void AbstractStateMachine::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
-	react_Timerless_main_region__entry_Default();
+	react_main_region__entry_Default();
 }
 
 /* Default exit sequence for state State Off */
@@ -208,7 +208,7 @@ void AbstractStateMachine::exseq_main_region()
 }
 
 /* Default react sequence for initial entry  */
-void AbstractStateMachine::react_Timerless_main_region__entry_Default()
+void AbstractStateMachine::react_main_region__entry_Default()
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_State_Off_default();

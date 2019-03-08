@@ -117,7 +117,7 @@ class AbstractStateMachine : public StatemachineInterface
 		void exseq_main_region_State_Off();
 		void exseq_main_region_State_On();
 		void exseq_main_region();
-		void react_Timerless_main_region__entry_Default();
+		void react_main_region__entry_Default();
 		sc_boolean react();
 		sc_boolean main_region_State_Off_react(const sc_boolean try_transition);
 		sc_boolean main_region_State_On_react(const sc_boolean try_transition);
