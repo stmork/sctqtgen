@@ -31,7 +31,7 @@ AbstractStateMachineDispatcher::~AbstractStateMachineDispatcher()
 {
 }
 
-void AbstractStateMachineDispatcher::start()
+void AbstractStateMachineDispatcher::start(void)
 {
 	// Do some custom initialization.
 	initializeValues();
@@ -41,7 +41,7 @@ void AbstractStateMachineDispatcher::start()
 	react();
 }
 
-void AbstractStateMachineDispatcher::stop()
+void AbstractStateMachineDispatcher::stop(void)
 {
 	AbstractStateMachine::clearOutEvents();
 	AbstractStateMachine::exit();
@@ -54,7 +54,7 @@ void AbstractStateMachineDispatcher::runCycle()
 	react();
 }
 
-void AbstractStateMachineDispatcher::react()
+void AbstractStateMachineDispatcher::react(void)
 {
 
 	/**********************************
@@ -63,17 +63,17 @@ void AbstractStateMachineDispatcher::react()
 	
 	if (ifaceGui.isRaised_off())
 	{
-		sctQtDebug("emit off()...");
-		emit off();
+		sctQtDebug("emit Off()...");
+		emit Off();
 	}
 	if (ifaceGui.isRaised_on())
 	{
-		sctQtDebug("emit on()...");
-		emit on();
+		sctQtDebug("emit On()...");
+		emit On();
 	}
 }
 
-void AbstractStateMachineDispatcher::sctQtDebug(const QString &message) const
+void AbstractStateMachineDispatcher::sctQtDebug(const QString & message) const
 {
 	qDebug() << message;
 }
@@ -84,9 +84,9 @@ void AbstractStateMachineDispatcher::sctQtDebug(const QString &message) const
  *********************************/
 
 
-void AbstractStateMachineDispatcher::clicked( )
+void AbstractStateMachineDispatcher::Clicked( )
 {
-	sctQtDebug("clicked()...");
+	sctQtDebug("Clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
 }

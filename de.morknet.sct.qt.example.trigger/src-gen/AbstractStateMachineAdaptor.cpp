@@ -42,7 +42,7 @@ AbstractStateMachineAdaptor::~AbstractStateMachineAdaptor()
 	}
 }
 
-void AbstractStateMachineAdaptor::start()
+void AbstractStateMachineAdaptor::start(void)
 {
 	// Do some custom initialization.
 	initializeValues();
@@ -52,7 +52,7 @@ void AbstractStateMachineAdaptor::start()
 	react();
 }
 
-void AbstractStateMachineAdaptor::stop()
+void AbstractStateMachineAdaptor::stop(void)
 {
 	AbstractStateMachine::clearOutEvents();
 	AbstractStateMachine::exit();
@@ -65,7 +65,7 @@ void AbstractStateMachineAdaptor::runCycle()
 	react();
 }
 
-void AbstractStateMachineAdaptor::react()
+void AbstractStateMachineAdaptor::react(void)
 {
 	bool internalEventOccured = false;
 
@@ -102,7 +102,7 @@ void AbstractStateMachineAdaptor::react()
 	}
 }
 
-void AbstractStateMachineAdaptor::sctQtDebug(const QString &message) const
+void AbstractStateMachineAdaptor::sctQtDebug(const QString & message) const
 {
 	qDebug() << message;
 }
@@ -124,7 +124,7 @@ void AbstractStateMachineAdaptor::pressed( )
  * This method implements the canceling of the statemachine.
  * It intentionally does nothing.
  */
-void AbstractStateMachineAdaptor::cancel()
+void AbstractStateMachineAdaptor::cancel(void)
 {
 	sctQtDebug("Cancel.");
 }

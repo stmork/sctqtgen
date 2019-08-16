@@ -49,7 +49,7 @@ public slots:
 	 * entering the statemachine the method react() is run
 	 * to evaluate possible raised out events.
 	 */
-	void start();
+	void start(void);
 
 	/**
 	 * This method stops the statemachine and runs
@@ -57,7 +57,7 @@ public slots:
 	 * the method react() is run to evaluate possible
 	 * raised out events.
 	 */
-	void stop();
+	void stop(void);
 
 	/**********************************
 	 * Gui scope
@@ -67,7 +67,7 @@ public slots:
 	 * This callback acts as a slot for
 	 * the in event clicked.
 	 */
-	virtual void clicked( );
+	virtual void Clicked( );
 
 
 signals:
@@ -78,12 +78,12 @@ signals:
 	/**
 	 * This out event emits signal off.
 	 */
-	void off( );
+	void Off( );
 
 	/**
 	 * This out event emits signal on.
 	 */
-	void on( );
+	void On( );
 
 
 protected:
@@ -91,7 +91,7 @@ protected:
 	 * This method is intended to initialize possible ressources of
 	 * this Qt/SCT layer.
 	 */
-	virtual void initializeValues() = 0;
+	virtual void initializeValues(void) = 0;
 
 	/**
 	 * This runs a single statemachine cycle. See
@@ -100,7 +100,7 @@ protected:
 	 * method react() is run to evaluate possible
 	 * raised out events.
 	 */
-	virtual void runCycle() override;
+	virtual void runCycle(void) override;
 
 	/**
 	 * This method converts raised out events into
@@ -108,7 +108,7 @@ protected:
 	 * not converted into Qt signals. Instead a 
 	 * further runCycle() is done.
 	 */
-	virtual void react();
+	virtual void react(void);
 
 	/**
 	 * This method prints debug messages and may be
@@ -116,7 +116,7 @@ protected:
 	 *
 	 * @param message The message to log.
 	 */
-	virtual void sctQtDebug(const QString &message) const;
+	virtual void sctQtDebug(const QString & message) const;
 };
 
 #endif // ABSTRACTSTATEMACHINEDISPATCHER_H

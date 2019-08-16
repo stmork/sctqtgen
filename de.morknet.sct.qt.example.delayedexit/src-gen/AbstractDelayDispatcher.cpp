@@ -31,7 +31,7 @@ AbstractDelayDispatcher::~AbstractDelayDispatcher()
 {
 }
 
-void AbstractDelayDispatcher::start()
+void AbstractDelayDispatcher::start(void)
 {
 	// Do some custom initialization.
 	initializeValues();
@@ -41,7 +41,7 @@ void AbstractDelayDispatcher::start()
 	react();
 }
 
-void AbstractDelayDispatcher::stop()
+void AbstractDelayDispatcher::stop(void)
 {
 	AbstractDelay::clearOutEvents();
 	AbstractDelay::exit();
@@ -54,7 +54,7 @@ void AbstractDelayDispatcher::runCycle()
 	react();
 }
 
-void AbstractDelayDispatcher::react()
+void AbstractDelayDispatcher::react(void)
 {
 
 	/**********************************
@@ -88,7 +88,7 @@ void AbstractDelayDispatcher::react()
 	}
 }
 
-void AbstractDelayDispatcher::sctQtDebug(const QString &message) const
+void AbstractDelayDispatcher::sctQtDebug(const QString & message) const
 {
 	qDebug() << message;
 }

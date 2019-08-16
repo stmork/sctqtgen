@@ -43,7 +43,7 @@ AbstractCalculatorDispatcher::~AbstractCalculatorDispatcher()
 	}
 }
 
-void AbstractCalculatorDispatcher::start()
+void AbstractCalculatorDispatcher::start(void)
 {
 	// Do some custom initialization.
 	initializeValues();
@@ -53,7 +53,7 @@ void AbstractCalculatorDispatcher::start()
 	react();
 }
 
-void AbstractCalculatorDispatcher::stop()
+void AbstractCalculatorDispatcher::stop(void)
 {
 	AbstractCalculator::clearOutEvents();
 	AbstractCalculator::exit();
@@ -66,7 +66,7 @@ void AbstractCalculatorDispatcher::runCycle()
 	react();
 }
 
-void AbstractCalculatorDispatcher::react()
+void AbstractCalculatorDispatcher::react(void)
 {
 
 	/**********************************
@@ -85,7 +85,7 @@ void AbstractCalculatorDispatcher::react()
 	}
 }
 
-void AbstractCalculatorDispatcher::sctQtDebug(const QString &message) const
+void AbstractCalculatorDispatcher::sctQtDebug(const QString & message) const
 {
 	qDebug() << message;
 }
@@ -212,7 +212,7 @@ void AbstractCalculatorDispatcher::ButtonSub( )
  * This method implements the canceling of the statemachine.
  * It intentionally does nothing.
  */
-void AbstractCalculatorDispatcher::cancel()
+void AbstractCalculatorDispatcher::cancel(void)
 {
 	sctQtDebug("Cancel.");
 }
