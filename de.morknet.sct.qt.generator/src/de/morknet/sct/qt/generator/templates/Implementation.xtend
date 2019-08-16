@@ -100,7 +100,7 @@ class Implementation
 		«ENDIF»
 	}
 
-	void «className(entry)»::start()
+	void «className(entry)»::start(void)
 	{
 		«IF isThreadSafe()»
 		sc_lock lock(mutex);
@@ -114,7 +114,7 @@ class Implementation
 		react();
 	}
 
-	void «className(entry)»::stop()
+	void «className(entry)»::stop(void)
 	{
 		«IF isThreadSafe()»
 		sc_lock lock(mutex);
@@ -131,7 +131,7 @@ class Implementation
 		react();
 	}
 
-	void «className(entry)»::react()
+	void «className(entry)»::react(void)
 	{
 		«IF hasInternalEvents»
 			bool internalEventOccured = false;
@@ -168,7 +168,7 @@ class Implementation
 		«ENDIF»
 	}
 
-	void «className(entry)»::sctQtDebug(const QString &message) const
+	void «className(entry)»::sctQtDebug(const QString & message) const
 	{
 		«IF isDebug()»
 			qDebug() << message;
@@ -204,7 +204,7 @@ class Implementation
 	 * This method implements the canceling of the statemachine.
 	 * It intentionally does nothing.
 	 */
-	void «className(entry)»::cancel()
+	void «className(entry)»::cancel(void)
 	{
 		«IF isDebug()»
 		sctQtDebug("Cancel.");

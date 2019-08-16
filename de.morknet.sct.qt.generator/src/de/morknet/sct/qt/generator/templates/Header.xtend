@@ -88,7 +88,7 @@ class Header
 		 * statemachine. This layer implements all OCBs and signal/slot
 		 * management.
 		 */
-		explicit «className(entry)»(«qtBaseClass(entry)» * parent = nullptr);
+		explicit «className(entry)»(«qtBaseClass(entry)» * parent = «IF isCpp11()»nullptr«ELSE»Q_NULLPTR«ENDIF»);
 
 		/**
 		 * The destructor frees all resources allocated from this
@@ -114,7 +114,7 @@ class Header
 		 * entering the statemachine the method react() is run
 		 * to evaluate possible raised out events.
 		 */
-		void start();
+		void start(void);
 
 		/**
 		 * This method stops the statemachine and runs
@@ -122,7 +122,7 @@ class Header
 		 * the method react() is run to evaluate possible
 		 * raised out events.
 		 */
-		void stop();
+		void stop(void);
 
 		«FOR scope : getInterfaceScopes()»
 			«IF hasInEvents(scope)»
@@ -165,7 +165,7 @@ class Header
 		 * This method is intended to initialize possible ressources of
 		 * this Qt/SCT layer.
 		 */
-		virtual void initializeValues() = 0;
+		virtual void initializeValues(void) = 0;
 
 		/**
 		 * This runs a single statemachine cycle. See
@@ -174,7 +174,7 @@ class Header
 		 * method react() is run to evaluate possible
 		 * raised out events.
 		 */
-		virtual void runCycle()«IF isCpp11()» override«ENDIF»;
+		virtual void runCycle(void)«IF isCpp11()» override«ENDIF»;
 
 		/**
 		 * This method converts raised out events into
@@ -182,7 +182,7 @@ class Header
 		 * not converted into Qt signals. Instead a 
 		 * further runCycle() is done.
 		 */
-		virtual void react();
+		virtual void react(void);
 
 		/**
 		 * This method prints debug messages and may be
@@ -190,7 +190,7 @@ class Header
 		 *
 		 * @param message The message to log.
 		 */
-		virtual void sctQtDebug(const QString &message) const;
+		virtual void sctQtDebug(const QString & message) const;
 	«IF hasTimers()»
 	
 		virtual void setTimer(TimedStatemachineInterface* statemachine,
@@ -199,7 +199,7 @@ class Header
 			const sc_boolean isPeriodic)«IF isCpp11()» override«ENDIF»;
 		virtual void unsetTimer(TimedStatemachineInterface* statemachine,
 			const sc_eventid event)«IF isCpp11()» override«ENDIF»;
-		virtual void cancel()«IF isCpp11()» override«ENDIF»;
+		virtual void cancel(void)«IF isCpp11()» override«ENDIF»;
 	«ENDIF»
 	};
 	

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 - Steffen A. Mork */
+/* Copyright (C) 2019 - Steffen A. Mork */
 
 #ifndef ABSTRACTCALCULATOR_H_
 #define ABSTRACTCALCULATOR_H_
