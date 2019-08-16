@@ -8,6 +8,8 @@
  * $Author$
  */
 
+#pragma once
+
 #ifndef ABSTRACTCALCULATORDISPATCHER_H
 #define ABSTRACTCALCULATORDISPATCHER_H
 

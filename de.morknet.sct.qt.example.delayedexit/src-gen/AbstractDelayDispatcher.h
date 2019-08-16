@@ -8,6 +8,8 @@
  * $Author$
  */
 
+#pragma once
+
 #ifndef ABSTRACTDELAYDISPATCHER_H
 #define ABSTRACTDELAYDISPATCHER_H
 

@@ -8,6 +8,8 @@
  * $Author$
  */
 
+#pragma once
+
 #ifndef STATEMACHINETIMER_H
 #define STATEMACHINETIMER_H
 

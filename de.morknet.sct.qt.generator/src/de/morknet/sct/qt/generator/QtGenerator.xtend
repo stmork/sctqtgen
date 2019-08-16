@@ -24,7 +24,6 @@ import org.yakindu.sct.model.stext.stext.OperationDefinition
 import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.eclipse.emf.ecore.EObject
 import org.yakindu.sct.model.sexec.TimeEvent
-import org.yakindu.sct.model.stext.stext.EventRaisingExpression
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {

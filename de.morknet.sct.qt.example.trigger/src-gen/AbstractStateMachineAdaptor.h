@@ -8,6 +8,8 @@
  * $Author$
  */
 
+#pragma once
+
 #ifndef ABSTRACTSTATEMACHINEADAPTOR_H
 #define ABSTRACTSTATEMACHINEADAPTOR_H
 
