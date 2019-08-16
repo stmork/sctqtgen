@@ -371,7 +371,7 @@ sc_boolean AbstractCalculator::main_region_active_react(const sc_boolean try_tra
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (timeEvents[0])
 			{ 
@@ -394,7 +394,7 @@ sc_boolean AbstractCalculator::main_region_active_react(const sc_boolean try_tra
 			}
 		} 
 	} 
-	if (((did_transition) == (false)))
+	if ((did_transition) == (false))
 	{ 
 		if (ifaceGui.Button0_raised)
 		{ 
@@ -505,7 +505,7 @@ sc_boolean AbstractCalculator::main_region__final__react(const sc_boolean try_tr
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			did_transition = false;
 		} 

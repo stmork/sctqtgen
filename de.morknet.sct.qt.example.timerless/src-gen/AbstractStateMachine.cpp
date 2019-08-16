@@ -224,7 +224,7 @@ sc_boolean AbstractStateMachine::main_region_State_Off_react(const sc_boolean tr
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.clicked_raised)
 			{ 
@@ -244,7 +244,7 @@ sc_boolean AbstractStateMachine::main_region_State_On_react(const sc_boolean try
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.clicked_raised)
 			{ 

@@ -677,7 +677,7 @@ sc_boolean AbstractStateMachine::main_region_Wait_react(const sc_boolean try_tra
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.pressed_raised)
 			{ 
@@ -697,7 +697,7 @@ sc_boolean AbstractStateMachine::main_region_Lanes_react(const sc_boolean try_tr
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			did_transition = false;
 		} 
@@ -710,7 +710,7 @@ sc_boolean AbstractStateMachine::main_region_Lanes_r1_A_react(const sc_boolean t
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((main_region_Lanes_react(try_transition)) == (false)))
+		if ((main_region_Lanes_react(try_transition)) == (false))
 		{ 
 			if (timeEvents[0])
 			{ 
@@ -732,7 +732,7 @@ sc_boolean AbstractStateMachine::main_region_Lanes_r1__final__react(const sc_boo
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((main_region_Lanes_react(try_transition)) == (false)))
+		if ((main_region_Lanes_react(try_transition)) == (false))
 		{ 
 			did_transition = false;
 		} 
@@ -803,7 +803,7 @@ sc_boolean AbstractStateMachine::main_region_Lanes_guard_wait_react(const sc_boo
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((ifaceInternalSCI.trigger_raised)) && ((((ifaceGui.counter) == (3)))))
+		if (((ifaceInternalSCI.trigger_raised)) && (((ifaceGui.counter) == (3))))
 		{ 
 			exseq_main_region_Lanes();
 			enseq_main_region_Wait_default();
@@ -812,7 +812,7 @@ sc_boolean AbstractStateMachine::main_region_Lanes_guard_wait_react(const sc_boo
 			did_transition = false;
 		}
 	} 
-	if (((did_transition) == (false)))
+	if ((did_transition) == (false))
 	{ 
 		ifaceGui.update_raised = true;
 	} 

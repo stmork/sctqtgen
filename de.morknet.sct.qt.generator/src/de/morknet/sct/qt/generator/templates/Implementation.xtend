@@ -55,7 +55,8 @@ class Implementation
 	 * It's easy to say that the callback instances are implemented
 	 * by our class instance itself.
 	 */
-	«className(entry)»::«className(entry)»()
+	«className(entry)»::«className(entry)»(«qtBaseClass(entry)» * parent) :
+		«qtBaseClass(entry)»(parent)
 	{
 		«IF hasTimers»
 		«baseClassName(entry)»::setTimer(this);

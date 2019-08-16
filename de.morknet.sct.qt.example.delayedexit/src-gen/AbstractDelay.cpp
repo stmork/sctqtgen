@@ -360,7 +360,7 @@ sc_boolean AbstractDelay::main_region_StateA_react(const sc_boolean try_transiti
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if ((ifaceGui.button1_raised) || (ifaceGui.button2_raised))
 			{ 
@@ -372,7 +372,7 @@ sc_boolean AbstractDelay::main_region_StateA_react(const sc_boolean try_transiti
 			}
 		} 
 	} 
-	if (((did_transition) == (false)))
+	if ((did_transition) == (false))
 	{ 
 		if (ifaceGui.button1_raised)
 		{ 
@@ -387,7 +387,7 @@ sc_boolean AbstractDelay::main_region_Do_Something_react(const sc_boolean try_tr
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.button2_raised)
 			{ 
@@ -414,7 +414,7 @@ sc_boolean AbstractDelay::main_region_Wait_Button_1_react(const sc_boolean try_t
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.complete_raised)
 			{ 
@@ -434,7 +434,7 @@ sc_boolean AbstractDelay::main_region_Wait_Button_2_react(const sc_boolean try_t
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (((react()) == (false)))
+		if ((react()) == (false))
 		{ 
 			if (ifaceGui.complete_raised)
 			{ 

@@ -88,7 +88,7 @@ class Header
 		 * statemachine. This layer implements all OCBs and signal/slot
 		 * management.
 		 */
-		«className(entry)»();
+		explicit «className(entry)»(«qtBaseClass(entry)» * parent = nullptr);
 
 		/**
 		 * The destructor frees all resources allocated from this
