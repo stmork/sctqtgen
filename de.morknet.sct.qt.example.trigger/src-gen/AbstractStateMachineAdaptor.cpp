@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 - Steffen A. Mork
+ * Copyright (C) 2019 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!
@@ -17,7 +17,8 @@
  * It's easy to say that the callback instances are implemented
  * by our class instance itself.
  */
-AbstractStateMachineAdaptor::AbstractStateMachineAdaptor()
+AbstractStateMachineAdaptor::AbstractStateMachineAdaptor(QObject * parent) :
+	QObject(parent)
 {
 	AbstractStateMachine::setTimer(this);
 	AbstractStateMachine::init();

@@ -1,9 +1,9 @@
-Copyright (C) 2017 - Steffen A. Mork
+Copyright (C) 2019 - Steffen A. Mork
 Has internal events: true
 Has timers:          true
 
 Feature: LicenseHeader
-	licenseText = Copyright (C) 2017 - Steffen A. Mork // 
+	licenseText = Copyright (C) 2019 - Steffen A. Mork // 
 Feature: QtSettings
 	baseClassName = AbstractStateMachine // This parameter defines the base class name of the generated code.
 	className = AbstractStateMachineAdaptor // This parameter defines the generated class name.

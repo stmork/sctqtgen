@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 - Steffen A. Mork */
+/* Copyright (C) 2019 - Steffen A. Mork */
 
 #ifndef ABSTRACTSTATEMACHINE_H_
 #define ABSTRACTSTATEMACHINE_H_

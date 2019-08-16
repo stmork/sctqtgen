@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 - Steffen A. Mork
+ * Copyright (C) 2019 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!
@@ -43,7 +43,7 @@ public:
 	 * statemachine. This layer implements all OCBs and signal/slot
 	 * management.
 	 */
-	AbstractStateMachineAdaptor();
+	explicit AbstractStateMachineAdaptor(QObject * parent = nullptr);
 
 	/**
 	 * The destructor frees all resources allocated from this

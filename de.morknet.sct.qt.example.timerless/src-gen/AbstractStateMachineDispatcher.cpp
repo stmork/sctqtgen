@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 - Steffen A. Mork
+ * Copyright (C) 2019 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!
@@ -16,7 +16,8 @@
  * It's easy to say that the callback instances are implemented
  * by our class instance itself.
  */
-AbstractStateMachineDispatcher::AbstractStateMachineDispatcher()
+AbstractStateMachineDispatcher::AbstractStateMachineDispatcher(QObject * parent) :
+	QObject(parent)
 {
 	AbstractStateMachine::init();
 }
@@ -62,13 +63,13 @@ void AbstractStateMachineDispatcher::react()
 	
 	if (ifaceGui.isRaised_off())
 	{
-		sctQtDebug("emit off()...");
-		emit off();
+		sctQtDebug("emit Off()...");
+		emit Off();
 	}
 	if (ifaceGui.isRaised_on())
 	{
-		sctQtDebug("emit on()...");
-		emit on();
+		sctQtDebug("emit On()...");
+		emit On();
 	}
 }
 
@@ -83,9 +84,9 @@ void AbstractStateMachineDispatcher::sctQtDebug(const QString &message) const
  *********************************/
 
 
-void AbstractStateMachineDispatcher::clicked( )
+void AbstractStateMachineDispatcher::Clicked( )
 {
-	sctQtDebug("clicked()...");
+	sctQtDebug("Clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
 }
