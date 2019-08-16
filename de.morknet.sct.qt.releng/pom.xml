@@ -13,7 +13,7 @@
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
 		<tycho-extras-version>0.24.0</tycho-extras-version>
-		<xtext-version>2.9.2</xtext-version>
+		<xtext-version>2.15.0</xtext-version>
 		<antrun-version>1.8</antrun-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<eclipse.distro>mars</eclipse.distro>
