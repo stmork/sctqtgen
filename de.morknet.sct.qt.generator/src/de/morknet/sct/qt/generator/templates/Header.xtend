@@ -31,6 +31,8 @@ class Header
 	'''
 	«fileHeader(entry)»
 
+	#pragma once
+
 	#ifndef «classDefineGuard(entry)»
 	#define «classDefineGuard(entry)»
 
@@ -209,6 +211,8 @@ class Header
 	def private timer(GeneratorEntry it)
 	'''
 	«fileHeader()»
+
+	#pragma once
 
 	#ifndef STATEMACHINETIMER_H
 	#define STATEMACHINETIMER_H

@@ -1,6 +1,7 @@
 1.2.5
  * Add parent pointer of Qt base class to constructor which
    defaults to nullptr.
+ * Added #pragma once to generated header.
 
 1.2.4
  * Renamed timer slot.
