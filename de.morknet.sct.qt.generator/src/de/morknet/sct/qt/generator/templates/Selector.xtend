@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017  -  Steffen A. Mork
+ * Copyright (C) 2019  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -74,6 +74,11 @@ class Selector
 			count += getEvents(scope).size();
 		}
 		return count;
+	}
+
+	def boolean isEventDriven(ExecutionFlow it)
+	{
+		annotations.size > 0
 	}
 
 	def boolean hasInternalEvents(ExecutionFlow it)

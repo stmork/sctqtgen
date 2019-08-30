@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017  -  Steffen A. Mork
+ * Copyright (C) 2019  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -159,12 +159,14 @@ class Implementation
 					internalEventOccured |= «instanceName(scope)».«asRaised(event)»();
 				«ENDFOR»
 			«ENDFOR»
+			«IF !isEventDriven»
 
 			// Check for internal events
 			if (internalEventOccured)
 			{
 				runCycle();
 			}
+			«ENDIF»
 		«ENDIF»
 	}
 
@@ -193,7 +195,9 @@ class Implementation
 		sctQtDebug("«Emit(event)»()...");
 		«ENDIF»
 		«instanceName(scope)».«asRaise(event)»(«parameter(event)»);
+		«IF !isEventDriven»
 		runCycle();
+		«ENDIF»
 	}
 			«ENDFOR»
 		«ENDIF»

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017  -  Steffen A. Mork
+ * Copyright (C) 2019  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
@@ -24,6 +24,7 @@ import org.yakindu.sct.model.stext.stext.OperationDefinition
 import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.eclipse.emf.ecore.EObject
 import org.yakindu.sct.model.sexec.TimeEvent
+import org.yakindu.base.types.Annotation
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
@@ -57,6 +58,11 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 				«v.parameter.name» = «v.stringValue » // «v.parameter.comment»
 			«ENDFOR»
 		«ENDFOR»
+		Is event driven: «selector.isEventDriven(flow)»
+		«flow.annotations»
+		«FOR Annotation anno : flow.annotations»
+		Annotation: «anno.toString»
+		«ENDFOR»
 		«FOR Scope scope : flow.scopes»
 		Scope: «name(scope)»
 			Has in events:  «selector.hasInEvents(scope)»
@@ -89,6 +95,11 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 		Timers:
 		«FOR TimeEvent t : flow.eAllContents.filter(TimeEvent).toList»
 		«t»
+		«ENDFOR»
+
+		Generator:
+		«FOR EObject o : entry.eAllContents.toList»
+		«o»
 		«ENDFOR»
 	'''
 }

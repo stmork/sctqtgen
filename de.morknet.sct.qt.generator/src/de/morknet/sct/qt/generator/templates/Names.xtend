@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017  -  Steffen A. Mork
+ * Copyright (C) 2019  -  Steffen A. Mork
  * $Id$
  * $Author$
  */
