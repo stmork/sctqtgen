@@ -12,6 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.yakindu.sct.model.sgen;bundle-version="3.0.0",
  org.yakindu.sct.model.sexec;bundle-version="3.0.0",
  org.yakindu.sct.model.stext;bundle-version="3.0.0",
- org.yakindu.sct.generator.core;bundle-version="3.0.0",
- com.yakindu.sct.license;bundle-version="3.0.0"
+ org.yakindu.sct.generator.core;bundle-version="3.0.0"
 Automatic-Module-Name: de.morknet.sct.qt.generator
