@@ -25,6 +25,7 @@ import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.eclipse.emf.ecore.EObject
 import org.yakindu.sct.model.sexec.TimeEvent
 import org.yakindu.base.types.Annotation
+import org.yakindu.sct.model.sgraph.Statechart
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
@@ -38,10 +39,12 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	{
 		initFeatures(entry)
 
+		var sc = flow.sourceElement as Statechart
+
 		if (isDebug())
 		{
 			access.generateFile("Log.txt", info(flow, entry))
-			access.generateFile("Elements.txt", elements(flow, entry))
+			access.generateFile("Elements.txt", elements(sc, entry))
 		}
 		header.generate(flow, entry, access)
 		impl.generate(flow, entry, access)
@@ -86,8 +89,8 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 		«ENDFOR»
 	'''
 
-	def private elements(ExecutionFlow flow, GeneratorEntry entry) '''
-		Flow:
+	def private elements(Statechart flow, GeneratorEntry entry) '''
+		Statechart:
 		«FOR EObject o : flow.eAllContents.toList»
 		«o»
 		«ENDFOR»

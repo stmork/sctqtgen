@@ -5,10 +5,13 @@ Bundle-SymbolicName: de.morknet.sct.qt.generator; singleton:=true
 Bundle-Version: 1.2.6.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: MORKNet
-Export-Package: de.morknet.sct.qt.generator
+Export-Package: de.morknet.sct.qt.generator,
+ de.morknet.sct.qt.generator.templates
 Require-Bundle: org.eclipse.core.runtime,
  org.yakindu.sct.generator.cpp;bundle-version="3.0.0",
  org.yakindu.sct.model.sgen;bundle-version="3.0.0",
  org.yakindu.sct.model.sexec;bundle-version="3.0.0",
  org.yakindu.sct.model.stext;bundle-version="3.0.0",
- org.yakindu.sct.generator.core;bundle-version="3.0.0"
+ org.yakindu.sct.generator.core;bundle-version="3.0.0",
+ com.yakindu.sct.license;bundle-version="3.0.0"
+Automatic-Module-Name: de.morknet.sct.qt.generator

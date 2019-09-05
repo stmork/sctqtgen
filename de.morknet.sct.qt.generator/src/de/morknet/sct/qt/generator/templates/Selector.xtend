@@ -12,6 +12,7 @@ import org.yakindu.base.types.Direction
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sexec.TimeEvent
 import org.yakindu.sct.model.sgraph.Scope
+import org.yakindu.sct.model.sgraph.Statechart
 import org.yakindu.sct.model.stext.stext.InterfaceScope
 import org.yakindu.sct.model.stext.stext.InternalScope
 import org.yakindu.sct.model.stext.stext.OperationDefinition
@@ -78,7 +79,9 @@ class Selector
 
 	def boolean isEventDriven(ExecutionFlow it)
 	{
-		annotations.size > 0
+		var sc = sourceElement as Statechart
+
+		sc.annotations.exists[a|a.type.name == "EventDriven"]
 	}
 
 	def boolean hasInternalEvents(ExecutionFlow it)
