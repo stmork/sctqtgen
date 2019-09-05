@@ -16,6 +16,8 @@ Feature: Outlet
 	targetProject = de.morknet.sct.qt.example.trigger // 
 	targetFolder = src-gen // 
 	libraryTargetFolder = src-lib // A distinct output folder for static code artifacts (which are independent of concrete statechart models). It will not be cleaned or overwritten in succeeding generation passes. If not specified, the code will be generated into the target folder as well.
+Is event driven: false
+[]
 Scope: Gui
 	Has in events:  true
 	Has out events: true
