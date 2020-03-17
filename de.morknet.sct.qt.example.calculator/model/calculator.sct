@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_gP5QkN3zEeW5mM22I-EbLg" specification="interface gui:&#xA;&#x9;in event Button0&#xA;&#x9;in event Button1&#xA;&#x9;in event Button2&#xA;&#x9;in event Button3&#xA;&#x9;in event Button4&#xA;&#x9;in event Button5&#xA;&#x9;in event Button6&#xA;&#x9;in event Button7&#xA;&#x9;in event Button8&#xA;&#x9;in event Button9&#xA;&#x9;in event ButtonAdd&#xA;&#x9;in event ButtonSub&#xA;&#x9;in event ButtonMult&#xA;&#x9;in event ButtonDiv&#xA;&#x9;in event ButtonEquals&#xA;&#x9;in event ButtonClear&#xA;&#xA;&#x9;out event Exit&#xA;&#x9;out event ShowAccu : integer&#xA;&#xA;internal:&#xA;&#x9;var operand : integer&#xA;&#x9;var accu : integer&#xA;&#xA;&#x9;operation Add()&#xA;&#x9;operation Sub()&#xA;&#x9;operation Mult()&#xA;&#x9;operation Div()&#xA;&#x9;operation Equals()&#xA;&#x9;operation Clear()&#xA;&#x9;operation Digit(digit : integer)&#xA;" name="Calculator">
+  <sgraph:Statechart xmi:id="_gP5QkN3zEeW5mM22I-EbLg" specification="@EventDriven&#xA;interface gui:&#xA;&#x9;in event Button0&#xA;&#x9;in event Button1&#xA;&#x9;in event Button2&#xA;&#x9;in event Button3&#xA;&#x9;in event Button4&#xA;&#x9;in event Button5&#xA;&#x9;in event Button6&#xA;&#x9;in event Button7&#xA;&#x9;in event Button8&#xA;&#x9;in event Button9&#xA;&#x9;in event ButtonAdd&#xA;&#x9;in event ButtonSub&#xA;&#x9;in event ButtonMult&#xA;&#x9;in event ButtonDiv&#xA;&#x9;in event ButtonEquals&#xA;&#x9;in event ButtonClear&#xA;&#xA;&#x9;out event Exit&#xA;&#x9;out event ShowAccu : integer&#xA;&#xA;internal:&#xA;&#x9;var operand : integer&#xA;&#x9;var accu : integer&#xA;&#xA;&#x9;operation Add()&#xA;&#x9;operation Sub()&#xA;&#x9;operation Mult()&#xA;&#x9;operation Div()&#xA;&#x9;operation Equals()&#xA;&#x9;operation Clear()&#xA;&#x9;operation Digit(digit : integer)&#xA;" name="Calculator">
     <regions xmi:id="_gQgUkN3zEeW5mM22I-EbLg" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_gRH_oN3zEeW5mM22I-EbLg">
         <outgoingTransitions xmi:id="_gRS-wN3zEeW5mM22I-EbLg" target="_gRLqAN3zEeW5mM22I-EbLg"/>
@@ -75,6 +75,7 @@
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_gRZscN3zEeW5mM22I-EbLg" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_gRZsct3zEeW5mM22I-EbLg" fontName="Verdana"/>
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_gRZscd3zEeW5mM22I-EbLg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_yqUbIGgoEeq2a6l4oem9jw" id="(0.5445344129554656,0.003436426116838488)"/>
     </edges>
     <edges xmi:id="_kncDIN30EeW5mM22I-EbLg" type="Transition" element="_knaN8N30EeW5mM22I-EbLg" source="_gROGQN3zEeW5mM22I-EbLg" target="_jUlUIN30EeW5mM22I-EbLg">
       <children xsi:type="notation:DecorationNode" xmi:id="_kncqMd30EeW5mM22I-EbLg" type="TransitionExpression">
@@ -84,6 +85,7 @@
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_kncDId30EeW5mM22I-EbLg" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_kncqMN30EeW5mM22I-EbLg" fontName="Verdana"/>
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_kncDIt30EeW5mM22I-EbLg" points="[-26, 74, 39, -121]$[-67, 188, -2, -7]"/>
+      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_xvrX0GgoEeq2a6l4oem9jw" id="(0.5344129554655871,0.9896907216494846)"/>
     </edges>
     <edges xmi:id="_r3fJUN30EeW5mM22I-EbLg" type="Transition" element="_r3be8N30EeW5mM22I-EbLg" source="_gROGQN3zEeW5mM22I-EbLg" target="_gROGQN3zEeW5mM22I-EbLg">
       <children xsi:type="notation:DecorationNode" xmi:id="_r3fJVN30EeW5mM22I-EbLg" type="TransitionExpression">

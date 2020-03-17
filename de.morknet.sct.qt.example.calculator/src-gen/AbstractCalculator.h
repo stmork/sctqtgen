@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 - Steffen A. Mork */
+/* Copyright (C) 2020 - Steffen A. Mork */
 
 #ifndef ABSTRACTCALCULATOR_H_
 #define ABSTRACTCALCULATOR_H_
@@ -12,6 +12,8 @@
 */
 
 
+
+
 /*! Define indices of states in the StateConfVector */
 #define SCVI_MAIN_REGION_ACTIVE 0
 #define SCVI_MAIN_REGION__FINAL_ 0
@@ -22,7 +24,7 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 	public:
 		AbstractCalculator();
 		
-		~AbstractCalculator();
+		virtual ~AbstractCalculator();
 		
 		/*! Enumeration of all states */ 
 		typedef enum
@@ -38,6 +40,29 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		class SCI_Gui
 		{
 			public:
+				SCI_Gui(AbstractCalculator * parent):
+					Button0_raised(false),
+					Button1_raised(false),
+					Button2_raised(false),
+					Button3_raised(false),
+					Button4_raised(false),
+					Button5_raised(false),
+					Button6_raised(false),
+					Button7_raised(false),
+					Button8_raised(false),
+					Button9_raised(false),
+					ButtonAdd_raised(false),
+					ButtonSub_raised(false),
+					ButtonMult_raised(false),
+					ButtonDiv_raised(false),
+					ButtonEquals_raised(false),
+					ButtonClear_raised(false),
+					Exit_raised(false),
+					ShowAccu_raised(false),
+					ShowAccu_value(),
+					parent(parent)
+				{}
+				
 				/*! Raises the in event 'Button0' that is defined in the interface scope 'gui'. */
 				void raise_button0();
 				
@@ -135,6 +160,7 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 				sc_boolean Exit_raised;
 				sc_boolean ShowAccu_raised;
 				sc_integer ShowAccu_value;
+				AbstractCalculator * parent;
 				
 				
 		};
@@ -221,6 +247,10 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 		class InternalSCI
 		{
 			public:
+				InternalSCI(AbstractCalculator * parent):
+					parent(parent)
+				{}
+				
 				/*! Gets the value of the variable 'operand' that is defined in the internal scope. */
 				sc_integer get_operand() const;
 				
@@ -247,6 +277,7 @@ class AbstractCalculator : public TimedStatemachineInterface, public Statemachin
 				friend class AbstractCalculator;
 				sc_integer operand;
 				sc_integer accu;
+				AbstractCalculator * parent;
 				
 				
 		};

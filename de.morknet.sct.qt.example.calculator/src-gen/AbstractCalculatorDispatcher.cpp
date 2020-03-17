@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 - Steffen A. Mork
+ * Copyright (C) 2020 - Steffen A. Mork
  *
  * NOTE: This code is automatically generated. So do not
  * change this file! The changes will be lost!
@@ -100,112 +100,96 @@ void AbstractCalculatorDispatcher::Button0( )
 {
 	sctQtDebug("Button0()...");
 	ifaceGui.raise_button0();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button1( )
 {
 	sctQtDebug("Button1()...");
 	ifaceGui.raise_button1();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button2( )
 {
 	sctQtDebug("Button2()...");
 	ifaceGui.raise_button2();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button3( )
 {
 	sctQtDebug("Button3()...");
 	ifaceGui.raise_button3();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button4( )
 {
 	sctQtDebug("Button4()...");
 	ifaceGui.raise_button4();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button5( )
 {
 	sctQtDebug("Button5()...");
 	ifaceGui.raise_button5();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button6( )
 {
 	sctQtDebug("Button6()...");
 	ifaceGui.raise_button6();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button7( )
 {
 	sctQtDebug("Button7()...");
 	ifaceGui.raise_button7();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button8( )
 {
 	sctQtDebug("Button8()...");
 	ifaceGui.raise_button8();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::Button9( )
 {
 	sctQtDebug("Button9()...");
 	ifaceGui.raise_button9();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonAdd( )
 {
 	sctQtDebug("ButtonAdd()...");
 	ifaceGui.raise_buttonAdd();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonClear( )
 {
 	sctQtDebug("ButtonClear()...");
 	ifaceGui.raise_buttonClear();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonDiv( )
 {
 	sctQtDebug("ButtonDiv()...");
 	ifaceGui.raise_buttonDiv();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonEquals( )
 {
 	sctQtDebug("ButtonEquals()...");
 	ifaceGui.raise_buttonEquals();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonMult( )
 {
 	sctQtDebug("ButtonMult()...");
 	ifaceGui.raise_buttonMult();
-	runCycle();
 }
 
 void AbstractCalculatorDispatcher::ButtonSub( )
 {
 	sctQtDebug("ButtonSub()...");
 	ifaceGui.raise_buttonSub();
-	runCycle();
 }
 
 /**

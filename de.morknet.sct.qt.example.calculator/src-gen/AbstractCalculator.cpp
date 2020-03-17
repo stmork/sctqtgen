@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 - Steffen A. Mork */
+/* Copyright (C) 2020 - Steffen A. Mork */
 
 #include "AbstractCalculator.h"
 
@@ -11,8 +11,8 @@
 AbstractCalculator::AbstractCalculator()  :
 timer(sc_null),
 stateConfVectorPosition(0),
-ifaceGui(),
-ifaceInternalSCI(),
+ifaceGui(this),
+ifaceInternalSCI(this),
 ifaceInternalSCI_OCB(sc_null)
 {
 }
@@ -20,6 +20,10 @@ ifaceInternalSCI_OCB(sc_null)
 AbstractCalculator::~AbstractCalculator()
 {
 }
+
+
+
+
 
 
 void AbstractCalculator::init()
@@ -134,7 +138,8 @@ void AbstractCalculator::raiseTimeEvent(sc_eventid evid)
 	if ((evid >= (sc_eventid)timeEvents) && (evid < (sc_eventid)(&timeEvents[timeEventsCount])))
 	{
 		*(sc_boolean*)evid = true;
-	}				
+		runCycle();
+	}
 }
 
 sc_boolean AbstractCalculator::isStateActive(CalculatorStates state) const
@@ -159,81 +164,113 @@ AbstractCalculator::SCI_Gui* AbstractCalculator::getSCI_Gui()
 void AbstractCalculator::SCI_Gui::raise_button0()
 {
 	Button0_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button1 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button1()
 {
 	Button1_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button2 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button2()
 {
 	Button2_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button3 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button3()
 {
 	Button3_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button4 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button4()
 {
 	Button4_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button5 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button5()
 {
 	Button5_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button6 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button6()
 {
 	Button6_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button7 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button7()
 {
 	Button7_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button8 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button8()
 {
 	Button8_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Button9 in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_button9()
 {
 	Button9_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonAdd in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonAdd()
 {
 	ButtonAdd_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonSub in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonSub()
 {
 	ButtonSub_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonMult in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonMult()
 {
 	ButtonMult_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonDiv in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonDiv()
 {
 	ButtonDiv_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonEquals in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonEquals()
 {
 	ButtonEquals_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event ButtonClear in interface SCI_Gui */
 void AbstractCalculator::SCI_Gui::raise_buttonClear()
 {
 	ButtonClear_raised = true;
+	
+	parent->runCycle();
 }
 /* Functions for event Exit in interface SCI_Gui */
 sc_boolean AbstractCalculator::SCI_Gui::isRaised_exit() const
@@ -256,7 +293,7 @@ sc_integer AbstractCalculator::InternalSCI::get_operand() const
 
 void AbstractCalculator::InternalSCI::set_operand(sc_integer value)
 {
-	operand = value;
+	this->operand = value;
 }
 
 sc_integer AbstractCalculator::InternalSCI::get_accu() const
@@ -266,7 +303,7 @@ sc_integer AbstractCalculator::InternalSCI::get_accu() const
 
 void AbstractCalculator::InternalSCI::set_accu(sc_integer value)
 {
-	accu = value;
+	this->accu = value;
 }
 
 void AbstractCalculator::setInternalSCI_OCB(InternalSCI_OCB* operationCallback)

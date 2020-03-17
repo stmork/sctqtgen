@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 - Steffen A. Mork */
+/* Copyright (C) 2020 - Steffen A. Mork */
 
 #include "AbstractStateMachine.h"
 

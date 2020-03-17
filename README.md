@@ -174,8 +174,12 @@ Emit signals everytime a *isRaisedXXX()* method returns true.
 **NOTE!** Don't forget to call the base classes *react()* method otherwise you
 will loose events.
 
+#### Event queuing
+Since version 1.2.6 the SCT-Qt-Generator automatically supports the new
+event queue feature of YAKINDU statechart tools.
+
 #### Thread safety
-Under normal cirmumstances you don't bother about thread safety. Simply
+Under normal circumstances you don't bother about thread safety. Simply
 modify the feature *QtSettings* parameter *threadSafe* to your needs and
 everything is done. If you need to implement custom processing for events
 and thread safety you have to add the following line to every custom event
