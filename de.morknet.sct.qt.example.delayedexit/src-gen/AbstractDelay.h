@@ -23,7 +23,7 @@ class AbstractDelay : public StatemachineInterface
 	public:
 		AbstractDelay();
 		
-		~AbstractDelay();
+		virtual ~AbstractDelay();
 		
 		/*! Enumeration of all states */ 
 		typedef enum

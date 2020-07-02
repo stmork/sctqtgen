@@ -11,10 +11,12 @@
 AbstractCalculator::AbstractCalculator()  :
 timer(sc_null),
 stateConfVectorPosition(0),
-ifaceGui(this),
-ifaceInternalSCI(this),
+ifaceGui(sc_null),
+ifaceInternalSCI(sc_null),
 ifaceInternalSCI_OCB(sc_null)
 {
+	this->ifaceGui.parent = this;
+	this->ifaceInternalSCI.parent = this;
 }
 
 AbstractCalculator::~AbstractCalculator()

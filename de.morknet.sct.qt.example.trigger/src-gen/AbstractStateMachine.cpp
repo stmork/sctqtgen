@@ -222,7 +222,7 @@ sc_integer AbstractStateMachine::SCI_Gui::get_counter() const
 
 void AbstractStateMachine::SCI_Gui::set_counter(sc_integer value)
 {
-	counter = value;
+	this->counter = value;
 }
 
 /* Functions for event trigger in interface InternalSCI */

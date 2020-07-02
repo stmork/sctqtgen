@@ -29,7 +29,7 @@ class AbstractStateMachine : public TimedStatemachineInterface, public Statemach
 	public:
 		AbstractStateMachine();
 		
-		~AbstractStateMachine();
+		virtual ~AbstractStateMachine();
 		
 		/*! Enumeration of all states */ 
 		typedef enum
