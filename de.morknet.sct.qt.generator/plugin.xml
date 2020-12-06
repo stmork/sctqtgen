@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-	<extension point="org.yakindu.sct.generator.core.generator">
+	<extension point="com.yakindu.sct.generator.core.generator">
 		<SCTGenerator
-				executor="org.yakindu.sct.generator.core.execution.SExecGeneratorEntryExecutor"
+				executor="com.yakindu.sct.generator.core.execution.SExecGeneratorEntryExecutor"
 				bindings="de.morknet.sct.qt.generator.QtGeneratorModule" 
 				description="A generator for coupling the SCT-events and Qt signals and slots"
 				id="de::morknet::sct::qt::generator"
@@ -17,11 +17,11 @@
 			</FeatureLibrary>
 		</SCTGenerator>
 	</extension>
-	<extension point="org.yakindu.sct.generator.core.extensions">
+	<extension point="com.yakindu.sct.generator.core.extensions">
 		<ExtensionGeneratorMapping fileExtension="sct" generatorId="de::morknet::sct::qt::generator">
 		</ExtensionGeneratorMapping>
 	</extension>
-	<extension point="org.yakindu.sct.generator.core.featuretypes">
+	<extension point="com.yakindu.sct.generator.core.featuretypes">
 		<FeatureLibrary library_id="de.morknet.sct.qt.generator.FeatureTypeLibrary"
 				defaultProvider="de.morknet.sct.qt.generator.QtGeneratorDefaultValueProvider"
 				uri="platform:/plugin/de.morknet.sct.qt.generator/library/FeatureTypeLibrary.xmi">

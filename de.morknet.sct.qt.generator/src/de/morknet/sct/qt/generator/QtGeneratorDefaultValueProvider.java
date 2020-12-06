@@ -9,10 +9,11 @@ package de.morknet.sct.qt.generator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.yakindu.sct.generator.core.library.AbstractDefaultFeatureValueProvider;
-import org.yakindu.sct.model.sgen.FeatureParameterValue;
-import org.yakindu.sct.model.sgen.FeatureType;
-import org.yakindu.sct.model.sgen.FeatureTypeLibrary;
+
+import com.yakindu.sct.generator.core.library.AbstractDefaultFeatureValueProvider;
+import com.yakindu.sct.model.sgen.FeatureParameterValue;
+import com.yakindu.sct.model.sgen.FeatureType;
+import com.yakindu.sct.model.sgen.FeatureTypeLibrary;
 	
 /**
  * Default value provider for Qt-Generator for SCT feature library

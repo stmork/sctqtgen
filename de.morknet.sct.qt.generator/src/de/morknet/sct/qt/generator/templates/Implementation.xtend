@@ -7,9 +7,9 @@
 package de.morknet.sct.qt.generator.templates
 
 import com.google.inject.Inject
+import com.yakindu.sct.model.sexec.ExecutionFlow
+import com.yakindu.sct.model.sgen.GeneratorEntry
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.yakindu.sct.model.sexec.ExecutionFlow
-import org.yakindu.sct.model.sgen.GeneratorEntry
 
 class Implementation
 {

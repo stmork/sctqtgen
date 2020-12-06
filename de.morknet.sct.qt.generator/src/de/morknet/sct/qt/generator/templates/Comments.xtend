@@ -7,9 +7,9 @@
 package de.morknet.sct.qt.generator.templates
 
 import com.google.inject.Inject
-import org.yakindu.sct.model.sgen.GeneratorEntry
-import org.yakindu.sct.model.stext.stext.InterfaceScope
-import org.yakindu.sct.model.stext.stext.InternalScope
+import com.yakindu.sct.model.sgen.GeneratorEntry
+import com.yakindu.sct.model.stext.stext.InterfaceScope
+import com.yakindu.sct.model.stext.stext.InternalScope
 
 class Comments
 {

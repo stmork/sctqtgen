@@ -7,15 +7,15 @@
 package de.morknet.sct.qt.generator.templates
 
 import com.google.inject.Inject
+import com.yakindu.base.types.Direction
+import com.yakindu.sct.model.sexec.ExecutionFlow
+import com.yakindu.sct.model.sexec.TimeEvent
+import com.yakindu.sct.model.sgraph.Scope
+import com.yakindu.sct.model.sgraph.Statechart
+import com.yakindu.sct.model.stext.stext.InterfaceScope
+import com.yakindu.sct.model.stext.stext.InternalScope
+import com.yakindu.sct.model.stext.stext.OperationDefinition
 import java.util.List
-import org.yakindu.base.types.Direction
-import org.yakindu.sct.model.sexec.ExecutionFlow
-import org.yakindu.sct.model.sexec.TimeEvent
-import org.yakindu.sct.model.sgraph.Scope
-import org.yakindu.sct.model.sgraph.Statechart
-import org.yakindu.sct.model.stext.stext.InterfaceScope
-import org.yakindu.sct.model.stext.stext.InternalScope
-import org.yakindu.sct.model.stext.stext.OperationDefinition
 
 class Selector
 {

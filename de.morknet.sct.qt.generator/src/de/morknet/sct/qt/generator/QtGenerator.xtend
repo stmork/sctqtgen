@@ -6,26 +6,26 @@
 
 package de.morknet.sct.qt.generator
 
+import com.yakindu.base.types.Annotation
+import com.yakindu.sct.generator.core.IExecutionFlowGenerator
+import com.yakindu.sct.generator.core.ISCTGenerator
+import com.yakindu.sct.model.sexec.ExecutionFlow
+import com.yakindu.sct.model.sexec.ExecutionState
+import com.yakindu.sct.model.sexec.TimeEvent
+import com.yakindu.sct.model.sgen.FeatureConfiguration
+import com.yakindu.sct.model.sgen.FeatureParameterValue
+import com.yakindu.sct.model.sgen.GeneratorEntry
+import com.yakindu.sct.model.sgraph.Scope
+import com.yakindu.sct.model.sgraph.Statechart
+import com.yakindu.sct.model.stext.stext.OperationDefinition
 import de.morknet.sct.qt.generator.templates.Features
 import de.morknet.sct.qt.generator.templates.Header
 import de.morknet.sct.qt.generator.templates.Implementation
 import de.morknet.sct.qt.generator.templates.Names
 import de.morknet.sct.qt.generator.templates.Selector
 import javax.inject.Inject
-import org.eclipse.xtext.generator.IFileSystemAccess
-import org.yakindu.sct.generator.core.ISCTGenerator
-import org.yakindu.sct.model.sexec.ExecutionFlow
-import org.yakindu.sct.model.sexec.ExecutionState
-import org.yakindu.sct.model.sgen.FeatureConfiguration
-import org.yakindu.sct.model.sgen.FeatureParameterValue
-import org.yakindu.sct.model.sgen.GeneratorEntry
-import org.yakindu.sct.model.sgraph.Scope
-import org.yakindu.sct.model.stext.stext.OperationDefinition
-import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.eclipse.emf.ecore.EObject
-import org.yakindu.sct.model.sexec.TimeEvent
-import org.yakindu.base.types.Annotation
-import org.yakindu.sct.model.sgraph.Statechart
+import org.eclipse.xtext.generator.IFileSystemAccess
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {

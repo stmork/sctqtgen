@@ -1,10 +1,9 @@
 package de.morknet.sct.qt.generator;
 
-import org.yakindu.sct.generator.core.IGeneratorModule;
-import org.yakindu.sct.generator.core.IExecutionFlowGenerator;
-import org.yakindu.sct.model.sgen.GeneratorEntry;
-
 import com.google.inject.Binder;
+import com.yakindu.sct.generator.core.IExecutionFlowGenerator;
+import com.yakindu.sct.generator.core.IGeneratorModule;
+import com.yakindu.sct.model.sgen.GeneratorEntry;
 
 public class QtGeneratorModule implements IGeneratorModule
 {

@@ -8,8 +8,8 @@ package de.morknet.sct.qt.generator.templates
 
 import de.morknet.sct.qt.generator.IFeatureConstants
 import java.io.File
-import org.yakindu.sct.model.sgen.FeatureConfiguration
-import org.yakindu.sct.model.sgen.GeneratorEntry
+import com.yakindu.sct.model.sgen.FeatureConfiguration
+import com.yakindu.sct.model.sgen.GeneratorEntry
 
 class Features
 {

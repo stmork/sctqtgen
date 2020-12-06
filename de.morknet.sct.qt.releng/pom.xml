@@ -11,12 +11,12 @@
 
 	<!-- this is the parent POM from which all modules inherit common settings -->
 	<properties>
-		<tycho-version>0.24.0</tycho-version>
-		<tycho-extras-version>0.24.0</tycho-extras-version>
-		<xtext-version>2.15.0</xtext-version>
+		<tycho-version>1.3.0</tycho-version>
+		<tycho-extras-version>1.3.0</tycho-extras-version>
+		<xtext-version>2.14.0</xtext-version>
 		<antrun-version>1.8</antrun-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse.distro>mars</eclipse.distro>
+		<eclipse.distro>2020-09</eclipse.distro>
 		<source.update.site>http://sctqtgen.sourceforge.net/updates/release/</source.update.site>
 	</properties>
 
@@ -103,18 +103,6 @@
 			<id>sct</id>
 			<layout>p2</layout>
 			<url>http://updates.yakindu.com/sct/releases/</url>
-		</repository>
-
-		<repository>
-			<id>statecharts</id>
-			<layout>p2</layout>
-			<url>http://updates.yakindu.com/statecharts/releases/</url>
-		</repository>
-
-		<repository>
-			<id>sct-pro</id>
-			<layout>p2</layout>
-			<url>http://updates.yakindu.com/sctpro/releases/</url>
 		</repository>
 	</repositories>
 </project>
