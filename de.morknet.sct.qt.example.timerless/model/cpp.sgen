@@ -1,4 +1,4 @@
-cGeneratorModel for yakindu::cpp
+GeneratorModel for yakindu::cpp
 {
 	statechart Timerless
 	{
