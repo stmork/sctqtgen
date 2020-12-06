@@ -1,33 +1,30 @@
 /*
- * Copyright (C) 2019  -  Steffen A. Mork
- * $Id$
- * $Author$
+ * Copyright (C) 2020  -  Steffen A. Mork
  */
 
 package de.morknet.sct.qt.generator
 
+import com.google.inject.Inject
 import de.morknet.sct.qt.generator.templates.Features
 import de.morknet.sct.qt.generator.templates.Header
 import de.morknet.sct.qt.generator.templates.Implementation
 import de.morknet.sct.qt.generator.templates.Names
 import de.morknet.sct.qt.generator.templates.Selector
-import javax.inject.Inject
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.yakindu.sct.generator.core.ISCTGenerator
+import org.yakindu.base.types.Annotation
+import org.yakindu.sct.generator.core.IExecutionFlowGenerator
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sexec.ExecutionState
+import org.yakindu.sct.model.sexec.TimeEvent
 import org.yakindu.sct.model.sgen.FeatureConfiguration
 import org.yakindu.sct.model.sgen.FeatureParameterValue
 import org.yakindu.sct.model.sgen.GeneratorEntry
 import org.yakindu.sct.model.sgraph.Scope
-import org.yakindu.sct.model.stext.stext.OperationDefinition
-import org.yakindu.sct.generator.core.IExecutionFlowGenerator
-import org.eclipse.emf.ecore.EObject
-import org.yakindu.sct.model.sexec.TimeEvent
-import org.yakindu.base.types.Annotation
 import org.yakindu.sct.model.sgraph.Statechart
+import org.yakindu.sct.model.stext.stext.OperationDefinition
 
-class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
+class QtGenerator implements IExecutionFlowGenerator
 {
 	@Inject Header header
 	@Inject Implementation impl

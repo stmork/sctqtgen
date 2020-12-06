@@ -63,13 +63,13 @@ void AbstractStateMachineDispatcher::react(void)
 	
 	if (ifaceGui.isRaised_off())
 	{
-		sctQtDebug("emit Off()...");
-		emit Off();
+		sctQtDebug("emit off()...");
+		emit off();
 	}
 	if (ifaceGui.isRaised_on())
 	{
-		sctQtDebug("emit On()...");
-		emit On();
+		sctQtDebug("emit on()...");
+		emit on();
 	}
 }
 
@@ -84,9 +84,9 @@ void AbstractStateMachineDispatcher::sctQtDebug(const QString & message) const
  *********************************/
 
 
-void AbstractStateMachineDispatcher::Clicked( )
+void AbstractStateMachineDispatcher::clicked( )
 {
-	sctQtDebug("Clicked()...");
+	sctQtDebug("clicked()...");
 	ifaceGui.raise_clicked();
 	runCycle();
 }

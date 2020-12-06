@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2020  -  Steffen A. Mork
+ */
+
 package de.morknet.sct.qt.generator;
 
 import org.yakindu.sct.generator.core.IGeneratorModule;
