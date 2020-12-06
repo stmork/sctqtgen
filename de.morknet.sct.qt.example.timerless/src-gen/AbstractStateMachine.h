@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 - Steffen A. Mork */
+/* Copyright (C) 2020 - Steffen A. Mork */
 
 #ifndef ABSTRACTSTATEMACHINE_H_
 #define ABSTRACTSTATEMACHINE_H_
@@ -21,7 +21,7 @@ class AbstractStateMachine : public StatemachineInterface
 	public:
 		AbstractStateMachine();
 		
-		~AbstractStateMachine();
+		virtual ~AbstractStateMachine();
 		
 		/*! Enumeration of all states */ 
 		typedef enum
