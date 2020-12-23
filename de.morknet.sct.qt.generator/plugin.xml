@@ -3,6 +3,7 @@
 <plugin>
 	<extension point="com.yakindu.sct.generator.core.generator">
 		<SCTGenerator
+				keyword="de.morknet.sct.qt.generator.SCTGenerator1"
 				executor="com.yakindu.sct.generator.core.execution.SExecGeneratorEntryExecutor"
 				bindings="de.morknet.sct.qt.generator.QtGeneratorModule" 
 				description="A generator for coupling the SCT-events and Qt signals and slots"
@@ -17,7 +18,7 @@
 			</FeatureLibrary>
 		</SCTGenerator>
 	</extension>
-	<extension point="com.yakindu.sct.generator.core.extensions">
+	<extension point="com.yakindu.sct.generator.core.generator">
 		<ExtensionGeneratorMapping fileExtension="sct" generatorId="de::morknet::sct::qt::generator">
 		</ExtensionGeneratorMapping>
 	</extension>

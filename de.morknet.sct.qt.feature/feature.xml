@@ -110,13 +110,15 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="com.yakindu.base.expressions.interpreter"/>
       <import plugin="com.yakindu.sct.generator.cpp"/>
       <import plugin="com.yakindu.sct.model.sgen"/>
       <import plugin="com.yakindu.sct.model.sexec"/>
       <import plugin="com.yakindu.sct.model.stext"/>
-      <import plugin="com.yakindu.sct.generator.core"/>
-      <import plugin="com.yakindu.base.expressions.interpreter"/>
-      <import plugin="com.yakindu.sct.generator.genmodel" version="4.0.4" match="greaterOrEqual"/>
+      <import plugin="com.yakindu.base.types.edit" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="com.yakindu.sct.model.sgraph"/>
+      <import plugin="com.yakindu.sct.generator.core" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="com.yakindu.sct.generator.genmodel" version="4.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

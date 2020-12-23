@@ -25,8 +25,7 @@ public class QtGeneratorDefaultValueProvider extends AbstractDefaultFeatureValue
 		return library.getName().equals(IFeatureConstants.LIBRARY_NAME);
 	}
 
-	@Override
-	protected void setDefaultValue(
+	public void setDefaultValue(
 			FeatureType type,
 			FeatureParameterValue parameterValue,
 			EObject context)

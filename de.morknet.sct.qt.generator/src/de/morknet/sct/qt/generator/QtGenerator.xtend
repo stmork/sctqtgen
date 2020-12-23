@@ -9,6 +9,7 @@ package de.morknet.sct.qt.generator
 import com.yakindu.base.types.Annotation
 import com.yakindu.sct.generator.core.IExecutionFlowGenerator
 import com.yakindu.sct.generator.core.ISCTGenerator
+import com.yakindu.sct.generator.core.filesystem.ISCTFileSystemAccess
 import com.yakindu.sct.model.sexec.ExecutionFlow
 import com.yakindu.sct.model.sexec.ExecutionState
 import com.yakindu.sct.model.sexec.TimeEvent
@@ -25,7 +26,6 @@ import de.morknet.sct.qt.generator.templates.Names
 import de.morknet.sct.qt.generator.templates.Selector
 import javax.inject.Inject
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.generator.IFileSystemAccess
 
 class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 {
@@ -35,7 +35,7 @@ class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
 	@Inject extension Names
 	@Inject extension Features
 
-	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access)
+	override generate(ExecutionFlow flow, GeneratorEntry entry, ISCTFileSystemAccess access)
 	{
 		initFeatures(entry)
 

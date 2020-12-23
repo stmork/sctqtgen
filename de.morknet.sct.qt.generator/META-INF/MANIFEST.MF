@@ -7,11 +7,13 @@ Bundle-Vendor: MORKNet
 Export-Package: de.morknet.sct.qt.generator,
  de.morknet.sct.qt.generator.templates
 Require-Bundle: org.eclipse.core.runtime,
+ com.yakindu.base.types.edit;bundle-version="4.0.4",
+ com.yakindu.base.expressions.interpreter,
  com.yakindu.sct.generator.cpp,
  com.yakindu.sct.model.sgen,
+ com.yakindu.sct.model.sgraph,
  com.yakindu.sct.model.sexec,
  com.yakindu.sct.model.stext,
- com.yakindu.sct.generator.core,
- com.yakindu.base.expressions.interpreter,
- com.yakindu.sct.generator.genmodel;bundle-version="4.0.4"
+ com.yakindu.sct.generator.core;bundle-version="4.0.0",
+ com.yakindu.sct.generator.genmodel;bundle-version="4.0.0"
 Automatic-Module-Name: de.morknet.sct.qt.generator
