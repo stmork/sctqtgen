@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2021  -  Steffen A. Mork
+ */
+
 package de.morknet.sct.qt.generator;
 
 import com.google.inject.Binder;

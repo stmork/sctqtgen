@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2017  -  Steffen A. Mork
- * $Id$
- * $Author$
+ * Copyright (C) 2021  -  Steffen A. Mork
  */
 
 package de.morknet.sct.qt.generator;
