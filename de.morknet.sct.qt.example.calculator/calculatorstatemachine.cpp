@@ -1,12 +1,25 @@
 #include "calculatorstatemachine.h"
 
-CalculatorStateMachine::CalculatorStateMachine()
+using namespace sc::timer;
+
+CalculatorStateMachine::CalculatorStateMachine() :
+	Calculator(nullptr),
+	TimerService(this, 0)
 {
+	setInternalOperationCallback(this);
+	setTimerService(this);
+
+	operation = NONE;
 }
 
-void CalculatorStateMachine::initializeValues()
+void CalculatorStateMachine::start()
 {
-	operation = NONE;
+	enter();
+}
+
+void CalculatorStateMachine::stop()
+{
+	exit();
 }
 
 void CalculatorStateMachine::Add()
@@ -36,8 +49,8 @@ void CalculatorStateMachine::Clear()
 
 void CalculatorStateMachine::Equals()
 {
-	sc_integer op   = ifaceInternalSCI.get_operand();
-	sc_integer accu = ifaceInternalSCI.get_accu();
+	sc_integer op   = getOperand();
+	sc_integer accu = getAccu();
 
 	switch(operation)
 	{
@@ -58,10 +71,10 @@ void CalculatorStateMachine::Equals()
 		break;
 	}
 	operation = NONE;
-	ifaceInternalSCI.set_operand(accu);
+	setOperand(accu);
 }
 
 void CalculatorStateMachine::Digit(sc_integer digit)
 {
-	ifaceInternalSCI.set_accu(ifaceInternalSCI.get_accu() * 10 + digit);
+	setAccu(getAccu() * 10 + digit);
 }

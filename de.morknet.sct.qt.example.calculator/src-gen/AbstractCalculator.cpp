@@ -9,51 +9,206 @@
 
 
 AbstractCalculator::AbstractCalculator()  :
-timer(sc_null),
-stateConfVectorPosition(0),
+operand(0),
+accu(0),
+timerService(sc_null),
 ifaceGui(sc_null),
-ifaceInternalSCI(sc_null),
-ifaceInternalSCI_OCB(sc_null)
+ifaceInternalOperationCallback(sc_null),
+isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	this->ifaceInternalSCI.parent = this;
+	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
+		stateConfVector[i] = Calculator_last_state;
+	
+	clearInEvents();
 }
 
 AbstractCalculator::~AbstractCalculator()
 {
 }
 
-
-
-
-
-
-void AbstractCalculator::init()
+AbstractCalculator::Gui::Gui(AbstractCalculator* parent) :
+Button0_raised(false),
+Button1_raised(false),
+Button2_raised(false),
+Button3_raised(false),
+Button4_raised(false),
+Button5_raised(false),
+Button6_raised(false),
+Button7_raised(false),
+Button8_raised(false),
+Button9_raised(false),
+ButtonAdd_raised(false),
+ButtonSub_raised(false),
+ButtonMult_raised(false),
+ButtonDiv_raised(false),
+ButtonEquals_raised(false),
+ButtonClear_raised(false),
+Exit_raised(false),
+ShowAccu_raised(false),
+ShowAccu_value(0),
+parent(parent)
 {
-	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = Calculator_last_state;
+}
+
+
+using namespace calculator_events;
+
+SctEvent* AbstractCalculator::getNextEvent()
+{
+	SctEvent* nextEvent = 0;
 	
-	stateConfVectorPosition = 0;
-
-	clearInEvents();
-	clearOutEvents();
+	if(!inEventQueue.empty()) {
+		nextEvent = inEventQueue.front();
+		inEventQueue.pop_front();
+	}
 	
-	/* Default init sequence for statechart Calculator */
-	ifaceInternalSCI.operand = 0;
-	ifaceInternalSCI.accu = 0;
+	return nextEvent;
 }
 
-void AbstractCalculator::enter()
+void AbstractCalculator::dispatch_event(SctEvent * event)
 {
-	/* Default enter sequence for statechart Calculator */
-	enseq_main_region_default();
+	if(event == 0) {
+		return;
+	}
+	switch(event->name)
+	{
+		case Gui_Button0:
+		case Gui_Button1:
+		case Gui_Button2:
+		case Gui_Button3:
+		case Gui_Button4:
+		case Gui_Button5:
+		case Gui_Button6:
+		case Gui_Button7:
+		case Gui_Button8:
+		case Gui_Button9:
+		case Gui_ButtonAdd:
+		case Gui_ButtonSub:
+		case Gui_ButtonMult:
+		case Gui_ButtonDiv:
+		case Gui_ButtonEquals:
+		case Gui_ButtonClear:
+		{
+			ifaceGui.dispatch_event(event);
+			break;
+		}
+		case Calculator_main_region_active_time_event_0:
+		{
+			timeEvents[0] = true;
+			break;
+		}
+		default:
+			break;
+	}
 }
 
-void AbstractCalculator::exit()
+void AbstractCalculator::Gui::dispatch_event(SctEvent * event)
 {
-	/* Default exit sequence for statechart Calculator */
-	exseq_main_region();
+	switch(event->name)
+	{
+		case Gui_Button0:
+		{
+			internal_raiseButton0();
+			break;
+		}
+		case Gui_Button1:
+		{
+			internal_raiseButton1();
+			break;
+		}
+		case Gui_Button2:
+		{
+			internal_raiseButton2();
+			break;
+		}
+		case Gui_Button3:
+		{
+			internal_raiseButton3();
+			break;
+		}
+		case Gui_Button4:
+		{
+			internal_raiseButton4();
+			break;
+		}
+		case Gui_Button5:
+		{
+			internal_raiseButton5();
+			break;
+		}
+		case Gui_Button6:
+		{
+			internal_raiseButton6();
+			break;
+		}
+		case Gui_Button7:
+		{
+			internal_raiseButton7();
+			break;
+		}
+		case Gui_Button8:
+		{
+			internal_raiseButton8();
+			break;
+		}
+		case Gui_Button9:
+		{
+			internal_raiseButton9();
+			break;
+		}
+		case Gui_ButtonAdd:
+		{
+			internal_raiseButtonAdd();
+			break;
+		}
+		case Gui_ButtonSub:
+		{
+			internal_raiseButtonSub();
+			break;
+		}
+		case Gui_ButtonMult:
+		{
+			internal_raiseButtonMult();
+			break;
+		}
+		case Gui_ButtonDiv:
+		{
+			internal_raiseButtonDiv();
+			break;
+		}
+		case Gui_ButtonEquals:
+		{
+			internal_raiseButtonEquals();
+			break;
+		}
+		case Gui_ButtonClear:
+		{
+			internal_raiseButtonClear();
+			break;
+		}
+		default:
+			break;
+	}
 }
+void AbstractCalculator::internal_dispatch_event(SctEvent * event)
+{
+	switch(event->name)
+	{
+		default:
+			break;
+	}
+}
+
+AbstractCalculatorEventName AbstractCalculator::getTimedEventName(sc_eventid evid)
+{
+	if (evid == (sc_eventid)(&timeEvents[0])) {
+		return Calculator_main_region_active_time_event_0;
+	}
+	return invalid_event;
+}
+
+
 
 sc_boolean AbstractCalculator::isActive() const
 {
@@ -65,70 +220,25 @@ sc_boolean AbstractCalculator::isFinal() const
 	return (stateConfVector[0] == main_region__final_);
 }
 
-void AbstractCalculator::runCycle()
-{
-	
-	clearOutEvents();
-	for (stateConfVectorPosition = 0;
-		stateConfVectorPosition < maxOrthogonalStates;
-		stateConfVectorPosition++)
-		{
-			
-		switch (stateConfVector[stateConfVectorPosition])
-		{
-		case main_region_active :
-		{
-			main_region_active_react(true);
-			break;
-		}
-		case main_region__final_ :
-		{
-			main_region__final__react(true);
-			break;
-		}
-		default:
-			break;
-		}
+sc_boolean AbstractCalculator::check() {
+	if(timerService == sc_null) {
+		return false;
 	}
-	clearInEvents();
-}
-
-void AbstractCalculator::clearInEvents()
-{
-	ifaceGui.Button0_raised = false;
-	ifaceGui.Button1_raised = false;
-	ifaceGui.Button2_raised = false;
-	ifaceGui.Button3_raised = false;
-	ifaceGui.Button4_raised = false;
-	ifaceGui.Button5_raised = false;
-	ifaceGui.Button6_raised = false;
-	ifaceGui.Button7_raised = false;
-	ifaceGui.Button8_raised = false;
-	ifaceGui.Button9_raised = false;
-	ifaceGui.ButtonAdd_raised = false;
-	ifaceGui.ButtonSub_raised = false;
-	ifaceGui.ButtonMult_raised = false;
-	ifaceGui.ButtonDiv_raised = false;
-	ifaceGui.ButtonEquals_raised = false;
-	ifaceGui.ButtonClear_raised = false;
-	timeEvents[0] = false; 
-}
-
-void AbstractCalculator::clearOutEvents()
-{
-	ifaceGui.Exit_raised = false;
-	ifaceGui.ShowAccu_raised = false;
+	if (this->ifaceInternalOperationCallback == sc_null) {
+		return false;
+	}
+	return true;
 }
 
 
-void AbstractCalculator::setTimer(TimerInterface* timerInterface)
+void AbstractCalculator::setTimerService(sc::timer::TimerServiceInterface* timerService)
 {
-	this->timer = timerInterface;
+	this->timerService = timerService;
 }
 
-TimerInterface* AbstractCalculator::getTimer()
+sc::timer::TimerServiceInterface* AbstractCalculator::getTimerService()
 {
-	return timer;
+	return timerService;
 }
 
 sc_integer AbstractCalculator::getNumberOfParallelTimeEvents() {
@@ -139,10 +249,11 @@ void AbstractCalculator::raiseTimeEvent(sc_eventid evid)
 {
 	if ((evid >= (sc_eventid)timeEvents) && (evid < (sc_eventid)(&timeEvents[timeEventsCount])))
 	{
-		*(sc_boolean*)evid = true;
+		inEventQueue.push_back(new TimedSctEvent(getTimedEventName(evid)));
 		runCycle();
 	}
 }
+
 
 sc_boolean AbstractCalculator::isStateActive(CalculatorStates state) const
 {
@@ -158,159 +269,203 @@ sc_boolean AbstractCalculator::isStateActive(CalculatorStates state) const
 	}
 }
 
-AbstractCalculator::SCI_Gui* AbstractCalculator::getSCI_Gui()
+AbstractCalculator::Gui* AbstractCalculator::gui()
 {
 	return &ifaceGui;
 }
-/* Functions for event Button0 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button0()
+/* Functions for event Button0 in interface Gui */
+void AbstractCalculator::Gui::raiseButton0()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button0(Gui_Button0));
+	parent->runCycle();
+}
+void AbstractCalculator::Gui::internal_raiseButton0()
 {
 	Button0_raised = true;
-	
+}
+/* Functions for event Button1 in interface Gui */
+void AbstractCalculator::Gui::raiseButton1()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button1(Gui_Button1));
 	parent->runCycle();
 }
-/* Functions for event Button1 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button1()
+void AbstractCalculator::Gui::internal_raiseButton1()
 {
 	Button1_raised = true;
-	
+}
+/* Functions for event Button2 in interface Gui */
+void AbstractCalculator::Gui::raiseButton2()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button2(Gui_Button2));
 	parent->runCycle();
 }
-/* Functions for event Button2 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button2()
+void AbstractCalculator::Gui::internal_raiseButton2()
 {
 	Button2_raised = true;
-	
+}
+/* Functions for event Button3 in interface Gui */
+void AbstractCalculator::Gui::raiseButton3()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button3(Gui_Button3));
 	parent->runCycle();
 }
-/* Functions for event Button3 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button3()
+void AbstractCalculator::Gui::internal_raiseButton3()
 {
 	Button3_raised = true;
-	
+}
+/* Functions for event Button4 in interface Gui */
+void AbstractCalculator::Gui::raiseButton4()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button4(Gui_Button4));
 	parent->runCycle();
 }
-/* Functions for event Button4 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button4()
+void AbstractCalculator::Gui::internal_raiseButton4()
 {
 	Button4_raised = true;
-	
+}
+/* Functions for event Button5 in interface Gui */
+void AbstractCalculator::Gui::raiseButton5()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button5(Gui_Button5));
 	parent->runCycle();
 }
-/* Functions for event Button5 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button5()
+void AbstractCalculator::Gui::internal_raiseButton5()
 {
 	Button5_raised = true;
-	
+}
+/* Functions for event Button6 in interface Gui */
+void AbstractCalculator::Gui::raiseButton6()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button6(Gui_Button6));
 	parent->runCycle();
 }
-/* Functions for event Button6 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button6()
+void AbstractCalculator::Gui::internal_raiseButton6()
 {
 	Button6_raised = true;
-	
+}
+/* Functions for event Button7 in interface Gui */
+void AbstractCalculator::Gui::raiseButton7()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button7(Gui_Button7));
 	parent->runCycle();
 }
-/* Functions for event Button7 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button7()
+void AbstractCalculator::Gui::internal_raiseButton7()
 {
 	Button7_raised = true;
-	
+}
+/* Functions for event Button8 in interface Gui */
+void AbstractCalculator::Gui::raiseButton8()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button8(Gui_Button8));
 	parent->runCycle();
 }
-/* Functions for event Button8 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button8()
+void AbstractCalculator::Gui::internal_raiseButton8()
 {
 	Button8_raised = true;
-	
+}
+/* Functions for event Button9 in interface Gui */
+void AbstractCalculator::Gui::raiseButton9()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_Button9(Gui_Button9));
 	parent->runCycle();
 }
-/* Functions for event Button9 in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_button9()
+void AbstractCalculator::Gui::internal_raiseButton9()
 {
 	Button9_raised = true;
-	
+}
+/* Functions for event ButtonAdd in interface Gui */
+void AbstractCalculator::Gui::raiseButtonAdd()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonAdd(Gui_ButtonAdd));
 	parent->runCycle();
 }
-/* Functions for event ButtonAdd in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonAdd()
+void AbstractCalculator::Gui::internal_raiseButtonAdd()
 {
 	ButtonAdd_raised = true;
-	
+}
+/* Functions for event ButtonSub in interface Gui */
+void AbstractCalculator::Gui::raiseButtonSub()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonSub(Gui_ButtonSub));
 	parent->runCycle();
 }
-/* Functions for event ButtonSub in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonSub()
+void AbstractCalculator::Gui::internal_raiseButtonSub()
 {
 	ButtonSub_raised = true;
-	
+}
+/* Functions for event ButtonMult in interface Gui */
+void AbstractCalculator::Gui::raiseButtonMult()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonMult(Gui_ButtonMult));
 	parent->runCycle();
 }
-/* Functions for event ButtonMult in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonMult()
+void AbstractCalculator::Gui::internal_raiseButtonMult()
 {
 	ButtonMult_raised = true;
-	
+}
+/* Functions for event ButtonDiv in interface Gui */
+void AbstractCalculator::Gui::raiseButtonDiv()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonDiv(Gui_ButtonDiv));
 	parent->runCycle();
 }
-/* Functions for event ButtonDiv in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonDiv()
+void AbstractCalculator::Gui::internal_raiseButtonDiv()
 {
 	ButtonDiv_raised = true;
-	
+}
+/* Functions for event ButtonEquals in interface Gui */
+void AbstractCalculator::Gui::raiseButtonEquals()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonEquals(Gui_ButtonEquals));
 	parent->runCycle();
 }
-/* Functions for event ButtonEquals in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonEquals()
+void AbstractCalculator::Gui::internal_raiseButtonEquals()
 {
 	ButtonEquals_raised = true;
-	
+}
+/* Functions for event ButtonClear in interface Gui */
+void AbstractCalculator::Gui::raiseButtonClear()
+{
+	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonClear(Gui_ButtonClear));
 	parent->runCycle();
 }
-/* Functions for event ButtonClear in interface SCI_Gui */
-void AbstractCalculator::SCI_Gui::raise_buttonClear()
+void AbstractCalculator::Gui::internal_raiseButtonClear()
 {
 	ButtonClear_raised = true;
-	
-	parent->runCycle();
 }
-/* Functions for event Exit in interface SCI_Gui */
-sc_boolean AbstractCalculator::SCI_Gui::isRaised_exit() const
+/* Functions for event Exit in interface Gui */
+sc::rx::Observable<void>* AbstractCalculator::Gui::getExit()
 {
-	return Exit_raised;
+	return &(this->Exit_observable);
 }
-/* Functions for event ShowAccu in interface SCI_Gui */
-sc_boolean AbstractCalculator::SCI_Gui::isRaised_showAccu() const
+/* Functions for event ShowAccu in interface Gui */
+sc::rx::Observable<sc_integer>* AbstractCalculator::Gui::getShowAccu()
 {
-	return ShowAccu_raised;
+	return &(this->ShowAccu_observable);
 }
-sc_integer AbstractCalculator::SCI_Gui::get_showAccu_value() const
-{
-	return ShowAccu_value;
-}
-sc_integer AbstractCalculator::InternalSCI::get_operand() const
+sc_integer AbstractCalculator::getOperand() const
 {
 	return operand;
 }
 
-void AbstractCalculator::InternalSCI::set_operand(sc_integer value)
+void AbstractCalculator::setOperand(sc_integer value)
 {
 	this->operand = value;
 }
 
-sc_integer AbstractCalculator::InternalSCI::get_accu() const
+sc_integer AbstractCalculator::getAccu() const
 {
 	return accu;
 }
 
-void AbstractCalculator::InternalSCI::set_accu(sc_integer value)
+void AbstractCalculator::setAccu(sc_integer value)
 {
 	this->accu = value;
 }
 
-void AbstractCalculator::setInternalSCI_OCB(InternalSCI_OCB* operationCallback)
+void AbstractCalculator::setInternalOperationCallback(InternalOperationCallback* operationCallback)
 {
-	ifaceInternalSCI_OCB = operationCallback;
+	ifaceInternalOperationCallback = operationCallback;
 }
 
 // implementations of all internal functions
@@ -319,16 +474,16 @@ void AbstractCalculator::setInternalSCI_OCB(InternalSCI_OCB* operationCallback)
 void AbstractCalculator::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timer->setTimer(this, (sc_eventid)(&timeEvents[0]), (30 * 1000), false);
-	ifaceInternalSCI.accu = 0;
-	ifaceInternalSCI.operand = 0;
+	timerService->setTimer(this, (sc_eventid)(&timeEvents[0]), (30 * 1000), false);
+	accu = 0;
+	operand = 0;
 }
 
 /* Exit action for state 'active'. */
 void AbstractCalculator::exact_main_region_active()
 {
 	/* Exit action for state 'active'. */
-	timer->unsetTimer(this, (sc_eventid)(&timeEvents[0]));
+	timerService->unsetTimer(this, (sc_eventid)(&timeEvents[0]));
 }
 
 /* 'default' enter sequence for state active */
@@ -337,7 +492,6 @@ void AbstractCalculator::enseq_main_region_active_default()
 	/* 'default' enter sequence for state active */
 	enact_main_region_active();
 	stateConfVector[0] = main_region_active;
-	stateConfVectorPosition = 0;
 }
 
 /* Default enter sequence for state null */
@@ -345,7 +499,6 @@ void AbstractCalculator::enseq_main_region__final__default()
 {
 	/* Default enter sequence for state null */
 	stateConfVector[0] = main_region__final_;
-	stateConfVectorPosition = 0;
 }
 
 /* 'default' enter sequence for region main region */
@@ -360,7 +513,6 @@ void AbstractCalculator::exseq_main_region_active()
 {
 	/* Default exit sequence for state active */
 	stateConfVector[0] = Calculator_last_state;
-	stateConfVectorPosition = 0;
 	exact_main_region_active();
 }
 
@@ -369,7 +521,6 @@ void AbstractCalculator::exseq_main_region__final_()
 {
 	/* Default exit sequence for final state. */
 	stateConfVector[0] = Calculator_last_state;
-	stateConfVectorPosition = 0;
 }
 
 /* Default exit sequence for region main region */
@@ -400,156 +551,251 @@ void AbstractCalculator::react_main_region__entry_Default()
 	enseq_main_region_active_default();
 }
 
-sc_boolean AbstractCalculator::react() {
+sc_integer AbstractCalculator::react(const sc_integer transitioned_before) {
 	/* State machine reactions. */
-	return false;
+	return transitioned_before;
 }
 
-sc_boolean AbstractCalculator::main_region_active_react(const sc_boolean try_transition) {
+sc_integer AbstractCalculator::main_region_active_react(const sc_integer transitioned_before) {
 	/* The reactions of state active. */
-	sc_boolean did_transition = try_transition;
-	if (try_transition)
+	sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
 	{ 
-		if ((react()) == (false))
+		if (timeEvents[0])
 		{ 
-			if (timeEvents[0])
+			exseq_main_region_active();
+			ifaceGui.Exit_observable.next();
+			ifaceGui.Exit_raised = true;
+			enseq_main_region__final__default();
+			transitioned_after = 0;
+		}  else
+		{
+			if (ifaceGui.ButtonEquals_raised)
 			{ 
 				exseq_main_region_active();
-				ifaceGui.Exit_raised = true;
-				enseq_main_region__final__default();
-			}  else
-			{
-				if (ifaceGui.ButtonEquals_raised)
-				{ 
-					exseq_main_region_active();
-					ifaceInternalSCI_OCB->Equals();
-					ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
-					ifaceGui.ShowAccu_raised = true;
-					enseq_main_region_active_default();
-				}  else
-				{
-					did_transition = false;
-				}
-			}
-		} 
+				ifaceInternalOperationCallback->Equals();
+				ifaceGui.ShowAccu_value = operand;
+				ifaceGui.ShowAccu_observable.next(operand);
+				ifaceGui.ShowAccu_raised = true;
+				enseq_main_region_active_default();
+				react(0);
+				transitioned_after = 0;
+			} 
+		}
 	} 
-	if ((did_transition) == (false))
+	/* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
 	{ 
 		if (ifaceGui.Button0_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(0);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(0);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button1_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(1);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(1);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button2_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(2);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(2);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button3_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(3);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(3);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button4_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(4);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(4);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button5_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(5);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(5);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button6_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(6);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(6);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button7_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(7);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(7);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button8_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(8);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(8);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.Button9_raised)
 		{ 
-			ifaceInternalSCI_OCB->Digit(9);
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Digit(9);
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
 		if (ifaceGui.ButtonAdd_raised)
 		{ 
-			ifaceInternalSCI_OCB->Equals();
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceInternalOperationCallback->Equals();
+			ifaceGui.ShowAccu_value = operand;
+			ifaceGui.ShowAccu_observable.next(operand);
 			ifaceGui.ShowAccu_raised = true;
-			ifaceInternalSCI_OCB->Add();
-			ifaceInternalSCI.accu = 0;
+			ifaceInternalOperationCallback->Add();
+			accu = 0;
 		} 
 		if (ifaceGui.ButtonSub_raised)
 		{ 
-			ifaceInternalSCI_OCB->Equals();
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceInternalOperationCallback->Equals();
+			ifaceGui.ShowAccu_value = operand;
+			ifaceGui.ShowAccu_observable.next(operand);
 			ifaceGui.ShowAccu_raised = true;
-			ifaceInternalSCI_OCB->Sub();
-			ifaceInternalSCI.accu = 0;
+			ifaceInternalOperationCallback->Sub();
+			accu = 0;
 		} 
 		if (ifaceGui.ButtonMult_raised)
 		{ 
-			ifaceInternalSCI_OCB->Equals();
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceInternalOperationCallback->Equals();
+			ifaceGui.ShowAccu_value = operand;
+			ifaceGui.ShowAccu_observable.next(operand);
 			ifaceGui.ShowAccu_raised = true;
-			ifaceInternalSCI_OCB->Mult();
-			ifaceInternalSCI.accu = 0;
+			ifaceInternalOperationCallback->Mult();
+			accu = 0;
 		} 
 		if (ifaceGui.ButtonDiv_raised)
 		{ 
-			ifaceInternalSCI_OCB->Equals();
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.operand;
+			ifaceInternalOperationCallback->Equals();
+			ifaceGui.ShowAccu_value = operand;
+			ifaceGui.ShowAccu_observable.next(operand);
 			ifaceGui.ShowAccu_raised = true;
-			ifaceInternalSCI_OCB->Div();
-			ifaceInternalSCI.accu = 0;
+			ifaceInternalOperationCallback->Div();
+			accu = 0;
 		} 
 		if (ifaceGui.ButtonClear_raised)
 		{ 
-			ifaceInternalSCI_OCB->Clear();
-			ifaceInternalSCI.accu = 0;
-			ifaceInternalSCI.operand = 0;
-			ifaceGui.ShowAccu_value = ifaceInternalSCI.accu;
+			ifaceInternalOperationCallback->Clear();
+			accu = 0;
+			operand = 0;
+			ifaceGui.ShowAccu_value = accu;
+			ifaceGui.ShowAccu_observable.next(accu);
 			ifaceGui.ShowAccu_raised = true;
 		} 
+		transitioned_after = react(transitioned_before);
 	} 
-	return did_transition;
+	return transitioned_after;
 }
 
-sc_boolean AbstractCalculator::main_region__final__react(const sc_boolean try_transition) {
+sc_integer AbstractCalculator::main_region__final__react(const sc_integer transitioned_before) {
 	/* The reactions of state null. */
-	sc_boolean did_transition = try_transition;
-	if (try_transition)
+	sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
 	{ 
-		if ((react()) == (false))
-		{ 
-			did_transition = false;
-		} 
 	} 
-	return did_transition;
+	/* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = react(transitioned_before);
+	} 
+	return transitioned_after;
+}
+
+void AbstractCalculator::clearInEvents() {
+	ifaceGui.Button0_raised = false;
+	ifaceGui.Button1_raised = false;
+	ifaceGui.Button2_raised = false;
+	ifaceGui.Button3_raised = false;
+	ifaceGui.Button4_raised = false;
+	ifaceGui.Button5_raised = false;
+	ifaceGui.Button6_raised = false;
+	ifaceGui.Button7_raised = false;
+	ifaceGui.Button8_raised = false;
+	ifaceGui.Button9_raised = false;
+	ifaceGui.ButtonAdd_raised = false;
+	ifaceGui.ButtonSub_raised = false;
+	ifaceGui.ButtonMult_raised = false;
+	ifaceGui.ButtonDiv_raised = false;
+	ifaceGui.ButtonEquals_raised = false;
+	ifaceGui.ButtonClear_raised = false;
+	timeEvents[0] = false;
+}
+
+void AbstractCalculator::microStep() {
+	switch(stateConfVector[ 0 ])
+	{
+		case main_region_active :
+		{
+			main_region_active_react(-1);
+			break;
+		}
+		case main_region__final_ :
+		{
+			main_region__final__react(-1);
+			break;
+		}
+		default: break;
+	}
+}
+
+void AbstractCalculator::runCycle() {
+	/* Performs a 'run to completion' step. */
+	if (isExecuting)
+	{ 
+		return;
+	} 
+	isExecuting = true;
+	dispatch_event(getNextEvent());
+	do
+	{ 
+		microStep();
+		clearInEvents();
+		dispatch_event(getNextEvent());
+	} while (((((((((((((((((ifaceGui.Button0_raised) || (ifaceGui.Button1_raised)) || (ifaceGui.Button2_raised)) || (ifaceGui.Button3_raised)) || (ifaceGui.Button4_raised)) || (ifaceGui.Button5_raised)) || (ifaceGui.Button6_raised)) || (ifaceGui.Button7_raised)) || (ifaceGui.Button8_raised)) || (ifaceGui.Button9_raised)) || (ifaceGui.ButtonAdd_raised)) || (ifaceGui.ButtonSub_raised)) || (ifaceGui.ButtonMult_raised)) || (ifaceGui.ButtonDiv_raised)) || (ifaceGui.ButtonEquals_raised)) || (ifaceGui.ButtonClear_raised)) || (timeEvents[0]));
+	isExecuting = false;
+}
+
+void AbstractCalculator::enter() {
+	/* Activates the state machine. */
+	if (isExecuting)
+	{ 
+		return;
+	} 
+	isExecuting = true;
+	/* Default enter sequence for statechart Calculator */
+	enseq_main_region_default();
+	isExecuting = false;
+}
+
+void AbstractCalculator::exit() {
+	/* Deactivates the state machine. */
+	if (isExecuting)
+	{ 
+		return;
+	} 
+	isExecuting = true;
+	/* Default exit sequence for statechart Calculator */
+	exseq_main_region();
+	isExecuting = false;
 }
 
 

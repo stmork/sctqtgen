@@ -1,9 +1,14 @@
 #ifndef CALCULATORSTATEMACHINE_H
 #define CALCULATORSTATEMACHINE_H
 
-#include "src-gen/AbstractCalculatorDispatcher.h"
+#include "src-qt-gen/Calculator.h"
+#include "src-qt-lib/sc_timer_service.h"
 
-class CalculatorStateMachine : public AbstractCalculatorDispatcher
+class CalculatorStateMachine :
+		public Calculator,
+		public Calculator::InternalOperationCallback,
+		public sc::timer::TimerTask,
+		public sc::timer::TimerService
 {
 	Q_OBJECT
 
@@ -18,9 +23,10 @@ class CalculatorStateMachine : public AbstractCalculatorDispatcher
 
 public:
 	CalculatorStateMachine();
+	void start();
+	void stop();
 
 protected:
-	virtual void initializeValues() override;
 	virtual void Add() override;
 	virtual void Sub() override;
 	virtual void Mult() override;

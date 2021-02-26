@@ -804,82 +804,82 @@ void Calculator::exit() {
 
 /*! Slot for in event gui.Button0 */
 void Calculator::gui_Button0(){
-	ifaceGui.raise_button0();
+	ifaceGui.raiseButton0();
 }
 
 /*! Slot for in event gui.Button1 */
 void Calculator::gui_Button1(){
-	ifaceGui.raise_button1();
+	ifaceGui.raiseButton1();
 }
 
 /*! Slot for in event gui.Button2 */
 void Calculator::gui_Button2(){
-	ifaceGui.raise_button2();
+	ifaceGui.raiseButton2();
 }
 
 /*! Slot for in event gui.Button3 */
 void Calculator::gui_Button3(){
-	ifaceGui.raise_button3();
+	ifaceGui.raiseButton3();
 }
 
 /*! Slot for in event gui.Button4 */
 void Calculator::gui_Button4(){
-	ifaceGui.raise_button4();
+	ifaceGui.raiseButton4();
 }
 
 /*! Slot for in event gui.Button5 */
 void Calculator::gui_Button5(){
-	ifaceGui.raise_button5();
+	ifaceGui.raiseButton5();
 }
 
 /*! Slot for in event gui.Button6 */
 void Calculator::gui_Button6(){
-	ifaceGui.raise_button6();
+	ifaceGui.raiseButton6();
 }
 
 /*! Slot for in event gui.Button7 */
 void Calculator::gui_Button7(){
-	ifaceGui.raise_button7();
+	ifaceGui.raiseButton7();
 }
 
 /*! Slot for in event gui.Button8 */
 void Calculator::gui_Button8(){
-	ifaceGui.raise_button8();
+	ifaceGui.raiseButton8();
 }
 
 /*! Slot for in event gui.Button9 */
 void Calculator::gui_Button9(){
-	ifaceGui.raise_button9();
+	ifaceGui.raiseButton9();
 }
 
 /*! Slot for in event gui.ButtonAdd */
 void Calculator::gui_ButtonAdd(){
-	ifaceGui.raise_buttonAdd();
+	ifaceGui.raiseButtonAdd();
 }
 
 /*! Slot for in event gui.ButtonSub */
 void Calculator::gui_ButtonSub(){
-	ifaceGui.raise_buttonSub();
+	ifaceGui.raiseButtonSub();
 }
 
 /*! Slot for in event gui.ButtonMult */
 void Calculator::gui_ButtonMult(){
-	ifaceGui.raise_buttonMult();
+	ifaceGui.raiseButtonMult();
 }
 
 /*! Slot for in event gui.ButtonDiv */
 void Calculator::gui_ButtonDiv(){
-	ifaceGui.raise_buttonDiv();
+	ifaceGui.raiseButtonDiv();
 }
 
 /*! Slot for in event gui.ButtonEquals */
 void Calculator::gui_ButtonEquals(){
-	ifaceGui.raise_buttonEquals();
+	ifaceGui.raiseButtonEquals();
 }
 
 /*! Slot for in event gui.ButtonClear */
 void Calculator::gui_ButtonClear(){
-	ifaceGui.raise_buttonClear();
+	ifaceGui.raiseButtonClear();
 }
 
 
