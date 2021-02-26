@@ -1,28 +1,41 @@
-GeneratorModel for de::morknet::sct::qt::generator
+GeneratorModel for yakindu::cpp::qt
 {
+	const PROJECT : string = "de.morknet.sct.qt.example.calculator"
+
+	const SRC_GEN_FOLDER : string = "src-qt-gen"
+	const SRC_LIB_FOLDER : string = "src-qt-lib"
+
 	statechart Calculator
 	{
+		feature GeneralFeatures
+		{
+			timerService = true
+		}
+
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2020 - Steffen A. Mork" 
+					licenseText =  "Copyright (C) 2021 - Steffen A. Mork" 
 		}
 
 		feature Outlet
 		{
-			targetProject = "de.morknet.sct.qt.example.calculator"
-			targetFolder = "src-gen"
-			libraryTargetFolder = "src"
+			targetProject = PROJECT
+			targetFolder = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
 		}
 
-		feature QtSettings
+		feature GeneratorOptions
 		{
-			baseClassName = "AbstractCalculator"
-			className = "AbstractCalculatorDispatcher"
-			cpp11 = true
-			generateTimer = true
-			threadSafe = false
-			debug = true
-			camelCase = true
+			innerFunctionVisibility = "protected"
+		}
+
+		feature IdentifierSettings
+		{
+			moduleName =  "Calculator" 
+			statemachinePrefix =  "calculator" 
+			separator =  "_" 
+			headerFilenameExtension =  "h" 
+			sourceFilenameExtension =  "cpp" 
 		}
 	}
 }

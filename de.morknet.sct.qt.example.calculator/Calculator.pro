@@ -29,19 +29,17 @@ generate.commands = ant
 
 SOURCES += main.cpp\
 	mainwindow.cpp \
-	src-gen/AbstractCalculator.cpp \
-	src-gen/AbstractCalculatorDispatcher.cpp \
-	src-gen/StatemachineTimer.cpp \
-	calculatorstatemachine.cpp
+	calculatorstatemachine.cpp \
+	src-qt-gen/Calculator.cpp \
+	src-qt-lib/sc_timer_service.cpp
 
 HEADERS  += mainwindow.h \
-	src-gen/AbstractCalculator.h \
-	src-gen/AbstractCalculatorDispatcher.h \
-	src-gen/StatemachineTimer.h \
-	src/sc_types.h \
-	src/StatemachineInterface.h \
-	src/TimedStatemachineInterface.h \
-	src/TimerInterface.h \
+	src-qt-gen/Calculator.h \
+	src-qt-lib/sc_rxcpp.h \
+	src-qt-lib/sc_statemachine.h \
+	src-qt-lib/sc_timer.h \
+	src-qt-lib/sc_timer_service.h \
+	src-qt-lib/sc_types.h \
 	calculatorstatemachine.h
 
 FORMS    += mainwindow.ui
