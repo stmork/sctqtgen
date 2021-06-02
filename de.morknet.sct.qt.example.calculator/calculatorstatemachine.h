@@ -2,15 +2,16 @@
 #define CALCULATORSTATEMACHINE_H
 
 #include "src-qt-gen/Calculator.h"
-#include "src-qt-lib/sc_timer_service.h"
+#include "src-qt-lib/sc_qt_timerservice.h"
 
 class CalculatorStateMachine :
-		public Calculator,
-		public Calculator::InternalOperationCallback,
-		public sc::timer::TimerTask,
-		public sc::timer::TimerService
+	public Calculator,
+	public Calculator::InternalOperationCallback
 {
 	Q_OBJECT
+
+private:
+	sc::qt::SCTimerService timer_service;
 
 	enum Operation
 	{

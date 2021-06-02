@@ -6,8 +6,9 @@
 #include "calculatorstatemachine.h"
 
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+	class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -17,7 +18,7 @@ class MainWindow : public QMainWindow
 	CalculatorStateMachine csm;
 
 public:
-	explicit MainWindow(QWidget *parent = 0);
+	explicit MainWindow(QWidget * parent = 0);
 	~MainWindow();
 
 public slots:
@@ -25,7 +26,7 @@ public slots:
 	void Exit();
 
 private:
-	Ui::MainWindow *ui;
+	Ui::MainWindow * ui;
 };
 
 #endif // MAINWINDOW_H

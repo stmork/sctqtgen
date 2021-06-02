@@ -31,14 +31,14 @@ SOURCES += main.cpp\
 	mainwindow.cpp \
 	calculatorstatemachine.cpp \
 	src-qt-gen/Calculator.cpp \
-	src-qt-lib/sc_timer_service.cpp
+	src-qt-lib/sc_qt_timerservice.cpp
 
 HEADERS  += mainwindow.h \
 	src-qt-gen/Calculator.h \
 	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
 	src-qt-lib/sc_timer.h \
-	src-qt-lib/sc_timer_service.h \
+	src-qt-lib/sc_qt_timerservice.h \
 	src-qt-lib/sc_types.h \
 	calculatorstatemachine.h
 

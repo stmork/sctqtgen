@@ -190,76 +190,22 @@ class Calculator : public QObject, public sc::timer::TimedInterface, public sc::
 			public:
 				Gui(Calculator* parent);
 				
-				/*! Raises the in event 'Button0' that is defined in the interface scope 'gui'. */
-				void raiseButton0();
 				
 				
-				/*! Raises the in event 'Button1' that is defined in the interface scope 'gui'. */
-				void raiseButton1();
 				
 				
-				/*! Raises the in event 'Button2' that is defined in the interface scope 'gui'. */
-				void raiseButton2();
 				
 				
-				/*! Raises the in event 'Button3' that is defined in the interface scope 'gui'. */
-				void raiseButton3();
 				
 				
-				/*! Raises the in event 'Button4' that is defined in the interface scope 'gui'. */
-				void raiseButton4();
 				
 				
-				/*! Raises the in event 'Button5' that is defined in the interface scope 'gui'. */
-				void raiseButton5();
 				
 				
-				/*! Raises the in event 'Button6' that is defined in the interface scope 'gui'. */
-				void raiseButton6();
 				
 				
-				/*! Raises the in event 'Button7' that is defined in the interface scope 'gui'. */
-				void raiseButton7();
 				
 				
-				/*! Raises the in event 'Button8' that is defined in the interface scope 'gui'. */
-				void raiseButton8();
-				
-				
-				/*! Raises the in event 'Button9' that is defined in the interface scope 'gui'. */
-				void raiseButton9();
-				
-				
-				/*! Raises the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
-				void raiseButtonAdd();
-				
-				
-				/*! Raises the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
-				void raiseButtonSub();
-				
-				
-				/*! Raises the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
-				void raiseButtonMult();
-				
-				
-				/*! Raises the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
-				void raiseButtonDiv();
-				
-				
-				/*! Raises the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
-				void raiseButtonEquals();
-				
-				
-				/*! Raises the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
-				void raiseButtonClear();
-				
-				
-				/*! Gets the observable of the out event 'Exit' that is defined in the interface scope 'gui'. */
-				sc::rx::Observable<void>* getExit();
-				
-				
-				/*! Gets the observable of the out event 'ShowAccu' that is defined in the interface scope 'gui'. */
-				sc::rx::Observable<sc_integer>* getShowAccu();
 				
 				
 				
@@ -268,58 +214,53 @@ class Calculator : public QObject, public sc::timer::TimedInterface, public sc::
 				friend class Calculator;
 				
 				/*! Raises the in event 'Button0' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton0();
+				void internal_gui_Button0();
 				sc_boolean Button0_raised;
 				/*! Raises the in event 'Button1' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton1();
+				void internal_gui_Button1();
 				sc_boolean Button1_raised;
 				/*! Raises the in event 'Button2' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton2();
+				void internal_gui_Button2();
 				sc_boolean Button2_raised;
 				/*! Raises the in event 'Button3' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton3();
+				void internal_gui_Button3();
 				sc_boolean Button3_raised;
 				/*! Raises the in event 'Button4' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton4();
+				void internal_gui_Button4();
 				sc_boolean Button4_raised;
 				/*! Raises the in event 'Button5' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton5();
+				void internal_gui_Button5();
 				sc_boolean Button5_raised;
 				/*! Raises the in event 'Button6' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton6();
+				void internal_gui_Button6();
 				sc_boolean Button6_raised;
 				/*! Raises the in event 'Button7' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton7();
+				void internal_gui_Button7();
 				sc_boolean Button7_raised;
 				/*! Raises the in event 'Button8' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton8();
+				void internal_gui_Button8();
 				sc_boolean Button8_raised;
 				/*! Raises the in event 'Button9' that is defined in the interface scope 'gui'. */
-				void internal_raiseButton9();
+				void internal_gui_Button9();
 				sc_boolean Button9_raised;
 				/*! Raises the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonAdd();
+				void internal_gui_ButtonAdd();
 				sc_boolean ButtonAdd_raised;
 				/*! Raises the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonSub();
+				void internal_gui_ButtonSub();
 				sc_boolean ButtonSub_raised;
 				/*! Raises the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonMult();
+				void internal_gui_ButtonMult();
 				sc_boolean ButtonMult_raised;
 				/*! Raises the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonDiv();
+				void internal_gui_ButtonDiv();
 				sc_boolean ButtonDiv_raised;
 				/*! Raises the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonEquals();
+				void internal_gui_ButtonEquals();
 				sc_boolean ButtonEquals_raised;
 				/*! Raises the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
-				void internal_raiseButtonClear();
+				void internal_gui_ButtonClear();
 				sc_boolean ButtonClear_raised;
-				sc::rx::Observable<void> Exit_observable;
-				sc_boolean Exit_raised;
-				sc::rx::Observable<sc_integer> ShowAccu_observable;
-				sc_boolean ShowAccu_raised;
-				sc_integer ShowAccu_value;
 				void dispatch_event(calculator_events::SctEvent * event);
 				
 				
@@ -410,42 +351,60 @@ class Calculator : public QObject, public sc::timer::TimedInterface, public sc::
 		
 		
 	public slots:
+		/*! slot for the in event 'Button0' that is defined in the interface scope 'gui'. */
 		void gui_Button0();
 		
+		/*! slot for the in event 'Button1' that is defined in the interface scope 'gui'. */
 		void gui_Button1();
 		
+		/*! slot for the in event 'Button2' that is defined in the interface scope 'gui'. */
 		void gui_Button2();
 		
+		/*! slot for the in event 'Button3' that is defined in the interface scope 'gui'. */
 		void gui_Button3();
 		
+		/*! slot for the in event 'Button4' that is defined in the interface scope 'gui'. */
 		void gui_Button4();
 		
+		/*! slot for the in event 'Button5' that is defined in the interface scope 'gui'. */
 		void gui_Button5();
 		
+		/*! slot for the in event 'Button6' that is defined in the interface scope 'gui'. */
 		void gui_Button6();
 		
+		/*! slot for the in event 'Button7' that is defined in the interface scope 'gui'. */
 		void gui_Button7();
 		
+		/*! slot for the in event 'Button8' that is defined in the interface scope 'gui'. */
 		void gui_Button8();
 		
+		/*! slot for the in event 'Button9' that is defined in the interface scope 'gui'. */
 		void gui_Button9();
 		
+		/*! slot for the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
 		void gui_ButtonAdd();
 		
+		/*! slot for the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
 		void gui_ButtonSub();
 		
+		/*! slot for the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
 		void gui_ButtonMult();
 		
+		/*! slot for the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
 		void gui_ButtonDiv();
 		
+		/*! slot for the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
 		void gui_ButtonEquals();
 		
+		/*! slot for the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
 		void gui_ButtonClear();
 		
 		
 	signals:
+		/*! Signal representing the out event 'Exit' that is defined in the interface scope 'gui'. */
 		void gui_Exit();
 		
+		/*! Signal representing the out event 'ShowAccu' that is defined in the interface scope 'gui'. */
 		void gui_ShowAccu(sc_integer value);
 		
 	

@@ -45,9 +45,6 @@ ButtonMult_raised(false),
 ButtonDiv_raised(false),
 ButtonEquals_raised(false),
 ButtonClear_raised(false),
-Exit_raised(false),
-ShowAccu_raised(false),
-ShowAccu_value(0),
 parent(parent)
 {
 }
@@ -74,27 +71,27 @@ void Calculator::dispatch_event(SctEvent * event)
 	}
 	switch(event->name)
 	{
-		case Gui_Button0:
-		case Gui_Button1:
-		case Gui_Button2:
-		case Gui_Button3:
-		case Gui_Button4:
-		case Gui_Button5:
-		case Gui_Button6:
-		case Gui_Button7:
-		case Gui_Button8:
-		case Gui_Button9:
-		case Gui_ButtonAdd:
-		case Gui_ButtonSub:
-		case Gui_ButtonMult:
-		case Gui_ButtonDiv:
-		case Gui_ButtonEquals:
-		case Gui_ButtonClear:
+		case CalculatorEventName::Gui_Button0:
+		case CalculatorEventName::Gui_Button1:
+		case CalculatorEventName::Gui_Button2:
+		case CalculatorEventName::Gui_Button3:
+		case CalculatorEventName::Gui_Button4:
+		case CalculatorEventName::Gui_Button5:
+		case CalculatorEventName::Gui_Button6:
+		case CalculatorEventName::Gui_Button7:
+		case CalculatorEventName::Gui_Button8:
+		case CalculatorEventName::Gui_Button9:
+		case CalculatorEventName::Gui_ButtonAdd:
+		case CalculatorEventName::Gui_ButtonSub:
+		case CalculatorEventName::Gui_ButtonMult:
+		case CalculatorEventName::Gui_ButtonDiv:
+		case CalculatorEventName::Gui_ButtonEquals:
+		case CalculatorEventName::Gui_ButtonClear:
 		{
 			ifaceGui.dispatch_event(event);
 			break;
 		}
-		case Calculator_main_region_active_time_event_0:
+		case CalculatorEventName::Calculator_main_region_active_time_event_0:
 		{
 			timeEvents[0] = true;
 			break;
@@ -102,90 +99,91 @@ void Calculator::dispatch_event(SctEvent * event)
 		default:
 			break;
 	}
+	delete event;
 }
 
 void Calculator::Gui::dispatch_event(SctEvent * event)
 {
 	switch(event->name)
 	{
-		case Gui_Button0:
+		case CalculatorEventName::Gui_Button0:
 		{
-			internal_raiseButton0();
+			internal_gui_Button0();
 			break;
 		}
-		case Gui_Button1:
+		case CalculatorEventName::Gui_Button1:
 		{
-			internal_raiseButton1();
+			internal_gui_Button1();
 			break;
 		}
-		case Gui_Button2:
+		case CalculatorEventName::Gui_Button2:
 		{
-			internal_raiseButton2();
+			internal_gui_Button2();
 			break;
 		}
-		case Gui_Button3:
+		case CalculatorEventName::Gui_Button3:
 		{
-			internal_raiseButton3();
+			internal_gui_Button3();
 			break;
 		}
-		case Gui_Button4:
+		case CalculatorEventName::Gui_Button4:
 		{
-			internal_raiseButton4();
+			internal_gui_Button4();
 			break;
 		}
-		case Gui_Button5:
+		case CalculatorEventName::Gui_Button5:
 		{
-			internal_raiseButton5();
+			internal_gui_Button5();
 			break;
 		}
-		case Gui_Button6:
+		case CalculatorEventName::Gui_Button6:
 		{
-			internal_raiseButton6();
+			internal_gui_Button6();
 			break;
 		}
-		case Gui_Button7:
+		case CalculatorEventName::Gui_Button7:
 		{
-			internal_raiseButton7();
+			internal_gui_Button7();
 			break;
 		}
-		case Gui_Button8:
+		case CalculatorEventName::Gui_Button8:
 		{
-			internal_raiseButton8();
+			internal_gui_Button8();
 			break;
 		}
-		case Gui_Button9:
+		case CalculatorEventName::Gui_Button9:
 		{
-			internal_raiseButton9();
+			internal_gui_Button9();
 			break;
 		}
-		case Gui_ButtonAdd:
+		case CalculatorEventName::Gui_ButtonAdd:
 		{
-			internal_raiseButtonAdd();
+			internal_gui_ButtonAdd();
 			break;
 		}
-		case Gui_ButtonSub:
+		case CalculatorEventName::Gui_ButtonSub:
 		{
-			internal_raiseButtonSub();
+			internal_gui_ButtonSub();
 			break;
 		}
-		case Gui_ButtonMult:
+		case CalculatorEventName::Gui_ButtonMult:
 		{
-			internal_raiseButtonMult();
+			internal_gui_ButtonMult();
 			break;
 		}
-		case Gui_ButtonDiv:
+		case CalculatorEventName::Gui_ButtonDiv:
 		{
-			internal_raiseButtonDiv();
+			internal_gui_ButtonDiv();
 			break;
 		}
-		case Gui_ButtonEquals:
+		case CalculatorEventName::Gui_ButtonEquals:
 		{
-			internal_raiseButtonEquals();
+			internal_gui_ButtonEquals();
 			break;
 		}
-		case Gui_ButtonClear:
+		case CalculatorEventName::Gui_ButtonClear:
 		{
-			internal_raiseButtonClear();
+			internal_gui_ButtonClear();
 			break;
 		}
 		default:
@@ -275,175 +273,167 @@ Calculator::Gui* Calculator::gui()
 	return &ifaceGui;
 }
 /* Functions for event Button0 in interface Gui */
-void Calculator::Gui::raiseButton0()
+void Calculator::gui_Button0()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button0(Gui_Button0));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button0(CalculatorEventName::Gui_Button0));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton0()
+void Calculator::Gui::internal_gui_Button0()
 {
 	Button0_raised = true;
 }
 /* Functions for event Button1 in interface Gui */
-void Calculator::Gui::raiseButton1()
+void Calculator::gui_Button1()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button1(Gui_Button1));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button1(CalculatorEventName::Gui_Button1));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton1()
+void Calculator::Gui::internal_gui_Button1()
 {
 	Button1_raised = true;
 }
 /* Functions for event Button2 in interface Gui */
-void Calculator::Gui::raiseButton2()
+void Calculator::gui_Button2()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button2(Gui_Button2));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button2(CalculatorEventName::Gui_Button2));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton2()
+void Calculator::Gui::internal_gui_Button2()
 {
 	Button2_raised = true;
 }
 /* Functions for event Button3 in interface Gui */
-void Calculator::Gui::raiseButton3()
+void Calculator::gui_Button3()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button3(Gui_Button3));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button3(CalculatorEventName::Gui_Button3));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton3()
+void Calculator::Gui::internal_gui_Button3()
 {
 	Button3_raised = true;
 }
 /* Functions for event Button4 in interface Gui */
-void Calculator::Gui::raiseButton4()
+void Calculator::gui_Button4()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button4(Gui_Button4));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button4(CalculatorEventName::Gui_Button4));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton4()
+void Calculator::Gui::internal_gui_Button4()
 {
 	Button4_raised = true;
 }
 /* Functions for event Button5 in interface Gui */
-void Calculator::Gui::raiseButton5()
+void Calculator::gui_Button5()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button5(Gui_Button5));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button5(CalculatorEventName::Gui_Button5));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton5()
+void Calculator::Gui::internal_gui_Button5()
 {
 	Button5_raised = true;
 }
 /* Functions for event Button6 in interface Gui */
-void Calculator::Gui::raiseButton6()
+void Calculator::gui_Button6()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button6(Gui_Button6));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button6(CalculatorEventName::Gui_Button6));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton6()
+void Calculator::Gui::internal_gui_Button6()
 {
 	Button6_raised = true;
 }
 /* Functions for event Button7 in interface Gui */
-void Calculator::Gui::raiseButton7()
+void Calculator::gui_Button7()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button7(Gui_Button7));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button7(CalculatorEventName::Gui_Button7));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton7()
+void Calculator::Gui::internal_gui_Button7()
 {
 	Button7_raised = true;
 }
 /* Functions for event Button8 in interface Gui */
-void Calculator::Gui::raiseButton8()
+void Calculator::gui_Button8()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button8(Gui_Button8));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button8(CalculatorEventName::Gui_Button8));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton8()
+void Calculator::Gui::internal_gui_Button8()
 {
 	Button8_raised = true;
 }
 /* Functions for event Button9 in interface Gui */
-void Calculator::Gui::raiseButton9()
+void Calculator::gui_Button9()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_Button9(Gui_Button9));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_Button9(CalculatorEventName::Gui_Button9));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButton9()
+void Calculator::Gui::internal_gui_Button9()
 {
 	Button9_raised = true;
 }
 /* Functions for event ButtonAdd in interface Gui */
-void Calculator::Gui::raiseButtonAdd()
+void Calculator::gui_ButtonAdd()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonAdd(Gui_ButtonAdd));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonAdd(CalculatorEventName::Gui_ButtonAdd));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonAdd()
+void Calculator::Gui::internal_gui_ButtonAdd()
 {
 	ButtonAdd_raised = true;
 }
 /* Functions for event ButtonSub in interface Gui */
-void Calculator::Gui::raiseButtonSub()
+void Calculator::gui_ButtonSub()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonSub(Gui_ButtonSub));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonSub(CalculatorEventName::Gui_ButtonSub));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonSub()
+void Calculator::Gui::internal_gui_ButtonSub()
 {
 	ButtonSub_raised = true;
 }
 /* Functions for event ButtonMult in interface Gui */
-void Calculator::Gui::raiseButtonMult()
+void Calculator::gui_ButtonMult()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonMult(Gui_ButtonMult));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonMult(CalculatorEventName::Gui_ButtonMult));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonMult()
+void Calculator::Gui::internal_gui_ButtonMult()
 {
 	ButtonMult_raised = true;
 }
 /* Functions for event ButtonDiv in interface Gui */
-void Calculator::Gui::raiseButtonDiv()
+void Calculator::gui_ButtonDiv()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonDiv(Gui_ButtonDiv));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonDiv(CalculatorEventName::Gui_ButtonDiv));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonDiv()
+void Calculator::Gui::internal_gui_ButtonDiv()
 {
 	ButtonDiv_raised = true;
 }
 /* Functions for event ButtonEquals in interface Gui */
-void Calculator::Gui::raiseButtonEquals()
+void Calculator::gui_ButtonEquals()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonEquals(Gui_ButtonEquals));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonEquals(CalculatorEventName::Gui_ButtonEquals));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonEquals()
+void Calculator::Gui::internal_gui_ButtonEquals()
 {
 	ButtonEquals_raised = true;
 }
 /* Functions for event ButtonClear in interface Gui */
-void Calculator::Gui::raiseButtonClear()
+void Calculator::gui_ButtonClear()
 {
-	parent->inEventQueue.push_back(new SctEvent_Gui_ButtonClear(Gui_ButtonClear));
-	parent->runCycle();
+	inEventQueue.push_back(new SctEvent_Gui_ButtonClear(CalculatorEventName::Gui_ButtonClear));
+	runCycle();
 }
-void Calculator::Gui::internal_raiseButtonClear()
+void Calculator::Gui::internal_gui_ButtonClear()
 {
 	ButtonClear_raised = true;
 }
 /* Functions for event Exit in interface Gui */
-sc::rx::Observable<void>* Calculator::Gui::getExit()
-{
-	return &(this->Exit_observable);
-}
 /* Functions for event ShowAccu in interface Gui */
-sc::rx::Observable<sc_integer>* Calculator::Gui::getShowAccu()
-{
-	return &(this->ShowAccu_observable);
-}
 sc_integer Calculator::getOperand() const
 {
 	return operand;
@@ -565,7 +555,6 @@ sc_integer Calculator::main_region_active_react(const sc_integer transitioned_be
 		if (timeEvents[0])
 		{ 
 			exseq_main_region_active();
-			ifaceGui.Exit_raised = true;
 			emit gui_Exit();
 			enseq_main_region__final__default();
 			transitioned_after = 0;
@@ -575,9 +564,7 @@ sc_integer Calculator::main_region_active_react(const sc_integer transitioned_be
 			{ 
 				exseq_main_region_active();
 				ifaceInternalOperationCallback->Equals();
-				ifaceGui.ShowAccu_value = operand;
-				ifaceGui.ShowAccu_raised = true;
-				emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+				emit gui_ShowAccu(operand);
 				enseq_main_region_active_default();
 				react(0);
 				transitioned_after = 0;
@@ -590,106 +577,78 @@ sc_integer Calculator::main_region_active_react(const sc_integer transitioned_be
 		if (ifaceGui.Button0_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(0);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button1_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(1);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button2_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(2);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button3_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(3);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button4_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(4);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button5_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(5);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button6_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(6);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button7_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(7);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button8_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(8);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button9_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(9);
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.ButtonAdd_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Add();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonSub_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Sub();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonMult_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Mult();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonDiv_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Div();
 			accu = 0;
 		} 
@@ -698,9 +657,7 @@ sc_integer Calculator::main_region_active_react(const sc_integer transitioned_be
 			ifaceInternalOperationCallback->Clear();
 			accu = 0;
 			operand = 0;
-			ifaceGui.ShowAccu_value = accu;
-			ifaceGui.ShowAccu_raised = true;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		transitioned_after = react(transitioned_before);
 	} 
@@ -799,87 +756,5 @@ void Calculator::exit() {
 	isExecuting = false;
 }
 
-
-
-
-/*! Slot for in event gui.Button0 */
-void Calculator::gui_Button0(){
-	ifaceGui.raiseButton0();
-}
-
-/*! Slot for in event gui.Button1 */
-void Calculator::gui_Button1(){
-	ifaceGui.raiseButton1();
-}
-
-/*! Slot for in event gui.Button2 */
-void Calculator::gui_Button2(){
-	ifaceGui.raiseButton2();
-}
-
-/*! Slot for in event gui.Button3 */
-void Calculator::gui_Button3(){
-	ifaceGui.raiseButton3();
-}
-
-/*! Slot for in event gui.Button4 */
-void Calculator::gui_Button4(){
-	ifaceGui.raiseButton4();
-}
-
-/*! Slot for in event gui.Button5 */
-void Calculator::gui_Button5(){
-	ifaceGui.raiseButton5();
-}
-
-/*! Slot for in event gui.Button6 */
-void Calculator::gui_Button6(){
-	ifaceGui.raiseButton6();
-}
-
-/*! Slot for in event gui.Button7 */
-void Calculator::gui_Button7(){
-	ifaceGui.raiseButton7();
-}
-
-/*! Slot for in event gui.Button8 */
-void Calculator::gui_Button8(){
-	ifaceGui.raiseButton8();
-}
-
-/*! Slot for in event gui.Button9 */
-void Calculator::gui_Button9(){
-	ifaceGui.raiseButton9();
-}
-
-/*! Slot for in event gui.ButtonAdd */
-void Calculator::gui_ButtonAdd(){
-	ifaceGui.raiseButtonAdd();
-}
-
-/*! Slot for in event gui.ButtonSub */
-void Calculator::gui_ButtonSub(){
-	ifaceGui.raiseButtonSub();
-}
-
-/*! Slot for in event gui.ButtonMult */
-void Calculator::gui_ButtonMult(){
-	ifaceGui.raiseButtonMult();
-}
-
-/*! Slot for in event gui.ButtonDiv */
-void Calculator::gui_ButtonDiv(){
-	ifaceGui.raiseButtonDiv();
-}
-
-/*! Slot for in event gui.ButtonEquals */
-void Calculator::gui_ButtonEquals(){
-	ifaceGui.raiseButtonEquals();
-}
-
-/*! Slot for in event gui.ButtonClear */
-void Calculator::gui_ButtonClear(){
-	ifaceGui.raiseButtonClear();
-}
 
 

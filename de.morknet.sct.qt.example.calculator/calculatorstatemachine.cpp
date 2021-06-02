@@ -1,13 +1,11 @@
 #include "calculatorstatemachine.h"
 
-using namespace sc::timer;
-
 CalculatorStateMachine::CalculatorStateMachine() :
 	Calculator(nullptr),
-	TimerService(this, 0)
+	timer_service(nullptr)
 {
 	setInternalOperationCallback(this);
-	setTimerService(this);
+	setTimerService(&timer_service);
 
 	operation = NONE;
 }
@@ -52,7 +50,7 @@ void CalculatorStateMachine::Equals()
 	sc_integer op   = getOperand();
 	sc_integer accu = getAccu();
 
-	switch(operation)
+	switch (operation)
 	{
 	case ADD:
 		accu = op + accu;
