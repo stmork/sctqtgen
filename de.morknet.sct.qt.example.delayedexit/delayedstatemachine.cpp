@@ -1,13 +1,7 @@
 #include "delayedstatemachine.h"
 
-DelayedStateMachine::DelayedStateMachine()
+DelayedStateMachine::DelayedStateMachine() :
+	AbstractDelay(nullptr)
 {
 
-}
-
-void DelayedStateMachine::initializeValues()
-{
-#ifdef QT_SCT_DEBUG
-	sctQtDebug("Initialized state machine!");
-#endif
 }

@@ -1,5 +1,10 @@
-GeneratorModel for de::morknet::sct::qt::generator
+GeneratorModel for yakindu::cpp::qt
 {
+	const PROJECT : string = "de.morknet.sct.qt.example.delayedexit"
+
+	const SRC_GEN_FOLDER : string = "src-qt-gen"
+	const SRC_LIB_FOLDER : string = "src-qt-lib"
+
 	statechart DelayedExit
 	{
 		feature LicenseHeader
@@ -9,20 +14,19 @@ GeneratorModel for de::morknet::sct::qt::generator
 
 		feature Outlet
 		{
-			targetProject = "de.morknet.sct.qt.example.delayedexit"
-			targetFolder = "src-gen"
-			libraryTargetFolder = "src"
+			targetProject = PROJECT
+			targetFolder = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
 		}
 
-		feature QtSettings
+		feature  IdentifierSettings
 		{
-			baseClassName = "AbstractDelay"
-			className = "AbstractDelayDispatcher"
-			cpp11 = true
-			generateTimer = false
-			threadSafe = false
-			debug = true
-			camelCase = false
+			moduleName = "AbstractDelay"
+		}
+
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
 		}
 	}
 }

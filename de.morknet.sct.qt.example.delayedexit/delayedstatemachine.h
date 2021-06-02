@@ -1,14 +1,12 @@
 #ifndef DELAYEDSTATEMACHINE_H
 #define DELAYEDSTATEMACHINE_H
 
-#include "src-gen/AbstractDelayDispatcher.h"
+#include "src-qt-gen/AbstractDelay.h"
 
-class DelayedStateMachine : public AbstractDelayDispatcher
+class DelayedStateMachine : public AbstractDelay
 {
 public:
 	DelayedStateMachine();
-
-	virtual void initializeValues() override;
 };
 
 #endif // DELAYEDSTATEMACHINE_H
