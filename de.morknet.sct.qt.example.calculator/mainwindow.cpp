@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget * parent) :
 	connect(&csm, &CalculatorStateMachine::gui_Exit,     this, &MainWindow::Exit);
 
 	// Now start the statemachine
-	csm.start();
+	csm.enter();
 
 	// Wire GUi elements into statemachine
 	connect(ui->button0, &QPushButton::clicked, &csm, &CalculatorStateMachine::gui_Button0);
@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget * parent) :
 MainWindow::~MainWindow()
 {
 	// Don't forget to stop the statemachine!
-	csm.stop();
+	csm.exit();
 
 	delete ui;
 }

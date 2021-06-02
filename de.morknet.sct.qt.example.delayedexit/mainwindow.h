@@ -6,7 +6,8 @@
 
 #include "delayedstatemachine.h"
 
-namespace Ui {
+namespace Ui
+{
 	class MainWindow;
 }
 
@@ -19,14 +20,14 @@ private:
 	QTimer              timer;
 
 public:
-	explicit MainWindow(QWidget *parent = 0);
+	explicit MainWindow(QWidget * parent = 0);
 	~MainWindow();
 
 protected:
-	void changeEvent(QEvent *e);
+	void changeEvent(QEvent * e);
 
 private:
-	Ui::MainWindow *ui;
+	Ui::MainWindow * ui;
 
 private slots:
 	void stateA();

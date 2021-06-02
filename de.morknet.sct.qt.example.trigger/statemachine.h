@@ -1,15 +1,19 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
-#include "src-gen/AbstractStateMachineAdaptor.h"
+#include "src-qt-gen/AbstractStateMachine.h"
+#include "src-qt-lib/sc_qt_timerservice.h"
 
-class Statemachine : public AbstractStateMachineAdaptor
+class Statemachine :
+		public AbstractStateMachine
 {
-public:
-	Statemachine();
+	Q_OBJECT
 
 private:
-	void initializeValues() override;
+	sc::qt::SCTimerService timer_service;
+
+public:
+	explicit Statemachine(QObject * parent = nullptr);
 };
 
 #endif // STATEMACHINE_H

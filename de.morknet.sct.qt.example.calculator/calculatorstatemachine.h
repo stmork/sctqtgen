@@ -23,9 +23,7 @@ private:
 	} operation;
 
 public:
-	CalculatorStateMachine();
-	void start();
-	void stop();
+	explicit CalculatorStateMachine(QObject * parent = nullptr);
 
 protected:
 	virtual void Add() override;

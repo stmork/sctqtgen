@@ -1,23 +1,13 @@
 #include "calculatorstatemachine.h"
 
-CalculatorStateMachine::CalculatorStateMachine() :
-	Calculator(nullptr),
+CalculatorStateMachine::CalculatorStateMachine(QObject * parent) :
+	Calculator(parent),
 	timer_service(nullptr)
 {
 	setInternalOperationCallback(this);
 	setTimerService(&timer_service);
 
 	operation = NONE;
-}
-
-void CalculatorStateMachine::start()
-{
-	enter();
-}
-
-void CalculatorStateMachine::stop()
-{
-	exit();
 }
 
 void CalculatorStateMachine::Add()

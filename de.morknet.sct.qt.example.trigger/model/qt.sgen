@@ -1,28 +1,40 @@
-GeneratorModel for de::morknet::sct::qt::generator
+GeneratorModel for yakindu::cpp::qt
 {
+	const PROJECT : string = "de.morknet.sct.qt.example.trigger"
+
+	const SRC_GEN_FOLDER : string = "src-qt-gen"
+	const SRC_LIB_FOLDER : string = "src-qt-lib"
+
 	statechart Trigger
 	{
-		feature LicenseHeader
+		feature GeneralFeatures
 		{
-			licenseText =  "Copyright (C) 2020 - Steffen A. Mork" 
+			timerService = true
 		}
 
-		feature QtSettings
+		feature LicenseHeader
 		{
-			baseClassName = "AbstractStateMachine"
-			className = "AbstractStateMachineAdaptor"
-			cpp11 = true
-			generateTimer = true
-			threadSafe = false
-			debug = true
-			camelCase = false
+			licenseText =  "Copyright (C) 2021 - Steffen A. Mork" 
 		}
 
 		feature Outlet
 		{
-			targetProject = "de.morknet.sct.qt.example.trigger"
-			targetFolder = "src-gen"
-			libraryTargetFolder = "src-lib"
+			targetProject = PROJECT
+			targetFolder = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
+		}
+
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
+		}
+
+		feature IdentifierSettings
+		{
+			moduleName =  "AbstractStateMachine" 
+			separator =  "_" 
+			headerFilenameExtension =  "h" 
+			sourceFilenameExtension =  "cpp" 
 		}
 	}
 }

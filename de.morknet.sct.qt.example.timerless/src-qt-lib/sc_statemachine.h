@@ -1,7 +1,9 @@
-/* Copyright (C) 2017 - Steffen A. Mork */
+/* Copyright (C) 2021 - Steffen A. Mork */
 
-#ifndef STATEMACHINEINTERFACE_H_
-#define STATEMACHINEINTERFACE_H_
+#ifndef SC_STATEMACHINE_H_
+#define SC_STATEMACHINE_H_
+
+namespace sc {
 
 /*! \file Basic interface for state machines.
  */
@@ -11,10 +13,6 @@ class StatemachineInterface
 	
 		virtual ~StatemachineInterface() = 0;
 		
-		/*! Initializes the state machine. Used to initialize internal variables etc.
-		*/
-		virtual void init() = 0;
-	
 		/*! Enters the state machine. Sets the state machine into a defined state.
 		*/
 		virtual void enter() = 0;
@@ -22,10 +20,6 @@ class StatemachineInterface
 		/*! Exits the state machine. Leaves the state machine with a defined state.
 		*/
 		virtual void exit() = 0;
-	
-		/*! Start a run-to-completion cycle.
-		*/
-		virtual void runCycle() = 0;
 		
 		/*! Checks whether the state machine is active. 
 	 	    A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
@@ -40,4 +34,6 @@ class StatemachineInterface
 
 inline StatemachineInterface::~StatemachineInterface() {}
 
-#endif /* STATEMACHINEINTERFACE_H_ */
+} /* namespace sc */
+
+#endif /* SC_STATEMACHINE_H_ */

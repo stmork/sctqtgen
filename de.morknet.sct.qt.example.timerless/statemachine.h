@@ -1,17 +1,13 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
-#include "src-gen/AbstractStateMachineDispatcher.h"
+#include "src-qt-gen/AbstractTimerLess.h"
 
-class StateMachine : public AbstractStateMachineDispatcher
+class StateMachine :
+	public AbstractTimerLess
 {
 public:
-	StateMachine();
-
-	inline void initializeValues() override
-	{
-		// Do nothing
-	}
+	explicit StateMachine(QObject * parent = nullptr);
 };
 
 #endif // STATEMACHINE_H

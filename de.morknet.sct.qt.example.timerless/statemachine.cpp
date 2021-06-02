@@ -1,6 +1,6 @@
 #include "statemachine.h"
 
-StateMachine::StateMachine()
+StateMachine::StateMachine(QObject * parent) :
+	AbstractTimerLess(parent)
 {
-
 }

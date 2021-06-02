@@ -6,16 +6,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	connect(ui->pushButton, &QPushButton::clicked, &statemachine, &Statemachine::pressed);
-	connect(&statemachine, &Statemachine::update, this, &MainWindow::updateGui);
-	connect(&statemachine, &Statemachine::wait,   this, &MainWindow::waitState);
-	connect(&statemachine, &Statemachine::lanes,  this, &MainWindow::lanesState);
+	connect(ui->pushButton, &QPushButton::clicked, &statemachine, &Statemachine::gui_pressed);
+	connect(&statemachine, &Statemachine::gui_update, this, &MainWindow::updateGui);
+	connect(&statemachine, &Statemachine::gui_wait,   this, &MainWindow::waitState);
+	connect(&statemachine, &Statemachine::gui_lanes,  this, &MainWindow::lanesState);
 
-	statemachine.start();
+	statemachine.enter();
 }
 
 MainWindow::~MainWindow()
 {
+	statemachine.exit();
 	delete ui;
 }
 
@@ -33,7 +34,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::updateGui()
 {
-	ui->counterLabel->setText(QString::asprintf("Zähler: %d", statemachine.getSCI_Gui()->get_counter()));
+	ui->counterLabel->setText(QString::asprintf("Zähler: %d", statemachine.gui()->getCounter()));
 }
 
 void MainWindow::waitState()

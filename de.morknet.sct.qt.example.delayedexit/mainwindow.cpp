@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget * parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
@@ -29,10 +29,11 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void MainWindow::changeEvent(QEvent * e)
 {
 	QMainWindow::changeEvent(e);
-	switch (e->type()) {
+	switch (e->type())
+	{
 	case QEvent::LanguageChange:
 		ui->retranslateUi(this);
 		break;

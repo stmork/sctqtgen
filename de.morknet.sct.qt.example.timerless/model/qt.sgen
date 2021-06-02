@@ -1,27 +1,32 @@
-GeneratorModel for de::morknet::sct::qt::generator
+GeneratorModel for yakindu::cpp::qt
 {
+	const PROJECT : string = "de.morknet.sct.qt.example.timerless"
+
+	const SRC_GEN_FOLDER : string = "src-qt-gen"
+	const SRC_LIB_FOLDER : string = "src-qt-lib"
+
 	statechart Timerless
 	{
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2020 - Steffen A. Mork" 
-		}
-
-		feature QtSettings
-		{
-			baseClassName = "AbstractStateMachine"
-			className = "AbstractStateMachineDispatcher"
-			cpp11 = true
-			generateTimer = true
-			threadSafe = false
-			debug = true
+			licenseText =  "Copyright (C) 2021 - Steffen A. Mork" 
 		}
 
 		feature Outlet
 		{
-			targetProject = "de.morknet.sct.qt.example.timerless"
-			targetFolder = "src-gen"
-			libraryTargetFolder = "src"
+			targetProject = PROJECT
+			targetFolder = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
+		}
+
+		feature  IdentifierSettings
+		{
+			moduleName = "AbstractTimerLess"
+		}
+
+		feature GeneratorOptions
+		{
+			innerFunctionVisibility = "protected"
 		}
 	}
 }

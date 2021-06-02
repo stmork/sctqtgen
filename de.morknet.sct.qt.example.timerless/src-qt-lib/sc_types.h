@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 - Steffen A. Mork */
+/* Copyright (C) 2021 - Steffen A. Mork */
 
 #ifndef SC_TYPES_H_
 #define SC_TYPES_H_
@@ -7,23 +7,31 @@
 // #include <cstdint>
 #include <stdint.h>
 
-
+#ifndef sc_string
 #define sc_string      char*
+#endif
+
+#ifndef sc_integer
+#define sc_integer int
+#endif
+
+#ifndef sc_real
+#define sc_real double
+#endif
+
+#ifndef sc_boolean
+#define sc_boolean bool
+#endif
+
 
 typedef int_fast16_t   sc_short;
 typedef uint_fast16_t  sc_ushort;
-typedef int32_t        sc_integer;
-typedef double         sc_real;
-typedef bool           sc_boolean;
+typedef int16_t		   sc_errorCode;
 
 typedef intptr_t       sc_eventid;
 
 #ifndef sc_null
-#	define sc_null     nullptr
-#endif
-
-#ifndef null
-#	define null        0
+#define sc_null 0
 #endif
 
 #endif /* SC_TYPES_H_ */

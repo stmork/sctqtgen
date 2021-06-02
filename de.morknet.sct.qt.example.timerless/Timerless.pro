@@ -30,15 +30,13 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	statemachine.cpp \
-	src-gen/AbstractStateMachine.cpp \
-	src-gen/AbstractStateMachineDispatcher.cpp
+	src-qt-gen/AbstractTimerLess.cpp
 
 HEADERS += \
 	mainwindow.h \
 	statemachine.h \
-	src/sc_types.h \
-	src-gen/AbstractStateMachineDispatcher.h \
-	src-gen/AbstractStateMachine.h
+	src-qt-lib/sc_types.h \
+	src-qt-gen/AbstractTimerLess.h
 
 FORMS += \
 	mainwindow.ui

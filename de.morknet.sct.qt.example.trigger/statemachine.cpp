@@ -1,11 +1,8 @@
 #include "statemachine.h"
 
-Statemachine::Statemachine()
+Statemachine::Statemachine(QObject * parent) :
+	AbstractStateMachine(parent),
+	timer_service(nullptr)
 {
-
-}
-
-void Statemachine::initializeValues()
-{
-
+	setTimerService(&timer_service);
 }
