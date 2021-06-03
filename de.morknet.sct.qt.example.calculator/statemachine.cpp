@@ -1,6 +1,6 @@
-#include "calculatorstatemachine.h"
+#include "statemachine.h"
 
-CalculatorStateMachine::CalculatorStateMachine(QObject * parent) :
+StateMachine::StateMachine(QObject * parent) :
 	CalculatorStatemachine(parent),
 	timer_service(nullptr)
 {
@@ -10,32 +10,32 @@ CalculatorStateMachine::CalculatorStateMachine(QObject * parent) :
 	operation = NONE;
 }
 
-void CalculatorStateMachine::Add()
+void StateMachine::Add()
 {
 	operation = ADD;
 }
 
-void CalculatorStateMachine::Sub()
+void StateMachine::Sub()
 {
 	operation = SUB;
 }
 
-void CalculatorStateMachine::Mult()
+void StateMachine::Mult()
 {
 	operation = MULT;
 }
 
-void CalculatorStateMachine::Div()
+void StateMachine::Div()
 {
 	operation = DIV;
 }
 
-void CalculatorStateMachine::Clear()
+void StateMachine::Clear()
 {
 	operation = NONE;
 }
 
-void CalculatorStateMachine::Equals()
+void StateMachine::Equals()
 {
 	sc_integer op   = getOperand();
 	sc_integer accu = getAccu();
@@ -62,7 +62,7 @@ void CalculatorStateMachine::Equals()
 	setOperand(accu);
 }
 
-void CalculatorStateMachine::Digit(sc_integer digit)
+void StateMachine::Digit(sc_integer digit)
 {
 	setAccu(getAccu() * 10 + digit);
 }

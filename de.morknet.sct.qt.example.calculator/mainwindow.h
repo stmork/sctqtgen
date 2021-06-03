@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "calculatorstatemachine.h"
+#include "statemachine.h"
 
 
 namespace Ui
@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-	CalculatorStateMachine csm;
+	StateMachine csm;
 
 public:
 	explicit MainWindow(QWidget * parent = 0);

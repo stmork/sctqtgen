@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 
-#include "delayedstatemachine.h"
+#include "statemachine.h"
 
 namespace Ui
 {
@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 private:
-	DelayedStateMachine dsm;
+	StateMachine dsm;
 	QTimer              timer;
 
 public:

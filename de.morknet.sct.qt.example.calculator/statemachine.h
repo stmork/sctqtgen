@@ -1,10 +1,10 @@
-#ifndef CALCULATORSTATEMACHINE_H
-#define CALCULATORSTATEMACHINE_H
+#ifndef STATEMACHINE_H
+#define STATEMACHINE_H
 
 #include "src-qt-gen/CalculatorStatemachine.h"
 #include "src-qt-lib/sc_qt_timerservice.h"
 
-class CalculatorStateMachine :
+class StateMachine :
 	public CalculatorStatemachine,
 	public CalculatorStatemachine::InternalOperationCallback
 {
@@ -23,7 +23,7 @@ private:
 	} operation;
 
 public:
-	explicit CalculatorStateMachine(QObject * parent = nullptr);
+	explicit StateMachine(QObject * parent = nullptr);
 
 protected:
 	virtual void Add() override;
@@ -35,4 +35,4 @@ protected:
 	virtual void Digit(sc_integer digit) override;
 };
 
-#endif // CALCULATORSTATEMACHINE_H
+#endif // STATEMACHINE_H
