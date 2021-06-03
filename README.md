@@ -1,3 +1,11 @@
+# NOTE #
+This branch is experimental! It is ongoing migration work from YAKINDU
+statechart tools version 3 to version 4. The plugins currently do not work!
+Since YAKINDU statechart tools own their new experimental Qt-C++ generator
+this work may obsolete these plugins. The examples now work with this new
+experimental generator. So try them out and have fun! 
+
+## Introduction ##
 This project provides a generator for conneting the [YAKINDU
 Statecharttools](http://statecharts.org) with a Qt application. Since the
 concept of incoming and outgoing events is similar to the Qt signal and slot
