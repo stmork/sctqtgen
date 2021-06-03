@@ -30,13 +30,16 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	delayedstatemachine.cpp \
-	src-qt-gen/AbstractDelay.cpp
+	src-qt-gen/DelayedStatemachine.cpp
 
 HEADERS += \
 	mainwindow.h \
 	delayedstatemachine.h \
+	src-qt-lib/sc_types.h \
+	src-qt-lib/sc_rxcpp.h \
+	src-qt-lib/sc_statemachine.h \
 	src-qt-gen/StatemachineInterface.h \
-	src-qt-gen/AbstractDelay.h
+	src-qt-gen/DelayedStatemachine.h
 
 FORMS += \
 	mainwindow.ui

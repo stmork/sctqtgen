@@ -30,13 +30,17 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	statemachine.cpp \
-	src-qt-gen/AbstractTimerLess.cpp
+	src-qt-gen/TimerlessStatemachine.cpp
 
 HEADERS += \
 	mainwindow.h \
 	statemachine.h \
 	src-qt-lib/sc_types.h \
-	src-qt-gen/AbstractTimerLess.h
+	src-qt-lib/sc_rxcpp.h \
+	src-qt-lib/sc_timer.h \
+	src-qt-lib/sc_statemachine.h \
+	src-qt-lib/sc_qt_timerservice.h \
+	src-qt-gen/TimerlessStatemachine.h
 
 FORMS += \
 	mainwindow.ui

@@ -1,7 +1,7 @@
 #include "calculatorstatemachine.h"
 
 CalculatorStateMachine::CalculatorStateMachine(QObject * parent) :
-	Calculator(parent),
+	CalculatorStatemachine(parent),
 	timer_service(nullptr)
 {
 	setInternalOperationCallback(this);

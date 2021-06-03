@@ -10,15 +10,15 @@ MainWindow::MainWindow(QWidget * parent) :
 	timer.setInterval(1000);
 	timer.setSingleShot(true);
 
-	connect (ui->pushButton1, &QPushButton::clicked, &dsm, &DelayedStateMachine::gui_button1);
-	connect (ui->pushButton2, &QPushButton::clicked, &dsm, &DelayedStateMachine::gui_button2);
+	connect (ui->pushButton1, &QPushButton::clicked, &dsm, &DelayedStatemachine::gui_button1);
+	connect (ui->pushButton2, &QPushButton::clicked, &dsm, &DelayedStatemachine::gui_button2);
 	connect (ui->exitButton,  &QPushButton::clicked, this, &MainWindow::exit);
 
-	connect (&timer, &QTimer::timeout, &dsm, &AbstractDelay::gui_complete);
-	connect (&dsm, &DelayedStateMachine::gui_stateA,      this, &MainWindow::stateA);
-	connect (&dsm, &DelayedStateMachine::gui_doSomething, this, &MainWindow::doSomething);
-	connect (&dsm, &DelayedStateMachine::gui_triggerStop, this, &MainWindow::triggerStop);
-	connect (&dsm, &DelayedStateMachine::gui_stopping,    this, &MainWindow::stopping);
+	connect (&timer, &QTimer::timeout, &dsm, &DelayedStatemachine::gui_complete);
+	connect (&dsm, &DelayedStatemachine::gui_stateA,      this, &MainWindow::stateA);
+	connect (&dsm, &DelayedStatemachine::gui_doSomething, this, &MainWindow::doSomething);
+	connect (&dsm, &DelayedStatemachine::gui_triggerStop, this, &MainWindow::triggerStop);
+	connect (&dsm, &DelayedStatemachine::gui_stopping,    this, &MainWindow::stopping);
 
 	dsm.enter();
 }

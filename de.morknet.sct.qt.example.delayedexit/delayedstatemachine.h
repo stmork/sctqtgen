@@ -1,9 +1,9 @@
 #ifndef DELAYEDSTATEMACHINE_H
 #define DELAYEDSTATEMACHINE_H
 
-#include "src-qt-gen/AbstractDelay.h"
+#include "src-qt-gen/DelayedStatemachine.h"
 
-class DelayedStateMachine : public AbstractDelay
+class DelayedStateMachine : public DelayedStatemachine
 {
 public:
 	DelayedStateMachine();

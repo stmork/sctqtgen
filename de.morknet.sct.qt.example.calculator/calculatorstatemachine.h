@@ -1,12 +1,12 @@
 #ifndef CALCULATORSTATEMACHINE_H
 #define CALCULATORSTATEMACHINE_H
 
-#include "src-qt-gen/Calculator.h"
+#include "src-qt-gen/CalculatorStatemachine.h"
 #include "src-qt-lib/sc_qt_timerservice.h"
 
 class CalculatorStateMachine :
-	public Calculator,
-	public Calculator::InternalOperationCallback
+	public CalculatorStatemachine,
+	public CalculatorStatemachine::InternalOperationCallback
 {
 	Q_OBJECT
 

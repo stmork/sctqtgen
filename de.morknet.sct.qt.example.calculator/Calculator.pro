@@ -30,11 +30,11 @@ generate.commands = ant
 SOURCES += main.cpp\
 	mainwindow.cpp \
 	calculatorstatemachine.cpp \
-	src-qt-gen/Calculator.cpp \
+	src-qt-gen/CalculatorStatemachine.cpp \
 	src-qt-lib/sc_qt_timerservice.cpp
 
 HEADERS  += mainwindow.h \
-	src-qt-gen/Calculator.h \
+	src-qt-gen/CalculatorStatemachine.h \
 	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
 	src-qt-lib/sc_timer.h \

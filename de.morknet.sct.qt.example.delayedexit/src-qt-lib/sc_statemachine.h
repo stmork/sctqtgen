@@ -1,4 +1,4 @@
-/* Copyright (C) 2020 - Steffen A. Mork */
+/* Copyright (C) 2021 - Steffen A. Mork */
 
 #ifndef SC_STATEMACHINE_H_
 #define SC_STATEMACHINE_H_

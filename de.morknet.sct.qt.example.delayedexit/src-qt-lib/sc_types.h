@@ -1,4 +1,4 @@
-/* Copyright (C) 2020 - Steffen A. Mork */
+/* Copyright (C) 2021 - Steffen A. Mork */
 
 #ifndef SC_TYPES_H_
 #define SC_TYPES_H_

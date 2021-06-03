@@ -31,7 +31,8 @@ GeneratorModel for yakindu::cpp::qt
 
 		feature IdentifierSettings
 		{
-			moduleName =  "AbstractStateMachine" 
+			moduleName =  "TriggerStatemachine" 
+			statemachinePrefix = "trigger"
 			separator =  "_" 
 			headerFilenameExtension =  "h" 
 			sourceFilenameExtension =  "cpp" 

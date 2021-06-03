@@ -30,12 +30,12 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	statemachine.cpp \
-	src-qt-gen/AbstractStateMachine.cpp \
+	src-qt-gen/TriggerStatemachine.cpp \
 	src-qt-lib/sc_qt_timerservice.cpp
 
 HEADERS += \
 	mainwindow.h \
-	src-qt-gen/AbstractStateMachine.h \
+	src-qt-gen/TriggerStatemachine.h \
 	statemachine.h \
 	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \

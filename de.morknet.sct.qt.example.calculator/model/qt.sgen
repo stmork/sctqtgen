@@ -31,11 +31,11 @@ GeneratorModel for yakindu::cpp::qt
 
 		feature IdentifierSettings
 		{
-			moduleName =  "Calculator" 
-			statemachinePrefix =  "calculator" 
-			separator =  "_" 
-			headerFilenameExtension =  "h" 
-			sourceFilenameExtension =  "cpp" 
+			moduleName =  "CalculatorStatemachine"
+			statemachinePrefix =  "calculator"
+			separator =  "_"
+			headerFilenameExtension =  "h"
+			sourceFilenameExtension =  "cpp"
 		}
 	}
 }

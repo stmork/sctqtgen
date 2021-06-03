@@ -19,14 +19,18 @@ GeneratorModel for yakindu::cpp::qt
 			libraryTargetFolder = SRC_LIB_FOLDER
 		}
 
-		feature  IdentifierSettings
-		{
-			moduleName = "AbstractTimerLess"
-		}
-
 		feature GeneratorOptions
 		{
 			innerFunctionVisibility = "protected"
+		}
+
+		feature  IdentifierSettings
+		{
+			moduleName = "TimerlessStatemachine"
+			statemachinePrefix = "timerless"
+			separator =  "_"
+			headerFilenameExtension =  "h"
+			sourceFilenameExtension =  "cpp"
 		}
 	}
 }
