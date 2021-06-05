@@ -12,6 +12,7 @@ Trigger.file     = de.morknet.sct.qt.example.trigger/Trigger.pro
 #
 #####################################################################
 
-QMAKE_EXTRA_TARGETS += astyle
+QMAKE_EXTRA_TARGETS += astyle regen
 
 astyle.commands = astyle *.example.*/*.cpp *.example.*/*.h
+regen.commands  = bin/regen-examples.sh
