@@ -5,9 +5,7 @@
 package de.morknet.sct.qt.generator
 
 import com.yakindu.base.types.Annotation
-import com.yakindu.sct.generator.core.IExecutionFlowGenerator
-import com.yakindu.sct.generator.core.ISCTGenerator
-import com.yakindu.sct.generator.core.filesystem.ISCTFileSystemAccess
+import com.yakindu.sct.generator.core.ISGraphGenerator
 import com.yakindu.sct.model.sexec.ExecutionFlow
 import com.yakindu.sct.model.sexec.ExecutionState
 import com.yakindu.sct.model.sexec.TimeEvent
@@ -24,28 +22,38 @@ import de.morknet.sct.qt.generator.templates.Names
 import de.morknet.sct.qt.generator.templates.Selector
 import javax.inject.Inject
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.generator.IFileSystemAccess
 
-class QtGenerator implements IExecutionFlowGenerator, ISCTGenerator
+class QtGenerator implements ISGraphGenerator
 {
-	@Inject Header header
-	@Inject Implementation impl
-	@Inject Selector selector
-	@Inject extension Names
-	@Inject extension Features
+	@Inject
+	Header         header
 
-	override generate(ExecutionFlow flow, GeneratorEntry entry, ISCTFileSystemAccess access)
+	@Inject
+	Implementation impl
+
+	@Inject
+	Selector       selector
+
+	@Inject extension
+	Names
+
+	@Inject extension
+	Features
+
+	override generate(Statechart model, GeneratorEntry entry, IFileSystemAccess fsa)
 	{
 		initFeatures(entry)
 
-		var sc = flow.sourceElement as Statechart
+		var ExecutionFlow flow;
 
 		if (isDebug())
 		{
-			access.generateFile("Log.txt", info(flow, entry))
-			access.generateFile("Elements.txt", elements(sc, entry))
+			fsa.generateFile("Log.txt", info(flow, entry))
+			fsa.generateFile("Elements.txt", elements(model, entry))
 		}
-		header.generate(flow, entry, access)
-		impl.generate(flow, entry, access)
+		header.generate(flow, entry, fsa)
+		impl.generate(flow, entry, fsa)
 	}
 
 	def private info(ExecutionFlow flow, GeneratorEntry entry) '''
