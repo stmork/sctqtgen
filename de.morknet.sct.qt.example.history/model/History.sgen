@@ -1,0 +1,30 @@
+GeneratorModel for yakindu::cpp::qt
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.history"
+
+	const SRC_GEN_FOLDER : string = "src-gen"
+	const SRC_LIB_FOLDER : string = "src-lib"
+
+	statechart History
+	{
+		feature LicenseHeader
+		{
+			licenseText = "Copyright (C) GIRA Giersiepen GmbH & Co. KG"
+		}
+
+		feature Outlet
+		{
+			targetProject       = PROJECT
+			targetFolder        = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
+		}
+
+		feature IdentifierSettings
+		{
+			moduleName = "HistoryStatemachine"
+			headerFilenameExtension = "h"
+			sourceFilenameExtension = "cpp"
+			separator               = "_"
+		}
+	}
+}

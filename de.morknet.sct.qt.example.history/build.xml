@@ -6,7 +6,7 @@
 		<exec executable="${eclipse.home}/eclipse" dir=".">
 			<arg value="--launcher.ini"/><arg value="${eclipse.home}/headless.ini"/>
 			<arg value="-d"/><arg value=".."/>
-			<arg value="-m"/><arg value="de.morknet.sct.qt.example.calculator/model"/>
+			<arg value="-m"/><arg value="de.morknet.sct.qt.example.history/model"/>
 		</exec>
 	</target>
 </project>

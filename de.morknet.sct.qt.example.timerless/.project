@@ -27,6 +27,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.yakindu.sct.builder.SCTBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.cdt.core.cnature</nature>
@@ -35,5 +40,6 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.yakindu.sct.builder.SCTNature</nature>
+		<nature>com.yakindu.sct.builder.SCTNature</nature>
 	</natures>
 </projectDescription>

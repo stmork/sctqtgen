@@ -1,0 +1,20 @@
+GeneratorModel for yakindu::images
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.trigger"
+	const FOLDER  : string = "images"
+
+	statechart Trigger
+	{
+
+		feature Outlet
+		{
+			targetProject = PROJECT
+			targetFolder  = FOLDER
+		}
+
+		feature Renderer
+		{
+			format = "png"
+		}
+	}
+}

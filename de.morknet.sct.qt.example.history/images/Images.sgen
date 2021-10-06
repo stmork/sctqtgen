@@ -1,0 +1,18 @@
+GeneratorModel for yakindu::images
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.history"
+	const FOLDER  : string = "images"
+
+	statechart History
+	{
+		feature Outlet
+		{
+			targetProject = PROJECT
+			targetFolder  = FOLDER
+		}
+
+		feature Renderer {
+			format = "png"
+		}
+	}
+}

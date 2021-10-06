@@ -1,0 +1,20 @@
+GeneratorModel for yakindu::images
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.timerless"
+	const FOLDER  : string = "images"
+
+	statechart Timerless
+	{
+
+		feature Outlet
+		{
+			targetProject = PROJECT
+			targetFolder  = FOLDER
+		}
+
+		feature Renderer
+		{
+			format = "png"
+		}
+	}
+}
