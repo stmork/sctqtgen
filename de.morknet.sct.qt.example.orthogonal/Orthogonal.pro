@@ -1,6 +1,8 @@
-QT       += core gui widgets
-
-CONFIG += c++17
+QT                  += core gui widgets
+CONFIG              += c++17
+QMAKE_EXTRA_TARGETS += generate
+TEMPLATE             = app
+TARGET               = Orthogonal
 
 SOURCES += \
 	main.cpp \
@@ -15,3 +17,5 @@ HEADERS += \
 
 FORMS += \
 	mainwindow.ui
+
+generate.commands = ant
