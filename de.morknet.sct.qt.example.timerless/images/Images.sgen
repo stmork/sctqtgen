@@ -5,7 +5,6 @@ GeneratorModel for yakindu::images
 
 	statechart Timerless
 	{
-
 		feature Outlet
 		{
 			targetProject = PROJECT

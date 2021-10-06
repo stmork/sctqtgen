@@ -5,7 +5,6 @@ GeneratorModel for yakindu::images
 
 	statechart Calculator
 	{
-
 		feature Outlet
 		{
 			targetProject = PROJECT
