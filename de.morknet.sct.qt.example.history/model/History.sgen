@@ -9,7 +9,7 @@ GeneratorModel for yakindu::cpp::qt
 	{
 		feature LicenseHeader
 		{
-			licenseText = "Copyright (C) GIRA Giersiepen GmbH & Co. KG"
+			licenseText =  "Copyright (C) 2022 - Steffen A. Mork" 
 		}
 
 		feature Outlet
