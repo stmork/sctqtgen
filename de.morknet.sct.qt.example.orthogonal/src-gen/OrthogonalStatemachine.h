@@ -1,12 +1,12 @@
-/* Copyright (C) GIRA Giersiepen GmbH & Co. KG */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef ORTHOGONALSTATEMACHINE_H_
 #define ORTHOGONALSTATEMACHINE_H_
 
 /*!
- * Forward declaration for the OrthogonalStatemachine state machine.
- */
- class OrthogonalStatemachine;
+Forward declaration for the OrthogonalStatemachine state machine.
+*/
+class OrthogonalStatemachine;
 
 
 #include <deque>
@@ -14,57 +14,9 @@
 #include "../src-lib/sc_statemachine.h"
 #include <QObject>
 
-/*! \file Header of the state machine 'Orthogonal'.
+/*! \file
+Header of the state machine 'OrthogonalStatemachine'.
 */
-
-
-#ifndef SCT_EVENTS_ORTHOGONAL_H
-#define SCT_EVENTS_ORTHOGONAL_H
-#ifndef SC_INVALID_EVENT_VALUE
-#define SC_INVALID_EVENT_VALUE 0
-#endif
-
-namespace orthogonal_events
-{
-typedef enum  {
-	invalid_event = SC_INVALID_EVENT_VALUE,
-	trigger
-} OrthogonalStatemachineEventName;
-
-class SctEvent
-{
-	public:
-		SctEvent(OrthogonalStatemachineEventName name) : name(name){}
-		virtual ~SctEvent(){}
-		const OrthogonalStatemachineEventName name;
-		
-};
-		
-template <typename T>
-class TypedSctEvent : public SctEvent
-{
-	public:
-		TypedSctEvent(OrthogonalStatemachineEventName name, T value) :
-			SctEvent(name),
-			value(value)
-			{}
-		virtual ~TypedSctEvent(){}
-		const T value;
-};
-
-class SctEvent__trigger : public SctEvent
-{
-	public:
-		SctEvent__trigger(OrthogonalStatemachineEventName name) : SctEvent(name){};
-};
-
-}
-#endif /* SCT_EVENTS_ORTHOGONAL_H */
-
-
-/*! Define indices of states in the StateConfVector */
-#define SCVI_LEFT_STATE 0
-#define SCVI_RIGHT_STATE 1
 
 
 class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
@@ -74,29 +26,52 @@ class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
 	public:
 		OrthogonalStatemachine(QObject *parent);
 		
-		~OrthogonalStatemachine();
+		virtual ~OrthogonalStatemachine();
 		
-		/*! Enumeration of all states */ 
-		typedef enum
+		
+		
+		/*! Enumeration of all states. */
+		enum class State
 		{
-			Orthogonal_last_state,
+			NO_STATE,
 			Left_State,
 			Right_State
-		} OrthogonalStates;
-					
-		static const sc_integer numStates = 2;
+		};
+		
+		/*! The number of states. */
+		static const sc::integer numStates = 2;
+		static const sc::integer scvi_Left_State = 0;
+		static const sc::integer scvi_Right_State = 1;
+		
+		/*! Enumeration of all events which are consumed. */
+		enum class Event
+		{
+			NO_EVENT,
+			trigger
+		};
+		
+		class EventInstance
+		{
+			public:
+				explicit EventInstance(Event id) : eventId(id){}
+				virtual ~EventInstance() = default;
+				const Event eventId;
+		};
+		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent();
 		
 		/*! Gets the value of the variable 'left' that is defined in the default interface scope. */
-		sc_integer getLeft() const;
+		sc::integer getLeft() const;
 		
 		/*! Sets the value of the variable 'left' that is defined in the default interface scope. */
-		void setLeft(sc_integer value);
+		void setLeft(sc::integer value);
 		
 		/*! Gets the value of the variable 'right' that is defined in the default interface scope. */
-		sc_integer getRight() const;
+		sc::integer getRight() const;
 		
 		/*! Sets the value of the variable 'right' that is defined in the default interface scope. */
-		void setRight(sc_integer value);
+		void setRight(sc::integer value);
 		
 		//! Inner class for default interface scope operation callbacks.
 		class OperationCallback
@@ -104,9 +79,9 @@ class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
 			public:
 				virtual ~OperationCallback() = 0;
 				
-				virtual sc_boolean isLeft() = 0;
+				virtual bool isLeft() = 0;
 				
-				virtual sc_boolean isRight() = 0;
+				virtual bool isRight() = 0;
 				
 				virtual void label() = 0;
 				
@@ -119,67 +94,71 @@ class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		virtual void enter();
+		void enter() override;
 		
-		virtual void exit();
+		void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		virtual sc_boolean isActive() const;
+		bool isActive() const override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		virtual sc_boolean isFinal() const;
+		bool isFinal() const override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		sc_boolean check();
+		bool check() const;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(OrthogonalStates state) const;
+		bool isStateActive(State state) const;
 		
 		
 		
 	public slots:
-		/*! slot for the in event 'trigger' that is defined in the default interface scope. */
+		/*! Slot for the in event 'trigger' that is defined in the default interface scope. */
 		void trigger();
 		
 		
 	protected:
 		
 		
+		std::deque<EventInstance*> incomingEventQueue;
+		
+		EventInstance* getNextEvent();
+		
+		void dispatchEvent(EventInstance* event);
+		
+		
+		
 	private:
 		OrthogonalStatemachine(const OrthogonalStatemachine &rhs);
 		OrthogonalStatemachine& operator=(const OrthogonalStatemachine&);
 		
-		sc_integer left;
-		sc_integer right;
-		/*! Raises the in event 'trigger' that is defined in the default interface scope. */
-		void internal_trigger();
-		sc_boolean trigger_raised;
-		void iface_dispatch_event(orthogonal_events::SctEvent * event);
+		sc::integer left;
+		sc::integer right;
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc_ushort maxOrthogonalStates = 2;
+		static const sc::ushort maxOrthogonalStates = 2;
 		
 		
 		
-		OrthogonalStates stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates];
 		
 		
 		OperationCallback* ifaceOperationCallback;
 		
 		
-		sc_boolean isExecuting;
-		sc_integer stateConfVectorPosition;
+		bool isExecuting;
+		sc::integer stateConfVectorPosition;
 		
 		
 		// prototypes of all internal functions
@@ -194,17 +173,19 @@ class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
 		void exseq_Right();
 		void react_Left__entry_Default();
 		void react_Right__entry_Default();
-		sc_integer react(const sc_integer transitioned_before);
-		sc_integer Left_State_react(const sc_integer transitioned_before);
-		sc_integer Right_State_react(const sc_integer transitioned_before);
+		sc::integer react(const sc::integer transitioned_before);
+		sc::integer Left_State_react(const sc::integer transitioned_before);
+		sc::integer Right_State_react(const sc::integer transitioned_before);
 		void clearInEvents();
 		void microStep();
 		void runCycle();
 		
 		
-		orthogonal_events::SctEvent* getNextEvent();
-		void dispatch_event(orthogonal_events::SctEvent * event);
-		std::deque<orthogonal_events::SctEvent*> inEventQueue;
+		
+		
+		/*! Indicates event 'trigger' of default interface scope is active. */
+		bool trigger_raised;
+		
 		
 		
 };

@@ -1,24 +1,25 @@
-/* Copyright (C) GIRA Giersiepen GmbH & Co. KG */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #include "OrthogonalStatemachine.h"
 
-/*! \file Implementation of the state machine 'Orthogonal'
+/*! \file
+Implementation of the state machine 'OrthogonalStatemachine'
 */
 
 
 
 
-OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent)  :
-QObject(parent),
-left(0),
-right(0),
-trigger_raised(false),
-ifaceOperationCallback(sc_null),
-isExecuting(false),
-stateConfVectorPosition(0)
+OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent) :
+	QObject(parent),
+	left(0),
+	right(0),
+	ifaceOperationCallback(nullptr),
+	isExecuting(false),
+	stateConfVectorPosition(0),
+	trigger_raised(false)
 {
-	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = Orthogonal_last_state;
+	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
+		stateConfVector[i] = OrthogonalStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -28,114 +29,114 @@ OrthogonalStatemachine::~OrthogonalStatemachine()
 }
 
 
-using namespace orthogonal_events;
 
-SctEvent* OrthogonalStatemachine::getNextEvent()
+OrthogonalStatemachine::EventInstance* OrthogonalStatemachine::getNextEvent()
 {
-	SctEvent* nextEvent = 0;
-	
-	if(!inEventQueue.empty()) {
-		nextEvent = inEventQueue.front();
-		inEventQueue.pop_front();
+	OrthogonalStatemachine::EventInstance* nextEvent = 0;
+
+	if(!incomingEventQueue.empty()) {
+		nextEvent = incomingEventQueue.front();
+		incomingEventQueue.pop_front();
 	}
 	
 	return nextEvent;
-}
+	
+}					
 
-void OrthogonalStatemachine::dispatch_event(SctEvent * event)
+
+void OrthogonalStatemachine::dispatchEvent(OrthogonalStatemachine::EventInstance * event)
 {
-	if(event == 0) {
+	if(event == nullptr) {
 		return;
 	}
-	switch(event->name)
+								
+	switch(event->eventId)
 	{
-		case OrthogonalStatemachineEventName::trigger:
+		case OrthogonalStatemachine::Event::trigger:
 		{
-			iface_dispatch_event(event);
+			trigger_raised = true;
 			break;
 		}
+		
+		
 		default:
 			break;
 	}
 	delete event;
 }
 
-void OrthogonalStatemachine::iface_dispatch_event(SctEvent * event)
-{
-	switch(event->name)
-	{
-		case OrthogonalStatemachineEventName::trigger:
-		{
-			internal_trigger();
-			break;
-		}
-		default:
-			break;
-	}
+
+void OrthogonalStatemachine::trigger() {
+	incomingEventQueue.push_back(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger));
+	runCycle();
+}
+
+
+/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+void OrthogonalStatemachine::triggerWithoutEvent() {
+	runCycle();
 }
 
 
 
-sc_boolean OrthogonalStatemachine::isActive() const
+bool OrthogonalStatemachine::isActive() const
 {
-	return stateConfVector[0] != Orthogonal_last_state||stateConfVector[1] != Orthogonal_last_state;
+	return stateConfVector[0] != OrthogonalStatemachine::State::NO_STATE||stateConfVector[1] != OrthogonalStatemachine::State::NO_STATE;
 }
 
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-sc_boolean OrthogonalStatemachine::isFinal() const
+bool OrthogonalStatemachine::isFinal() const
 {
    return false;}
 
-sc_boolean OrthogonalStatemachine::check() {
-	if (this->ifaceOperationCallback == sc_null) {
+bool OrthogonalStatemachine::check() const {
+	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
 	return true;
 }
 
 
-sc_boolean OrthogonalStatemachine::isStateActive(OrthogonalStates state) const
+bool OrthogonalStatemachine::isStateActive(State state) const
 {
 	switch (state)
 	{
-		case Left_State : 
-			return (sc_boolean) (stateConfVector[SCVI_LEFT_STATE] == Left_State
-			);
-		case Right_State : 
-			return (sc_boolean) (stateConfVector[SCVI_RIGHT_STATE] == Right_State
-			);
-		default: return false;
+		case OrthogonalStatemachine::State::Left_State :
+		{
+			return  (stateConfVector[scvi_Left_State] == OrthogonalStatemachine::State::Left_State);
+			break;
+		}
+		case OrthogonalStatemachine::State::Right_State :
+		{
+			return  (stateConfVector[scvi_Right_State] == OrthogonalStatemachine::State::Right_State);
+			break;
+		}
+		default:
+		{
+			return false;
+			break;
+		}
 	}
 }
 
-/* Functions for event trigger in interface  */
-void OrthogonalStatemachine::trigger()
-{
-	inEventQueue.push_back(new SctEvent__trigger(OrthogonalStatemachineEventName::trigger));
-	runCycle();
-}
-void OrthogonalStatemachine::internal_trigger()
-{
-	trigger_raised = true;
-}
-sc_integer OrthogonalStatemachine::getLeft() const
+sc::integer OrthogonalStatemachine::getLeft() const
 {
 	return left;
 }
 
-void OrthogonalStatemachine::setLeft(sc_integer value)
+void OrthogonalStatemachine::setLeft(sc::integer value)
 {
 	this->left = value;
 }
 
-sc_integer OrthogonalStatemachine::getRight() const
+sc::integer OrthogonalStatemachine::getRight() const
 {
 	return right;
 }
 
-void OrthogonalStatemachine::setRight(sc_integer value)
+void OrthogonalStatemachine::setRight(sc::integer value)
 {
 	this->right = value;
 }
@@ -151,7 +152,7 @@ void OrthogonalStatemachine::setOperationCallback(OperationCallback* operationCa
 void OrthogonalStatemachine::enseq_Left_State_default()
 {
 	/* 'default' enter sequence for state State */
-	stateConfVector[0] = Left_State;
+	stateConfVector[0] = OrthogonalStatemachine::State::Left_State;
 	stateConfVectorPosition = 0;
 }
 
@@ -159,7 +160,7 @@ void OrthogonalStatemachine::enseq_Left_State_default()
 void OrthogonalStatemachine::enseq_Right_State_default()
 {
 	/* 'default' enter sequence for state State */
-	stateConfVector[1] = Right_State;
+	stateConfVector[1] = OrthogonalStatemachine::State::Right_State;
 	stateConfVectorPosition = 1;
 }
 
@@ -181,7 +182,7 @@ void OrthogonalStatemachine::enseq_Right_default()
 void OrthogonalStatemachine::exseq_Left_State()
 {
 	/* Default exit sequence for state State */
-	stateConfVector[0] = Orthogonal_last_state;
+	stateConfVector[0] = OrthogonalStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 0;
 }
 
@@ -189,7 +190,7 @@ void OrthogonalStatemachine::exseq_Left_State()
 void OrthogonalStatemachine::exseq_Right_State()
 {
 	/* Default exit sequence for state State */
-	stateConfVector[1] = Orthogonal_last_state;
+	stateConfVector[1] = OrthogonalStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 1;
 }
 
@@ -197,10 +198,10 @@ void OrthogonalStatemachine::exseq_Right_State()
 void OrthogonalStatemachine::exseq_Left()
 {
 	/* Default exit sequence for region Left */
-	/* Handle exit of all possible states (of Orthogonal.Left) at position 0... */
+	/* Handle exit of all possible states (of OrthogonalStatemachine.Left) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case Left_State :
+		case OrthogonalStatemachine::State::Left_State :
 		{
 			exseq_Left_State();
 			break;
@@ -213,10 +214,10 @@ void OrthogonalStatemachine::exseq_Left()
 void OrthogonalStatemachine::exseq_Right()
 {
 	/* Default exit sequence for region Right */
-	/* Handle exit of all possible states (of Orthogonal.Right) at position 1... */
+	/* Handle exit of all possible states (of OrthogonalStatemachine.Right) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
-		case Right_State :
+		case OrthogonalStatemachine::State::Right_State :
 		{
 			exseq_Right_State();
 			break;
@@ -239,14 +240,14 @@ void OrthogonalStatemachine::react_Right__entry_Default()
 	enseq_Right_State_default();
 }
 
-sc_integer OrthogonalStatemachine::react(const sc_integer transitioned_before) {
+sc::integer OrthogonalStatemachine::react(const sc::integer transitioned_before) {
 	/* State machine reactions. */
 	return transitioned_before;
 }
 
-sc_integer OrthogonalStatemachine::Left_State_react(const sc_integer transitioned_before) {
+sc::integer OrthogonalStatemachine::Left_State_react(const sc::integer transitioned_before) {
 	/* The reactions of state State. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (((trigger_raised)) && ((ifaceOperationCallback->isLeft())))
@@ -261,9 +262,9 @@ sc_integer OrthogonalStatemachine::Left_State_react(const sc_integer transitione
 	return transitioned_after;
 }
 
-sc_integer OrthogonalStatemachine::Right_State_react(const sc_integer transitioned_before) {
+sc::integer OrthogonalStatemachine::Right_State_react(const sc::integer transitioned_before) {
 	/* The reactions of state State. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (1))
 	{ 
 		if (((trigger_raised)) && ((ifaceOperationCallback->isRight())))
@@ -289,11 +290,11 @@ void OrthogonalStatemachine::clearInEvents() {
 }
 
 void OrthogonalStatemachine::microStep() {
-	sc_integer transitioned = -1;
+	sc::integer transitioned = -1;
 	stateConfVectorPosition = 0;
 	switch(stateConfVector[ 0 ])
 	{
-		case Left_State :
+		case OrthogonalStatemachine::State::Left_State :
 		{
 			transitioned = Left_State_react(transitioned);
 			break;
@@ -304,9 +305,9 @@ void OrthogonalStatemachine::microStep() {
 	{ 
 		switch(stateConfVector[ 1 ])
 		{
-			case Right_State :
+			case OrthogonalStatemachine::State::Right_State :
 			{
-				transitioned = Right_State_react(transitioned);
+				Right_State_react(transitioned);
 				break;
 			}
 			default: break;
@@ -321,12 +322,12 @@ void OrthogonalStatemachine::runCycle() {
 		return;
 	} 
 	isExecuting = true;
-	dispatch_event(getNextEvent());
+	dispatchEvent(getNextEvent());
 	do
 	{ 
 		microStep();
 		clearInEvents();
-		dispatch_event(getNextEvent());
+		dispatchEvent(getNextEvent());
 	} while (trigger_raised);
 	isExecuting = false;
 }
@@ -338,7 +339,7 @@ void OrthogonalStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart Orthogonal */
+	/* Default enter sequence for statechart OrthogonalStatemachine */
 	enseq_Left_default();
 	enseq_Right_default();
 	isExecuting = false;
@@ -351,7 +352,7 @@ void OrthogonalStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart Orthogonal */
+	/* Default exit sequence for statechart OrthogonalStatemachine */
 	exseq_Left();
 	exseq_Right();
 	isExecuting = false;

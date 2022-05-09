@@ -21,7 +21,7 @@ namespace sc::qt
 		explicit SCTimer(
 				QObject *                   parent,
 				sc::timer::TimedInterface * statemachine,
-				const sc_eventid            id);
+				const sc::eventid           id);
 		SCTimer() = delete;
 
 	private slots:
@@ -29,7 +29,7 @@ namespace sc::qt
 
 	private:
 		sc::timer::TimedInterface * machine;
-		sc_eventid                  event_id;
+		sc::eventid                 event_id;
 	};
 
 	class SCTimerService : public QObject, public sc::timer::TimerServiceInterface
@@ -41,18 +41,17 @@ namespace sc::qt
 
 		virtual void setTimer(
 				sc::timer::TimedInterface * statemachine,
-				sc_eventid                  event,
-				sc_integer                  time_ms,
-				sc_boolean                  is_periodic) override;
+				sc::eventid                 event,
+				sc::integer                 time_ms,
+				bool                        is_periodic) override;
 		virtual void unsetTimer(
 				sc::timer::TimedInterface * statemachine,
-				sc_eventid                  event) override;
-		virtual void cancel() override;
+				sc::eventid                 event) override;
 
 	private:
-		SCTimer * getTimer(sc::timer::TimedInterface * machine, sc_eventid event);
+		SCTimer * getTimer(sc::timer::TimedInterface * machine, sc::eventid event);
 
-		typedef std::pair<sc::timer::TimedInterface *, sc_eventid> TimerKey;
+		typedef std::pair<sc::timer::TimedInterface *, sc::eventid> TimerKey;
 
 		typedef QMap<TimerKey, SCTimer *>                          TimerMap;
 

@@ -32,7 +32,7 @@ protected:
 	virtual void Div() override;
 	virtual void Clear() override;
 	virtual void Equals() override;
-	virtual void Digit(sc_integer digit) override;
+	virtual void Digit(sc::integer digit) override;
 };
 
 #endif // STATEMACHINE_H

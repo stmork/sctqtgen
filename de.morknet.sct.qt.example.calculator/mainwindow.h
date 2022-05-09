@@ -22,7 +22,7 @@ public:
 	~MainWindow();
 
 public slots:
-	void ShowAccu(sc_integer accu);
+	void ShowAccu(sc::integer accu);
 	void Exit();
 
 private:

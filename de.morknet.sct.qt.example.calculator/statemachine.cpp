@@ -37,32 +37,27 @@ void StateMachine::Clear()
 
 void StateMachine::Equals()
 {
-	sc_integer op   = getOperand();
-	sc_integer accu = getAccu();
-
 	switch (operation)
 	{
 	case ADD:
-		accu = op + accu;
+		operand += accu;
 		break;
 	case SUB:
-		accu = op - accu;
+		operand -= accu;
 		break;
 	case MULT:
-		accu = op * accu;
+		operand *= accu;
 		break;
 	case DIV:
-		accu = op / accu;
+		operand /= accu;
 		break;
 	default:
 		// Intentionally left blank
 		break;
 	}
-	operation = NONE;
-	setOperand(accu);
 }
 
-void StateMachine::Digit(sc_integer digit)
+void StateMachine::Digit(sc::integer digit)
 {
-	setAccu(getAccu() * 10 + digit);
+	accu = accu * 10 + digit;
 }

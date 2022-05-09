@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_hJQTQOJPEeeF_9CUQm0fEQ" specification="interface gui:&#xA;in event pressed&#xA;out event update&#xA;out event wait&#xA;out event lanes&#xA;&#xA;var counter : integer = 0&#xA;&#xA;internal:&#xA;event trigger&#xA;" name="Trigger">
+  <sgraph:Statechart xmi:id="_hJQTQOJPEeeF_9CUQm0fEQ" specification="interface gui:&#xA;in event pressed&#xA;out event update&#xA;out event wait&#xA;out event lanes&#xA;&#xA;var counter : integer = 0&#xA;&#xA;internal:&#xA;event trigger&#xA;" name="TriggerStatemachine">
     <regions xmi:id="_hJSvguJPEeeF_9CUQm0fEQ" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_hJ3-UOJPEeeF_9CUQm0fEQ">
         <outgoingTransitions xmi:id="_hJ-sAOJPEeeF_9CUQm0fEQ" target="_hJ5zhOJPEeeF_9CUQm0fEQ"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_aZOzIPm7Eeuv__GlQCTCJQ" specification="// Use the event driven execution model.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'.&#xA;@EventDriven&#xA;&#xA;// Use @SuperSteps(yes) to enable&#xA;// super step semantics.&#xA;@SuperSteps(no)&#xA;&#xA;interface:&#xA;&#xA;in event proceed&#xA;in event toggle&#xA;in event outside&#xA;&#x9;&#xA;operation label(text : string)&#xA;&#xA;&#x9;" name="History">
+  <sgraph:Statechart xmi:id="_aZOzIPm7Eeuv__GlQCTCJQ" specification="// Use the event driven execution model.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'.&#xA;@EventDriven&#xA;&#xA;// Use @SuperSteps(yes) to enable&#xA;// super step semantics.&#xA;@SuperSteps(no)&#xA;&#xA;interface:&#xA;&#xA;in event proceed&#xA;in event toggle&#xA;in event outside&#xA;&#x9;&#xA;operation label(text : string)&#xA;&#xA;&#x9;" name="HistoryStatemachine">
     <regions xmi:id="_aZR2c_m7Eeuv__GlQCTCJQ" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_aZR2dPm7Eeuv__GlQCTCJQ">
         <outgoingTransitions xmi:id="_aZR2dfm7Eeuv__GlQCTCJQ" target="_2PehQPm7Eeuv__GlQCTCJQ"/>

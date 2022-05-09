@@ -3,7 +3,7 @@ GeneratorModel for yakindu::images
 	const PROJECT : string = "de.morknet.sct.qt.example.trigger"
 	const FOLDER  : string = "images"
 
-	statechart Trigger
+	statechart TriggerStatemachine
 	{
 		feature Outlet
 		{

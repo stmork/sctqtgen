@@ -1,26 +1,27 @@
-/* Copyright (C) GIRA Giersiepen GmbH & Co. KG */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #include "HistoryStatemachine.h"
 
-/*! \file Implementation of the state machine 'History'
+/*! \file
+Implementation of the state machine 'HistoryStatemachine'
 */
 
 
 
 
-HistoryStatemachine::HistoryStatemachine(QObject *parent)  :
-QObject(parent),
-proceed_raised(false),
-toggle_raised(false),
-outside_raised(false),
-ifaceOperationCallback(sc_null),
-isExecuting(false)
+HistoryStatemachine::HistoryStatemachine(QObject *parent) :
+	QObject(parent),
+	ifaceOperationCallback(nullptr),
+	isExecuting(false),
+	proceed_raised(false),
+	toggle_raised(false),
+	outside_raised(false)
 {
-	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = History_last_state;
+	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
+		stateConfVector[i] = HistoryStatemachine::State::NO_STATE;
 	
-	for (sc_ushort i = 0; i < maxHistoryStates; ++i)
-		historyVector[i] = History_last_state;
+	for (sc::ushort i = 0; i < maxHistoryStates; ++i)
+		historyVector[i] = HistoryStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -30,151 +31,155 @@ HistoryStatemachine::~HistoryStatemachine()
 }
 
 
-using namespace history_events;
 
-SctEvent* HistoryStatemachine::getNextEvent()
+HistoryStatemachine::EventInstance* HistoryStatemachine::getNextEvent()
 {
-	SctEvent* nextEvent = 0;
-	
-	if(!inEventQueue.empty()) {
-		nextEvent = inEventQueue.front();
-		inEventQueue.pop_front();
+	HistoryStatemachine::EventInstance* nextEvent = 0;
+
+	if(!incomingEventQueue.empty()) {
+		nextEvent = incomingEventQueue.front();
+		incomingEventQueue.pop_front();
 	}
 	
 	return nextEvent;
-}
+	
+}					
 
-void HistoryStatemachine::dispatch_event(SctEvent * event)
+
+void HistoryStatemachine::dispatchEvent(HistoryStatemachine::EventInstance * event)
 {
-	if(event == 0) {
+	if(event == nullptr) {
 		return;
 	}
-	switch(event->name)
+								
+	switch(event->eventId)
 	{
-		case HistoryStatemachineEventName::proceed:
-		case HistoryStatemachineEventName::toggle:
-		case HistoryStatemachineEventName::outside:
+		case HistoryStatemachine::Event::proceed:
 		{
-			iface_dispatch_event(event);
+			proceed_raised = true;
 			break;
 		}
+		case HistoryStatemachine::Event::toggle:
+		{
+			toggle_raised = true;
+			break;
+		}
+		case HistoryStatemachine::Event::outside:
+		{
+			outside_raised = true;
+			break;
+		}
+		
+		
 		default:
 			break;
 	}
 	delete event;
 }
 
-void HistoryStatemachine::iface_dispatch_event(SctEvent * event)
-{
-	switch(event->name)
-	{
-		case HistoryStatemachineEventName::proceed:
-		{
-			internal_proceed();
-			break;
-		}
-		case HistoryStatemachineEventName::toggle:
-		{
-			internal_toggle();
-			break;
-		}
-		case HistoryStatemachineEventName::outside:
-		{
-			internal_outside();
-			break;
-		}
-		default:
-			break;
-	}
+
+void HistoryStatemachine::proceed() {
+	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed));
+	runCycle();
+}
+
+
+void HistoryStatemachine::toggle() {
+	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle));
+	runCycle();
+}
+
+
+void HistoryStatemachine::outside() {
+	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside));
+	runCycle();
+}
+
+
+/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+void HistoryStatemachine::triggerWithoutEvent() {
+	runCycle();
 }
 
 
 
-sc_boolean HistoryStatemachine::isActive() const
+bool HistoryStatemachine::isActive() const
 {
-	return stateConfVector[0] != History_last_state;
+	return stateConfVector[0] != HistoryStatemachine::State::NO_STATE;
 }
 
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-sc_boolean HistoryStatemachine::isFinal() const
+bool HistoryStatemachine::isFinal() const
 {
    return false;}
 
-sc_boolean HistoryStatemachine::check() {
-	if (this->ifaceOperationCallback == sc_null) {
+bool HistoryStatemachine::check() const {
+	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
 	return true;
 }
 
 
-sc_boolean HistoryStatemachine::isStateActive(HistoryStates state) const
+bool HistoryStatemachine::isStateActive(State state) const
 {
 	switch (state)
 	{
-		case main_region_Start : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START] >= main_region_Start
-				&& stateConfVector[SCVI_MAIN_REGION_START] <= main_region_Start_main_StateB_Inner_Right_Cyan);
-		case main_region_Start_main_StateA : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEA] >= main_region_Start_main_StateA
-				&& stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEA] <= main_region_Start_main_StateA_Inner_Left_Green);
-		case main_region_Start_main_StateA_Inner_Left_Red : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEA_INNER_LEFT_RED] == main_region_Start_main_StateA_Inner_Left_Red
-			);
-		case main_region_Start_main_StateA_Inner_Left_Blue : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEA_INNER_LEFT_BLUE] == main_region_Start_main_StateA_Inner_Left_Blue
-			);
-		case main_region_Start_main_StateA_Inner_Left_Green : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEA_INNER_LEFT_GREEN] == main_region_Start_main_StateA_Inner_Left_Green
-			);
-		case main_region_Start_main_StateB : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEB] >= main_region_Start_main_StateB
-				&& stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEB] <= main_region_Start_main_StateB_Inner_Right_Cyan);
-		case main_region_Start_main_StateB_Inner_Right_Magenta : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEB_INNER_RIGHT_MAGENTA] == main_region_Start_main_StateB_Inner_Right_Magenta
-			);
-		case main_region_Start_main_StateB_Inner_Right_Cyan : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_START_MAIN_STATEB_INNER_RIGHT_CYAN] == main_region_Start_main_StateB_Inner_Right_Cyan
-			);
-		case main_region_Outside : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_OUTSIDE] == main_region_Outside
-			);
-		default: return false;
+		case HistoryStatemachine::State::main_region_Start :
+		{
+			return  (stateConfVector[scvi_main_region_Start] >= HistoryStatemachine::State::main_region_Start && stateConfVector[scvi_main_region_Start] <= HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateA :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateA] >= HistoryStatemachine::State::main_region_Start_main_StateA && stateConfVector[scvi_main_region_Start_main_StateA] <= HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateA_Inner_Left_Red] == HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateA_Inner_Left_Blue] == HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateA_Inner_Left_Green] == HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateB :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateB] >= HistoryStatemachine::State::main_region_Start_main_StateB && stateConfVector[scvi_main_region_Start_main_StateB] <= HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateB_Inner_Right_Magenta] == HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
+		{
+			return  (stateConfVector[scvi_main_region_Start_main_StateB_Inner_Right_Cyan] == HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan);
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Outside :
+		{
+			return  (stateConfVector[scvi_main_region_Outside] == HistoryStatemachine::State::main_region_Outside);
+			break;
+		}
+		default:
+		{
+			return false;
+			break;
+		}
 	}
 }
 
-/* Functions for event proceed in interface  */
-void HistoryStatemachine::proceed()
-{
-	inEventQueue.push_back(new SctEvent__proceed(HistoryStatemachineEventName::proceed));
-	runCycle();
-}
-void HistoryStatemachine::internal_proceed()
-{
-	proceed_raised = true;
-}
-/* Functions for event toggle in interface  */
-void HistoryStatemachine::toggle()
-{
-	inEventQueue.push_back(new SctEvent__toggle(HistoryStatemachineEventName::toggle));
-	runCycle();
-}
-void HistoryStatemachine::internal_toggle()
-{
-	toggle_raised = true;
-}
-/* Functions for event outside in interface  */
-void HistoryStatemachine::outside()
-{
-	inEventQueue.push_back(new SctEvent__outside(HistoryStatemachineEventName::outside));
-	runCycle();
-}
-void HistoryStatemachine::internal_outside()
-{
-	outside_raised = true;
-}
 void HistoryStatemachine::setOperationCallback(OperationCallback* operationCallback)
 {
 	ifaceOperationCallback = operationCallback;
@@ -186,42 +191,42 @@ void HistoryStatemachine::setOperationCallback(OperationCallback* operationCallb
 void HistoryStatemachine::enact_main_region_Start_main_StateA_Inner_Left_Red()
 {
 	/* Entry action for state 'Red'. */
-	ifaceOperationCallback->label((sc_string) "red");
+	ifaceOperationCallback->label("red");
 }
 
 /* Entry action for state 'Blue'. */
 void HistoryStatemachine::enact_main_region_Start_main_StateA_Inner_Left_Blue()
 {
 	/* Entry action for state 'Blue'. */
-	ifaceOperationCallback->label((sc_string) "blue");
+	ifaceOperationCallback->label("blue");
 }
 
 /* Entry action for state 'Green'. */
 void HistoryStatemachine::enact_main_region_Start_main_StateA_Inner_Left_Green()
 {
 	/* Entry action for state 'Green'. */
-	ifaceOperationCallback->label((sc_string) "green");
+	ifaceOperationCallback->label("green");
 }
 
 /* Entry action for state 'Magenta'. */
 void HistoryStatemachine::enact_main_region_Start_main_StateB_Inner_Right_Magenta()
 {
 	/* Entry action for state 'Magenta'. */
-	ifaceOperationCallback->label((sc_string) "magenta");
+	ifaceOperationCallback->label("magenta");
 }
 
 /* Entry action for state 'Cyan'. */
 void HistoryStatemachine::enact_main_region_Start_main_StateB_Inner_Right_Cyan()
 {
 	/* Entry action for state 'Cyan'. */
-	ifaceOperationCallback->label((sc_string) "cyan");
+	ifaceOperationCallback->label("cyan");
 }
 
 /* Entry action for state 'Outside'. */
 void HistoryStatemachine::enact_main_region_Outside()
 {
 	/* Entry action for state 'Outside'. */
-	ifaceOperationCallback->label((sc_string) "outside");
+	ifaceOperationCallback->label("outside");
 }
 
 /* 'default' enter sequence for state Start */
@@ -244,7 +249,7 @@ void HistoryStatemachine::enseq_main_region_Start_main_StateA_Inner_Left_Red_def
 {
 	/* 'default' enter sequence for state Red */
 	enact_main_region_Start_main_StateA_Inner_Left_Red();
-	stateConfVector[0] = main_region_Start_main_StateA_Inner_Left_Red;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red;
 	historyVector[1] = stateConfVector[0];
 }
 
@@ -253,7 +258,7 @@ void HistoryStatemachine::enseq_main_region_Start_main_StateA_Inner_Left_Blue_de
 {
 	/* 'default' enter sequence for state Blue */
 	enact_main_region_Start_main_StateA_Inner_Left_Blue();
-	stateConfVector[0] = main_region_Start_main_StateA_Inner_Left_Blue;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue;
 	historyVector[1] = stateConfVector[0];
 }
 
@@ -262,7 +267,7 @@ void HistoryStatemachine::enseq_main_region_Start_main_StateA_Inner_Left_Green_d
 {
 	/* 'default' enter sequence for state Green */
 	enact_main_region_Start_main_StateA_Inner_Left_Green();
-	stateConfVector[0] = main_region_Start_main_StateA_Inner_Left_Green;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green;
 	historyVector[1] = stateConfVector[0];
 }
 
@@ -279,7 +284,7 @@ void HistoryStatemachine::enseq_main_region_Start_main_StateB_Inner_Right_Magent
 {
 	/* 'default' enter sequence for state Magenta */
 	enact_main_region_Start_main_StateB_Inner_Right_Magenta();
-	stateConfVector[0] = main_region_Start_main_StateB_Inner_Right_Magenta;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta;
 	historyVector[2] = stateConfVector[0];
 }
 
@@ -288,7 +293,7 @@ void HistoryStatemachine::enseq_main_region_Start_main_StateB_Inner_Right_Cyan_d
 {
 	/* 'default' enter sequence for state Cyan */
 	enact_main_region_Start_main_StateB_Inner_Right_Cyan();
-	stateConfVector[0] = main_region_Start_main_StateB_Inner_Right_Cyan;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan;
 	historyVector[2] = stateConfVector[0];
 }
 
@@ -297,7 +302,7 @@ void HistoryStatemachine::enseq_main_region_Outside_default()
 {
 	/* 'default' enter sequence for state Outside */
 	enact_main_region_Outside();
-	stateConfVector[0] = main_region_Outside;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Outside;
 }
 
 /* 'default' enter sequence for region main region */
@@ -321,31 +326,31 @@ void HistoryStatemachine::dhenseq_main_region_Start_main()
 	/* Handle deep history entry of main */
 	switch(historyVector[ 0 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			/* enterSequence with history in child StateA for leaf Red */
 			dhenseq_main_region_Start_main_StateA_Inner_Left();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			/* enterSequence with history in child StateA for leaf Blue */
 			dhenseq_main_region_Start_main_StateA_Inner_Left();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			/* enterSequence with history in child StateA for leaf Green */
 			dhenseq_main_region_Start_main_StateA_Inner_Left();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			/* enterSequence with history in child StateB for leaf Magenta */
 			dhenseq_main_region_Start_main_StateB_Inner_Right();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			/* enterSequence with history in child StateB for leaf Cyan */
 			dhenseq_main_region_Start_main_StateB_Inner_Right();
@@ -369,19 +374,19 @@ void HistoryStatemachine::dhenseq_main_region_Start_main_StateA_Inner_Left()
 	/* Handle deep history entry of Inner Left */
 	switch(historyVector[ 1 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			/* enterSequence with history in child Red for leaf Red */
 			enseq_main_region_Start_main_StateA_Inner_Left_Red_default();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			/* enterSequence with history in child Blue for leaf Blue */
 			enseq_main_region_Start_main_StateA_Inner_Left_Blue_default();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			/* enterSequence with history in child Green for leaf Green */
 			enseq_main_region_Start_main_StateA_Inner_Left_Green_default();
@@ -405,13 +410,13 @@ void HistoryStatemachine::dhenseq_main_region_Start_main_StateB_Inner_Right()
 	/* Handle deep history entry of Inner Right */
 	switch(historyVector[ 2 ])
 	{
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			/* enterSequence with history in child Magenta for leaf Magenta */
 			enseq_main_region_Start_main_StateB_Inner_Right_Magenta_default();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			/* enterSequence with history in child Cyan for leaf Cyan */
 			enseq_main_region_Start_main_StateB_Inner_Right_Cyan_default();
@@ -439,21 +444,21 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateA()
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Red()
 {
 	/* Default exit sequence for state Red */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state Blue */
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Blue()
 {
 	/* Default exit sequence for state Blue */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state Green */
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Green()
 {
 	/* Default exit sequence for state Green */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state StateB */
@@ -467,56 +472,56 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateB()
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right_Magenta()
 {
 	/* Default exit sequence for state Magenta */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state Cyan */
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right_Cyan()
 {
 	/* Default exit sequence for state Cyan */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state Outside */
 void HistoryStatemachine::exseq_main_region_Outside()
 {
 	/* Default exit sequence for state Outside */
-	stateConfVector[0] = History_last_state;
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for region main region */
 void HistoryStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of History.main_region) at position 0... */
+	/* Handle exit of all possible states (of HistoryStatemachine.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Red();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Blue();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Magenta();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Cyan();
 			break;
 		}
-		case main_region_Outside :
+		case HistoryStatemachine::State::main_region_Outside :
 		{
 			exseq_main_region_Outside();
 			break;
@@ -529,30 +534,30 @@ void HistoryStatemachine::exseq_main_region()
 void HistoryStatemachine::exseq_main_region_Start_main()
 {
 	/* Default exit sequence for region main */
-	/* Handle exit of all possible states (of History.main_region.Start.main) at position 0... */
+	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Red();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Blue();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Magenta();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Cyan();
 			break;
@@ -565,20 +570,20 @@ void HistoryStatemachine::exseq_main_region_Start_main()
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left()
 {
 	/* Default exit sequence for region Inner Left */
-	/* Handle exit of all possible states (of History.main_region.Start.main.StateA.Inner_Left) at position 0... */
+	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main.StateA.Inner_Left) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Red();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Blue();
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
 			break;
@@ -591,15 +596,15 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left()
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right()
 {
 	/* Default exit sequence for region Inner Right */
-	/* Handle exit of all possible states (of History.main_region.Start.main.StateB.Inner_Right) at position 0... */
+	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main.StateB.Inner_Right) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Magenta();
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			exseq_main_region_Start_main_StateB_Inner_Right_Cyan();
 			break;
@@ -641,7 +646,7 @@ void HistoryStatemachine::react_main_region_Start_main_ReturnoftheGYRAknights()
 {
 	/* Default react sequence for deep history entry Return of the GYRA knights */
 	/* Enter the region with deep history */
-	if (historyVector[0] != History_last_state)
+	if (historyVector[0] != HistoryStatemachine::State::NO_STATE)
 	{
 		dhenseq_main_region_Start_main();
 	} else
@@ -650,14 +655,14 @@ void HistoryStatemachine::react_main_region_Start_main_ReturnoftheGYRAknights()
 	} 
 }
 
-sc_integer HistoryStatemachine::react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::react(const sc::integer transitioned_before) {
 	/* State machine reactions. */
 	return transitioned_before;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer transitioned_before) {
 	/* The reactions of state Start. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (outside_raised)
@@ -676,9 +681,9 @@ sc_integer HistoryStatemachine::main_region_Start_react(const sc_integer transit
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateA_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateA_react(const sc::integer transitioned_before) {
 	/* The reactions of state StateA. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (toggle_raised)
@@ -697,9 +702,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateA_react(const sc_int
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Red_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Red_react(const sc::integer transitioned_before) {
 	/* The reactions of state Red. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (proceed_raised)
@@ -718,9 +723,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Red_rea
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Blue_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Blue_react(const sc::integer transitioned_before) {
 	/* The reactions of state Blue. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (proceed_raised)
@@ -739,9 +744,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Blue_re
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Green_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Green_react(const sc::integer transitioned_before) {
 	/* The reactions of state Green. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (proceed_raised)
@@ -760,9 +765,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Green_r
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateB_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateB_react(const sc::integer transitioned_before) {
 	/* The reactions of state StateB. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (toggle_raised)
@@ -781,9 +786,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateB_react(const sc_int
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Magenta_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Magenta_react(const sc::integer transitioned_before) {
 	/* The reactions of state Magenta. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (proceed_raised)
@@ -802,9 +807,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Magent
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Cyan_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Cyan_react(const sc::integer transitioned_before) {
 	/* The reactions of state Cyan. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (proceed_raised)
@@ -823,9 +828,9 @@ sc_integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Cyan_r
 	return transitioned_after;
 }
 
-sc_integer HistoryStatemachine::main_region_Outside_react(const sc_integer transitioned_before) {
+sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer transitioned_before) {
 	/* The reactions of state Outside. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (outside_raised)
@@ -853,32 +858,32 @@ void HistoryStatemachine::clearInEvents() {
 void HistoryStatemachine::microStep() {
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Start_main_StateA_Inner_Left_Red :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			main_region_Start_main_StateA_Inner_Left_Red_react(-1);
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Blue :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Blue :
 		{
 			main_region_Start_main_StateA_Inner_Left_Blue_react(-1);
 			break;
 		}
-		case main_region_Start_main_StateA_Inner_Left_Green :
+		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			main_region_Start_main_StateA_Inner_Left_Green_react(-1);
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Magenta :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
 		{
 			main_region_Start_main_StateB_Inner_Right_Magenta_react(-1);
 			break;
 		}
-		case main_region_Start_main_StateB_Inner_Right_Cyan :
+		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Cyan :
 		{
 			main_region_Start_main_StateB_Inner_Right_Cyan_react(-1);
 			break;
 		}
-		case main_region_Outside :
+		case HistoryStatemachine::State::main_region_Outside :
 		{
 			main_region_Outside_react(-1);
 			break;
@@ -894,12 +899,12 @@ void HistoryStatemachine::runCycle() {
 		return;
 	} 
 	isExecuting = true;
-	dispatch_event(getNextEvent());
+	dispatchEvent(getNextEvent());
 	do
 	{ 
 		microStep();
 		clearInEvents();
-		dispatch_event(getNextEvent());
+		dispatchEvent(getNextEvent());
 	} while (((proceed_raised) || (toggle_raised)) || (outside_raised));
 	isExecuting = false;
 }
@@ -911,7 +916,7 @@ void HistoryStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart History */
+	/* Default enter sequence for statechart HistoryStatemachine */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -923,7 +928,7 @@ void HistoryStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart History */
+	/* Default exit sequence for statechart HistoryStatemachine */
 	exseq_main_region();
 	isExecuting = false;
 }

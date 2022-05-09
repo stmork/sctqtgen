@@ -7,7 +7,7 @@ using namespace sc::timer;
 using Qt::TimerType::PreciseTimer;
 using Qt::TimerType::CoarseTimer;
 
-SCTimer::SCTimer(QObject * parent, TimedInterface * statemachine, const sc_eventid id) :
+SCTimer::SCTimer(QObject * parent, TimedInterface * statemachine, const sc::eventid id) :
 	QTimer(parent),
 	machine(statemachine),
 	event_id(id)
@@ -28,8 +28,8 @@ SCTimerService::SCTimerService(QObject * parent) : QObject(parent)
 
 void SCTimerService::setTimer(
 		TimedInterface * statemachine,
-		sc_eventid       event,
-		int              time_ms,
+		sc::eventid      event,
+		sc::integer      time_ms,
 		bool             is_periodic)
 {
 	SCTimer *  timer          = getTimer(statemachine, event);
@@ -44,7 +44,7 @@ void SCTimerService::setTimer(
 
 void SCTimerService::unsetTimer(
 		TimedInterface * statemachine,
-		sc_eventid       event)
+		sc::eventid      event)
 {
 	SCTimer * timer = this->getTimer(statemachine, event);
 
@@ -53,14 +53,9 @@ void SCTimerService::unsetTimer(
 		timer->stop();
 	}
 }
-
-void SCTimerService::cancel()
-{
-}
-
 SCTimer * SCTimerService::getTimer(
 		TimedInterface * statemachine,
-		sc_eventid       event)
+		sc::eventid      event)
 {
 	TimerKey  key(statemachine, event);
 	SCTimer * timer;

@@ -1,85 +1,22 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef DELAYEDSTATEMACHINE_H_
 #define DELAYEDSTATEMACHINE_H_
 
 /*!
- * Forward declaration for the DelayedStatemachine state machine.
- */
- class DelayedStatemachine;
+Forward declaration for the DelayedStatemachine state machine.
+*/
+class DelayedStatemachine;
 
 
 #include <deque>
 #include "../src-qt-lib/sc_types.h"
-#include "../src-qt-lib/sc_rxcpp.h"
 #include "../src-qt-lib/sc_statemachine.h"
 #include <QObject>
 
-/*! \file Header of the state machine 'DelayedExit'.
+/*! \file
+Header of the state machine 'DelayedStatemachine'.
 */
-
-
-#ifndef SCT_EVENTS_DELAYEDEXIT_H
-#define SCT_EVENTS_DELAYEDEXIT_H
-#ifndef SC_INVALID_EVENT_VALUE
-#define SC_INVALID_EVENT_VALUE 0
-#endif
-
-namespace delayedexit_events
-{
-typedef enum  {
-	invalid_event = SC_INVALID_EVENT_VALUE,
-	Gui_button1,
-	Gui_button2,
-	Gui_complete
-} DelayedStatemachineEventName;
-
-class SctEvent
-{
-	public:
-		SctEvent(DelayedStatemachineEventName name) : name(name){}
-		virtual ~SctEvent(){}
-		const DelayedStatemachineEventName name;
-		
-};
-		
-template <typename T>
-class TypedSctEvent : public SctEvent
-{
-	public:
-		TypedSctEvent(DelayedStatemachineEventName name, T value) :
-			SctEvent(name),
-			value(value)
-			{}
-		virtual ~TypedSctEvent(){}
-		const T value;
-};
-
-class SctEvent_Gui_button1 : public SctEvent
-{
-	public:
-		SctEvent_Gui_button1(DelayedStatemachineEventName name) : SctEvent(name){};
-};
-class SctEvent_Gui_button2 : public SctEvent
-{
-	public:
-		SctEvent_Gui_button2(DelayedStatemachineEventName name) : SctEvent(name){};
-};
-class SctEvent_Gui_complete : public SctEvent
-{
-	public:
-		SctEvent_Gui_complete(DelayedStatemachineEventName name) : SctEvent(name){};
-};
-
-}
-#endif /* SCT_EVENTS_DELAYEDEXIT_H */
-
-
-/*! Define indices of states in the StateConfVector */
-#define SCVI_MAIN_REGION_STATEA 0
-#define SCVI_MAIN_REGION_DO_SOMETHING 0
-#define SCVI_MAIN_REGION_WAIT_BUTTON_1 0
-#define SCVI_MAIN_REGION_WAIT_BUTTON_2 0
 
 
 class DelayedStatemachine : public QObject, public sc::StatemachineInterface
@@ -89,19 +26,46 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 	public:
 		DelayedStatemachine(QObject *parent);
 		
-		~DelayedStatemachine();
+		virtual ~DelayedStatemachine();
 		
-		/*! Enumeration of all states */ 
-		typedef enum
+		
+		
+		/*! Enumeration of all states. */
+		enum class State
 		{
-			Delayedexit_last_state,
+			NO_STATE,
 			main_region_StateA,
 			main_region_Do_Something,
 			main_region_Wait_Button_1,
 			main_region_Wait_Button_2
-		} DelayedexitStates;
-					
-		static const sc_integer numStates = 4;
+		};
+		
+		/*! The number of states. */
+		static const sc::integer numStates = 4;
+		static const sc::integer scvi_main_region_StateA = 0;
+		static const sc::integer scvi_main_region_Do_Something = 0;
+		static const sc::integer scvi_main_region_Wait_Button_1 = 0;
+		static const sc::integer scvi_main_region_Wait_Button_2 = 0;
+		
+		/*! Enumeration of all events which are consumed. */
+		enum class Event
+		{
+			NO_EVENT,
+			Gui_button1,
+			Gui_button2,
+			Gui_complete
+		};
+		
+		class EventInstance
+		{
+			public:
+				explicit EventInstance(Event id) : eventId(id){}
+				virtual ~EventInstance() = default;
+				const Event eventId;
+		};
+		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent();
 		
 		//! Inner class for gui interface scope.
 		class Gui
@@ -119,19 +83,18 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 				
 				
 				
+				
 			protected:
 				friend class DelayedStatemachine;
 				
-				/*! Raises the in event 'button1' that is defined in the interface scope 'gui'. */
-				void internal_gui_button1();
-				sc_boolean button1_raised;
-				/*! Raises the in event 'button2' that is defined in the interface scope 'gui'. */
-				void internal_gui_button2();
-				sc_boolean button2_raised;
-				/*! Raises the in event 'complete' that is defined in the interface scope 'gui'. */
-				void internal_gui_complete();
-				sc_boolean complete_raised;
-				void dispatch_event(delayedexit_events::SctEvent * event);
+				/*! Indicates event 'button1' of interface scope 'gui' is active. */
+				bool button1_raised;
+				/*! Indicates event 'button2' of interface scope 'gui' is active. */
+				bool button2_raised;
+				/*! Indicates event 'complete' of interface scope 'gui' is active. */
+				bool complete_raised;
+				/*! Value of event 'stopping' of interface scope 'gui'. */
+				bool stopping_value;
 				
 				
 			private:
@@ -150,42 +113,42 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		virtual void enter();
+		void enter() override;
 		
-		virtual void exit();
+		void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		virtual sc_boolean isActive() const;
+		bool isActive() const override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		virtual sc_boolean isFinal() const;
+		bool isFinal() const override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		sc_boolean check();
+		bool check() const;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(DelayedexitStates state) const;
+		bool isStateActive(State state) const;
 		
 		
 		
 	public slots:
-		/*! slot for the in event 'button1' that is defined in the interface scope 'gui'. */
+		/*! Slot for the in event 'button1' that is defined in the interface scope 'gui'. */
 		void gui_button1();
 		
-		/*! slot for the in event 'button2' that is defined in the interface scope 'gui'. */
+		/*! Slot for the in event 'button2' that is defined in the interface scope 'gui'. */
 		void gui_button2();
 		
-		/*! slot for the in event 'complete' that is defined in the interface scope 'gui'. */
+		/*! Slot for the in event 'complete' that is defined in the interface scope 'gui'. */
 		void gui_complete();
 		
 		
@@ -197,7 +160,7 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		void gui_doSomething();
 		
 		/*! Signal representing the out event 'stopping' that is defined in the interface scope 'gui'. */
-		void gui_stopping(sc_boolean value);
+		void gui_stopping(bool value);
 		
 		/*! Signal representing the out event 'triggerStop' that is defined in the interface scope 'gui'. */
 		void gui_triggerStop();
@@ -210,17 +173,17 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc_ushort maxOrthogonalStates = 1;
+		static const sc::ushort maxOrthogonalStates = 1;
 		
 		
 		
-		DelayedexitStates stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates];
 		
 		
 		Gui ifaceGui;
 		
 		
-		sc_boolean isExecuting;
+		bool isExecuting;
 		
 		
 		// prototypes of all internal functions
@@ -243,11 +206,11 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		void exseq_main_region_Wait_Button_2();
 		void exseq_main_region();
 		void react_main_region__entry_Default();
-		sc_integer react(const sc_integer transitioned_before);
-		sc_integer main_region_StateA_react(const sc_integer transitioned_before);
-		sc_integer main_region_Do_Something_react(const sc_integer transitioned_before);
-		sc_integer main_region_Wait_Button_1_react(const sc_integer transitioned_before);
-		sc_integer main_region_Wait_Button_2_react(const sc_integer transitioned_before);
+		sc::integer react(const sc::integer transitioned_before);
+		sc::integer main_region_StateA_react(const sc::integer transitioned_before);
+		sc::integer main_region_Do_Something_react(const sc::integer transitioned_before);
+		sc::integer main_region_Wait_Button_1_react(const sc::integer transitioned_before);
+		sc::integer main_region_Wait_Button_2_react(const sc::integer transitioned_before);
 		void clearInEvents();
 		void microStep();
 		void runCycle();
@@ -255,10 +218,17 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		
 		
 		
+		std::deque<EventInstance*> incomingEventQueue;
+		
+		EventInstance* getNextEvent();
+		
+		void dispatchEvent(EventInstance* event);
+		
+		
+		
 	private:
-		delayedexit_events::SctEvent* getNextEvent();
-		void dispatch_event(delayedexit_events::SctEvent * event);
-		std::deque<delayedexit_events::SctEvent*> inEventQueue;
+		
+		
 		
 		
 };

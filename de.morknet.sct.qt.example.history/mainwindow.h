@@ -30,7 +30,7 @@ private:
 	Ui::MainWindow   *  ui;
 	HistoryStatemachine statemachine;
 
-	void label(char * text) override;
+	void label(std::string text) override;
 };
 
 #endif // MAINWINDOW_H

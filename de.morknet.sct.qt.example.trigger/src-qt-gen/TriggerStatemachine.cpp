@@ -1,24 +1,25 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #include "TriggerStatemachine.h"
 
-/*! \file Implementation of the state machine 'Trigger'
+/*! \file
+Implementation of the state machine 'TriggerStatemachine'
 */
 
 
 
 
-TriggerStatemachine::TriggerStatemachine(QObject *parent)  :
-QObject(parent),
-trigger_raised(false),
-timerService(sc_null),
-ifaceGui(sc_null),
-isExecuting(false),
-stateConfVectorPosition(0)
+TriggerStatemachine::TriggerStatemachine(QObject *parent) :
+	QObject(parent),
+	timerService(nullptr),
+	ifaceGui(nullptr),
+	isExecuting(false),
+	stateConfVectorPosition(0),
+	trigger_raised(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = Trigger_last_state;
+	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
+		stateConfVector[i] = TriggerStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 	clearInternalEvents();
@@ -29,61 +30,57 @@ TriggerStatemachine::~TriggerStatemachine()
 }
 
 TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent) :
-pressed_raised(false),
-counter(0),
-parent(parent)
+	counter(0),
+	pressed_raised(false),
+	parent(parent)
 {
 }
 
 
-using namespace trigger_events;
 
-SctEvent* TriggerStatemachine::getNextEvent()
+TriggerStatemachine::EventInstance* TriggerStatemachine::getNextEvent()
 {
-	SctEvent* nextEvent = 0;
-	
+	TriggerStatemachine::EventInstance* nextEvent = 0;
+
 	if(!internalEventQueue.empty()) {
 		nextEvent = internalEventQueue.front();
 		internalEventQueue.pop_front();
 	}
-	else if(!inEventQueue.empty()) {
-		nextEvent = inEventQueue.front();
-		inEventQueue.pop_front();
+	else if(!incomingEventQueue.empty()) {
+		nextEvent = incomingEventQueue.front();
+		incomingEventQueue.pop_front();
 	}
 	
 	return nextEvent;
-}
+	
+}					
 
-void TriggerStatemachine::dispatch_event(SctEvent * event)
+
+void TriggerStatemachine::dispatchEvent(TriggerStatemachine::EventInstance * event)
 {
-	if(event == 0) {
+	if(event == nullptr) {
 		return;
 	}
-	switch(event->name)
+								
+	switch(event->eventId)
 	{
-		case TriggerStatemachineEventName::Gui_pressed:
+		case TriggerStatemachine::Event::Internal_trigger:
 		{
-			ifaceGui.dispatch_event(event);
+			trigger_raised = true;
 			break;
 		}
-		case TriggerStatemachineEventName::Internal_trigger:
+		
+		case TriggerStatemachine::Event::Gui_pressed:
 		{
-			internal_dispatch_event(event);
+			ifaceGui.pressed_raised = true;
 			break;
 		}
-		case TriggerStatemachineEventName::Trigger_main_region_Lanes_r1_A_time_event_0:
+		
+		case TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_:
+		case TriggerStatemachine::Event::_te1_main_region_Lanes_r2_B_:
+		case TriggerStatemachine::Event::_te2_main_region_Lanes_r3_C_:
 		{
-			timeEvents[0] = true;
-			break;
-		}
-		case TriggerStatemachineEventName::Trigger_main_region_Lanes_r2_B_time_event_0:
-		{
-			timeEvents[1] = true;
-			break;
-		}
-		case TriggerStatemachineEventName::Trigger_main_region_Lanes_r3_C_time_event_0:
-		{
-			timeEvents[2] = true;
+			timeEvents[static_cast<sc::integer>(event->eventId) - static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_)] = true;
 			break;
 		}
 		default:
@@ -92,63 +89,34 @@ void TriggerStatemachine::dispatch_event(SctEvent * event)
 	delete event;
 }
 
-void TriggerStatemachine::Gui::dispatch_event(SctEvent * event)
-{
-	switch(event->name)
-	{
-		case TriggerStatemachineEventName::Gui_pressed:
-		{
-			internal_gui_pressed();
-			break;
-		}
-		default:
-			break;
-	}
-}
-void TriggerStatemachine::internal_dispatch_event(SctEvent * event)
-{
-	switch(event->name)
-	{
-		case TriggerStatemachineEventName::Internal_trigger:
-		{
-			internal_trigger();
-			break;
-		}
-		default:
-			break;
-	}
+
+void TriggerStatemachine::gui_pressed() {
+	incomingEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed));
+	runCycle();
 }
 
-TriggerStatemachineEventName TriggerStatemachine::getTimedEventName(sc_eventid evid)
-{
-	if (evid == (sc_eventid)(&timeEvents[0])) {
-		return Trigger_main_region_Lanes_r1_A_time_event_0;
-	}
-	if (evid == (sc_eventid)(&timeEvents[1])) {
-		return Trigger_main_region_Lanes_r2_B_time_event_0;
-	}
-	if (evid == (sc_eventid)(&timeEvents[2])) {
-		return Trigger_main_region_Lanes_r3_C_time_event_0;
-	}
-	return invalid_event;
+
+/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+void TriggerStatemachine::triggerWithoutEvent() {
+	runCycle();
 }
 
 
 
-sc_boolean TriggerStatemachine::isActive() const
+bool TriggerStatemachine::isActive() const
 {
-	return stateConfVector[0] != Trigger_last_state||stateConfVector[1] != Trigger_last_state||stateConfVector[2] != Trigger_last_state||stateConfVector[3] != Trigger_last_state;
+	return stateConfVector[0] != TriggerStatemachine::State::NO_STATE||stateConfVector[1] != TriggerStatemachine::State::NO_STATE||stateConfVector[2] != TriggerStatemachine::State::NO_STATE||stateConfVector[3] != TriggerStatemachine::State::NO_STATE;
 }
 
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-sc_boolean TriggerStatemachine::isFinal() const
+bool TriggerStatemachine::isFinal() const
 {
    return false;}
 
-sc_boolean TriggerStatemachine::check() {
-	if(timerService == sc_null) {
+bool TriggerStatemachine::check() const {
+	if(timerService == nullptr) {
 		return false;
 	}
 	return true;
@@ -165,52 +133,74 @@ sc::timer::TimerServiceInterface* TriggerStatemachine::getTimerService()
 	return timerService;
 }
 
-sc_integer TriggerStatemachine::getNumberOfParallelTimeEvents() {
+sc::integer TriggerStatemachine::getNumberOfParallelTimeEvents() {
 	return parallelTimeEventsCount;
 }
 
-void TriggerStatemachine::raiseTimeEvent(sc_eventid evid)
+void TriggerStatemachine::raiseTimeEvent(sc::eventid evid)
 {
-	if ((evid >= (sc_eventid)timeEvents) && (evid < (sc_eventid)(&timeEvents[timeEventsCount])))
+	if (evid < timeEventsCount)
 	{
-		inEventQueue.push_back(new TimedSctEvent(getTimedEventName(evid)));
+		incomingEventQueue.push_back(new EventInstance(static_cast<TriggerStatemachine::Event>(evid + static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_))));
 		runCycle();
 	}
 }
 
 
-sc_boolean TriggerStatemachine::isStateActive(TriggerStates state) const
+bool TriggerStatemachine::isStateActive(State state) const
 {
 	switch (state)
 	{
-		case main_region_Wait : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_WAIT] == main_region_Wait
-			);
-		case main_region_Lanes : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES] >= main_region_Lanes
-				&& stateConfVector[SCVI_MAIN_REGION_LANES] <= main_region_Lanes_guard_wait);
-		case main_region_Lanes_r1_A : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R1_A] == main_region_Lanes_r1_A
-			);
-		case main_region_Lanes_r1__final_ : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R1__FINAL_] == main_region_Lanes_r1__final_
-			);
-		case main_region_Lanes_r2_B : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R2_B] == main_region_Lanes_r2_B
-			);
-		case main_region_Lanes_r2__final_ : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R2__FINAL_] == main_region_Lanes_r2__final_
-			);
-		case main_region_Lanes_r3_C : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R3_C] == main_region_Lanes_r3_C
-			);
-		case main_region_Lanes_r3__final_ : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_R3__FINAL_] == main_region_Lanes_r3__final_
-			);
-		case main_region_Lanes_guard_wait : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_LANES_GUARD_WAIT] == main_region_Lanes_guard_wait
-			);
-		default: return false;
+		case TriggerStatemachine::State::main_region_Wait :
+		{
+			return  (stateConfVector[scvi_main_region_Wait] == TriggerStatemachine::State::main_region_Wait);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes] >= TriggerStatemachine::State::main_region_Lanes && stateConfVector[scvi_main_region_Lanes] <= TriggerStatemachine::State::main_region_Lanes_guard_wait);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r1_A :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r1_A] == TriggerStatemachine::State::main_region_Lanes_r1_A);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r1__final_ :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r1__final_] == TriggerStatemachine::State::main_region_Lanes_r1__final_);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r2_B :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r2_B] == TriggerStatemachine::State::main_region_Lanes_r2_B);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r2__final_ :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r2__final_] == TriggerStatemachine::State::main_region_Lanes_r2__final_);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r3_C :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r3_C] == TriggerStatemachine::State::main_region_Lanes_r3_C);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_r3__final_ :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_r3__final_] == TriggerStatemachine::State::main_region_Lanes_r3__final_);
+			break;
+		}
+		case TriggerStatemachine::State::main_region_Lanes_guard_wait :
+		{
+			return  (stateConfVector[scvi_main_region_Lanes_guard_wait] == TriggerStatemachine::State::main_region_Lanes_guard_wait);
+			break;
+		}
+		default:
+		{
+			return false;
+			break;
+		}
 	}
 }
 
@@ -218,43 +208,16 @@ TriggerStatemachine::Gui* TriggerStatemachine::gui()
 {
 	return &ifaceGui;
 }
-/* Functions for event pressed in interface Gui */
-void TriggerStatemachine::gui_pressed()
-{
-	inEventQueue.push_back(new SctEvent_Gui_pressed(TriggerStatemachineEventName::Gui_pressed));
-	runCycle();
-}
-void TriggerStatemachine::Gui::internal_gui_pressed()
-{
-	pressed_raised = true;
-}
-/* Functions for event update in interface Gui */
-/* Functions for event wait in interface Gui */
-/* Functions for event lanes in interface Gui */
-sc_integer TriggerStatemachine::Gui::getCounter() const
+sc::integer TriggerStatemachine::Gui::getCounter() const
 {
 	return counter;
 }
 
-void TriggerStatemachine::Gui::setCounter(sc_integer value)
+void TriggerStatemachine::Gui::setCounter(sc::integer value)
 {
 	this->counter = value;
 }
 
-/* Functions for event trigger in interface Internal */
-void TriggerStatemachine::trigger()
-{
-	internalEventQueue.push_back(new SctEvent_Internal_trigger(TriggerStatemachineEventName::Internal_trigger));
-	runCycle();
-}
-void TriggerStatemachine::internal_trigger()
-{
-	trigger_raised = true;
-}
-sc_boolean TriggerStatemachine::isRaisedTrigger() const
-{
-	return trigger_raised;
-}
 
 // implementations of all internal functions
 
@@ -279,42 +242,42 @@ void TriggerStatemachine::enact_main_region_Lanes()
 void TriggerStatemachine::enact_main_region_Lanes_r1_A()
 {
 	/* Entry action for state 'A'. */
-	timerService->setTimer(this, (sc_eventid)(&timeEvents[0]), 200, false);
+	timerService->setTimer(this, 0, 200, false);
 }
 
 /* Entry action for state 'B'. */
 void TriggerStatemachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timerService->setTimer(this, (sc_eventid)(&timeEvents[1]), (1 * 1000), false);
+	timerService->setTimer(this, 1, (1 * 1000), false);
 }
 
 /* Entry action for state 'C'. */
 void TriggerStatemachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timerService->setTimer(this, (sc_eventid)(&timeEvents[2]), 1500, false);
+	timerService->setTimer(this, 2, 1500, false);
 }
 
 /* Exit action for state 'A'. */
 void TriggerStatemachine::exact_main_region_Lanes_r1_A()
 {
 	/* Exit action for state 'A'. */
-	timerService->unsetTimer(this, (sc_eventid)(&timeEvents[0]));
+	timerService->unsetTimer(this, 0);
 }
 
 /* Exit action for state 'B'. */
 void TriggerStatemachine::exact_main_region_Lanes_r2_B()
 {
 	/* Exit action for state 'B'. */
-	timerService->unsetTimer(this, (sc_eventid)(&timeEvents[1]));
+	timerService->unsetTimer(this, 1);
 }
 
 /* Exit action for state 'C'. */
 void TriggerStatemachine::exact_main_region_Lanes_r3_C()
 {
 	/* Exit action for state 'C'. */
-	timerService->unsetTimer(this, (sc_eventid)(&timeEvents[2]));
+	timerService->unsetTimer(this, 2);
 }
 
 /* 'default' enter sequence for state Wait */
@@ -322,7 +285,7 @@ void TriggerStatemachine::enseq_main_region_Wait_default()
 {
 	/* 'default' enter sequence for state Wait */
 	enact_main_region_Wait();
-	stateConfVector[0] = main_region_Wait;
+	stateConfVector[0] = TriggerStatemachine::State::main_region_Wait;
 	stateConfVectorPosition = 0;
 }
 
@@ -342,15 +305,15 @@ void TriggerStatemachine::enseq_main_region_Lanes_r1_A_default()
 {
 	/* 'default' enter sequence for state A */
 	enact_main_region_Lanes_r1_A();
-	stateConfVector[0] = main_region_Lanes_r1_A;
+	stateConfVector[0] = TriggerStatemachine::State::main_region_Lanes_r1_A;
 	stateConfVectorPosition = 0;
 }
 
-/* Default enter sequence for state null */
+/* Default enter sequence for final state */
 void TriggerStatemachine::enseq_main_region_Lanes_r1__final__default()
 {
-	/* Default enter sequence for state null */
-	stateConfVector[0] = main_region_Lanes_r1__final_;
+	/* Default enter sequence for final state */
+	stateConfVector[0] = TriggerStatemachine::State::main_region_Lanes_r1__final_;
 	stateConfVectorPosition = 0;
 }
 
@@ -359,15 +322,15 @@ void TriggerStatemachine::enseq_main_region_Lanes_r2_B_default()
 {
 	/* 'default' enter sequence for state B */
 	enact_main_region_Lanes_r2_B();
-	stateConfVector[1] = main_region_Lanes_r2_B;
+	stateConfVector[1] = TriggerStatemachine::State::main_region_Lanes_r2_B;
 	stateConfVectorPosition = 1;
 }
 
-/* Default enter sequence for state null */
+/* Default enter sequence for final state */
 void TriggerStatemachine::enseq_main_region_Lanes_r2__final__default()
 {
-	/* Default enter sequence for state null */
-	stateConfVector[1] = main_region_Lanes_r2__final_;
+	/* Default enter sequence for final state */
+	stateConfVector[1] = TriggerStatemachine::State::main_region_Lanes_r2__final_;
 	stateConfVectorPosition = 1;
 }
 
@@ -376,15 +339,15 @@ void TriggerStatemachine::enseq_main_region_Lanes_r3_C_default()
 {
 	/* 'default' enter sequence for state C */
 	enact_main_region_Lanes_r3_C();
-	stateConfVector[2] = main_region_Lanes_r3_C;
+	stateConfVector[2] = TriggerStatemachine::State::main_region_Lanes_r3_C;
 	stateConfVectorPosition = 2;
 }
 
-/* Default enter sequence for state null */
+/* Default enter sequence for final state */
 void TriggerStatemachine::enseq_main_region_Lanes_r3__final__default()
 {
-	/* Default enter sequence for state null */
-	stateConfVector[2] = main_region_Lanes_r3__final_;
+	/* Default enter sequence for final state */
+	stateConfVector[2] = TriggerStatemachine::State::main_region_Lanes_r3__final_;
 	stateConfVectorPosition = 2;
 }
 
@@ -392,7 +355,7 @@ void TriggerStatemachine::enseq_main_region_Lanes_r3__final__default()
 void TriggerStatemachine::enseq_main_region_Lanes_guard_wait_default()
 {
 	/* 'default' enter sequence for state wait */
-	stateConfVector[3] = main_region_Lanes_guard_wait;
+	stateConfVector[3] = TriggerStatemachine::State::main_region_Lanes_guard_wait;
 	stateConfVectorPosition = 3;
 }
 
@@ -435,7 +398,7 @@ void TriggerStatemachine::enseq_main_region_Lanes_guard_default()
 void TriggerStatemachine::exseq_main_region_Wait()
 {
 	/* Default exit sequence for state Wait */
-	stateConfVector[0] = Trigger_last_state;
+	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 0;
 }
 
@@ -453,7 +416,7 @@ void TriggerStatemachine::exseq_main_region_Lanes()
 void TriggerStatemachine::exseq_main_region_Lanes_r1_A()
 {
 	/* Default exit sequence for state A */
-	stateConfVector[0] = Trigger_last_state;
+	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 0;
 	exact_main_region_Lanes_r1_A();
 }
@@ -462,7 +425,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1_A()
 void TriggerStatemachine::exseq_main_region_Lanes_r1__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[0] = Trigger_last_state;
+	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 0;
 }
 
@@ -470,7 +433,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r2_B()
 {
 	/* Default exit sequence for state B */
-	stateConfVector[1] = Trigger_last_state;
+	stateConfVector[1] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 1;
 	exact_main_region_Lanes_r2_B();
 }
@@ -479,7 +442,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2_B()
 void TriggerStatemachine::exseq_main_region_Lanes_r2__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[1] = Trigger_last_state;
+	stateConfVector[1] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 1;
 }
 
@@ -487,7 +450,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r3_C()
 {
 	/* Default exit sequence for state C */
-	stateConfVector[2] = Trigger_last_state;
+	stateConfVector[2] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 2;
 	exact_main_region_Lanes_r3_C();
 }
@@ -496,7 +459,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3_C()
 void TriggerStatemachine::exseq_main_region_Lanes_r3__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[2] = Trigger_last_state;
+	stateConfVector[2] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 2;
 }
 
@@ -504,7 +467,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_guard_wait()
 {
 	/* Default exit sequence for state wait */
-	stateConfVector[3] = Trigger_last_state;
+	stateConfVector[3] = TriggerStatemachine::State::NO_STATE;
 	stateConfVectorPosition = 3;
 }
 
@@ -512,60 +475,60 @@ void TriggerStatemachine::exseq_main_region_Lanes_guard_wait()
 void TriggerStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of Trigger.main_region) at position 0... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Wait :
+		case TriggerStatemachine::State::main_region_Wait :
 		{
 			exseq_main_region_Wait();
 			break;
 		}
-		case main_region_Lanes_r1_A :
+		case TriggerStatemachine::State::main_region_Lanes_r1_A :
 		{
 			exseq_main_region_Lanes_r1_A();
 			break;
 		}
-		case main_region_Lanes_r1__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r1__final_ :
 		{
 			exseq_main_region_Lanes_r1__final_();
 			break;
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of Trigger.main_region) at position 1... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
-		case main_region_Lanes_r2_B :
+		case TriggerStatemachine::State::main_region_Lanes_r2_B :
 		{
 			exseq_main_region_Lanes_r2_B();
 			break;
 		}
-		case main_region_Lanes_r2__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r2__final_ :
 		{
 			exseq_main_region_Lanes_r2__final_();
 			break;
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of Trigger.main_region) at position 2... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
-		case main_region_Lanes_r3_C :
+		case TriggerStatemachine::State::main_region_Lanes_r3_C :
 		{
 			exseq_main_region_Lanes_r3_C();
 			break;
 		}
-		case main_region_Lanes_r3__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r3__final_ :
 		{
 			exseq_main_region_Lanes_r3__final_();
 			break;
 		}
 		default: break;
 	}
-	/* Handle exit of all possible states (of Trigger.main_region) at position 3... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
-		case main_region_Lanes_guard_wait :
+		case TriggerStatemachine::State::main_region_Lanes_guard_wait :
 		{
 			exseq_main_region_Lanes_guard_wait();
 			break;
@@ -578,15 +541,15 @@ void TriggerStatemachine::exseq_main_region()
 void TriggerStatemachine::exseq_main_region_Lanes_r1()
 {
 	/* Default exit sequence for region r1 */
-	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r1) at position 0... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r1) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Lanes_r1_A :
+		case TriggerStatemachine::State::main_region_Lanes_r1_A :
 		{
 			exseq_main_region_Lanes_r1_A();
 			break;
 		}
-		case main_region_Lanes_r1__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r1__final_ :
 		{
 			exseq_main_region_Lanes_r1__final_();
 			break;
@@ -599,15 +562,15 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1()
 void TriggerStatemachine::exseq_main_region_Lanes_r2()
 {
 	/* Default exit sequence for region r2 */
-	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r2) at position 1... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r2) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
-		case main_region_Lanes_r2_B :
+		case TriggerStatemachine::State::main_region_Lanes_r2_B :
 		{
 			exseq_main_region_Lanes_r2_B();
 			break;
 		}
-		case main_region_Lanes_r2__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r2__final_ :
 		{
 			exseq_main_region_Lanes_r2__final_();
 			break;
@@ -620,15 +583,15 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2()
 void TriggerStatemachine::exseq_main_region_Lanes_r3()
 {
 	/* Default exit sequence for region r3 */
-	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r3) at position 2... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r3) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
-		case main_region_Lanes_r3_C :
+		case TriggerStatemachine::State::main_region_Lanes_r3_C :
 		{
 			exseq_main_region_Lanes_r3_C();
 			break;
 		}
-		case main_region_Lanes_r3__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r3__final_ :
 		{
 			exseq_main_region_Lanes_r3__final_();
 			break;
@@ -641,10 +604,10 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3()
 void TriggerStatemachine::exseq_main_region_Lanes_guard()
 {
 	/* Default exit sequence for region guard */
-	/* Handle exit of all possible states (of Trigger.main_region.Lanes.guard) at position 3... */
+	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.guard) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
-		case main_region_Lanes_guard_wait :
+		case TriggerStatemachine::State::main_region_Lanes_guard_wait :
 		{
 			exseq_main_region_Lanes_guard_wait();
 			break;
@@ -688,14 +651,14 @@ void TriggerStatemachine::react_main_region_Lanes_guard__entry_Default()
 	enseq_main_region_Lanes_guard_wait_default();
 }
 
-sc_integer TriggerStatemachine::react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::react(const sc::integer transitioned_before) {
 	/* State machine reactions. */
 	return transitioned_before;
 }
 
-sc_integer TriggerStatemachine::main_region_Wait_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state Wait. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (ifaceGui.pressed_raised)
@@ -714,9 +677,9 @@ sc_integer TriggerStatemachine::main_region_Wait_react(const sc_integer transiti
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_react(const sc::integer transitioned_before) {
 	/* The reactions of state Lanes. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 	} 
@@ -728,17 +691,17 @@ sc_integer TriggerStatemachine::main_region_Lanes_react(const sc_integer transit
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer transitioned_before) {
 	/* The reactions of state A. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (timeEvents[0])
 		{ 
 			exseq_main_region_Lanes_r1_A();
 			ifaceGui.counter += 1;
-			trigger_raised = true;
-			;
+			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			timeEvents[0] = false;
 			enseq_main_region_Lanes_r1__final__default();
 			transitioned_after = 0;
 		} 
@@ -746,26 +709,26 @@ sc_integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc_integer tr
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r1__final__react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r1__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 	} 
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer transitioned_before) {
 	/* The reactions of state B. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (1))
 	{ 
 		if (timeEvents[1])
 		{ 
 			exseq_main_region_Lanes_r2_B();
 			ifaceGui.counter += 1;
-			trigger_raised = true;
-			;
+			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			timeEvents[1] = false;
 			enseq_main_region_Lanes_r2__final__default();
 			transitioned_after = 1;
 		} 
@@ -773,26 +736,26 @@ sc_integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc_integer tr
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r2__final__react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r2__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (1))
 	{ 
 	} 
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer transitioned_before) {
 	/* The reactions of state C. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (2))
 	{ 
 		if (timeEvents[2])
 		{ 
 			exseq_main_region_Lanes_r3_C();
 			ifaceGui.counter += 1;
-			trigger_raised = true;
-			;
+			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			timeEvents[2] = false;
 			enseq_main_region_Lanes_r3__final__default();
 			transitioned_after = 2;
 		} 
@@ -800,18 +763,18 @@ sc_integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc_integer tr
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_r3__final__react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_r3__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (2))
 	{ 
 	} 
 	return transitioned_after;
 }
 
-sc_integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc_integer transitioned_before) {
+sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state wait. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (3))
 	{ 
 		if (((trigger_raised)) && (((ifaceGui.counter) == (3))))
@@ -843,21 +806,21 @@ void TriggerStatemachine::clearInternalEvents() {
 }
 
 void TriggerStatemachine::microStep() {
-	sc_integer transitioned = -1;
+	sc::integer transitioned = -1;
 	stateConfVectorPosition = 0;
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_Wait :
+		case TriggerStatemachine::State::main_region_Wait :
 		{
 			transitioned = main_region_Wait_react(transitioned);
 			break;
 		}
-		case main_region_Lanes_r1_A :
+		case TriggerStatemachine::State::main_region_Lanes_r1_A :
 		{
 			transitioned = main_region_Lanes_r1_A_react(transitioned);
 			break;
 		}
-		case main_region_Lanes_r1__final_ :
+		case TriggerStatemachine::State::main_region_Lanes_r1__final_ :
 		{
 			transitioned = main_region_Lanes_r1__final__react(transitioned);
 			break;
@@ -868,12 +831,12 @@ void TriggerStatemachine::microStep() {
 	{ 
 		switch(stateConfVector[ 1 ])
 		{
-			case main_region_Lanes_r2_B :
+			case TriggerStatemachine::State::main_region_Lanes_r2_B :
 			{
 				transitioned = main_region_Lanes_r2_B_react(transitioned);
 				break;
 			}
-			case main_region_Lanes_r2__final_ :
+			case TriggerStatemachine::State::main_region_Lanes_r2__final_ :
 			{
 				transitioned = main_region_Lanes_r2__final__react(transitioned);
 				break;
@@ -885,12 +848,12 @@ void TriggerStatemachine::microStep() {
 	{ 
 		switch(stateConfVector[ 2 ])
 		{
-			case main_region_Lanes_r3_C :
+			case TriggerStatemachine::State::main_region_Lanes_r3_C :
 			{
 				transitioned = main_region_Lanes_r3_C_react(transitioned);
 				break;
 			}
-			case main_region_Lanes_r3__final_ :
+			case TriggerStatemachine::State::main_region_Lanes_r3__final_ :
 			{
 				transitioned = main_region_Lanes_r3__final__react(transitioned);
 				break;
@@ -902,9 +865,9 @@ void TriggerStatemachine::microStep() {
 	{ 
 		switch(stateConfVector[ 3 ])
 		{
-			case main_region_Lanes_guard_wait :
+			case TriggerStatemachine::State::main_region_Lanes_guard_wait :
 			{
-				transitioned = main_region_Lanes_guard_wait_react(transitioned);
+				main_region_Lanes_guard_wait_react(transitioned);
 				break;
 			}
 			default: break;
@@ -919,13 +882,13 @@ void TriggerStatemachine::runCycle() {
 		return;
 	} 
 	isExecuting = true;
-	dispatch_event(getNextEvent());
+	dispatchEvent(getNextEvent());
 	do
 	{ 
 		microStep();
 		clearInEvents();
 		clearInternalEvents();
-		dispatch_event(getNextEvent());
+		dispatchEvent(getNextEvent());
 	} while (((((ifaceGui.pressed_raised) || (trigger_raised)) || (timeEvents[0])) || (timeEvents[1])) || (timeEvents[2]));
 	isExecuting = false;
 }
@@ -937,7 +900,7 @@ void TriggerStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart Trigger */
+	/* Default enter sequence for statechart TriggerStatemachine */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -949,7 +912,7 @@ void TriggerStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart Trigger */
+	/* Default exit sequence for statechart TriggerStatemachine */
 	exseq_main_region();
 	isExecuting = false;
 }

@@ -1,71 +1,22 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef TIMERLESSSTATEMACHINE_H_
 #define TIMERLESSSTATEMACHINE_H_
 
 /*!
- * Forward declaration for the TimerlessStatemachine state machine.
- */
- class TimerlessStatemachine;
+Forward declaration for the TimerlessStatemachine state machine.
+*/
+class TimerlessStatemachine;
 
 
 #include <deque>
 #include "../src-qt-lib/sc_types.h"
-#include "../src-qt-lib/sc_rxcpp.h"
 #include "../src-qt-lib/sc_statemachine.h"
 #include <QObject>
 
-/*! \file Header of the state machine 'Timerless'.
+/*! \file
+Header of the state machine 'TimerlessStatemachine'.
 */
-
-
-#ifndef SCT_EVENTS_TIMERLESS_H
-#define SCT_EVENTS_TIMERLESS_H
-#ifndef SC_INVALID_EVENT_VALUE
-#define SC_INVALID_EVENT_VALUE 0
-#endif
-
-namespace timerless_events
-{
-typedef enum  {
-	invalid_event = SC_INVALID_EVENT_VALUE,
-	Gui_clicked
-} TimerlessStatemachineEventName;
-
-class SctEvent
-{
-	public:
-		SctEvent(TimerlessStatemachineEventName name) : name(name){}
-		virtual ~SctEvent(){}
-		const TimerlessStatemachineEventName name;
-		
-};
-		
-template <typename T>
-class TypedSctEvent : public SctEvent
-{
-	public:
-		TypedSctEvent(TimerlessStatemachineEventName name, T value) :
-			SctEvent(name),
-			value(value)
-			{}
-		virtual ~TypedSctEvent(){}
-		const T value;
-};
-
-class SctEvent_Gui_clicked : public SctEvent
-{
-	public:
-		SctEvent_Gui_clicked(TimerlessStatemachineEventName name) : SctEvent(name){};
-};
-
-}
-#endif /* SCT_EVENTS_TIMERLESS_H */
-
-
-/*! Define indices of states in the StateConfVector */
-#define SCVI_MAIN_REGION_STATE_OFF 0
-#define SCVI_MAIN_REGION_STATE_ON 0
 
 
 class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
@@ -75,17 +26,40 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 	public:
 		TimerlessStatemachine(QObject *parent);
 		
-		~TimerlessStatemachine();
+		virtual ~TimerlessStatemachine();
 		
-		/*! Enumeration of all states */ 
-		typedef enum
+		
+		
+		/*! Enumeration of all states. */
+		enum class State
 		{
-			Timerless_last_state,
+			NO_STATE,
 			main_region_State_Off,
 			main_region_State_On
-		} TimerlessStates;
-					
-		static const sc_integer numStates = 2;
+		};
+		
+		/*! The number of states. */
+		static const sc::integer numStates = 2;
+		static const sc::integer scvi_main_region_State_Off = 0;
+		static const sc::integer scvi_main_region_State_On = 0;
+		
+		/*! Enumeration of all events which are consumed. */
+		enum class Event
+		{
+			NO_EVENT,
+			Gui_clicked
+		};
+		
+		class EventInstance
+		{
+			public:
+				explicit EventInstance(Event id) : eventId(id){}
+				virtual ~EventInstance() = default;
+				const Event eventId;
+		};
+		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent();
 		
 		//! Inner class for gui interface scope.
 		class Gui
@@ -98,13 +72,12 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 				
 				
 				
+				
 			protected:
 				friend class TimerlessStatemachine;
 				
-				/*! Raises the in event 'clicked' that is defined in the interface scope 'gui'. */
-				void internal_gui_clicked();
-				sc_boolean clicked_raised;
-				void dispatch_event(timerless_events::SctEvent * event);
+				/*! Indicates event 'clicked' of interface scope 'gui' is active. */
+				bool clicked_raised;
 				
 				
 			private:
@@ -123,36 +96,36 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		virtual void enter();
+		void enter() override;
 		
-		virtual void exit();
+		void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		virtual sc_boolean isActive() const;
+		bool isActive() const override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		virtual sc_boolean isFinal() const;
+		bool isFinal() const override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		sc_boolean check();
+		bool check() const;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(TimerlessStates state) const;
+		bool isStateActive(State state) const;
 		
 		
 		
 	public slots:
-		/*! slot for the in event 'clicked' that is defined in the interface scope 'gui'. */
+		/*! Slot for the in event 'clicked' that is defined in the interface scope 'gui'. */
 		void gui_clicked();
 		
 		
@@ -168,17 +141,17 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc_ushort maxOrthogonalStates = 1;
+		static const sc::ushort maxOrthogonalStates = 1;
 		
 		
 		
-		TimerlessStates stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates];
 		
 		
 		Gui ifaceGui;
 		
 		
-		sc_boolean isExecuting;
+		bool isExecuting;
 		
 		
 		// prototypes of all internal functions
@@ -192,9 +165,9 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 		void exseq_main_region_State_On();
 		void exseq_main_region();
 		void react_main_region__entry_Default();
-		sc_integer react(const sc_integer transitioned_before);
-		sc_integer main_region_State_Off_react(const sc_integer transitioned_before);
-		sc_integer main_region_State_On_react(const sc_integer transitioned_before);
+		sc::integer react(const sc::integer transitioned_before);
+		sc::integer main_region_State_Off_react(const sc::integer transitioned_before);
+		sc::integer main_region_State_On_react(const sc::integer transitioned_before);
 		void clearInEvents();
 		void microStep();
 		void runCycle();
@@ -202,10 +175,17 @@ class TimerlessStatemachine : public QObject, public sc::StatemachineInterface
 		
 		
 		
+		std::deque<EventInstance*> incomingEventQueue;
+		
+		EventInstance* getNextEvent();
+		
+		void dispatchEvent(EventInstance* event);
+		
+		
+		
 	private:
-		timerless_events::SctEvent* getNextEvent();
-		void dispatch_event(timerless_events::SctEvent * event);
-		std::deque<timerless_events::SctEvent*> inEventQueue;
+		
+		
 		
 		
 };
