@@ -40,21 +40,23 @@ void StateMachine::Equals()
 	switch (operation)
 	{
 	case ADD:
-		operand += accu;
+		accu = operand + accu;
 		break;
 	case SUB:
-		operand -= accu;
+		accu = operand - accu;
 		break;
 	case MULT:
-		operand *= accu;
+		accu = operand * accu;
 		break;
 	case DIV:
-		operand /= accu;
+		accu = operand / accu;
 		break;
 	default:
 		// Intentionally left blank
 		break;
 	}
+	operation = NONE;
+	operand = accu;
 }
 
 void StateMachine::Digit(sc::integer digit)

@@ -24,9 +24,6 @@ namespace sc::qt
 				const sc::eventid           id);
 		SCTimer() = delete;
 
-	private slots:
-		void trigger();
-
 	private:
 		sc::timer::TimedInterface * machine;
 		sc::eventid                 event_id;
@@ -53,7 +50,7 @@ namespace sc::qt
 
 		typedef std::pair<sc::timer::TimedInterface *, sc::eventid> TimerKey;
 
-		typedef QMap<TimerKey, SCTimer *>                          TimerMap;
+		typedef QMap<TimerKey, SCTimer *>                           TimerMap;
 
 		TimerMap chart_map;
 	};

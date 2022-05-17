@@ -14,12 +14,10 @@ SCTimer::SCTimer(QObject * parent, TimedInterface * statemachine, const sc::even
 {
 	assert(statemachine != nullptr);
 
-	connect(this, &QTimer::timeout, this, &SCTimer::trigger);
-}
-
-void SCTimer::trigger()
-{
-	machine->raiseTimeEvent(event_id);
+	connect(this, &QTimer::timeout, [this] ()
+	{
+		machine->raiseTimeEvent(event_id);
+	});
 }
 
 SCTimerService::SCTimerService(QObject * parent) : QObject(parent)
@@ -53,6 +51,7 @@ void SCTimerService::unsetTimer(
 		timer->stop();
 	}
 }
+
 SCTimer * SCTimerService::getTimer(
 		TimedInterface * statemachine,
 		sc::eventid      event)
