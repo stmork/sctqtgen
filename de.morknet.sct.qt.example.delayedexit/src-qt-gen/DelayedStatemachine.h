@@ -1,4 +1,4 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef DELAYEDSTATEMACHINE_H_
 #define DELAYEDSTATEMACHINE_H_

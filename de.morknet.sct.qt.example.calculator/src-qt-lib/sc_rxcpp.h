@@ -1,4 +1,4 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef SC_RXCPP_H_
 #define SC_RXCPP_H_

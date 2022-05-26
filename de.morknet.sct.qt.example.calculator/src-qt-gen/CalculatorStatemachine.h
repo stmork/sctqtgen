@@ -1,4 +1,4 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef CALCULATORSTATEMACHINE_H_
 #define CALCULATORSTATEMACHINE_H_

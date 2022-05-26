@@ -1,4 +1,4 @@
-/* Copyright (C) GIRA Giersiepen GmbH & Co. KG */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef ORTHOGONALSTATEMACHINE_H_
 #define ORTHOGONALSTATEMACHINE_H_

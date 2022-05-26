@@ -1,4 +1,4 @@
-/* Copyright (C) 2021 - Steffen A. Mork */
+/* Copyright (C) 2022 - Steffen A. Mork */
 
 #ifndef TIMERLESSSTATEMACHINE_H_
 #define TIMERLESSSTATEMACHINE_H_
