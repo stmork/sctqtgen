@@ -1,7 +1,3 @@
-/**
- * Copyright (C) GIRA Giersiepen GmbH & Co. KG
- */
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 

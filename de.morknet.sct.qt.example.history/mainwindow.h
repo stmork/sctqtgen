@@ -1,6 +1,4 @@
-/**
- * Copyright (C) GIRA Giersiepen GmbH & Co. KG
- */
+#pragma once
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
