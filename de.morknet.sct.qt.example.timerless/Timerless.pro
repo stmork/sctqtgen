@@ -16,7 +16,6 @@ HEADERS += \
 	mainwindow.h \
 	statemachine.h \
 	src-qt-lib/sc_types.h \
-	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
 	src-qt-gen/TimerlessStatemachine.h
 

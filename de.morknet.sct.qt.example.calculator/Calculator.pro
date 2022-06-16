@@ -14,7 +14,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
 	src-qt-gen/CalculatorStatemachine.h \
-	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
 	src-qt-lib/sc_timer.h \
 	src-qt-lib/sc_qt_timerservice.h \

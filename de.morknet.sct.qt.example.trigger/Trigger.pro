@@ -17,7 +17,6 @@ HEADERS += \
 	mainwindow.h \
 	statemachine.h \
 	src-qt-gen/TriggerStatemachine.h \
-	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
 	src-qt-lib/sc_timer.h \
 	src-qt-lib/sc_qt_timerservice.h \

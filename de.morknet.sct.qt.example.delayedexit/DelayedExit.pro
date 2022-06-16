@@ -15,9 +15,7 @@ SOURCES += \
 HEADERS += \
 	mainwindow.h \
 	src-qt-lib/sc_types.h \
-	src-qt-lib/sc_rxcpp.h \
 	src-qt-lib/sc_statemachine.h \
-	src-qt-gen/StatemachineInterface.h \
 	src-qt-gen/DelayedStatemachine.h \
 	statemachine.h
 
