@@ -74,8 +74,8 @@
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_gRZscN3zEeW5mM22I-EbLg" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_gRZsct3zEeW5mM22I-EbLg" fontName="Verdana"/>
-      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_gRZscd3zEeW5mM22I-EbLg" points="[1, 6, 0, -30]$[1, 36, 0, 0]"/>
-      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_yqUbIGgoEeq2a6l4oem9jw" id="(0.5445344129554656,0.003436426116838488)"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_gRZscd3zEeW5mM22I-EbLg" points="[0, 6, 0, -31]$[0, 37, 0, 0]"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_yqUbIGgoEeq2a6l4oem9jw" id="(0.4462809917355372,0.02097902097902098)"/>
     </edges>
     <edges xmi:id="_kncDIN30EeW5mM22I-EbLg" type="Transition" element="_knaN8N30EeW5mM22I-EbLg" source="_gROGQN3zEeW5mM22I-EbLg" target="_jUlUIN30EeW5mM22I-EbLg">
       <children xsi:type="notation:DecorationNode" xmi:id="_kncqMd30EeW5mM22I-EbLg" type="TransitionExpression">
@@ -85,7 +85,7 @@
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_kncDId30EeW5mM22I-EbLg" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_kncqMN30EeW5mM22I-EbLg" fontName="Verdana"/>
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_kncDIt30EeW5mM22I-EbLg" points="[-3, 3, 0, -224]$[-3, 220, 0, -7]"/>
-      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_xvrX0GgoEeq2a6l4oem9jw" id="(0.41735537190082644,0.9895104895104895)"/>
+      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_xvrX0GgoEeq2a6l4oem9jw" id="(0.42355371900826444,0.9685314685314685)"/>
     </edges>
     <edges xmi:id="_r3fJUN30EeW5mM22I-EbLg" type="Transition" element="_r3be8N30EeW5mM22I-EbLg" source="_gROGQN3zEeW5mM22I-EbLg" target="_gROGQN3zEeW5mM22I-EbLg">
       <children xsi:type="notation:DecorationNode" xmi:id="_r3fJVN30EeW5mM22I-EbLg" type="TransitionExpression">

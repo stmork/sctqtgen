@@ -1,8 +1,9 @@
 QT                  += core gui widgets
-CONFIG              += c++11
+CONFIG              += c++17
 QMAKE_EXTRA_TARGETS += generate
 TEMPLATE             = app
-TARGET               = DelayedExit
+
+QMAKE_CXXFLAGS      += -Wextra -Wshadow -Wsuggest-override
 
 SOURCES += \
 	main.cpp \

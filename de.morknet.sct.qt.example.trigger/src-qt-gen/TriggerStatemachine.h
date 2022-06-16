@@ -4,90 +4,20 @@
 #define TRIGGERSTATEMACHINE_H_
 
 /*!
- * Forward declaration for the TriggerStatemachine state machine.
- */
- class TriggerStatemachine;
+Forward declaration for the TriggerStatemachine state machine.
+*/
+class TriggerStatemachine;
 
 
 #include <deque>
 #include "../src-qt-lib/sc_types.h"
-#include "../src-qt-lib/sc_rxcpp.h"
 #include "../src-qt-lib/sc_statemachine.h"
 #include "../src-qt-lib/sc_timer.h"
 #include <QObject>
 
-/*! \file Header of the state machine 'Trigger'.
+/*! \file
+Header of the state machine 'Trigger'.
 */
-
-
-#ifndef SCT_EVENTS_TRIGGER_H
-#define SCT_EVENTS_TRIGGER_H
-#ifndef SC_INVALID_EVENT_VALUE
-#define SC_INVALID_EVENT_VALUE 0
-#endif
-
-namespace trigger_events
-{
-typedef enum  {
-	invalid_event = SC_INVALID_EVENT_VALUE,
-	Gui_pressed,
-	Internal_trigger,
-	Trigger_main_region_Lanes_r1_A_time_event_0,
-	Trigger_main_region_Lanes_r2_B_time_event_0,
-	Trigger_main_region_Lanes_r3_C_time_event_0
-} TriggerStatemachineEventName;
-
-class SctEvent
-{
-	public:
-		SctEvent(TriggerStatemachineEventName name) : name(name){}
-		virtual ~SctEvent(){}
-		const TriggerStatemachineEventName name;
-		
-};
-		
-template <typename T>
-class TypedSctEvent : public SctEvent
-{
-	public:
-		TypedSctEvent(TriggerStatemachineEventName name, T value) :
-			SctEvent(name),
-			value(value)
-			{}
-		virtual ~TypedSctEvent(){}
-		const T value;
-};
-
-class SctEvent_Gui_pressed : public SctEvent
-{
-	public:
-		SctEvent_Gui_pressed(TriggerStatemachineEventName name) : SctEvent(name){};
-};
-class SctEvent_Internal_trigger : public SctEvent
-{
-	public:
-		SctEvent_Internal_trigger(TriggerStatemachineEventName name) : SctEvent(name){};
-};
-class TimedSctEvent : public SctEvent
-{
-	public:
-		TimedSctEvent(TriggerStatemachineEventName name) : SctEvent(name){};
-};
-
-}
-#endif /* SCT_EVENTS_TRIGGER_H */
-
-
-/*! Define indices of states in the StateConfVector */
-#define SCVI_MAIN_REGION_WAIT 0
-#define SCVI_MAIN_REGION_LANES 0
-#define SCVI_MAIN_REGION_LANES_R1_A 0
-#define SCVI_MAIN_REGION_LANES_R1__FINAL_ 0
-#define SCVI_MAIN_REGION_LANES_R2_B 1
-#define SCVI_MAIN_REGION_LANES_R2__FINAL_ 1
-#define SCVI_MAIN_REGION_LANES_R3_C 2
-#define SCVI_MAIN_REGION_LANES_R3__FINAL_ 2
-#define SCVI_MAIN_REGION_LANES_GUARD_WAIT 3
 
 
 class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, public sc::StatemachineInterface
@@ -97,12 +27,14 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 	public:
 		TriggerStatemachine(QObject *parent);
 		
-		~TriggerStatemachine();
+		virtual ~TriggerStatemachine();
 		
-		/*! Enumeration of all states */ 
-		typedef enum
+		
+		
+		/*! Enumeration of all states. */
+		enum class State
 		{
-			Trigger_last_state,
+			NO_STATE,
 			main_region_Wait,
 			main_region_Lanes,
 			main_region_Lanes_r1_A,
@@ -112,9 +44,41 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 			main_region_Lanes_r3_C,
 			main_region_Lanes_r3__final_,
 			main_region_Lanes_guard_wait
-		} TriggerStates;
-					
-		static const sc_integer numStates = 9;
+		};
+		
+		/*! The number of states. */
+		static const sc::integer numStates = 9;
+		static const sc::integer scvi_main_region_Wait = 0;
+		static const sc::integer scvi_main_region_Lanes = 0;
+		static const sc::integer scvi_main_region_Lanes_r1_A = 0;
+		static const sc::integer scvi_main_region_Lanes_r1__final_ = 0;
+		static const sc::integer scvi_main_region_Lanes_r2_B = 1;
+		static const sc::integer scvi_main_region_Lanes_r2__final_ = 1;
+		static const sc::integer scvi_main_region_Lanes_r3_C = 2;
+		static const sc::integer scvi_main_region_Lanes_r3__final_ = 2;
+		static const sc::integer scvi_main_region_Lanes_guard_wait = 3;
+		
+		/*! Enumeration of all events which are consumed. */
+		enum class Event
+		{
+			NO_EVENT,
+			Gui_pressed,
+			Internal_trigger,
+			_te0_main_region_Lanes_r1_A_,
+			_te1_main_region_Lanes_r2_B_,
+			_te2_main_region_Lanes_r3_C_
+		};
+		
+		class EventInstance
+		{
+			public:
+				explicit EventInstance(Event id) : eventId(id){}
+				virtual ~EventInstance() = default;
+				const Event eventId;
+		};
+		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent();
 		
 		//! Inner class for gui interface scope.
 		class Gui
@@ -127,10 +91,11 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 				
 				
 				/*! Gets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
-				sc_integer getCounter() const;
+				sc::integer getCounter() const;
 				
 				/*! Sets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
-				void setCounter(sc_integer value);
+				void setCounter(sc::integer counter);
+				
 				
 				
 				
@@ -138,11 +103,9 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 			protected:
 				friend class TriggerStatemachine;
 				
-				/*! Raises the in event 'pressed' that is defined in the interface scope 'gui'. */
-				void internal_gui_pressed();
-				sc_boolean pressed_raised;
-				sc_integer counter;
-				void dispatch_event(trigger_events::SctEvent * event);
+				sc::integer counter;
+				/*! Indicates event 'pressed' of interface scope 'gui' is active. */
+				bool pressed_raised;
 				
 				
 			private:
@@ -161,53 +124,53 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		virtual void enter();
+		void enter() override;
 		
-		virtual void exit();
+		void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		virtual sc_boolean isActive() const;
+		bool isActive() const override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		virtual sc_boolean isFinal() const;
+		bool isFinal() const override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		sc_boolean check();
+		bool check() const;
 		
 		/*
 		 * Functions inherited from TimedStatemachineInterface
 		 */
-		virtual void setTimerService(sc::timer::TimerServiceInterface* timerService);
+		void setTimerService(sc::timer::TimerServiceInterface* timerService_) override;
 		
-		virtual sc::timer::TimerServiceInterface* getTimerService();
+		sc::timer::TimerServiceInterface* getTimerService() override;
 		
-		virtual void raiseTimeEvent(sc_eventid event);
+		void raiseTimeEvent(sc::eventid event) override;
 		
-		virtual sc_integer getNumberOfParallelTimeEvents();
+		sc::integer getNumberOfParallelTimeEvents() override;
 		
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		sc_boolean isStateActive(TriggerStates state) const;
+		bool isStateActive(State state) const;
 		
 		//! number of time events used by the state machine.
-		static const sc_integer timeEventsCount = 3;
+		static const sc::integer timeEventsCount = 3;
 		
 		//! number of time events that can be active at once.
-		static const sc_integer parallelTimeEventsCount = 3;
+		static const sc::integer parallelTimeEventsCount = 3;
 		
 		
 	public slots:
-		/*! slot for the in event 'pressed' that is defined in the interface scope 'gui'. */
+		/*! Slot for the in event 'pressed' that is defined in the interface scope 'gui'. */
 		void gui_pressed();
 		
 		
@@ -226,33 +189,23 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		TriggerStatemachine(const TriggerStatemachine &rhs);
 		TriggerStatemachine& operator=(const TriggerStatemachine&);
 		
-		/*! Raises the in event 'trigger' that is defined in the internal scope. */
-		void internal_trigger();
-		sc_boolean trigger_raised;
-		void internal_dispatch_event(trigger_events::SctEvent * event);
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc_ushort maxOrthogonalStates = 4;
+		static const sc::ushort maxOrthogonalStates = 4;
 		
 		sc::timer::TimerServiceInterface* timerService;
-		sc_boolean timeEvents[timeEventsCount];
+		bool timeEvents[timeEventsCount];
 		
 		
-		TriggerStates stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates];
 		
 		
 		Gui ifaceGui;
 		
 		
-		sc_boolean isExecuting;
-		sc_integer stateConfVectorPosition;
-		
-		/*! Raises the in event 'trigger' that is defined in the internal scope. */
-		void trigger();
-		
-		/*! Checks if the out event 'trigger' that is defined in the internal scope has been raised. */
-		sc_boolean isRaisedTrigger() const;
+		bool isExecuting;
+		sc::integer stateConfVectorPosition;
 		
 		
 		// prototypes of all internal functions
@@ -298,16 +251,16 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		void react_main_region_Lanes_r2__entry_Default();
 		void react_main_region_Lanes_r3__entry_Default();
 		void react_main_region_Lanes_guard__entry_Default();
-		sc_integer react(const sc_integer transitioned_before);
-		sc_integer main_region_Wait_react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r1_A_react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r1__final__react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r2_B_react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r2__final__react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r3_C_react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_r3__final__react(const sc_integer transitioned_before);
-		sc_integer main_region_Lanes_guard_wait_react(const sc_integer transitioned_before);
+		sc::integer react(const sc::integer transitioned_before);
+		sc::integer main_region_Wait_react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r1_A_react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r1__final__react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r2_B_react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r2__final__react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r3_C_react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_r3__final__react(const sc::integer transitioned_before);
+		sc::integer main_region_Lanes_guard_wait_react(const sc::integer transitioned_before);
 		void clearInEvents();
 		void clearInternalEvents();
 		void microStep();
@@ -316,12 +269,22 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		
 		
 		
+		std::deque<EventInstance*> incomingEventQueue;
+		
+		std::deque<EventInstance*> internalEventQueue;
+		
+		EventInstance* getNextEvent();
+		
+		void dispatchEvent(EventInstance* event);
+		
+		
+		
 	private:
-		std::deque<trigger_events::SctEvent*> internalEventQueue;
-		trigger_events::SctEvent* getNextEvent();
-		void dispatch_event(trigger_events::SctEvent * event);
-		trigger_events::TriggerStatemachineEventName getTimedEventName(sc_eventid evid);
-		std::deque<trigger_events::SctEvent*> inEventQueue;
+		
+		
+		/*! Indicates event 'trigger' of internal scope is active. */
+		bool trigger_raised;
+		
 		
 		
 };

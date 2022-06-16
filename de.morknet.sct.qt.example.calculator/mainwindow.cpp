@@ -47,7 +47,7 @@ void MainWindow::Exit()
 	QApplication::exit();
 }
 
-void MainWindow::ShowAccu(sc_integer accu)
+void MainWindow::ShowAccu(sc::integer accu)
 {
 	QString label = QString::number(accu);
 

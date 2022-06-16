@@ -2,20 +2,21 @@
 
 #include "TimerlessStatemachine.h"
 
-/*! \file Implementation of the state machine 'Timerless'
+/*! \file
+Implementation of the state machine 'Timerless'
 */
 
 
 
 
-TimerlessStatemachine::TimerlessStatemachine(QObject *parent)  :
-QObject(parent),
-ifaceGui(sc_null),
-isExecuting(false)
+TimerlessStatemachine::TimerlessStatemachine(QObject *parent) :
+	QObject(parent),
+	ifaceGui(nullptr),
+	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc_ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = Timerless_last_state;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = TimerlessStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -24,89 +25,95 @@ TimerlessStatemachine::~TimerlessStatemachine()
 {
 }
 
-TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent) :
-clicked_raised(false),
-parent(parent)
+TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent_) :
+	clicked_raised(false),
+	parent(parent_)
 {
 }
 
 
-using namespace timerless_events;
 
-SctEvent* TimerlessStatemachine::getNextEvent()
+TimerlessStatemachine::EventInstance* TimerlessStatemachine::getNextEvent()
 {
-	SctEvent* nextEvent = 0;
-	
-	if(!inEventQueue.empty()) {
-		nextEvent = inEventQueue.front();
-		inEventQueue.pop_front();
+	TimerlessStatemachine::EventInstance* nextEvent = 0;
+
+	if(!incomingEventQueue.empty()) {
+		nextEvent = incomingEventQueue.front();
+		incomingEventQueue.pop_front();
 	}
 	
 	return nextEvent;
-}
+	
+}					
 
-void TimerlessStatemachine::dispatch_event(SctEvent * event)
+
+void TimerlessStatemachine::dispatchEvent(TimerlessStatemachine::EventInstance * event)
 {
-	if(event == 0) {
+	if(event == nullptr) {
 		return;
 	}
-	switch(event->name)
+								
+	switch(event->eventId)
 	{
-		case TimerlessStatemachineEventName::Gui_clicked:
+		
+		case TimerlessStatemachine::Event::Gui_clicked:
 		{
-			ifaceGui.dispatch_event(event);
+			ifaceGui.clicked_raised = true;
 			break;
 		}
+		
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
 }
 
-void TimerlessStatemachine::Gui::dispatch_event(SctEvent * event)
-{
-	switch(event->name)
-	{
-		case TimerlessStatemachineEventName::Gui_clicked:
-		{
-			internal_gui_clicked();
-			break;
-		}
-		default:
-			break;
-	}
+
+void TimerlessStatemachine::gui_clicked() {
+	incomingEventQueue.push_back(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked));
+	runCycle();
 }
 
 
 
-sc_boolean TimerlessStatemachine::isActive() const
+bool TimerlessStatemachine::isActive() const
 {
-	return stateConfVector[0] != Timerless_last_state;
+	return stateConfVector[0] != TimerlessStatemachine::State::NO_STATE;
 }
 
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-sc_boolean TimerlessStatemachine::isFinal() const
+bool TimerlessStatemachine::isFinal() const
 {
    return false;}
 
-sc_boolean TimerlessStatemachine::check() {
+bool TimerlessStatemachine::check() const {
 	return true;
 }
 
 
-sc_boolean TimerlessStatemachine::isStateActive(TimerlessStates state) const
+bool TimerlessStatemachine::isStateActive(State state) const
 {
 	switch (state)
 	{
-		case main_region_State_Off : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_STATE_OFF] == main_region_State_Off
-			);
-		case main_region_State_On : 
-			return (sc_boolean) (stateConfVector[SCVI_MAIN_REGION_STATE_ON] == main_region_State_On
-			);
-		default: return false;
+		case TimerlessStatemachine::State::main_region_State_Off :
+		{
+			return  (stateConfVector[scvi_main_region_State_Off] == TimerlessStatemachine::State::main_region_State_Off);
+			break;
+		}
+		case TimerlessStatemachine::State::main_region_State_On :
+		{
+			return  (stateConfVector[scvi_main_region_State_On] == TimerlessStatemachine::State::main_region_State_On);
+			break;
+		}
+		default:
+		{
+			/* State is not active*/
+			return false;
+			break;
+		}
 	}
 }
 
@@ -114,21 +121,8 @@ TimerlessStatemachine::Gui* TimerlessStatemachine::gui()
 {
 	return &ifaceGui;
 }
-/* Functions for event clicked in interface Gui */
-void TimerlessStatemachine::gui_clicked()
-{
-	inEventQueue.push_back(new SctEvent_Gui_clicked(TimerlessStatemachineEventName::Gui_clicked));
-	runCycle();
-}
-void TimerlessStatemachine::Gui::internal_gui_clicked()
-{
-	clicked_raised = true;
-}
-/* Functions for event on in interface Gui */
-/* Functions for event off in interface Gui */
 
 // implementations of all internal functions
-
 /* Entry action for state 'State On'. */
 void TimerlessStatemachine::enact_main_region_State_On()
 {
@@ -147,7 +141,7 @@ void TimerlessStatemachine::exact_main_region_State_On()
 void TimerlessStatemachine::enseq_main_region_State_Off_default()
 {
 	/* 'default' enter sequence for state State Off */
-	stateConfVector[0] = main_region_State_Off;
+	stateConfVector[0] = TimerlessStatemachine::State::main_region_State_Off;
 }
 
 /* 'default' enter sequence for state State On */
@@ -155,7 +149,7 @@ void TimerlessStatemachine::enseq_main_region_State_On_default()
 {
 	/* 'default' enter sequence for state State On */
 	enact_main_region_State_On();
-	stateConfVector[0] = main_region_State_On;
+	stateConfVector[0] = TimerlessStatemachine::State::main_region_State_On;
 }
 
 /* 'default' enter sequence for region main region */
@@ -169,14 +163,14 @@ void TimerlessStatemachine::enseq_main_region_default()
 void TimerlessStatemachine::exseq_main_region_State_Off()
 {
 	/* Default exit sequence for state State Off */
-	stateConfVector[0] = Timerless_last_state;
+	stateConfVector[0] = TimerlessStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state State On */
 void TimerlessStatemachine::exseq_main_region_State_On()
 {
 	/* Default exit sequence for state State On */
-	stateConfVector[0] = Timerless_last_state;
+	stateConfVector[0] = TimerlessStatemachine::State::NO_STATE;
 	exact_main_region_State_On();
 }
 
@@ -187,17 +181,19 @@ void TimerlessStatemachine::exseq_main_region()
 	/* Handle exit of all possible states (of Timerless.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_State_Off :
+		case TimerlessStatemachine::State::main_region_State_Off :
 		{
 			exseq_main_region_State_Off();
 			break;
 		}
-		case main_region_State_On :
+		case TimerlessStatemachine::State::main_region_State_On :
 		{
 			exseq_main_region_State_On();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -208,14 +204,14 @@ void TimerlessStatemachine::react_main_region__entry_Default()
 	enseq_main_region_State_Off_default();
 }
 
-sc_integer TimerlessStatemachine::react(const sc_integer transitioned_before) {
+sc::integer TimerlessStatemachine::react(const sc::integer transitioned_before) {
 	/* State machine reactions. */
 	return transitioned_before;
 }
 
-sc_integer TimerlessStatemachine::main_region_State_Off_react(const sc_integer transitioned_before) {
+sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer transitioned_before) {
 	/* The reactions of state State Off. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (ifaceGui.clicked_raised)
@@ -234,9 +230,9 @@ sc_integer TimerlessStatemachine::main_region_State_Off_react(const sc_integer t
 	return transitioned_after;
 }
 
-sc_integer TimerlessStatemachine::main_region_State_On_react(const sc_integer transitioned_before) {
+sc::integer TimerlessStatemachine::main_region_State_On_react(const sc::integer transitioned_before) {
 	/* The reactions of state State On. */
-	sc_integer transitioned_after = transitioned_before;
+	sc::integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (ifaceGui.clicked_raised)
@@ -262,17 +258,19 @@ void TimerlessStatemachine::clearInEvents() {
 void TimerlessStatemachine::microStep() {
 	switch(stateConfVector[ 0 ])
 	{
-		case main_region_State_Off :
+		case TimerlessStatemachine::State::main_region_State_Off :
 		{
 			main_region_State_Off_react(-1);
 			break;
 		}
-		case main_region_State_On :
+		case TimerlessStatemachine::State::main_region_State_On :
 		{
 			main_region_State_On_react(-1);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -283,12 +281,12 @@ void TimerlessStatemachine::runCycle() {
 		return;
 	} 
 	isExecuting = true;
-	dispatch_event(getNextEvent());
+	dispatchEvent(getNextEvent());
 	do
 	{ 
 		microStep();
 		clearInEvents();
-		dispatch_event(getNextEvent());
+		dispatchEvent(getNextEvent());
 	} while (ifaceGui.clicked_raised);
 	isExecuting = false;
 }
@@ -317,5 +315,8 @@ void TimerlessStatemachine::exit() {
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void TimerlessStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

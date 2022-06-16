@@ -11,7 +11,8 @@ GeneratorModel for yakindu::images
 			targetFolder  = FOLDER
 		}
 
-		feature Renderer {
+		feature Renderer
+		{
 			format = "png"
 		}
 	}

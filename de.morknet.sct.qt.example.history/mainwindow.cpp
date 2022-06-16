@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::label(char * text)
+void MainWindow::label(std::string text)
 {
-	ui->label->setText(text);
+	ui->label->setText(QString(text.c_str()));
 }

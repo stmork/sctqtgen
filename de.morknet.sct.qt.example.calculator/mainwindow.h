@@ -1,10 +1,11 @@
+#pragma once
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 
 #include "statemachine.h"
-
 
 namespace Ui
 {
@@ -22,7 +23,7 @@ public:
 	~MainWindow();
 
 public slots:
-	void ShowAccu(sc_integer accu);
+	void ShowAccu(sc::integer accu);
 	void Exit();
 
 private:
