@@ -3,7 +3,7 @@
 #include "HistoryStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'HistoryStatemachine'
+Implementation of the state machine 'History'
 */
 
 
@@ -17,11 +17,11 @@ HistoryStatemachine::HistoryStatemachine(QObject *parent) :
 	toggle_raised(false),
 	outside_raised(false)
 {
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = HistoryStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = HistoryStatemachine::State::NO_STATE;
 	
-	for (sc::ushort i = 0; i < maxHistoryStates; ++i)
-		historyVector[i] = HistoryStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxHistoryStates; ++state_vec_pos)
+		historyVector[state_vec_pos] = HistoryStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -72,6 +72,7 @@ void HistoryStatemachine::dispatchEvent(HistoryStatemachine::EventInstance * eve
 		
 		
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -92,12 +93,6 @@ void HistoryStatemachine::toggle() {
 
 void HistoryStatemachine::outside() {
 	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside));
-	runCycle();
-}
-
-
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void HistoryStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
 
@@ -174,6 +169,7 @@ bool HistoryStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -186,7 +182,6 @@ void HistoryStatemachine::setOperationCallback(OperationCallback* operationCallb
 }
 
 // implementations of all internal functions
-
 /* Entry action for state 'Red'. */
 void HistoryStatemachine::enact_main_region_Start_main_StateA_Inner_Left_Red()
 {
@@ -356,7 +351,9 @@ void HistoryStatemachine::dhenseq_main_region_Start_main()
 			dhenseq_main_region_Start_main_StateB_Inner_Right();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -392,7 +389,9 @@ void HistoryStatemachine::dhenseq_main_region_Start_main_StateA_Inner_Left()
 			enseq_main_region_Start_main_StateA_Inner_Left_Green_default();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -422,7 +421,9 @@ void HistoryStatemachine::dhenseq_main_region_Start_main_StateB_Inner_Right()
 			enseq_main_region_Start_main_StateB_Inner_Right_Cyan_default();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -493,7 +494,7 @@ void HistoryStatemachine::exseq_main_region_Outside()
 void HistoryStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of HistoryStatemachine.main_region) at position 0... */
+	/* Handle exit of all possible states (of History.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
@@ -526,7 +527,9 @@ void HistoryStatemachine::exseq_main_region()
 			exseq_main_region_Outside();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -534,7 +537,7 @@ void HistoryStatemachine::exseq_main_region()
 void HistoryStatemachine::exseq_main_region_Start_main()
 {
 	/* Default exit sequence for region main */
-	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main) at position 0... */
+	/* Handle exit of all possible states (of History.main_region.Start.main) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
@@ -562,7 +565,9 @@ void HistoryStatemachine::exseq_main_region_Start_main()
 			exseq_main_region_Start_main_StateB_Inner_Right_Cyan();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -570,7 +575,7 @@ void HistoryStatemachine::exseq_main_region_Start_main()
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left()
 {
 	/* Default exit sequence for region Inner Left */
-	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main.StateA.Inner_Left) at position 0... */
+	/* Handle exit of all possible states (of History.main_region.Start.main.StateA.Inner_Left) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
@@ -588,7 +593,9 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left()
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -596,7 +603,7 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left()
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right()
 {
 	/* Default exit sequence for region Inner Right */
-	/* Handle exit of all possible states (of HistoryStatemachine.main_region.Start.main.StateB.Inner_Right) at position 0... */
+	/* Handle exit of all possible states (of History.main_region.Start.main.StateB.Inner_Right) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
@@ -609,7 +616,9 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right()
 			exseq_main_region_Start_main_StateB_Inner_Right_Cyan();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -888,7 +897,9 @@ void HistoryStatemachine::microStep() {
 			main_region_Outside_react(-1);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -916,7 +927,7 @@ void HistoryStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart HistoryStatemachine */
+	/* Default enter sequence for statechart History */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -928,10 +939,13 @@ void HistoryStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart HistoryStatemachine */
+	/* Default exit sequence for statechart History */
 	exseq_main_region();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void HistoryStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

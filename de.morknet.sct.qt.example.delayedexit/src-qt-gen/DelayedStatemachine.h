@@ -15,7 +15,7 @@ class DelayedStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'DelayedStatemachine'.
+Header of the state machine 'Delayed'.
 */
 
 

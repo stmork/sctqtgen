@@ -15,7 +15,7 @@ class HistoryStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'HistoryStatemachine'.
+Header of the state machine 'History'.
 */
 
 

@@ -7,10 +7,10 @@ using namespace sc::timer;
 using Qt::TimerType::PreciseTimer;
 using Qt::TimerType::CoarseTimer;
 
-SCTimer::SCTimer(QObject * parent, TimedInterface * statemachine, const sc::eventid id) :
+SCTimer::SCTimer(QObject * parent, TimedInterface * statemachine, const sc::eventid new_id) :
 	QTimer(parent),
 	machine(statemachine),
-	event_id(id)
+	event_id(new_id)
 {
 	assert(statemachine != nullptr);
 

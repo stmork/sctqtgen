@@ -15,7 +15,7 @@ class TimerlessStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'TimerlessStatemachine'.
+Header of the state machine 'Timerless'.
 */
 
 

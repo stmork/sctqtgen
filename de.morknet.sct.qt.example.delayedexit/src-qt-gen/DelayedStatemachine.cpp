@@ -3,7 +3,7 @@
 #include "DelayedStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'DelayedStatemachine'
+Implementation of the state machine 'Delayed'
 */
 
 
@@ -15,8 +15,8 @@ DelayedStatemachine::DelayedStatemachine(QObject *parent) :
 	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = DelayedStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = DelayedStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -25,12 +25,12 @@ DelayedStatemachine::~DelayedStatemachine()
 {
 }
 
-DelayedStatemachine::Gui::Gui(DelayedStatemachine* parent) :
+DelayedStatemachine::Gui::Gui(DelayedStatemachine* parent_) :
 	button1_raised(false),
 	button2_raised(false),
 	complete_raised(false),
 	stopping_value(false),
-	parent(parent)
+	parent(parent_)
 {
 }
 
@@ -76,6 +76,7 @@ void DelayedStatemachine::dispatchEvent(DelayedStatemachine::EventInstance * eve
 		}
 		
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -96,12 +97,6 @@ void DelayedStatemachine::gui_button2() {
 
 void DelayedStatemachine::gui_complete() {
 	incomingEventQueue.push_back(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete));
-	runCycle();
-}
-
-
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void DelayedStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
 
@@ -150,6 +145,7 @@ bool DelayedStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -162,7 +158,6 @@ DelayedStatemachine::Gui* DelayedStatemachine::gui()
 }
 
 // implementations of all internal functions
-
 /* Entry action for state 'StateA'. */
 void DelayedStatemachine::enact_main_region_StateA()
 {
@@ -290,7 +285,7 @@ void DelayedStatemachine::exseq_main_region_Wait_Button_2()
 void DelayedStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of DelayedStatemachine.main_region) at position 0... */
+	/* Handle exit of all possible states (of Delayed.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case DelayedStatemachine::State::main_region_StateA :
@@ -313,7 +308,9 @@ void DelayedStatemachine::exseq_main_region()
 			exseq_main_region_Wait_Button_2();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -455,7 +452,9 @@ void DelayedStatemachine::microStep() {
 			main_region_Wait_Button_2_react(-1);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -483,7 +482,7 @@ void DelayedStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart DelayedStatemachine */
+	/* Default enter sequence for statechart Delayed */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -495,10 +494,13 @@ void DelayedStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart DelayedStatemachine */
+	/* Default exit sequence for statechart Delayed */
 	exseq_main_region();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void DelayedStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

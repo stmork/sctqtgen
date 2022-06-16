@@ -16,7 +16,7 @@ class CalculatorStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'CalculatorStatemachine'.
+Header of the state machine 'Calculator'.
 */
 
 
@@ -210,7 +210,7 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		/*
 		 * Functions inherited from TimedStatemachineInterface
 		 */
-		void setTimerService(sc::timer::TimerServiceInterface* timerService) override;
+		void setTimerService(sc::timer::TimerServiceInterface* timerService_) override;
 		
 		sc::timer::TimerServiceInterface* getTimerService() override;
 		

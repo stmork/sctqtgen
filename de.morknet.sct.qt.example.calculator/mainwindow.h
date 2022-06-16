@@ -1,10 +1,11 @@
+#pragma once
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 
 #include "statemachine.h"
-
 
 namespace Ui
 {

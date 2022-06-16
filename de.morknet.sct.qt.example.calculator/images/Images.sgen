@@ -3,7 +3,7 @@ GeneratorModel for yakindu::images
 	const PROJECT : string = "de.morknet.sct.qt.example.calculator"
 	const FOLDER  : string = "images"
 
-	statechart CalculatorStatemachine
+	statechart Calculator
 	{
 		feature Outlet
 		{

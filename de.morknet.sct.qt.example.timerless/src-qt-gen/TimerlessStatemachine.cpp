@@ -3,7 +3,7 @@
 #include "TimerlessStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'TimerlessStatemachine'
+Implementation of the state machine 'Timerless'
 */
 
 
@@ -15,8 +15,8 @@ TimerlessStatemachine::TimerlessStatemachine(QObject *parent) :
 	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = TimerlessStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = TimerlessStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -25,9 +25,9 @@ TimerlessStatemachine::~TimerlessStatemachine()
 {
 }
 
-TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent) :
+TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent_) :
 	clicked_raised(false),
-	parent(parent)
+	parent(parent_)
 {
 }
 
@@ -63,6 +63,7 @@ void TimerlessStatemachine::dispatchEvent(TimerlessStatemachine::EventInstance *
 		}
 		
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -71,12 +72,6 @@ void TimerlessStatemachine::dispatchEvent(TimerlessStatemachine::EventInstance *
 
 void TimerlessStatemachine::gui_clicked() {
 	incomingEventQueue.push_back(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked));
-	runCycle();
-}
-
-
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void TimerlessStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
 
@@ -115,6 +110,7 @@ bool TimerlessStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -127,7 +123,6 @@ TimerlessStatemachine::Gui* TimerlessStatemachine::gui()
 }
 
 // implementations of all internal functions
-
 /* Entry action for state 'State On'. */
 void TimerlessStatemachine::enact_main_region_State_On()
 {
@@ -183,7 +178,7 @@ void TimerlessStatemachine::exseq_main_region_State_On()
 void TimerlessStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of TimerlessStatemachine.main_region) at position 0... */
+	/* Handle exit of all possible states (of Timerless.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case TimerlessStatemachine::State::main_region_State_Off :
@@ -196,7 +191,9 @@ void TimerlessStatemachine::exseq_main_region()
 			exseq_main_region_State_On();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -271,7 +268,9 @@ void TimerlessStatemachine::microStep() {
 			main_region_State_On_react(-1);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -299,7 +298,7 @@ void TimerlessStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart TimerlessStatemachine */
+	/* Default enter sequence for statechart Timerless */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -311,10 +310,13 @@ void TimerlessStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart TimerlessStatemachine */
+	/* Default exit sequence for statechart Timerless */
 	exseq_main_region();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void TimerlessStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

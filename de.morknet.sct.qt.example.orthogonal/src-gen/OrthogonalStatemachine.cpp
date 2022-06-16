@@ -3,7 +3,7 @@
 #include "OrthogonalStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'OrthogonalStatemachine'
+Implementation of the state machine 'Orthogonal'
 */
 
 
@@ -18,8 +18,8 @@ OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent) :
 	stateConfVectorPosition(0),
 	trigger_raised(false)
 {
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = OrthogonalStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = OrthogonalStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -60,6 +60,7 @@ void OrthogonalStatemachine::dispatchEvent(OrthogonalStatemachine::EventInstance
 		
 		
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -68,12 +69,6 @@ void OrthogonalStatemachine::dispatchEvent(OrthogonalStatemachine::EventInstance
 
 void OrthogonalStatemachine::trigger() {
 	incomingEventQueue.push_back(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger));
-	runCycle();
-}
-
-
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void OrthogonalStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
 
@@ -115,6 +110,7 @@ bool OrthogonalStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -126,9 +122,9 @@ sc::integer OrthogonalStatemachine::getLeft() const
 	return left;
 }
 
-void OrthogonalStatemachine::setLeft(sc::integer value)
+void OrthogonalStatemachine::setLeft(sc::integer left_)
 {
-	this->left = value;
+	this->left = left_;
 }
 
 sc::integer OrthogonalStatemachine::getRight() const
@@ -136,9 +132,9 @@ sc::integer OrthogonalStatemachine::getRight() const
 	return right;
 }
 
-void OrthogonalStatemachine::setRight(sc::integer value)
+void OrthogonalStatemachine::setRight(sc::integer right_)
 {
-	this->right = value;
+	this->right = right_;
 }
 
 void OrthogonalStatemachine::setOperationCallback(OperationCallback* operationCallback)
@@ -147,7 +143,6 @@ void OrthogonalStatemachine::setOperationCallback(OperationCallback* operationCa
 }
 
 // implementations of all internal functions
-
 /* 'default' enter sequence for state State */
 void OrthogonalStatemachine::enseq_Left_State_default()
 {
@@ -198,7 +193,7 @@ void OrthogonalStatemachine::exseq_Right_State()
 void OrthogonalStatemachine::exseq_Left()
 {
 	/* Default exit sequence for region Left */
-	/* Handle exit of all possible states (of OrthogonalStatemachine.Left) at position 0... */
+	/* Handle exit of all possible states (of Orthogonal.Left) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case OrthogonalStatemachine::State::Left_State :
@@ -206,7 +201,9 @@ void OrthogonalStatemachine::exseq_Left()
 			exseq_Left_State();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -214,7 +211,7 @@ void OrthogonalStatemachine::exseq_Left()
 void OrthogonalStatemachine::exseq_Right()
 {
 	/* Default exit sequence for region Right */
-	/* Handle exit of all possible states (of OrthogonalStatemachine.Right) at position 1... */
+	/* Handle exit of all possible states (of Orthogonal.Right) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
 		case OrthogonalStatemachine::State::Right_State :
@@ -222,7 +219,9 @@ void OrthogonalStatemachine::exseq_Right()
 			exseq_Right_State();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -299,7 +298,9 @@ void OrthogonalStatemachine::microStep() {
 			transitioned = Left_State_react(transitioned);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 	if ((stateConfVectorPosition) < (1))
 	{ 
@@ -310,7 +311,9 @@ void OrthogonalStatemachine::microStep() {
 				Right_State_react(transitioned);
 				break;
 			}
-			default: break;
+			default:
+				/* do nothing */
+				break;
 		}
 	} 
 }
@@ -339,7 +342,7 @@ void OrthogonalStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart OrthogonalStatemachine */
+	/* Default enter sequence for statechart Orthogonal */
 	enseq_Left_default();
 	enseq_Right_default();
 	isExecuting = false;
@@ -352,11 +355,14 @@ void OrthogonalStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart OrthogonalStatemachine */
+	/* Default exit sequence for statechart Orthogonal */
 	exseq_Left();
 	exseq_Right();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void OrthogonalStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

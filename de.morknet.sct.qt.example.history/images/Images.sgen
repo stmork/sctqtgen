@@ -3,7 +3,7 @@ GeneratorModel for yakindu::images
 	const PROJECT : string = "de.morknet.sct.qt.example.history"
 	const FOLDER  : string = "images"
 
-	statechart HistoryStatemachine
+	statechart History
 	{
 		feature Outlet
 		{
@@ -11,7 +11,8 @@ GeneratorModel for yakindu::images
 			targetFolder  = FOLDER
 		}
 
-		feature Renderer {
+		feature Renderer
+		{
 			format = "png"
 		}
 	}

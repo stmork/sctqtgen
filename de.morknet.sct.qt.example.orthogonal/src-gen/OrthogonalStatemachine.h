@@ -15,7 +15,7 @@ class OrthogonalStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'OrthogonalStatemachine'.
+Header of the state machine 'Orthogonal'.
 */
 
 
@@ -65,13 +65,13 @@ class OrthogonalStatemachine : public QObject, public sc::StatemachineInterface
 		sc::integer getLeft() const;
 		
 		/*! Sets the value of the variable 'left' that is defined in the default interface scope. */
-		void setLeft(sc::integer value);
+		void setLeft(sc::integer left);
 		
 		/*! Gets the value of the variable 'right' that is defined in the default interface scope. */
 		sc::integer getRight() const;
 		
 		/*! Sets the value of the variable 'right' that is defined in the default interface scope. */
-		void setRight(sc::integer value);
+		void setRight(sc::integer right);
 		
 		//! Inner class for default interface scope operation callbacks.
 		class OperationCallback

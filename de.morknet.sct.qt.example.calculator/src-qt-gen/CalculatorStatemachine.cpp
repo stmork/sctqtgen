@@ -3,7 +3,7 @@
 #include "CalculatorStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'CalculatorStatemachine'
+Implementation of the state machine 'Calculator'
 */
 
 
@@ -19,8 +19,8 @@ CalculatorStatemachine::CalculatorStatemachine(QObject *parent) :
 	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = CalculatorStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = CalculatorStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 }
@@ -29,7 +29,7 @@ CalculatorStatemachine::~CalculatorStatemachine()
 {
 }
 
-CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent) :
+CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) :
 	Button0_raised(false),
 	Button1_raised(false),
 	Button2_raised(false),
@@ -47,7 +47,7 @@ CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent) :
 	ButtonEquals_raised(false),
 	ButtonClear_raised(false),
 	ShowAccu_value(0),
-	parent(parent)
+	parent(parent_)
 {
 }
 
@@ -163,6 +163,7 @@ void CalculatorStatemachine::dispatchEvent(CalculatorStatemachine::EventInstance
 			break;
 		}
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -265,12 +266,6 @@ void CalculatorStatemachine::gui_ButtonClear() {
 }
 
 
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void CalculatorStatemachine::triggerWithoutEvent() {
-	runCycle();
-}
-
-
 
 bool CalculatorStatemachine::isActive() const
 {
@@ -293,9 +288,9 @@ bool CalculatorStatemachine::check() const {
 }
 
 
-void CalculatorStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService)
+void CalculatorStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService_)
 {
-	this->timerService = timerService;
+	this->timerService = timerService_;
 }
 
 sc::timer::TimerServiceInterface* CalculatorStatemachine::getTimerService()
@@ -333,6 +328,7 @@ bool CalculatorStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -349,7 +345,6 @@ void CalculatorStatemachine::setInternalOperationCallback(InternalOperationCallb
 }
 
 // implementations of all internal functions
-
 /* Entry action for state 'active'. */
 void CalculatorStatemachine::enact_main_region_active()
 {
@@ -407,7 +402,7 @@ void CalculatorStatemachine::exseq_main_region__final_()
 void CalculatorStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of CalculatorStatemachine.main_region) at position 0... */
+	/* Handle exit of all possible states (of Calculator.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case CalculatorStatemachine::State::main_region_active :
@@ -420,7 +415,9 @@ void CalculatorStatemachine::exseq_main_region()
 			exseq_main_region__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -617,7 +614,9 @@ void CalculatorStatemachine::microStep() {
 			main_region__final__react(-1);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -645,7 +644,7 @@ void CalculatorStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart CalculatorStatemachine */
+	/* Default enter sequence for statechart Calculator */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -657,10 +656,13 @@ void CalculatorStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart CalculatorStatemachine */
+	/* Default exit sequence for statechart Calculator */
 	exseq_main_region();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void CalculatorStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

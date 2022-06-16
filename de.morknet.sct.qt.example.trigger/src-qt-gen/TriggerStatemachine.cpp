@@ -3,7 +3,7 @@
 #include "TriggerStatemachine.h"
 
 /*! \file
-Implementation of the state machine 'TriggerStatemachine'
+Implementation of the state machine 'Trigger'
 */
 
 
@@ -18,8 +18,8 @@ TriggerStatemachine::TriggerStatemachine(QObject *parent) :
 	trigger_raised(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort i = 0; i < maxOrthogonalStates; ++i)
-		stateConfVector[i] = TriggerStatemachine::State::NO_STATE;
+	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
+		stateConfVector[state_vec_pos] = TriggerStatemachine::State::NO_STATE;
 	
 	clearInEvents();
 	clearInternalEvents();
@@ -29,10 +29,10 @@ TriggerStatemachine::~TriggerStatemachine()
 {
 }
 
-TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent) :
+TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) :
 	counter(0),
 	pressed_raised(false),
-	parent(parent)
+	parent(parent_)
 {
 }
 
@@ -84,6 +84,7 @@ void TriggerStatemachine::dispatchEvent(TriggerStatemachine::EventInstance * eve
 			break;
 		}
 		default:
+			/* do nothing */
 			break;
 	}
 	delete event;
@@ -92,12 +93,6 @@ void TriggerStatemachine::dispatchEvent(TriggerStatemachine::EventInstance * eve
 
 void TriggerStatemachine::gui_pressed() {
 	incomingEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed));
-	runCycle();
-}
-
-
-/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-void TriggerStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
 
@@ -123,9 +118,9 @@ bool TriggerStatemachine::check() const {
 }
 
 
-void TriggerStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService)
+void TriggerStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService_)
 {
-	this->timerService = timerService;
+	this->timerService = timerService_;
 }
 
 sc::timer::TimerServiceInterface* TriggerStatemachine::getTimerService()
@@ -198,6 +193,7 @@ bool TriggerStatemachine::isStateActive(State state) const
 		}
 		default:
 		{
+			/* State is not active*/
 			return false;
 			break;
 		}
@@ -213,14 +209,13 @@ sc::integer TriggerStatemachine::Gui::getCounter() const
 	return counter;
 }
 
-void TriggerStatemachine::Gui::setCounter(sc::integer value)
+void TriggerStatemachine::Gui::setCounter(sc::integer counter_)
 {
-	this->counter = value;
+	this->counter = counter_;
 }
 
 
 // implementations of all internal functions
-
 /* Entry action for state 'Wait'. */
 void TriggerStatemachine::enact_main_region_Wait()
 {
@@ -475,7 +470,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_guard_wait()
 void TriggerStatemachine::exseq_main_region()
 {
 	/* Default exit sequence for region main region */
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 0... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case TriggerStatemachine::State::main_region_Wait :
@@ -493,9 +488,11 @@ void TriggerStatemachine::exseq_main_region()
 			exseq_main_region_Lanes_r1__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 1... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_r2_B :
@@ -508,9 +505,11 @@ void TriggerStatemachine::exseq_main_region()
 			exseq_main_region_Lanes_r2__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 2... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_r3_C :
@@ -523,9 +522,11 @@ void TriggerStatemachine::exseq_main_region()
 			exseq_main_region_Lanes_r3__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region) at position 3... */
+	/* Handle exit of all possible states (of Trigger.main_region) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_guard_wait :
@@ -533,7 +534,9 @@ void TriggerStatemachine::exseq_main_region()
 			exseq_main_region_Lanes_guard_wait();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -541,7 +544,7 @@ void TriggerStatemachine::exseq_main_region()
 void TriggerStatemachine::exseq_main_region_Lanes_r1()
 {
 	/* Default exit sequence for region r1 */
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r1) at position 0... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r1) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_r1_A :
@@ -554,7 +557,9 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1()
 			exseq_main_region_Lanes_r1__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -562,7 +567,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1()
 void TriggerStatemachine::exseq_main_region_Lanes_r2()
 {
 	/* Default exit sequence for region r2 */
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r2) at position 1... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r2) at position 1... */
 	switch(stateConfVector[ 1 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_r2_B :
@@ -575,7 +580,9 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2()
 			exseq_main_region_Lanes_r2__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -583,7 +590,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2()
 void TriggerStatemachine::exseq_main_region_Lanes_r3()
 {
 	/* Default exit sequence for region r3 */
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.r3) at position 2... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.r3) at position 2... */
 	switch(stateConfVector[ 2 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_r3_C :
@@ -596,7 +603,9 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3()
 			exseq_main_region_Lanes_r3__final_();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -604,7 +613,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3()
 void TriggerStatemachine::exseq_main_region_Lanes_guard()
 {
 	/* Default exit sequence for region guard */
-	/* Handle exit of all possible states (of TriggerStatemachine.main_region.Lanes.guard) at position 3... */
+	/* Handle exit of all possible states (of Trigger.main_region.Lanes.guard) at position 3... */
 	switch(stateConfVector[ 3 ])
 	{
 		case TriggerStatemachine::State::main_region_Lanes_guard_wait :
@@ -612,7 +621,9 @@ void TriggerStatemachine::exseq_main_region_Lanes_guard()
 			exseq_main_region_Lanes_guard_wait();
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 }
 
@@ -825,7 +836,9 @@ void TriggerStatemachine::microStep() {
 			transitioned = main_region_Lanes_r1__final__react(transitioned);
 			break;
 		}
-		default: break;
+		default:
+			/* do nothing */
+			break;
 	}
 	if ((stateConfVectorPosition) < (1))
 	{ 
@@ -841,7 +854,9 @@ void TriggerStatemachine::microStep() {
 				transitioned = main_region_Lanes_r2__final__react(transitioned);
 				break;
 			}
-			default: break;
+			default:
+				/* do nothing */
+				break;
 		}
 	} 
 	if ((stateConfVectorPosition) < (2))
@@ -858,7 +873,9 @@ void TriggerStatemachine::microStep() {
 				transitioned = main_region_Lanes_r3__final__react(transitioned);
 				break;
 			}
-			default: break;
+			default:
+				/* do nothing */
+				break;
 		}
 	} 
 	if ((stateConfVectorPosition) < (3))
@@ -870,7 +887,9 @@ void TriggerStatemachine::microStep() {
 				main_region_Lanes_guard_wait_react(transitioned);
 				break;
 			}
-			default: break;
+			default:
+				/* do nothing */
+				break;
 		}
 	} 
 }
@@ -900,7 +919,7 @@ void TriggerStatemachine::enter() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default enter sequence for statechart TriggerStatemachine */
+	/* Default enter sequence for statechart Trigger */
 	enseq_main_region_default();
 	isExecuting = false;
 }
@@ -912,10 +931,13 @@ void TriggerStatemachine::exit() {
 		return;
 	} 
 	isExecuting = true;
-	/* Default exit sequence for statechart TriggerStatemachine */
+	/* Default exit sequence for statechart Trigger */
 	exseq_main_region();
 	isExecuting = false;
 }
 
-
+/* Can be used by the client code to trigger a run to completion step without raising an event. */
+void TriggerStatemachine::triggerWithoutEvent() {
+	runCycle();
+}
 

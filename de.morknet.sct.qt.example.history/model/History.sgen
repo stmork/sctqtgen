@@ -5,7 +5,7 @@ GeneratorModel for yakindu::cpp::qt
 	const SRC_GEN_FOLDER : string = "src-gen"
 	const SRC_LIB_FOLDER : string = "src-lib"
 
-	statechart HistoryStatemachine
+	statechart History
 	{
 		feature LicenseHeader
 		{

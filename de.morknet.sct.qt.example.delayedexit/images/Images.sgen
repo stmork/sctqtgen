@@ -3,7 +3,7 @@ GeneratorModel for yakindu::images
 	const PROJECT : string = "de.morknet.sct.qt.example.delayedexit"
 	const FOLDER  : string = "images"
 
-	statechart DelayedStatemachine
+	statechart Delayed
 	{
 		feature Outlet
 		{

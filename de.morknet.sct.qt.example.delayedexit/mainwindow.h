@@ -24,7 +24,7 @@ public:
 	~MainWindow();
 
 protected:
-	void changeEvent(QEvent * e);
+	void changeEvent(QEvent * e) override;
 
 private:
 	Ui::MainWindow * ui;

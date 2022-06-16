@@ -16,7 +16,7 @@ class TriggerStatemachine;
 #include <QObject>
 
 /*! \file
-Header of the state machine 'TriggerStatemachine'.
+Header of the state machine 'Trigger'.
 */
 
 
@@ -94,7 +94,7 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 				sc::integer getCounter() const;
 				
 				/*! Sets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
-				void setCounter(sc::integer value);
+				void setCounter(sc::integer counter);
 				
 				
 				
@@ -149,7 +149,7 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		/*
 		 * Functions inherited from TimedStatemachineInterface
 		 */
-		void setTimerService(sc::timer::TimerServiceInterface* timerService) override;
+		void setTimerService(sc::timer::TimerServiceInterface* timerService_) override;
 		
 		sc::timer::TimerServiceInterface* getTimerService() override;
 		
