@@ -1,8 +1,8 @@
-name: Yakindu SCT C++11 Timer Service.
+name: Yakindu SCT Qt Example Applications
 on: [push]
 
 jobs:
-   CPP-Check:
+   Build Qt SCT example projects:
       runs-on: ubuntu-latest
       steps:
          - uses: actions/checkout@v3
