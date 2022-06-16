@@ -4,6 +4,7 @@ QMAKE_EXTRA_TARGETS += generate
 TEMPLATE             = app
 
 QMAKE_CXXFLAGS      += -Wextra -Wshadow -Wsuggest-override
+QMAKE_CLEAN         += $$TARGET
 
 SOURCES += main.cpp\
 	mainwindow.cpp \
