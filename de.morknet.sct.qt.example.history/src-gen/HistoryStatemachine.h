@@ -208,7 +208,7 @@ class HistoryStatemachine : public QObject, public sc::StatemachineInterface
 		void react_main_region_Start_main_StateA_Inner_Left__entry_Default();
 		void react_main_region_Start_main_StateB_Inner_Right__entry_Default();
 		void react_main_region_Start_main__entry_Default();
-		void react_main_region_Start_main_ReturnoftheGYRAknights();
+		void react_main_region_Start_main_ReturnoftheQtknights();
 		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_Start_react(const sc::integer transitioned_before);
 		sc::integer main_region_Start_main_StateA_react(const sc::integer transitioned_before);

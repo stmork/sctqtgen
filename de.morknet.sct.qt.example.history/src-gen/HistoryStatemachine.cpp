@@ -650,10 +650,10 @@ void HistoryStatemachine::react_main_region_Start_main__entry_Default()
 	enseq_main_region_Start_main_StateA_default();
 }
 
-/* Default react sequence for deep history entry Return of the GYRA knights */
-void HistoryStatemachine::react_main_region_Start_main_ReturnoftheGYRAknights()
+/* Default react sequence for deep history entry Return of the Qt knights */
+void HistoryStatemachine::react_main_region_Start_main_ReturnoftheQtknights()
 {
-	/* Default react sequence for deep history entry Return of the GYRA knights */
+	/* Default react sequence for deep history entry Return of the Qt knights */
 	/* Enter the region with deep history */
 	if (historyVector[0] != HistoryStatemachine::State::NO_STATE)
 	{
@@ -845,7 +845,7 @@ sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer tra
 		if (outside_raised)
 		{ 
 			exseq_main_region_Outside();
-			react_main_region_Start_main_ReturnoftheGYRAknights();
+			react_main_region_Start_main_ReturnoftheQtknights();
 			react(0);
 			transitioned_after = 0;
 		} 

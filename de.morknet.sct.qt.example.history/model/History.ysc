@@ -42,7 +42,7 @@
           <vertices xsi:type="sgraph:Entry" xmi:id="_IXAHUPm8Eeuv__GlQCTCJQ">
             <outgoingTransitions xmi:id="_JCAMIPm8Eeuv__GlQCTCJQ" specification="" target="_aZR2dvm7Eeuv__GlQCTCJQ"/>
           </vertices>
-          <vertices xsi:type="sgraph:Entry" xmi:id="_IAWEYPnIEeu5U5Ar0QV0cg" name="Return of the GYRA knights" incomingTransitions="_VtOFEPm9Eeuv__GlQCTCJQ" kind="DEEP_HISTORY"/>
+          <vertices xsi:type="sgraph:Entry" xmi:id="_IAWEYPnIEeu5U5Ar0QV0cg" name="Return of the Qt knights" incomingTransitions="_VtOFEPm9Eeuv__GlQCTCJQ" kind="DEEP_HISTORY"/>
         </regions>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_QpVUcPm9Eeuv__GlQCTCJQ" specification="entry / label(&quot;outside&quot;)" name="Outside" incomingTransitions="_dkxv0PnAEeuRkdWhhOBn2g">
