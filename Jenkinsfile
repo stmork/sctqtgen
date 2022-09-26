@@ -8,11 +8,16 @@ pipeline
 		{
 			steps
 			{
-				sh """
-				test -f Makefile && make clean distclean
-				qmake -r
-				make -j
-				"""
+				sh 'bin/build-examples.sh'
+			}
+		}
+
+		stage('CppCheck')
+		{
+			steps
+			{
+				sh 'make cppcheck'
+				publishCppcheck pattern: 'cppcheck.xml'
 			}
 		}
 	}
