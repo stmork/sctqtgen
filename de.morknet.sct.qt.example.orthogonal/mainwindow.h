@@ -40,4 +40,5 @@ private:
 	bool isRight() override;
 	void label() override;
 };
+
 #endif // MAINWINDOW_H

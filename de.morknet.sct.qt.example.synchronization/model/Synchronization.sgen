@@ -1,0 +1,30 @@
+GeneratorModel for yakindu::cpp::qt
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.synchronization"
+
+	const SRC_GEN_FOLDER : string = "src-gen"
+	const SRC_LIB_FOLDER : string = "src-lib"
+
+	statechart Synchronization
+	{
+		feature LicenseHeader
+		{
+			licenseText =  "Copyright (C) 2022 - Steffen A. Mork" 
+		}
+
+		feature Outlet
+		{
+			targetProject       = PROJECT
+			targetFolder        = SRC_GEN_FOLDER
+			libraryTargetFolder = SRC_LIB_FOLDER
+		}
+
+		feature IdentifierSettings
+		{
+			moduleName = "SynchronizationStatemachine"
+			headerFilenameExtension = "h"
+			sourceFilenameExtension = "cpp"
+			separator               = "_"
+		}
+	}
+}
