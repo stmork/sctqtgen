@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_ab2H8EwhEeefhMBAvBYJ5Q" specification="interface gui:&#xA;&#xA;in event clicked&#xA;&#xA;out event on&#xA;out event off&#xA;&#xA;&#xA;" name="Timerless">
+  <sgraph:Statechart xmi:id="_ab2H8EwhEeefhMBAvBYJ5Q" specification="@EventDriven&#xA;@SuperSteps(no)&#xA;&#xA;interface gui:&#xA;&#xA;in event clicked&#xA;&#xA;out event on&#xA;out event off&#xA;&#xA;&#xA;" name="Timerless">
     <regions xmi:id="_acjSkEwhEeefhMBAvBYJ5Q" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_adMLwEwhEeefhMBAvBYJ5Q">
         <outgoingTransitions xmi:id="_adcDYEwhEeefhMBAvBYJ5Q" target="_adREQEwhEeefhMBAvBYJ5Q"/>

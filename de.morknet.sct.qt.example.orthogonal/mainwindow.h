@@ -3,9 +3,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+
 #include <QMainWindow>
 
 #include "src-gen/OrthogonalStatemachine.h"
+#include "src-lib/sc_self_pointer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -16,7 +19,8 @@ QT_END_NAMESPACE
 
 class MainWindow :
 	public QMainWindow,
-	protected OrthogonalStatemachine::OperationCallback
+	protected OrthogonalStatemachine::OperationCallback,
+	protected SelfPointer<OrthogonalStatemachine::OperationCallback>
 {
 	Q_OBJECT
 
@@ -25,8 +29,9 @@ public:
 	~MainWindow();
 
 private:
-	Ui::MainWindow    *    ui;
-	OrthogonalStatemachine statemachine;
+	Ui::MainWindow           *          ui;
+	OrthogonalStatemachine              statemachine;
+	SelfPointer<OrthogonalStatemachine> sm_ptr;
 
 	enum Selection
 	{

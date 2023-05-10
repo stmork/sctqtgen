@@ -3,6 +3,7 @@
 
 MainWindow::MainWindow(QWidget * parent) :
 	QMainWindow(parent),
+	csm_ptr(&csm),
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);

@@ -3,9 +3,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+
 #include <QMainWindow>
 
 #include "statemachine.h"
+#include "src-qt-lib/sc_self_pointer.h"
 
 namespace Ui
 {
@@ -16,7 +19,8 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-	StateMachine csm;
+	StateMachine              csm;
+	SelfPointer<StateMachine> csm_ptr;
 
 public:
 	explicit MainWindow(QWidget * parent = 0);

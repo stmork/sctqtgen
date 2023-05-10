@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_oOf1IHCJEe2w7LWkGhBhCw" specification="@EventDriven&#xA;@SuperSteps(no)&#xA;&#xA;interface:&#xA;&#xA;in event start&#xA;in event triggerLeft&#xA;in event triggerRight&#xA;&#xA;operation waiting()&#xA;operation started()&#xA;operation left()&#xA;operation right()&#xA;operation leftClicked()&#xA;operation rightClicked()&#xA;operation completed()" name="Synchronization">
+  <sgraph:Statechart xmi:id="_oOf1IHCJEe2w7LWkGhBhCw" specification="@EventDriven&#xA;@SuperSteps(yes)&#xA;&#xA;interface:&#xA;&#xA;in event start&#xA;in event triggerLeft&#xA;in event triggerRight&#xA;&#xA;operation waiting()&#xA;operation started()&#xA;operation left()&#xA;operation right()&#xA;operation leftClicked()&#xA;operation rightClicked()&#xA;operation completed()" name="Synchronization">
     <regions xmi:id="_oOiRaHCJEe2w7LWkGhBhCw" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_oOiRaXCJEe2w7LWkGhBhCw">
         <outgoingTransitions xmi:id="_oOiRanCJEe2w7LWkGhBhCw" target="_qzazgHCKEe2w7LWkGhBhCw"/>

@@ -1,8 +1,10 @@
 #include "statemachine.h"
 
+using namespace sc::qt;
+
 Statemachine::Statemachine(QObject * parent) :
 	TriggerStatemachine(parent),
-	timer_service(nullptr)
+	timer_service(std::make_shared<SCTimerService>())
 {
-	setTimerService(&timer_service);
+	setTimerService(timer_service);
 }

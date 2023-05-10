@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #ifndef SYNCHRONIZATIONSTATEMACHINE_H_
 #define SYNCHRONIZATIONSTATEMACHINE_H_
@@ -12,6 +12,8 @@ class SynchronizationStatemachine;
 #include <deque>
 #include "../src-lib/sc_types.h"
 #include "../src-lib/sc_statemachine.h"
+#include "../src-lib/sc_eventdriven.h"
+#include <memory>
 #include <QObject>
 
 /*! \file
@@ -19,12 +21,12 @@ Header of the state machine 'Synchronization'.
 */
 
 
-class SynchronizationStatemachine : public QObject, public sc::StatemachineInterface
+class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterface
 {
 	Q_OBJECT
 	
 	public:
-		SynchronizationStatemachine(QObject *parent);
+		explicit SynchronizationStatemachine(QObject *parent) noexcept;
 		
 		virtual ~SynchronizationStatemachine();
 		
@@ -44,14 +46,14 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		};
 		
 		/*! The number of states. */
-		static const sc::integer numStates = 7;
-		static const sc::integer scvi_main_region_Split = 0;
-		static const sc::integer scvi_main_region_Split_left_Action = 0;
-		static const sc::integer scvi_main_region_Split_left_Wait = 0;
-		static const sc::integer scvi_main_region_Split_right_Action = 1;
-		static const sc::integer scvi_main_region_Split_right_Wait = 1;
-		static const sc::integer scvi_main_region_Wait = 0;
-		static const sc::integer scvi_main_region_Completed = 0;
+		static constexpr const sc::integer numStates {7};
+		static constexpr const sc::integer scvi_main_region_Split {0};
+		static constexpr const sc::integer scvi_main_region_Split_left_Action {0};
+		static constexpr const sc::integer scvi_main_region_Split_left_Wait {0};
+		static constexpr const sc::integer scvi_main_region_Split_right_Action {1};
+		static constexpr const sc::integer scvi_main_region_Split_right_Wait {1};
+		static constexpr const sc::integer scvi_main_region_Wait {0};
+		static constexpr const sc::integer scvi_main_region_Completed {0};
 		
 		/*! Enumeration of all events which are consumed. */
 		enum class Event
@@ -65,13 +67,11 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		class EventInstance
 		{
 			public:
-				explicit EventInstance(Event id) : eventId(id){}
+				explicit  EventInstance(Event id) noexcept : eventId(id){}
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
 		
-		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-		void triggerWithoutEvent();
 		
 		//! Inner class for default interface scope operation callbacks.
 		class OperationCallback
@@ -97,36 +97,38 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		};
 		
 		/*! Set the working instance of the operation callback interface 'OperationCallback'. */
-		void setOperationCallback(OperationCallback* operationCallback);
+		void setOperationCallback(std::shared_ptr<OperationCallback> operationCallback) noexcept;
 		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent() override;
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		void enter() override;
+		 void enter() override;
 		
-		void exit() override;
+		 void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		bool isActive() const override;
+		 bool isActive() const noexcept override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		bool isFinal() const override;
+		 bool isFinal() const noexcept override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		bool check() const;
+		bool check() const noexcept;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		bool isStateActive(State state) const;
+		bool isStateActive(State state) const noexcept;
 		
 		
 		
@@ -144,11 +146,11 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 	protected:
 		
 		
-		std::deque<EventInstance*> incomingEventQueue;
+		std::deque<std::unique_ptr<EventInstance>> incomingEventQueue;
 		
-		EventInstance* getNextEvent();
+		std::unique_ptr<EventInstance> getNextEvent() noexcept;
 		
-		void dispatchEvent(EventInstance* event);
+		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
 		
@@ -159,18 +161,20 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates = 2;
+		static const sc::ushort maxOrthogonalStates {2};
 		
 		
 		
 		State stateConfVector[maxOrthogonalStates];
 		
 		
-		OperationCallback* ifaceOperationCallback;
 		
+		std::shared_ptr<OperationCallback> ifaceOperationCallback {nullptr};
 		
-		bool isExecuting;
-		sc::integer stateConfVectorPosition;
+		bool isExecuting {false};
+		sc::integer stateConfVectorPosition {0};
+		bool stateConfVectorChanged {false};
+		
 		
 		
 		// prototypes of all internal functions
@@ -210,7 +214,7 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		sc::integer main_region_Split_right_Wait_react(const sc::integer transitioned_before);
 		sc::integer main_region_Wait_react(const sc::integer transitioned_before);
 		sc::integer main_region_Completed_react(const sc::integer transitioned_before);
-		void clearInEvents();
+		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
 		
@@ -218,13 +222,13 @@ class SynchronizationStatemachine : public QObject, public sc::StatemachineInter
 		
 		
 		/*! Indicates event 'start' of default interface scope is active. */
-		bool start_raised;
+		bool start_raised {false};
 		
 		/*! Indicates event 'triggerLeft' of default interface scope is active. */
-		bool triggerLeft_raised;
+		bool triggerLeft_raised {false};
 		
 		/*! Indicates event 'triggerRight' of default interface scope is active. */
-		bool triggerRight_raised;
+		bool triggerRight_raised {false};
 		
 		
 		

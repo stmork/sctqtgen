@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "DelayedStatemachine.h"
 
@@ -9,8 +9,7 @@ Implementation of the state machine 'Delayed'
 
 
 
-DelayedStatemachine::DelayedStatemachine(QObject *parent) :
-	QObject(parent),
+DelayedStatemachine::DelayedStatemachine(QObject *parent) noexcept :
 	ifaceGui(nullptr),
 	isExecuting(false)
 {
@@ -25,23 +24,19 @@ DelayedStatemachine::~DelayedStatemachine()
 {
 }
 
-DelayedStatemachine::Gui::Gui(DelayedStatemachine* parent_) :
-	button1_raised(false),
-	button2_raised(false),
-	complete_raised(false),
-	stopping_value(false),
+DelayedStatemachine::Gui::Gui(DelayedStatemachine* parent_) noexcept :
 	parent(parent_)
 {
 }
 
 
 
-DelayedStatemachine::EventInstance* DelayedStatemachine::getNextEvent()
+std::unique_ptr<DelayedStatemachine::EventInstance> DelayedStatemachine::getNextEvent() noexcept
 {
-	DelayedStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<DelayedStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -50,10 +45,15 @@ DelayedStatemachine::EventInstance* DelayedStatemachine::getNextEvent()
 }					
 
 
-void DelayedStatemachine::dispatchEvent(DelayedStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool DelayedStatemachine::dispatchEvent(std::unique_ptr<DelayedStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -76,33 +76,37 @@ void DelayedStatemachine::dispatchEvent(DelayedStatemachine::EventInstance * eve
 		}
 		
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void DelayedStatemachine::gui_button1() {
-	incomingEventQueue.push_back(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button1));
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button1)))
+	;
 	runCycle();
 }
 
 
 void DelayedStatemachine::gui_button2() {
-	incomingEventQueue.push_back(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button2));
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button2)))
+	;
 	runCycle();
 }
 
 
 void DelayedStatemachine::gui_complete() {
-	incomingEventQueue.push_back(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete));
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete)))
+	;
 	runCycle();
 }
 
 
 
-bool DelayedStatemachine::isActive() const
+bool DelayedStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != DelayedStatemachine::State::NO_STATE;
 }
@@ -110,16 +114,17 @@ bool DelayedStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool DelayedStatemachine::isFinal() const
+bool DelayedStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool DelayedStatemachine::check() const {
+bool DelayedStatemachine::check() const noexcept{
 	return true;
 }
 
 
-bool DelayedStatemachine::isStateActive(State state) const
+bool DelayedStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -152,9 +157,9 @@ bool DelayedStatemachine::isStateActive(State state) const
 	}
 }
 
-DelayedStatemachine::Gui* DelayedStatemachine::gui()
+DelayedStatemachine::Gui& DelayedStatemachine::gui() noexcept
 {
-	return &ifaceGui;
+	return ifaceGui;
 }
 
 // implementations of all internal functions
@@ -176,16 +181,14 @@ void DelayedStatemachine::enact_main_region_Do_Something()
 void DelayedStatemachine::enact_main_region_Wait_Button_1()
 {
 	/* Entry action for state 'Wait Button 1'. */
-	ifaceGui.stopping_value = true;
-	emit gui_stopping(ifaceGui.stopping_value);
+	emit gui_stopping(true);
 }
 
 /* Entry action for state 'Wait Button 2'. */
 void DelayedStatemachine::enact_main_region_Wait_Button_2()
 {
 	/* Entry action for state 'Wait Button 2'. */
-	ifaceGui.stopping_value = true;
-	emit gui_stopping(ifaceGui.stopping_value);
+	emit gui_stopping(true);
 }
 
 /* Exit action for state 'Do Something'. */
@@ -199,16 +202,14 @@ void DelayedStatemachine::exact_main_region_Do_Something()
 void DelayedStatemachine::exact_main_region_Wait_Button_1()
 {
 	/* Exit action for state 'Wait Button 1'. */
-	ifaceGui.stopping_value = false;
-	emit gui_stopping(ifaceGui.stopping_value);
+	emit gui_stopping(false);
 }
 
 /* Exit action for state 'Wait Button 2'. */
 void DelayedStatemachine::exact_main_region_Wait_Button_2()
 {
 	/* Exit action for state 'Wait Button 2'. */
-	ifaceGui.stopping_value = false;
-	emit gui_stopping(ifaceGui.stopping_value);
+	emit gui_stopping(false);
 }
 
 /* 'default' enter sequence for state StateA */
@@ -339,9 +340,9 @@ sc::integer DelayedStatemachine::main_region_StateA_react(const sc::integer tran
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		if (ifaceGui.button1_raised)
 		{ 
 			emit gui_stopped();
@@ -373,9 +374,9 @@ sc::integer DelayedStatemachine::main_region_Do_Something_react(const sc::intege
 			} 
 		}
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -394,9 +395,9 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_1_react(const sc::integ
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -415,15 +416,15 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_2_react(const sc::integ
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void DelayedStatemachine::clearInEvents() {
+void DelayedStatemachine::clearInEvents() noexcept {
 	ifaceGui.button1_raised = false;
 	ifaceGui.button2_raised = false;
 	ifaceGui.complete_raised = false;
@@ -470,8 +471,7 @@ void DelayedStatemachine::runCycle() {
 	{ 
 		microStep();
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (((ifaceGui.button1_raised) || (ifaceGui.button2_raised)) || (ifaceGui.complete_raised));
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

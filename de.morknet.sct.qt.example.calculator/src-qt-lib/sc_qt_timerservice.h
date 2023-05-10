@@ -1,9 +1,11 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #pragma once
 
 #ifndef SC_QT_TIMERSERVICE_H_
 #define SC_QT_TIMERSERVICE_H_
+
+#include <memory>
 
 #include <QObject>
 #include <QTimer>
@@ -19,9 +21,9 @@ namespace sc::qt
 
 	public:
 		explicit SCTimer(
-				QObject *                   parent,
-				sc::timer::TimedInterface * statemachine,
-				const sc::eventid           id);
+			QObject          *          parent,
+			sc::timer::TimedInterface * statemachine,
+			const sc::eventid           id);
 		SCTimer() = delete;
 
 	private:
@@ -37,13 +39,13 @@ namespace sc::qt
 		explicit SCTimerService(QObject * parent = nullptr);
 
 		virtual void setTimer(
-				sc::timer::TimedInterface * statemachine,
-				sc::eventid                 event,
-				sc::integer                 time_ms,
-				bool                        is_periodic) override;
+			std::shared_ptr<sc::timer::TimedInterface> statemachine,
+			sc::eventid                                event,
+			sc::integer                                time_ms,
+			bool                                       is_periodic) override;
 		virtual void unsetTimer(
-				sc::timer::TimedInterface * statemachine,
-				sc::eventid                 event) override;
+			std::shared_ptr<sc::timer::TimedInterface> statemachine,
+			sc::eventid                                event) override;
 
 	private:
 		SCTimer * getTimer(sc::timer::TimedInterface * machine, sc::eventid event);

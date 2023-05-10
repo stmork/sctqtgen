@@ -2,10 +2,11 @@
 
 StateMachine::StateMachine(QObject * parent) :
 	CalculatorStatemachine(parent),
-	timer_service(nullptr)
+	SelfPointer<CalculatorStatemachine::InternalOperationCallback>(this),
+	timer_service(std::make_shared<sc::qt::SCTimerService>())
 {
-	setInternalOperationCallback(this);
-	setTimerService(&timer_service);
+	setInternalOperationCallback(self);
+	setTimerService(timer_service);
 
 	operation = NONE;
 }

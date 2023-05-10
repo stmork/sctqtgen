@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #ifndef DELAYEDSTATEMACHINE_H_
 #define DELAYEDSTATEMACHINE_H_
@@ -12,6 +12,8 @@ class DelayedStatemachine;
 #include <deque>
 #include "../src-qt-lib/sc_types.h"
 #include "../src-qt-lib/sc_statemachine.h"
+#include "../src-qt-lib/sc_eventdriven.h"
+#include <memory>
 #include <QObject>
 
 /*! \file
@@ -19,12 +21,12 @@ Header of the state machine 'Delayed'.
 */
 
 
-class DelayedStatemachine : public QObject, public sc::StatemachineInterface
+class DelayedStatemachine : public QObject, public sc::EventDrivenInterface
 {
 	Q_OBJECT
 	
 	public:
-		DelayedStatemachine(QObject *parent);
+		explicit DelayedStatemachine(QObject *parent) noexcept;
 		
 		virtual ~DelayedStatemachine();
 		
@@ -41,11 +43,11 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		};
 		
 		/*! The number of states. */
-		static const sc::integer numStates = 4;
-		static const sc::integer scvi_main_region_StateA = 0;
-		static const sc::integer scvi_main_region_Do_Something = 0;
-		static const sc::integer scvi_main_region_Wait_Button_1 = 0;
-		static const sc::integer scvi_main_region_Wait_Button_2 = 0;
+		static constexpr const sc::integer numStates {4};
+		static constexpr const sc::integer scvi_main_region_StateA {0};
+		static constexpr const sc::integer scvi_main_region_Do_Something {0};
+		static constexpr const sc::integer scvi_main_region_Wait_Button_1 {0};
+		static constexpr const sc::integer scvi_main_region_Wait_Button_2 {0};
 		
 		/*! Enumeration of all events which are consumed. */
 		enum class Event
@@ -59,19 +61,17 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		class EventInstance
 		{
 			public:
-				explicit EventInstance(Event id) : eventId(id){}
+				explicit  EventInstance(Event id) noexcept : eventId(id){}
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
 		
-		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-		void triggerWithoutEvent();
 		
 		//! Inner class for gui interface scope.
 		class Gui
 		{
 			public:
-				Gui(DelayedStatemachine* parent);
+				explicit Gui(DelayedStatemachine* parent) noexcept;
 				
 				
 				
@@ -88,13 +88,11 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 				friend class DelayedStatemachine;
 				
 				/*! Indicates event 'button1' of interface scope 'gui' is active. */
-				bool button1_raised;
+				bool button1_raised {false};
 				/*! Indicates event 'button2' of interface scope 'gui' is active. */
-				bool button2_raised;
+				bool button2_raised {false};
 				/*! Indicates event 'complete' of interface scope 'gui' is active. */
-				bool complete_raised;
-				/*! Value of event 'stopping' of interface scope 'gui'. */
-				bool stopping_value;
+				bool complete_raised {false};
 				
 				
 			private:
@@ -107,37 +105,39 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		};
 		
 		/*! Returns an instance of the interface class 'Gui'. */
-		Gui* gui();
+		Gui& gui() noexcept;
 		
 		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent() override;
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		void enter() override;
+		 void enter() override;
 		
-		void exit() override;
+		 void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		bool isActive() const override;
+		 bool isActive() const noexcept override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		bool isFinal() const override;
+		 bool isFinal() const noexcept override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		bool check() const;
+		bool check() const noexcept;
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		bool isStateActive(State state) const;
+		bool isStateActive(State state) const noexcept;
 		
 		
 		
@@ -173,17 +173,18 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates = 1;
+		static const sc::ushort maxOrthogonalStates {1};
 		
 		
 		
 		State stateConfVector[maxOrthogonalStates];
 		
 		
-		Gui ifaceGui;
+		Gui ifaceGui {Gui{nullptr}};
 		
 		
-		bool isExecuting;
+		bool isExecuting {false};
+		
 		
 		
 		// prototypes of all internal functions
@@ -211,18 +212,18 @@ class DelayedStatemachine : public QObject, public sc::StatemachineInterface
 		sc::integer main_region_Do_Something_react(const sc::integer transitioned_before);
 		sc::integer main_region_Wait_Button_1_react(const sc::integer transitioned_before);
 		sc::integer main_region_Wait_Button_2_react(const sc::integer transitioned_before);
-		void clearInEvents();
+		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
 		
 		
 		
 		
-		std::deque<EventInstance*> incomingEventQueue;
+		std::deque<std::unique_ptr<EventInstance>> incomingEventQueue;
 		
-		EventInstance* getNextEvent();
+		std::unique_ptr<EventInstance> getNextEvent() noexcept;
 		
-		void dispatchEvent(EventInstance* event);
+		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
 		

@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "TimerlessStatemachine.h"
 
@@ -9,8 +9,7 @@ Implementation of the state machine 'Timerless'
 
 
 
-TimerlessStatemachine::TimerlessStatemachine(QObject *parent) :
-	QObject(parent),
+TimerlessStatemachine::TimerlessStatemachine(QObject *parent) noexcept :
 	ifaceGui(nullptr),
 	isExecuting(false)
 {
@@ -25,20 +24,19 @@ TimerlessStatemachine::~TimerlessStatemachine()
 {
 }
 
-TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent_) :
-	clicked_raised(false),
+TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent_) noexcept :
 	parent(parent_)
 {
 }
 
 
 
-TimerlessStatemachine::EventInstance* TimerlessStatemachine::getNextEvent()
+std::unique_ptr<TimerlessStatemachine::EventInstance> TimerlessStatemachine::getNextEvent() noexcept
 {
-	TimerlessStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<TimerlessStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -47,10 +45,15 @@ TimerlessStatemachine::EventInstance* TimerlessStatemachine::getNextEvent()
 }					
 
 
-void TimerlessStatemachine::dispatchEvent(TimerlessStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool TimerlessStatemachine::dispatchEvent(std::unique_ptr<TimerlessStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -63,21 +66,23 @@ void TimerlessStatemachine::dispatchEvent(TimerlessStatemachine::EventInstance *
 		}
 		
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void TimerlessStatemachine::gui_clicked() {
-	incomingEventQueue.push_back(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked));
+	incomingEventQueue.push_back(std::unique_ptr<TimerlessStatemachine::EventInstance>(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked)))
+	;
 	runCycle();
 }
 
 
 
-bool TimerlessStatemachine::isActive() const
+bool TimerlessStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != TimerlessStatemachine::State::NO_STATE;
 }
@@ -85,16 +90,17 @@ bool TimerlessStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool TimerlessStatemachine::isFinal() const
+bool TimerlessStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool TimerlessStatemachine::check() const {
+bool TimerlessStatemachine::check() const noexcept{
 	return true;
 }
 
 
-bool TimerlessStatemachine::isStateActive(State state) const
+bool TimerlessStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -117,9 +123,9 @@ bool TimerlessStatemachine::isStateActive(State state) const
 	}
 }
 
-TimerlessStatemachine::Gui* TimerlessStatemachine::gui()
+TimerlessStatemachine::Gui& TimerlessStatemachine::gui() noexcept
 {
-	return &ifaceGui;
+	return ifaceGui;
 }
 
 // implementations of all internal functions
@@ -222,9 +228,9 @@ sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -243,15 +249,15 @@ sc::integer TimerlessStatemachine::main_region_State_On_react(const sc::integer 
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void TimerlessStatemachine::clearInEvents() {
+void TimerlessStatemachine::clearInEvents() noexcept {
 	ifaceGui.clicked_raised = false;
 }
 
@@ -286,8 +292,7 @@ void TimerlessStatemachine::runCycle() {
 	{ 
 		microStep();
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (ifaceGui.clicked_raised);
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

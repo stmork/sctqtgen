@@ -3,6 +3,8 @@
 
 MainWindow::MainWindow(QWidget * parent) :
 	QMainWindow(parent),
+	statemachine(nullptr),
+	sm_ptr(&statemachine),
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
@@ -35,7 +37,7 @@ void MainWindow::changeEvent(QEvent * e)
 
 void MainWindow::updateGui()
 {
-	ui->counterLabel->setText(QString::asprintf("Zähler: %d", statemachine.gui()->getCounter()));
+	ui->counterLabel->setText(QString::asprintf("Counter: %d", statemachine.gui().getCounter()));
 }
 
 void MainWindow::waitState()

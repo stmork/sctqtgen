@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "CalculatorStatemachine.h"
 
@@ -9,8 +9,7 @@ Implementation of the state machine 'Calculator'
 
 
 
-CalculatorStatemachine::CalculatorStatemachine(QObject *parent) :
-	QObject(parent),
+CalculatorStatemachine::CalculatorStatemachine(QObject *parent) noexcept :
 	operand(0),
 	accu(0),
 	timerService(nullptr),
@@ -29,36 +28,19 @@ CalculatorStatemachine::~CalculatorStatemachine()
 {
 }
 
-CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) :
-	Button0_raised(false),
-	Button1_raised(false),
-	Button2_raised(false),
-	Button3_raised(false),
-	Button4_raised(false),
-	Button5_raised(false),
-	Button6_raised(false),
-	Button7_raised(false),
-	Button8_raised(false),
-	Button9_raised(false),
-	ButtonAdd_raised(false),
-	ButtonSub_raised(false),
-	ButtonMult_raised(false),
-	ButtonDiv_raised(false),
-	ButtonEquals_raised(false),
-	ButtonClear_raised(false),
-	ShowAccu_value(0),
+CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) noexcept :
 	parent(parent_)
 {
 }
 
 
 
-CalculatorStatemachine::EventInstance* CalculatorStatemachine::getNextEvent()
+std::unique_ptr<CalculatorStatemachine::EventInstance> CalculatorStatemachine::getNextEvent() noexcept
 {
-	CalculatorStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<CalculatorStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -67,10 +49,15 @@ CalculatorStatemachine::EventInstance* CalculatorStatemachine::getNextEvent()
 }					
 
 
-void CalculatorStatemachine::dispatchEvent(CalculatorStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool CalculatorStatemachine::dispatchEvent(std::unique_ptr<CalculatorStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -163,121 +150,138 @@ void CalculatorStatemachine::dispatchEvent(CalculatorStatemachine::EventInstance
 			break;
 		}
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void CalculatorStatemachine::gui_Button0() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button0));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button0)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button1() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button1));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button1)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button2() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button2));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button2)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button3() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button3));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button3)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button4() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button4));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button4)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button5() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button5));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button5)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button6() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button6));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button6)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button7() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button7));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button7)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button8() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button8));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button8)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_Button9() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button9));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button9)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonAdd() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonAdd));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonAdd)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonSub() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonSub));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonSub)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonMult() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonMult));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonMult)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonDiv() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonDiv));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonDiv)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonEquals() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonEquals));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonEquals)))
+	;
 	runCycle();
 }
 
 
 void CalculatorStatemachine::gui_ButtonClear() {
-	incomingEventQueue.push_back(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonClear));
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonClear)))
+	;
 	runCycle();
 }
 
 
 
-bool CalculatorStatemachine::isActive() const
+bool CalculatorStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != CalculatorStatemachine::State::NO_STATE;
 }
 
-bool CalculatorStatemachine::isFinal() const
+bool CalculatorStatemachine::isFinal() const noexcept
 {
-	return (stateConfVector[0] == CalculatorStatemachine::State::main_region__final_);
+		return (stateConfVector[0] == CalculatorStatemachine::State::main_region__final_);
 }
 
-bool CalculatorStatemachine::check() const {
+bool CalculatorStatemachine::check() const noexcept{
 	if(timerService == nullptr) {
 		return false;
 	}
@@ -288,17 +292,17 @@ bool CalculatorStatemachine::check() const {
 }
 
 
-void CalculatorStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService_)
+void CalculatorStatemachine::setTimerService(std::shared_ptr<sc::timer::TimerServiceInterface> timerService_) noexcept
 {
 	this->timerService = timerService_;
 }
 
-sc::timer::TimerServiceInterface* CalculatorStatemachine::getTimerService()
+std::shared_ptr<sc::timer::TimerServiceInterface> CalculatorStatemachine::getTimerService() noexcept
 {
 	return timerService;
 }
 
-sc::integer CalculatorStatemachine::getNumberOfParallelTimeEvents() {
+sc::integer CalculatorStatemachine::getNumberOfParallelTimeEvents() noexcept {
 	return parallelTimeEventsCount;
 }
 
@@ -306,13 +310,13 @@ void CalculatorStatemachine::raiseTimeEvent(sc::eventid evid)
 {
 	if (evid < timeEventsCount)
 	{
-		incomingEventQueue.push_back(new EventInstance(static_cast<CalculatorStatemachine::Event>(evid + static_cast<sc::integer>(CalculatorStatemachine::Event::_te0_main_region_active_))));
+		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<CalculatorStatemachine::Event>(evid + static_cast<sc::integer>(CalculatorStatemachine::Event::_te0_main_region_active_)))));
 		runCycle();
 	}
 }
 
 
-bool CalculatorStatemachine::isStateActive(State state) const
+bool CalculatorStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -335,11 +339,11 @@ bool CalculatorStatemachine::isStateActive(State state) const
 	}
 }
 
-CalculatorStatemachine::Gui* CalculatorStatemachine::gui()
+CalculatorStatemachine::Gui& CalculatorStatemachine::gui() noexcept
 {
-	return &ifaceGui;
+	return ifaceGui;
 }
-void CalculatorStatemachine::setInternalOperationCallback(InternalOperationCallback* operationCallback)
+void CalculatorStatemachine::setInternalOperationCallback(std::shared_ptr<InternalOperationCallback> operationCallback) noexcept
 {
 	ifaceInternalOperationCallback = operationCallback;
 }
@@ -349,7 +353,7 @@ void CalculatorStatemachine::setInternalOperationCallback(InternalOperationCallb
 void CalculatorStatemachine::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timerService->setTimer(this, 0, (30 * 1000), false);
+	timerService->setTimer(shared_from_this(), 0, (30 * 1000), false);
 	accu = 0;
 	operand = 0;
 }
@@ -358,7 +362,7 @@ void CalculatorStatemachine::enact_main_region_active()
 void CalculatorStatemachine::exact_main_region_active()
 {
 	/* Exit action for state 'active'. */
-	timerService->unsetTimer(this, 0);
+	timerService->unsetTimer(shared_from_this(), 0);
 }
 
 /* 'default' enter sequence for state active */
@@ -451,106 +455,91 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 			{ 
 				exseq_main_region_active();
 				ifaceInternalOperationCallback->Equals();
-				ifaceGui.ShowAccu_value = operand;
-				emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+				emit gui_ShowAccu(operand);
 				enseq_main_region_active_default();
 				react(0);
 				transitioned_after = 0;
 			} 
 		}
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		if (ifaceGui.Button0_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(0);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button1_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(1);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button2_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(2);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button3_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(3);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button4_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(4);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button5_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(5);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button6_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(6);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button7_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(7);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button8_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(8);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.Button9_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(9);
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		if (ifaceGui.ButtonAdd_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Add();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonSub_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Sub();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonMult_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Mult();
 			accu = 0;
 		} 
 		if (ifaceGui.ButtonDiv_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
-			ifaceGui.ShowAccu_value = operand;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Div();
 			accu = 0;
 		} 
@@ -559,8 +548,7 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 			ifaceInternalOperationCallback->Clear();
 			accu = 0;
 			operand = 0;
-			ifaceGui.ShowAccu_value = accu;
-			emit gui_ShowAccu(ifaceGui.ShowAccu_value);
+			emit gui_ShowAccu(accu);
 		} 
 		transitioned_after = react(transitioned_before);
 	} 
@@ -569,19 +557,10 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 
 sc::integer CalculatorStatemachine::main_region__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
-	} 
-	/* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = react(transitioned_before);
-	} 
-	return transitioned_after;
+	return react(transitioned_before);
 }
 
-void CalculatorStatemachine::clearInEvents() {
+void CalculatorStatemachine::clearInEvents() noexcept {
 	ifaceGui.Button0_raised = false;
 	ifaceGui.Button1_raised = false;
 	ifaceGui.Button2_raised = false;
@@ -632,8 +611,7 @@ void CalculatorStatemachine::runCycle() {
 	{ 
 		microStep();
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (((((((((((((((((ifaceGui.Button0_raised) || (ifaceGui.Button1_raised)) || (ifaceGui.Button2_raised)) || (ifaceGui.Button3_raised)) || (ifaceGui.Button4_raised)) || (ifaceGui.Button5_raised)) || (ifaceGui.Button6_raised)) || (ifaceGui.Button7_raised)) || (ifaceGui.Button8_raised)) || (ifaceGui.Button9_raised)) || (ifaceGui.ButtonAdd_raised)) || (ifaceGui.ButtonSub_raised)) || (ifaceGui.ButtonMult_raised)) || (ifaceGui.ButtonDiv_raised)) || (ifaceGui.ButtonEquals_raised)) || (ifaceGui.ButtonClear_raised)) || (timeEvents[0]));
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

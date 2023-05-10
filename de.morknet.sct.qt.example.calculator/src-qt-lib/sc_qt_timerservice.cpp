@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "sc_qt_timerservice.h"
 
@@ -25,12 +25,12 @@ SCTimerService::SCTimerService(QObject * parent) : QObject(parent)
 }
 
 void SCTimerService::setTimer(
-		TimedInterface * statemachine,
-		sc::eventid      event,
-		sc::integer      time_ms,
-		bool             is_periodic)
+	std::shared_ptr<TimedInterface>  statemachine,
+	sc::eventid                      event,
+	sc::integer                      time_ms,
+	bool                             is_periodic)
 {
-	SCTimer *  timer          = getTimer(statemachine, event);
+	SCTimer  * timer          = getTimer(statemachine.get(), event);
 	const bool high_precision = (time_ms % 1000) != 0;
 
 	// amor the timer
@@ -41,10 +41,10 @@ void SCTimerService::setTimer(
 }
 
 void SCTimerService::unsetTimer(
-		TimedInterface * statemachine,
-		sc::eventid      event)
+	std::shared_ptr<TimedInterface>  statemachine,
+	sc::eventid                      event)
 {
-	SCTimer * timer = this->getTimer(statemachine, event);
+	SCTimer * timer = this->getTimer(statemachine.get(), event);
 
 	if (timer != nullptr)
 	{
@@ -53,8 +53,8 @@ void SCTimerService::unsetTimer(
 }
 
 SCTimer * SCTimerService::getTimer(
-		TimedInterface * statemachine,
-		sc::eventid      event)
+	TimedInterface * statemachine,
+	sc::eventid      event)
 {
 	TimerKey  key(statemachine, event);
 	SCTimer * timer;

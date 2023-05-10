@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #ifndef CALCULATORSTATEMACHINE_H_
 #define CALCULATORSTATEMACHINE_H_
@@ -12,7 +12,9 @@ class CalculatorStatemachine;
 #include <deque>
 #include "../src-qt-lib/sc_types.h"
 #include "../src-qt-lib/sc_statemachine.h"
+#include "../src-qt-lib/sc_eventdriven.h"
 #include "../src-qt-lib/sc_timer.h"
+#include <memory>
 #include <QObject>
 
 /*! \file
@@ -20,12 +22,12 @@ Header of the state machine 'Calculator'.
 */
 
 
-class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface, public sc::StatemachineInterface
+class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface, public std::enable_shared_from_this<sc::timer::TimedInterface>, public sc::EventDrivenInterface
 {
 	Q_OBJECT
 	
 	public:
-		CalculatorStatemachine(QObject *parent);
+		explicit CalculatorStatemachine(QObject *parent) noexcept;
 		
 		virtual ~CalculatorStatemachine();
 		
@@ -40,9 +42,9 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		};
 		
 		/*! The number of states. */
-		static const sc::integer numStates = 2;
-		static const sc::integer scvi_main_region_active = 0;
-		static const sc::integer scvi_main_region__final_ = 0;
+		static constexpr const sc::integer numStates {2};
+		static constexpr const sc::integer scvi_main_region_active {0};
+		static constexpr const sc::integer scvi_main_region__final_ {0};
 		
 		/*! Enumeration of all events which are consumed. */
 		enum class Event
@@ -70,19 +72,17 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		class EventInstance
 		{
 			public:
-				explicit EventInstance(Event id) : eventId(id){}
+				explicit  EventInstance(Event id) noexcept : eventId(id){}
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
 		
-		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
-		void triggerWithoutEvent();
 		
 		//! Inner class for gui interface scope.
 		class Gui
 		{
 			public:
-				Gui(CalculatorStatemachine* parent);
+				explicit Gui(CalculatorStatemachine* parent) noexcept;
 				
 				
 				
@@ -109,39 +109,37 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 				friend class CalculatorStatemachine;
 				
 				/*! Indicates event 'Button0' of interface scope 'gui' is active. */
-				bool Button0_raised;
+				bool Button0_raised {false};
 				/*! Indicates event 'Button1' of interface scope 'gui' is active. */
-				bool Button1_raised;
+				bool Button1_raised {false};
 				/*! Indicates event 'Button2' of interface scope 'gui' is active. */
-				bool Button2_raised;
+				bool Button2_raised {false};
 				/*! Indicates event 'Button3' of interface scope 'gui' is active. */
-				bool Button3_raised;
+				bool Button3_raised {false};
 				/*! Indicates event 'Button4' of interface scope 'gui' is active. */
-				bool Button4_raised;
+				bool Button4_raised {false};
 				/*! Indicates event 'Button5' of interface scope 'gui' is active. */
-				bool Button5_raised;
+				bool Button5_raised {false};
 				/*! Indicates event 'Button6' of interface scope 'gui' is active. */
-				bool Button6_raised;
+				bool Button6_raised {false};
 				/*! Indicates event 'Button7' of interface scope 'gui' is active. */
-				bool Button7_raised;
+				bool Button7_raised {false};
 				/*! Indicates event 'Button8' of interface scope 'gui' is active. */
-				bool Button8_raised;
+				bool Button8_raised {false};
 				/*! Indicates event 'Button9' of interface scope 'gui' is active. */
-				bool Button9_raised;
+				bool Button9_raised {false};
 				/*! Indicates event 'ButtonAdd' of interface scope 'gui' is active. */
-				bool ButtonAdd_raised;
+				bool ButtonAdd_raised {false};
 				/*! Indicates event 'ButtonSub' of interface scope 'gui' is active. */
-				bool ButtonSub_raised;
+				bool ButtonSub_raised {false};
 				/*! Indicates event 'ButtonMult' of interface scope 'gui' is active. */
-				bool ButtonMult_raised;
+				bool ButtonMult_raised {false};
 				/*! Indicates event 'ButtonDiv' of interface scope 'gui' is active. */
-				bool ButtonDiv_raised;
+				bool ButtonDiv_raised {false};
 				/*! Indicates event 'ButtonEquals' of interface scope 'gui' is active. */
-				bool ButtonEquals_raised;
+				bool ButtonEquals_raised {false};
 				/*! Indicates event 'ButtonClear' of interface scope 'gui' is active. */
-				bool ButtonClear_raised;
-				/*! Value of event 'ShowAccu' of interface scope 'gui'. */
-				sc::integer ShowAccu_value;
+				bool ButtonClear_raised {false};
 				
 				
 			private:
@@ -154,7 +152,7 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		};
 		
 		/*! Returns an instance of the interface class 'Gui'. */
-		Gui* gui();
+		Gui& gui() noexcept;
 		
 		//! Inner class for internal interface scope operation callbacks.
 		class InternalOperationCallback
@@ -180,54 +178,56 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		};
 		
 		/*! Set the working instance of the operation callback interface 'InternalOperationCallback'. */
-		void setInternalOperationCallback(InternalOperationCallback* operationCallback);
+		void setInternalOperationCallback(std::shared_ptr<InternalOperationCallback> operationCallback) noexcept;
 		
+		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
+		void triggerWithoutEvent() override;
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */
-		void enter() override;
+		 void enter() override;
 		
-		void exit() override;
+		 void exit() override;
 		
 		/*!
 		 * Checks if the state machine is active (until 2.4.1 this method was used for states).
 		 * A state machine is active if it has been entered. It is inactive if it has not been entered at all or if it has been exited.
 		 */
-		bool isActive() const override;
+		 bool isActive() const noexcept override;
 		
 		
 		/*!
 		* Checks if all active states are final. 
 		* If there are no active states then the state machine is considered being inactive. In this case this method returns false.
 		*/
-		bool isFinal() const override;
+		 bool isFinal() const noexcept override;
 		
 		/*! 
 		 * Checks if member of the state machine must be set. For example an operation callback.
 		 */
-		bool check() const;
+		bool check() const noexcept;
 		
 		/*
 		 * Functions inherited from TimedStatemachineInterface
 		 */
-		void setTimerService(sc::timer::TimerServiceInterface* timerService_) override;
+		void setTimerService(std::shared_ptr<sc::timer::TimerServiceInterface> timerService_) noexcept override;
 		
-		sc::timer::TimerServiceInterface* getTimerService() override;
+		std::shared_ptr<sc::timer::TimerServiceInterface> getTimerService() noexcept override;
 		
 		void raiseTimeEvent(sc::eventid event) override;
 		
-		sc::integer getNumberOfParallelTimeEvents() override;
+		sc::integer getNumberOfParallelTimeEvents() noexcept override;
 		
 		
 		
 		/*! Checks if the specified state is active (until 2.4.1 the used method for states was calles isActive()). */
-		bool isStateActive(State state) const;
+		bool isStateActive(State state) const noexcept;
 		
 		//! number of time events used by the state machine.
-		static const sc::integer timeEventsCount = 1;
+		static const sc::integer timeEventsCount {1};
 		
 		//! number of time events that can be active at once.
-		static const sc::integer parallelTimeEventsCount = 1;
+		static const sc::integer parallelTimeEventsCount {1};
 		
 		
 	public slots:
@@ -292,25 +292,26 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		CalculatorStatemachine(const CalculatorStatemachine &rhs);
 		CalculatorStatemachine& operator=(const CalculatorStatemachine&);
 		
-		sc::integer operand;
-		sc::integer accu;
+		sc::integer operand {0};
+		sc::integer accu {0};
 		
 		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates = 1;
+		static const sc::ushort maxOrthogonalStates {1};
 		
-		sc::timer::TimerServiceInterface* timerService;
+		std::shared_ptr<sc::timer::TimerServiceInterface> timerService;
 		bool timeEvents[timeEventsCount];
 		
 		
 		State stateConfVector[maxOrthogonalStates];
 		
 		
-		Gui ifaceGui;
-		InternalOperationCallback* ifaceInternalOperationCallback;
+		Gui ifaceGui {Gui{nullptr}};
 		
+		std::shared_ptr<InternalOperationCallback> ifaceInternalOperationCallback {nullptr};
 		
-		bool isExecuting;
+		bool isExecuting {false};
+		
 		
 		
 		// prototypes of all internal functions
@@ -327,18 +328,18 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_active_react(const sc::integer transitioned_before);
 		sc::integer main_region__final__react(const sc::integer transitioned_before);
-		void clearInEvents();
+		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
 		
 		
 		
 		
-		std::deque<EventInstance*> incomingEventQueue;
+		std::deque<std::unique_ptr<EventInstance>> incomingEventQueue;
 		
-		EventInstance* getNextEvent();
+		std::unique_ptr<EventInstance> getNextEvent() noexcept;
 		
-		void dispatchEvent(EventInstance* event);
+		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
 		

@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "OrthogonalStatemachine.h"
 
@@ -9,14 +9,13 @@ Implementation of the state machine 'Orthogonal'
 
 
 
-OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent) :
-	QObject(parent),
+OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent) noexcept :
 	left(0),
 	right(0),
+	trigger_raised(false),
 	ifaceOperationCallback(nullptr),
 	isExecuting(false),
-	stateConfVectorPosition(0),
-	trigger_raised(false)
+	stateConfVectorPosition(0)
 {
 	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
 		stateConfVector[state_vec_pos] = OrthogonalStatemachine::State::NO_STATE;
@@ -30,12 +29,12 @@ OrthogonalStatemachine::~OrthogonalStatemachine()
 
 
 
-OrthogonalStatemachine::EventInstance* OrthogonalStatemachine::getNextEvent()
+std::unique_ptr<OrthogonalStatemachine::EventInstance> OrthogonalStatemachine::getNextEvent() noexcept
 {
-	OrthogonalStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<OrthogonalStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -44,10 +43,15 @@ OrthogonalStatemachine::EventInstance* OrthogonalStatemachine::getNextEvent()
 }					
 
 
-void OrthogonalStatemachine::dispatchEvent(OrthogonalStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool OrthogonalStatemachine::dispatchEvent(std::unique_ptr<OrthogonalStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -60,21 +64,23 @@ void OrthogonalStatemachine::dispatchEvent(OrthogonalStatemachine::EventInstance
 		
 		
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void OrthogonalStatemachine::trigger() {
-	incomingEventQueue.push_back(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger));
+	incomingEventQueue.push_back(std::unique_ptr<OrthogonalStatemachine::EventInstance>(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger)))
+	;
 	runCycle();
 }
 
 
 
-bool OrthogonalStatemachine::isActive() const
+bool OrthogonalStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != OrthogonalStatemachine::State::NO_STATE||stateConfVector[1] != OrthogonalStatemachine::State::NO_STATE;
 }
@@ -82,11 +88,12 @@ bool OrthogonalStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool OrthogonalStatemachine::isFinal() const
+bool OrthogonalStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool OrthogonalStatemachine::check() const {
+bool OrthogonalStatemachine::check() const noexcept{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
@@ -94,7 +101,7 @@ bool OrthogonalStatemachine::check() const {
 }
 
 
-bool OrthogonalStatemachine::isStateActive(State state) const
+bool OrthogonalStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -117,27 +124,27 @@ bool OrthogonalStatemachine::isStateActive(State state) const
 	}
 }
 
-sc::integer OrthogonalStatemachine::getLeft() const
+sc::integer OrthogonalStatemachine::getLeft() const noexcept
 {
 	return left;
 }
 
-void OrthogonalStatemachine::setLeft(sc::integer left_)
+void OrthogonalStatemachine::setLeft(sc::integer left_) noexcept
 {
 	this->left = left_;
 }
 
-sc::integer OrthogonalStatemachine::getRight() const
+sc::integer OrthogonalStatemachine::getRight() const noexcept
 {
 	return right;
 }
 
-void OrthogonalStatemachine::setRight(sc::integer right_)
+void OrthogonalStatemachine::setRight(sc::integer right_) noexcept
 {
 	this->right = right_;
 }
 
-void OrthogonalStatemachine::setOperationCallback(OperationCallback* operationCallback)
+void OrthogonalStatemachine::setOperationCallback(std::shared_ptr<OperationCallback> operationCallback) noexcept
 {
 	ifaceOperationCallback = operationCallback;
 }
@@ -276,15 +283,15 @@ sc::integer OrthogonalStatemachine::Right_State_react(const sc::integer transiti
 			transitioned_after = 1;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void OrthogonalStatemachine::clearInEvents() {
+void OrthogonalStatemachine::clearInEvents() noexcept {
 	trigger_raised = false;
 }
 
@@ -330,8 +337,7 @@ void OrthogonalStatemachine::runCycle() {
 	{ 
 		microStep();
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (trigger_raised);
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

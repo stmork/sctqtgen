@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "SynchronizationStatemachine.h"
 
@@ -9,14 +9,14 @@ Implementation of the state machine 'Synchronization'
 
 
 
-SynchronizationStatemachine::SynchronizationStatemachine(QObject *parent) :
-	QObject(parent),
+SynchronizationStatemachine::SynchronizationStatemachine(QObject *parent) noexcept :
+	start_raised(false),
+	triggerLeft_raised(false),
+	triggerRight_raised(false),
 	ifaceOperationCallback(nullptr),
 	isExecuting(false),
 	stateConfVectorPosition(0),
-	start_raised(false),
-	triggerLeft_raised(false),
-	triggerRight_raised(false)
+	stateConfVectorChanged(false)
 {
 	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
 		stateConfVector[state_vec_pos] = SynchronizationStatemachine::State::NO_STATE;
@@ -30,12 +30,12 @@ SynchronizationStatemachine::~SynchronizationStatemachine()
 
 
 
-SynchronizationStatemachine::EventInstance* SynchronizationStatemachine::getNextEvent()
+std::unique_ptr<SynchronizationStatemachine::EventInstance> SynchronizationStatemachine::getNextEvent() noexcept
 {
-	SynchronizationStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<SynchronizationStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -44,10 +44,15 @@ SynchronizationStatemachine::EventInstance* SynchronizationStatemachine::getNext
 }					
 
 
-void SynchronizationStatemachine::dispatchEvent(SynchronizationStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool SynchronizationStatemachine::dispatchEvent(std::unique_ptr<SynchronizationStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -70,33 +75,37 @@ void SynchronizationStatemachine::dispatchEvent(SynchronizationStatemachine::Eve
 		
 		
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void SynchronizationStatemachine::start() {
-	incomingEventQueue.push_back(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::start));
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::start)))
+	;
 	runCycle();
 }
 
 
 void SynchronizationStatemachine::triggerLeft() {
-	incomingEventQueue.push_back(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerLeft));
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerLeft)))
+	;
 	runCycle();
 }
 
 
 void SynchronizationStatemachine::triggerRight() {
-	incomingEventQueue.push_back(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerRight));
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerRight)))
+	;
 	runCycle();
 }
 
 
 
-bool SynchronizationStatemachine::isActive() const
+bool SynchronizationStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != SynchronizationStatemachine::State::NO_STATE||stateConfVector[1] != SynchronizationStatemachine::State::NO_STATE;
 }
@@ -104,11 +113,12 @@ bool SynchronizationStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool SynchronizationStatemachine::isFinal() const
+bool SynchronizationStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool SynchronizationStatemachine::check() const {
+bool SynchronizationStatemachine::check() const noexcept{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
@@ -116,7 +126,7 @@ bool SynchronizationStatemachine::check() const {
 }
 
 
-bool SynchronizationStatemachine::isStateActive(State state) const
+bool SynchronizationStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -164,7 +174,7 @@ bool SynchronizationStatemachine::isStateActive(State state) const
 	}
 }
 
-void SynchronizationStatemachine::setOperationCallback(OperationCallback* operationCallback)
+void SynchronizationStatemachine::setOperationCallback(std::shared_ptr<OperationCallback> operationCallback) noexcept
 {
 	ifaceOperationCallback = operationCallback;
 }
@@ -226,6 +236,7 @@ void SynchronizationStatemachine::enseq_main_region_Split_left_Action_default()
 	enact_main_region_Split_left_Action();
 	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Split_left_Action;
 	stateConfVectorPosition = 0;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for state Wait */
@@ -235,6 +246,7 @@ void SynchronizationStatemachine::enseq_main_region_Split_left_Wait_default()
 	enact_main_region_Split_left_Wait();
 	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Split_left_Wait;
 	stateConfVectorPosition = 0;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for state Action */
@@ -244,6 +256,7 @@ void SynchronizationStatemachine::enseq_main_region_Split_right_Action_default()
 	enact_main_region_Split_right_Action();
 	stateConfVector[1] = SynchronizationStatemachine::State::main_region_Split_right_Action;
 	stateConfVectorPosition = 1;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for state Wait */
@@ -253,6 +266,7 @@ void SynchronizationStatemachine::enseq_main_region_Split_right_Wait_default()
 	enact_main_region_Split_right_Wait();
 	stateConfVector[1] = SynchronizationStatemachine::State::main_region_Split_right_Wait;
 	stateConfVectorPosition = 1;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for state Wait */
@@ -262,6 +276,7 @@ void SynchronizationStatemachine::enseq_main_region_Wait_default()
 	enact_main_region_Wait();
 	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Wait;
 	stateConfVectorPosition = 0;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for state Completed */
@@ -271,6 +286,7 @@ void SynchronizationStatemachine::enseq_main_region_Completed_default()
 	enact_main_region_Completed();
 	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Completed;
 	stateConfVectorPosition = 0;
+	stateConfVectorChanged = true;
 }
 
 /* 'default' enter sequence for region main region */
@@ -463,14 +479,8 @@ sc::integer SynchronizationStatemachine::react(const sc::integer transitioned_be
 sc::integer SynchronizationStatemachine::main_region_Split_react(const sc::integer transitioned_before) {
 	/* The reactions of state Split. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
-	} 
 	/* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = react(transitioned_before);
-	} 
+	transitioned_after = react(transitioned_before);
 	return transitioned_after;
 }
 
@@ -517,9 +527,9 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(co
 			transitioned_after = 1;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Split_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -537,9 +547,9 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Wait_react(cons
 			transitioned_after = 1;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Split_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -557,9 +567,9 @@ sc::integer SynchronizationStatemachine::main_region_Wait_react(const sc::intege
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -578,15 +588,15 @@ sc::integer SynchronizationStatemachine::main_region_Completed_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void SynchronizationStatemachine::clearInEvents() {
+void SynchronizationStatemachine::clearInEvents() noexcept {
 	start_raised = false;
 	triggerLeft_raised = false;
 	triggerRight_raised = false;
@@ -652,10 +662,13 @@ void SynchronizationStatemachine::runCycle() {
 	dispatchEvent(getNextEvent());
 	do
 	{ 
-		microStep();
+		do
+		{ 
+			stateConfVectorChanged = false;
+			microStep();
+		} while (stateConfVectorChanged);
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (((start_raised) || (triggerLeft_raised)) || (triggerRight_raised));
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 
@@ -668,6 +681,11 @@ void SynchronizationStatemachine::enter() {
 	isExecuting = true;
 	/* Default enter sequence for statechart Synchronization */
 	enseq_main_region_default();
+	do
+	{ 
+		stateConfVectorChanged = false;
+		microStep();
+	} while (stateConfVectorChanged);
 	isExecuting = false;
 }
 

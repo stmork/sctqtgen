@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "TriggerStatemachine.h"
 
@@ -9,13 +9,12 @@ Implementation of the state machine 'Trigger'
 
 
 
-TriggerStatemachine::TriggerStatemachine(QObject *parent) :
-	QObject(parent),
+TriggerStatemachine::TriggerStatemachine(QObject *parent) noexcept :
+	trigger_raised(false),
 	timerService(nullptr),
 	ifaceGui(nullptr),
 	isExecuting(false),
-	stateConfVectorPosition(0),
-	trigger_raised(false)
+	stateConfVectorPosition(0)
 {
 	this->ifaceGui.parent = this;
 	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
@@ -29,25 +28,23 @@ TriggerStatemachine::~TriggerStatemachine()
 {
 }
 
-TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) :
-	counter(0),
-	pressed_raised(false),
+TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) noexcept :
 	parent(parent_)
 {
 }
 
 
 
-TriggerStatemachine::EventInstance* TriggerStatemachine::getNextEvent()
+std::unique_ptr<TriggerStatemachine::EventInstance> TriggerStatemachine::getNextEvent() noexcept
 {
-	TriggerStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<TriggerStatemachine::EventInstance> nextEvent = 0;
 
 	if(!internalEventQueue.empty()) {
-		nextEvent = internalEventQueue.front();
+		nextEvent = std::move(internalEventQueue.front());
 		internalEventQueue.pop_front();
 	}
 	else if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -56,10 +53,15 @@ TriggerStatemachine::EventInstance* TriggerStatemachine::getNextEvent()
 }					
 
 
-void TriggerStatemachine::dispatchEvent(TriggerStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool TriggerStatemachine::dispatchEvent(std::unique_ptr<TriggerStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -84,21 +86,23 @@ void TriggerStatemachine::dispatchEvent(TriggerStatemachine::EventInstance * eve
 			break;
 		}
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void TriggerStatemachine::gui_pressed() {
-	incomingEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed));
+	incomingEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed)))
+	;
 	runCycle();
 }
 
 
 
-bool TriggerStatemachine::isActive() const
+bool TriggerStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != TriggerStatemachine::State::NO_STATE||stateConfVector[1] != TriggerStatemachine::State::NO_STATE||stateConfVector[2] != TriggerStatemachine::State::NO_STATE||stateConfVector[3] != TriggerStatemachine::State::NO_STATE;
 }
@@ -106,11 +110,12 @@ bool TriggerStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool TriggerStatemachine::isFinal() const
+bool TriggerStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool TriggerStatemachine::check() const {
+bool TriggerStatemachine::check() const noexcept{
 	if(timerService == nullptr) {
 		return false;
 	}
@@ -118,17 +123,17 @@ bool TriggerStatemachine::check() const {
 }
 
 
-void TriggerStatemachine::setTimerService(sc::timer::TimerServiceInterface* timerService_)
+void TriggerStatemachine::setTimerService(std::shared_ptr<sc::timer::TimerServiceInterface> timerService_) noexcept
 {
 	this->timerService = timerService_;
 }
 
-sc::timer::TimerServiceInterface* TriggerStatemachine::getTimerService()
+std::shared_ptr<sc::timer::TimerServiceInterface> TriggerStatemachine::getTimerService() noexcept
 {
 	return timerService;
 }
 
-sc::integer TriggerStatemachine::getNumberOfParallelTimeEvents() {
+sc::integer TriggerStatemachine::getNumberOfParallelTimeEvents() noexcept {
 	return parallelTimeEventsCount;
 }
 
@@ -136,13 +141,13 @@ void TriggerStatemachine::raiseTimeEvent(sc::eventid evid)
 {
 	if (evid < timeEventsCount)
 	{
-		incomingEventQueue.push_back(new EventInstance(static_cast<TriggerStatemachine::Event>(evid + static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_))));
+		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<TriggerStatemachine::Event>(evid + static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_)))));
 		runCycle();
 	}
 }
 
 
-bool TriggerStatemachine::isStateActive(State state) const
+bool TriggerStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -200,16 +205,16 @@ bool TriggerStatemachine::isStateActive(State state) const
 	}
 }
 
-TriggerStatemachine::Gui* TriggerStatemachine::gui()
+TriggerStatemachine::Gui& TriggerStatemachine::gui() noexcept
 {
-	return &ifaceGui;
+	return ifaceGui;
 }
-sc::integer TriggerStatemachine::Gui::getCounter() const
+sc::integer TriggerStatemachine::Gui::getCounter() const noexcept
 {
 	return counter;
 }
 
-void TriggerStatemachine::Gui::setCounter(sc::integer counter_)
+void TriggerStatemachine::Gui::setCounter(sc::integer counter_) noexcept
 {
 	this->counter = counter_;
 }
@@ -237,42 +242,42 @@ void TriggerStatemachine::enact_main_region_Lanes()
 void TriggerStatemachine::enact_main_region_Lanes_r1_A()
 {
 	/* Entry action for state 'A'. */
-	timerService->setTimer(this, 0, 200, false);
+	timerService->setTimer(shared_from_this(), 0, 200, false);
 }
 
 /* Entry action for state 'B'. */
 void TriggerStatemachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timerService->setTimer(this, 1, (1 * 1000), false);
+	timerService->setTimer(shared_from_this(), 1, (1 * 1000), false);
 }
 
 /* Entry action for state 'C'. */
 void TriggerStatemachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timerService->setTimer(this, 2, 1500, false);
+	timerService->setTimer(shared_from_this(), 2, 1500, false);
 }
 
 /* Exit action for state 'A'. */
 void TriggerStatemachine::exact_main_region_Lanes_r1_A()
 {
 	/* Exit action for state 'A'. */
-	timerService->unsetTimer(this, 0);
+	timerService->unsetTimer(shared_from_this(), 0);
 }
 
 /* Exit action for state 'B'. */
 void TriggerStatemachine::exact_main_region_Lanes_r2_B()
 {
 	/* Exit action for state 'B'. */
-	timerService->unsetTimer(this, 1);
+	timerService->unsetTimer(shared_from_this(), 1);
 }
 
 /* Exit action for state 'C'. */
 void TriggerStatemachine::exact_main_region_Lanes_r3_C()
 {
 	/* Exit action for state 'C'. */
-	timerService->unsetTimer(this, 2);
+	timerService->unsetTimer(shared_from_this(), 2);
 }
 
 /* 'default' enter sequence for state Wait */
@@ -680,9 +685,9 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -691,14 +696,8 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 sc::integer TriggerStatemachine::main_region_Lanes_react(const sc::integer transitioned_before) {
 	/* The reactions of state Lanes. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
-	} 
 	/* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = react(transitioned_before);
-	} 
+	transitioned_after = react(transitioned_before);
 	return transitioned_after;
 }
 
@@ -711,7 +710,8 @@ sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r1_A();
 			ifaceGui.counter += 1;
-			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
+			;
 			timeEvents[0] = false;
 			enseq_main_region_Lanes_r1__final__default();
 			transitioned_after = 0;
@@ -722,11 +722,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer 
 
 sc::integer TriggerStatemachine::main_region_Lanes_r1__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
-	} 
-	return transitioned_after;
+	return transitioned_before;
 }
 
 sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer transitioned_before) {
@@ -738,7 +734,8 @@ sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r2_B();
 			ifaceGui.counter += 1;
-			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
+			;
 			timeEvents[1] = false;
 			enseq_main_region_Lanes_r2__final__default();
 			transitioned_after = 1;
@@ -749,11 +746,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer 
 
 sc::integer TriggerStatemachine::main_region_Lanes_r2__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (1))
-	{ 
-	} 
-	return transitioned_after;
+	return transitioned_before;
 }
 
 sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer transitioned_before) {
@@ -765,7 +758,8 @@ sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r3_C();
 			ifaceGui.counter += 1;
-			internalEventQueue.push_back(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger));
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
+			;
 			timeEvents[2] = false;
 			enseq_main_region_Lanes_r3__final__default();
 			transitioned_after = 2;
@@ -776,11 +770,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer 
 
 sc::integer TriggerStatemachine::main_region_Lanes_r3__final__react(const sc::integer transitioned_before) {
 	/* The reactions of state null. */
-	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (2))
-	{ 
-	} 
-	return transitioned_after;
+	return transitioned_before;
 }
 
 sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::integer transitioned_before) {
@@ -796,23 +786,23 @@ sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::in
 			transitioned_after = 3;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		emit gui_update();
 		transitioned_after = main_region_Lanes_react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void TriggerStatemachine::clearInEvents() {
+void TriggerStatemachine::clearInEvents() noexcept {
 	ifaceGui.pressed_raised = false;
 	timeEvents[0] = false;
 	timeEvents[1] = false;
 	timeEvents[2] = false;
 }
 
-void TriggerStatemachine::clearInternalEvents() {
+void TriggerStatemachine::clearInternalEvents() noexcept {
 	trigger_raised = false;
 }
 
@@ -907,8 +897,7 @@ void TriggerStatemachine::runCycle() {
 		microStep();
 		clearInEvents();
 		clearInternalEvents();
-		dispatchEvent(getNextEvent());
-	} while (((((ifaceGui.pressed_raised) || (trigger_raised)) || (timeEvents[0])) || (timeEvents[1])) || (timeEvents[2]));
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

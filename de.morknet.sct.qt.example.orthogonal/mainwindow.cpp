@@ -2,8 +2,11 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget * parent) :
-	QMainWindow(parent), ui(new Ui::MainWindow),
-	statemachine(this)
+	QMainWindow(parent),
+	SelfPointer<OrthogonalStatemachine::OperationCallback>(this),
+	ui(new Ui::MainWindow),
+	statemachine(nullptr),
+	sm_ptr(&statemachine)
 {
 	ui->setupUi(this);
 	ui->bothRadioButton->setChecked(true);
@@ -30,7 +33,7 @@ MainWindow::MainWindow(QWidget * parent) :
 		QApplication::quit();
 	});
 
-	statemachine.setOperationCallback(this);
+	statemachine.setOperationCallback(self);
 	statemachine.enter();
 }
 

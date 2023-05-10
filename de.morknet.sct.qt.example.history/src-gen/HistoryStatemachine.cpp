@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 - Steffen A. Mork */
+/* Copyright (C) 2023 - Steffen A. Mork */
 
 #include "HistoryStatemachine.h"
 
@@ -9,13 +9,12 @@ Implementation of the state machine 'History'
 
 
 
-HistoryStatemachine::HistoryStatemachine(QObject *parent) :
-	QObject(parent),
-	ifaceOperationCallback(nullptr),
-	isExecuting(false),
+HistoryStatemachine::HistoryStatemachine(QObject *parent) noexcept :
 	proceed_raised(false),
 	toggle_raised(false),
-	outside_raised(false)
+	outside_raised(false),
+	ifaceOperationCallback(nullptr),
+	isExecuting(false)
 {
 	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
 		stateConfVector[state_vec_pos] = HistoryStatemachine::State::NO_STATE;
@@ -32,12 +31,12 @@ HistoryStatemachine::~HistoryStatemachine()
 
 
 
-HistoryStatemachine::EventInstance* HistoryStatemachine::getNextEvent()
+std::unique_ptr<HistoryStatemachine::EventInstance> HistoryStatemachine::getNextEvent() noexcept
 {
-	HistoryStatemachine::EventInstance* nextEvent = 0;
+	std::unique_ptr<HistoryStatemachine::EventInstance> nextEvent = 0;
 
 	if(!incomingEventQueue.empty()) {
-		nextEvent = incomingEventQueue.front();
+		nextEvent = std::move(incomingEventQueue.front());
 		incomingEventQueue.pop_front();
 	}
 	
@@ -46,10 +45,15 @@ HistoryStatemachine::EventInstance* HistoryStatemachine::getNextEvent()
 }					
 
 
-void HistoryStatemachine::dispatchEvent(HistoryStatemachine::EventInstance * event)
+template<typename EWV, typename EV>
+std::unique_ptr<EWV> cast_event_pointer_type (std::unique_ptr<EV>&& event){
+    return std::unique_ptr<EWV>{static_cast<EWV*>(event.release())};
+}
+	
+bool HistoryStatemachine::dispatchEvent(std::unique_ptr<HistoryStatemachine::EventInstance> event) noexcept
 {
 	if(event == nullptr) {
-		return;
+		return false;
 	}
 								
 	switch(event->eventId)
@@ -72,33 +76,37 @@ void HistoryStatemachine::dispatchEvent(HistoryStatemachine::EventInstance * eve
 		
 		
 		default:
-			/* do nothing */
-			break;
+			//pointer got out of scope
+			return false;
 	}
-	delete event;
+	//pointer got out of scope
+	return true;
 }
 
 
 void HistoryStatemachine::proceed() {
-	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed));
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed)))
+	;
 	runCycle();
 }
 
 
 void HistoryStatemachine::toggle() {
-	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle));
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle)))
+	;
 	runCycle();
 }
 
 
 void HistoryStatemachine::outside() {
-	incomingEventQueue.push_back(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside));
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside)))
+	;
 	runCycle();
 }
 
 
 
-bool HistoryStatemachine::isActive() const
+bool HistoryStatemachine::isActive() const noexcept
 {
 	return stateConfVector[0] != HistoryStatemachine::State::NO_STATE;
 }
@@ -106,11 +114,12 @@ bool HistoryStatemachine::isActive() const
 /* 
  * Always returns 'false' since this state machine can never become final.
  */
-bool HistoryStatemachine::isFinal() const
+bool HistoryStatemachine::isFinal() const noexcept
 {
-   return false;}
+	   return false;
+}
 
-bool HistoryStatemachine::check() const {
+bool HistoryStatemachine::check() const noexcept{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
@@ -118,7 +127,7 @@ bool HistoryStatemachine::check() const {
 }
 
 
-bool HistoryStatemachine::isStateActive(State state) const
+bool HistoryStatemachine::isStateActive(State state) const noexcept
 {
 	switch (state)
 	{
@@ -176,7 +185,7 @@ bool HistoryStatemachine::isStateActive(State state) const
 	}
 }
 
-void HistoryStatemachine::setOperationCallback(OperationCallback* operationCallback)
+void HistoryStatemachine::setOperationCallback(std::shared_ptr<OperationCallback> operationCallback) noexcept
 {
 	ifaceOperationCallback = operationCallback;
 }
@@ -682,9 +691,9 @@ sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer trans
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -703,9 +712,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -724,9 +733,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Red_re
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -745,9 +754,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Blue_r
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -766,9 +775,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Green_
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -787,9 +796,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -808,9 +817,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Magen
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_main_StateB_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -829,9 +838,9 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Cyan_
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = main_region_Start_main_StateB_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -850,15 +859,15 @@ sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer tra
 			transitioned_after = 0;
 		} 
 	} 
-	/* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
+		/* If no transition was taken then execute local reactions */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
 }
 
-void HistoryStatemachine::clearInEvents() {
+void HistoryStatemachine::clearInEvents() noexcept {
 	proceed_raised = false;
 	toggle_raised = false;
 	outside_raised = false;
@@ -915,8 +924,7 @@ void HistoryStatemachine::runCycle() {
 	{ 
 		microStep();
 		clearInEvents();
-		dispatchEvent(getNextEvent());
-	} while (((proceed_raised) || (toggle_raised)) || (outside_raised));
+	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 

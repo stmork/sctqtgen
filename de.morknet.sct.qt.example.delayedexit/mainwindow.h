@@ -18,8 +18,8 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 private:
-	StateMachine dsm;
-	QTimer              timer;
+	StateMachine  dsm;
+	QTimer        timer;
 
 public:
 	explicit MainWindow(QWidget * parent = 0);

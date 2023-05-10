@@ -1,29 +1,32 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget * parent) :
 	QMainWindow(parent),
+	SelfPointer<SynchronizationStatemachine::OperationCallback>(this),
 	ui(new Ui::MainWindow),
-	statemachine(nullptr)
+	statemachine(nullptr),
+	sm_ptr(&statemachine)
 {
 	ui->setupUi(this);
 
 	connect(
-				ui->startButton, &QPushButton::clicked,
-				&statemachine, &SynchronizationStatemachine::start);
+		ui->startButton, &QPushButton::clicked,
+		&statemachine, &SynchronizationStatemachine::start);
 	connect(
-				ui->leftButton, &QPushButton::clicked,
-				&statemachine, &SynchronizationStatemachine::triggerLeft);
+		ui->leftButton, &QPushButton::clicked,
+		&statemachine, &SynchronizationStatemachine::triggerLeft);
 	connect(
-				ui->rightButton, &QPushButton::clicked,
-				&statemachine, &SynchronizationStatemachine::triggerRight);
+		ui->rightButton, &QPushButton::clicked,
+		&statemachine, &SynchronizationStatemachine::triggerRight);
 
-	statemachine.setOperationCallback(this);
+	statemachine.setOperationCallback(self);
 	statemachine.enter();
 }
 
 MainWindow::~MainWindow()
 {
+	statemachine.exit();
 	delete ui;
 }
 
@@ -65,4 +68,3 @@ void MainWindow::completed()
 	ui->left->setText("-");
 	ui->right->setText("-");
 }
-

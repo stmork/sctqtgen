@@ -14,6 +14,7 @@ SOURCES += \
 HEADERS += \
 	mainwindow.h \
 	src-gen/HistoryStatemachine.h \
+	src-lib/sc_self_pointer.h \
 	src-lib/sc_statemachine.h \
 	src-lib/sc_types.h
 
