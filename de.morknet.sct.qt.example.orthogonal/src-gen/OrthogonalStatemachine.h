@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef ORTHOGONALSTATEMACHINE_H_
 #define ORTHOGONALSTATEMACHINE_H_
@@ -14,6 +14,7 @@ class OrthogonalStatemachine;
 #include "../src-lib/sc_statemachine.h"
 #include "../src-lib/sc_eventdriven.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -63,16 +64,12 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		/*! Gets the value of the variable 'left' that is defined in the default interface scope. */
 		sc::integer getLeft() const noexcept;
-		
 		/*! Sets the value of the variable 'left' that is defined in the default interface scope. */
 		void setLeft(sc::integer left) noexcept;
-		
 		/*! Gets the value of the variable 'right' that is defined in the default interface scope. */
 		sc::integer getRight() const noexcept;
-		
 		/*! Sets the value of the variable 'right' that is defined in the default interface scope. */
 		void setRight(sc::integer right) noexcept;
-		
 		//! Inner class for default interface scope operation callbacks.
 		class OperationCallback
 		{
@@ -148,6 +145,7 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		sc::integer right {0};
 		
 		
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc::ushort maxOrthogonalStates {2};
 		
@@ -182,7 +180,6 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
-		
 		
 		
 		

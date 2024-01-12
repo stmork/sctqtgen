@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef SYNCHRONIZATIONSTATEMACHINE_H_
 #define SYNCHRONIZATIONSTATEMACHINE_H_
@@ -14,6 +14,7 @@ class SynchronizationStatemachine;
 #include "../src-lib/sc_statemachine.h"
 #include "../src-lib/sc_eventdriven.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -160,6 +161,7 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		
 		
 		
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc::ushort maxOrthogonalStates {2};
 		
@@ -217,7 +219,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
-		
 		
 		
 		

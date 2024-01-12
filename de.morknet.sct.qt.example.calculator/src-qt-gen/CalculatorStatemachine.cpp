@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "CalculatorStatemachine.h"
 
@@ -158,6 +158,7 @@ bool CalculatorStatemachine::dispatchEvent(std::unique_ptr<CalculatorStatemachin
 }
 
 
+/*! Slot for the in event 'Button0' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button0() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button0)))
 	;
@@ -165,6 +166,7 @@ void CalculatorStatemachine::gui_Button0() {
 }
 
 
+/*! Slot for the in event 'Button1' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button1() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button1)))
 	;
@@ -172,6 +174,7 @@ void CalculatorStatemachine::gui_Button1() {
 }
 
 
+/*! Slot for the in event 'Button2' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button2() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button2)))
 	;
@@ -179,6 +182,7 @@ void CalculatorStatemachine::gui_Button2() {
 }
 
 
+/*! Slot for the in event 'Button3' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button3() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button3)))
 	;
@@ -186,6 +190,7 @@ void CalculatorStatemachine::gui_Button3() {
 }
 
 
+/*! Slot for the in event 'Button4' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button4() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button4)))
 	;
@@ -193,6 +198,7 @@ void CalculatorStatemachine::gui_Button4() {
 }
 
 
+/*! Slot for the in event 'Button5' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button5() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button5)))
 	;
@@ -200,6 +206,7 @@ void CalculatorStatemachine::gui_Button5() {
 }
 
 
+/*! Slot for the in event 'Button6' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button6() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button6)))
 	;
@@ -207,6 +214,7 @@ void CalculatorStatemachine::gui_Button6() {
 }
 
 
+/*! Slot for the in event 'Button7' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button7() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button7)))
 	;
@@ -214,6 +222,7 @@ void CalculatorStatemachine::gui_Button7() {
 }
 
 
+/*! Slot for the in event 'Button8' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button8() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button8)))
 	;
@@ -221,6 +230,7 @@ void CalculatorStatemachine::gui_Button8() {
 }
 
 
+/*! Slot for the in event 'Button9' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button9() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button9)))
 	;
@@ -228,6 +238,7 @@ void CalculatorStatemachine::gui_Button9() {
 }
 
 
+/*! Slot for the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonAdd() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonAdd)))
 	;
@@ -235,6 +246,7 @@ void CalculatorStatemachine::gui_ButtonAdd() {
 }
 
 
+/*! Slot for the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonSub() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonSub)))
 	;
@@ -242,6 +254,7 @@ void CalculatorStatemachine::gui_ButtonSub() {
 }
 
 
+/*! Slot for the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonMult() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonMult)))
 	;
@@ -249,6 +262,7 @@ void CalculatorStatemachine::gui_ButtonMult() {
 }
 
 
+/*! Slot for the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonDiv() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonDiv)))
 	;
@@ -256,6 +270,7 @@ void CalculatorStatemachine::gui_ButtonDiv() {
 }
 
 
+/*! Slot for the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonEquals() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonEquals)))
 	;
@@ -263,6 +278,7 @@ void CalculatorStatemachine::gui_ButtonEquals() {
 }
 
 
+/*! Slot for the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonClear() {
 	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonClear)))
 	;
@@ -343,6 +359,14 @@ CalculatorStatemachine::Gui& CalculatorStatemachine::gui() noexcept
 {
 	return ifaceGui;
 }
+void CalculatorStatemachine::setOperand(sc::integer operand_) noexcept
+{
+	this->operand = operand_;
+}
+void CalculatorStatemachine::setAccu(sc::integer accu_) noexcept
+{
+	this->accu = accu_;
+}
 void CalculatorStatemachine::setInternalOperationCallback(std::shared_ptr<InternalOperationCallback> operationCallback) noexcept
 {
 	ifaceInternalOperationCallback = operationCallback;
@@ -353,9 +377,9 @@ void CalculatorStatemachine::setInternalOperationCallback(std::shared_ptr<Intern
 void CalculatorStatemachine::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timerService->setTimer(shared_from_this(), 0, (30 * 1000), false);
-	accu = 0;
-	operand = 0;
+	timerService->setTimer(shared_from_this(), 0, (((sc::time) 30) * 1000), false);
+	setAccu(0);
+	setOperand(0);
 }
 
 /* Exit action for state 'active'. */
@@ -462,9 +486,10 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 			} 
 		}
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		if (ifaceGui.Button0_raised)
 		{ 
 			ifaceInternalOperationCallback->Digit(0);
@@ -520,34 +545,34 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 			ifaceInternalOperationCallback->Equals();
 			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Add();
-			accu = 0;
+			setAccu(0);
 		} 
 		if (ifaceGui.ButtonSub_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
 			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Sub();
-			accu = 0;
+			setAccu(0);
 		} 
 		if (ifaceGui.ButtonMult_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
 			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Mult();
-			accu = 0;
+			setAccu(0);
 		} 
 		if (ifaceGui.ButtonDiv_raised)
 		{ 
 			ifaceInternalOperationCallback->Equals();
 			emit gui_ShowAccu(operand);
 			ifaceInternalOperationCallback->Div();
-			accu = 0;
+			setAccu(0);
 		} 
 		if (ifaceGui.ButtonClear_raised)
 		{ 
 			ifaceInternalOperationCallback->Clear();
-			accu = 0;
-			operand = 0;
+			setAccu(0);
+			setOperand(0);
 			emit gui_ShowAccu(accu);
 		} 
 		transitioned_after = react(transitioned_before);

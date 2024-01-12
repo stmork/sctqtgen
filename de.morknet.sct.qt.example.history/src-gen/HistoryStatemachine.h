@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef HISTORYSTATEMACHINE_H_
 #define HISTORYSTATEMACHINE_H_
@@ -14,6 +14,7 @@ class HistoryStatemachine;
 #include "../src-lib/sc_statemachine.h"
 #include "../src-lib/sc_eventdriven.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -152,9 +153,10 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		
 		
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc::ushort maxOrthogonalStates {1};
-			//! dimension of the state configuration vector for history states
+		//! dimension of the state configuration vector for history states
 		static const sc::ushort maxHistoryStates {3};
 		
 		
@@ -225,7 +227,6 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
-		
 		
 		
 		

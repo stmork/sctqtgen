@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef SC_EVENTDRIVEN_H_
 #define SC_EVENTDRIVEN_H_

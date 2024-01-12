@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget * parent) :
 		ui->rightButton, &QPushButton::clicked,
 		&statemachine, &SynchronizationStatemachine::triggerRight);
 
-	statemachine.setOperationCallback(self);
+	statemachine.setOperationCallback(*this);
 	statemachine.enter();
 }
 

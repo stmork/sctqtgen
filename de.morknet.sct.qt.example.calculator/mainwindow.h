@@ -19,8 +19,8 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-	StateMachine              csm;
-	SelfPointer<StateMachine> csm_ptr;
+	StateMachine              statemachine;
+	SelfPointer<StateMachine> sm_ptr;
 
 public:
 	explicit MainWindow(QWidget * parent = 0);

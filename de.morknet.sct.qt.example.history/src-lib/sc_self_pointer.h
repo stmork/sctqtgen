@@ -12,10 +12,14 @@ public:
 	{
 	}
 
-protected:
-	std::shared_ptr<T> self;
+	operator std::shared_ptr<T> & ()
+	{
+		return self;
+	}
 
 private:
+	std::shared_ptr<T> self;
+
 	static void noop(T * ptr)
 	{
 		(void)ptr;

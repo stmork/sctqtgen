@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef CALCULATORSTATEMACHINE_H_
 #define CALCULATORSTATEMACHINE_H_
@@ -15,6 +15,7 @@ class CalculatorStatemachine;
 #include "../src-qt-lib/sc_eventdriven.h"
 #include "../src-qt-lib/sc_timer.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -107,6 +108,7 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 				
 			protected:
 				friend class CalculatorStatemachine;
+				
 				
 				/*! Indicates event 'Button0' of interface scope 'gui' is active. */
 				bool Button0_raised {false};
@@ -296,6 +298,7 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		sc::integer accu {0};
 		
 		
+		
 		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 		static const sc::ushort maxOrthogonalStates {1};
 		
@@ -344,7 +347,10 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		
 		
 	private:
-		
+		/*! Sets the value of the variable 'operand' that is defined in the internal scope. */
+		void setOperand(sc::integer operand) noexcept;
+		/*! Sets the value of the variable 'accu' that is defined in the internal scope. */
+		void setAccu(sc::integer accu) noexcept;
 		
 		
 		

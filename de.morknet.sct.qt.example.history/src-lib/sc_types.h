@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef SC_TYPES_H_
 #define SC_TYPES_H_
@@ -16,6 +16,8 @@ typedef uint_fast16_t  ushort;
 typedef int32_t        integer;
 typedef int16_t		   errorCode;
 typedef double         real;
+
+typedef int32_t       time;
 
 typedef uint_fast16_t  eventid;
 

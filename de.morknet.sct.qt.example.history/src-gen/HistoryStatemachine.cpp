@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "HistoryStatemachine.h"
 
@@ -84,6 +84,7 @@ bool HistoryStatemachine::dispatchEvent(std::unique_ptr<HistoryStatemachine::Eve
 }
 
 
+/*! Slot for the in event 'proceed' that is defined in the default interface scope. */
 void HistoryStatemachine::proceed() {
 	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed)))
 	;
@@ -91,6 +92,7 @@ void HistoryStatemachine::proceed() {
 }
 
 
+/*! Slot for the in event 'toggle' that is defined in the default interface scope. */
 void HistoryStatemachine::toggle() {
 	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle)))
 	;
@@ -98,6 +100,7 @@ void HistoryStatemachine::toggle() {
 }
 
 
+/*! Slot for the in event 'outside' that is defined in the default interface scope. */
 void HistoryStatemachine::outside() {
 	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside)))
 	;
@@ -691,9 +694,10 @@ sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer trans
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -712,9 +716,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -733,9 +738,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Red_re
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -754,9 +760,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Blue_r
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -775,9 +782,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateA_Inner_Left_Green_
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_main_StateA_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -796,9 +804,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -817,9 +826,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Magen
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_main_StateB_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -838,9 +848,10 @@ sc::integer HistoryStatemachine::main_region_Start_main_StateB_Inner_Right_Cyan_
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Start_main_StateB_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -859,9 +870,10 @@ sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer tra
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;

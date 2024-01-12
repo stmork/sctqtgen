@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "TriggerStatemachine.h"
 
@@ -94,6 +94,7 @@ bool TriggerStatemachine::dispatchEvent(std::unique_ptr<TriggerStatemachine::Eve
 }
 
 
+/*! Slot for the in event 'pressed' that is defined in the interface scope 'gui'. */
 void TriggerStatemachine::gui_pressed() {
 	incomingEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed)))
 	;
@@ -211,14 +212,14 @@ TriggerStatemachine::Gui& TriggerStatemachine::gui() noexcept
 }
 sc::integer TriggerStatemachine::Gui::getCounter() const noexcept
 {
-	return counter;
+	return counter
+	;
 }
 
 void TriggerStatemachine::Gui::setCounter(sc::integer counter_) noexcept
 {
 	this->counter = counter_;
 }
-
 
 // implementations of all internal functions
 /* Entry action for state 'Wait'. */
@@ -233,7 +234,7 @@ void TriggerStatemachine::enact_main_region_Wait()
 void TriggerStatemachine::enact_main_region_Lanes()
 {
 	/* Entry action for state 'Lanes'. */
-	ifaceGui.counter = 0;
+	ifaceGui.setCounter(0);
 	emit gui_update();
 	emit gui_lanes();
 }
@@ -242,21 +243,21 @@ void TriggerStatemachine::enact_main_region_Lanes()
 void TriggerStatemachine::enact_main_region_Lanes_r1_A()
 {
 	/* Entry action for state 'A'. */
-	timerService->setTimer(shared_from_this(), 0, 200, false);
+	timerService->setTimer(shared_from_this(), 0, ((sc::time) 200), false);
 }
 
 /* Entry action for state 'B'. */
 void TriggerStatemachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timerService->setTimer(shared_from_this(), 1, (1 * 1000), false);
+	timerService->setTimer(shared_from_this(), 1, (((sc::time) 1) * 1000), false);
 }
 
 /* Entry action for state 'C'. */
 void TriggerStatemachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timerService->setTimer(shared_from_this(), 2, 1500, false);
+	timerService->setTimer(shared_from_this(), 2, ((sc::time) 1500), false);
 }
 
 /* Exit action for state 'A'. */
@@ -685,9 +686,10 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -696,7 +698,7 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 sc::integer TriggerStatemachine::main_region_Lanes_react(const sc::integer transitioned_before) {
 	/* The reactions of state Lanes. */
 	sc::integer transitioned_after = transitioned_before;
-	/* If no transition was taken then execute local reactions */
+	/* Always execute local reactions. */
 	transitioned_after = react(transitioned_before);
 	return transitioned_after;
 }
@@ -709,7 +711,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer 
 		if (timeEvents[0])
 		{ 
 			exseq_main_region_Lanes_r1_A();
-			ifaceGui.counter += 1;
+			ifaceGui.setCounter(ifaceGui.counter + 1);
 			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
 			;
 			timeEvents[0] = false;
@@ -733,7 +735,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer 
 		if (timeEvents[1])
 		{ 
 			exseq_main_region_Lanes_r2_B();
-			ifaceGui.counter += 1;
+			ifaceGui.setCounter(ifaceGui.counter + 1);
 			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
 			;
 			timeEvents[1] = false;
@@ -757,7 +759,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer 
 		if (timeEvents[2])
 		{ 
 			exseq_main_region_Lanes_r3_C();
-			ifaceGui.counter += 1;
+			ifaceGui.setCounter(ifaceGui.counter + 1);
 			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
 			;
 			timeEvents[2] = false;
@@ -786,9 +788,10 @@ sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::in
 			transitioned_after = 3;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		emit gui_update();
 		transitioned_after = main_region_Lanes_react(transitioned_before);
 	} 

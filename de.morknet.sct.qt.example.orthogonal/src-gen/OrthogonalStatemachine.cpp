@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "OrthogonalStatemachine.h"
 
@@ -72,6 +72,7 @@ bool OrthogonalStatemachine::dispatchEvent(std::unique_ptr<OrthogonalStatemachin
 }
 
 
+/*! Slot for the in event 'trigger' that is defined in the default interface scope. */
 void OrthogonalStatemachine::trigger() {
 	incomingEventQueue.push_back(std::unique_ptr<OrthogonalStatemachine::EventInstance>(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger)))
 	;
@@ -126,24 +127,24 @@ bool OrthogonalStatemachine::isStateActive(State state) const noexcept
 
 sc::integer OrthogonalStatemachine::getLeft() const noexcept
 {
-	return left;
+	return left
+	;
 }
 
 void OrthogonalStatemachine::setLeft(sc::integer left_) noexcept
 {
 	this->left = left_;
 }
-
 sc::integer OrthogonalStatemachine::getRight() const noexcept
 {
-	return right;
+	return right
+	;
 }
 
 void OrthogonalStatemachine::setRight(sc::integer right_) noexcept
 {
 	this->right = right_;
 }
-
 void OrthogonalStatemachine::setOperationCallback(std::shared_ptr<OperationCallback> operationCallback) noexcept
 {
 	ifaceOperationCallback = operationCallback;
@@ -283,9 +284,10 @@ sc::integer OrthogonalStatemachine::Right_State_react(const sc::integer transiti
 			transitioned_after = 1;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;

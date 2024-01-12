@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef SC_TIMER_H_
 #define SC_TIMER_H_
@@ -59,7 +59,7 @@ class TimerServiceInterface
 		/*!
 		Starts the timing for a time event.
 		*/ 
-		virtual void setTimer(std::shared_ptr<TimedInterface> statemachine, sc::eventid event, sc::integer time_ms, bool isPeriodic) = 0;
+		virtual void setTimer(std::shared_ptr<TimedInterface> statemachine, sc::eventid event, sc::time time_ms, bool isPeriodic) = 0;
 		
 		/*!
 		Unsets the given time event.

@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef TRIGGERSTATEMACHINE_H_
 #define TRIGGERSTATEMACHINE_H_
@@ -15,6 +15,7 @@ class TriggerStatemachine;
 #include "../src-qt-lib/sc_eventdriven.h"
 #include "../src-qt-lib/sc_timer.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -90,6 +91,7 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 				
 				
 				
+				
 				/*! Gets the value of the variable 'counter' that is defined in the interface scope 'gui'. */
 				sc::integer getCounter() const noexcept;
 				
@@ -99,11 +101,11 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 				
 				
 				
-				
 			protected:
 				friend class TriggerStatemachine;
 				
 				sc::integer counter {0};
+				
 				/*! Indicates event 'pressed' of interface scope 'gui' is active. */
 				bool pressed_raised {false};
 				
@@ -190,6 +192,7 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 	protected:
 		TriggerStatemachine(const TriggerStatemachine &rhs);
 		TriggerStatemachine& operator=(const TriggerStatemachine&);
+		
 		
 		
 		
@@ -283,7 +286,6 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		
 		
 	private:
-		
 		
 		/*! Indicates event 'trigger' of internal scope is active. */
 		bool trigger_raised {false};

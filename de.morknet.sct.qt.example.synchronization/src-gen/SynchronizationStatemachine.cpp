@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "SynchronizationStatemachine.h"
 
@@ -83,6 +83,7 @@ bool SynchronizationStatemachine::dispatchEvent(std::unique_ptr<SynchronizationS
 }
 
 
+/*! Slot for the in event 'start' that is defined in the default interface scope. */
 void SynchronizationStatemachine::start() {
 	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::start)))
 	;
@@ -90,6 +91,7 @@ void SynchronizationStatemachine::start() {
 }
 
 
+/*! Slot for the in event 'triggerLeft' that is defined in the default interface scope. */
 void SynchronizationStatemachine::triggerLeft() {
 	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerLeft)))
 	;
@@ -97,6 +99,7 @@ void SynchronizationStatemachine::triggerLeft() {
 }
 
 
+/*! Slot for the in event 'triggerRight' that is defined in the default interface scope. */
 void SynchronizationStatemachine::triggerRight() {
 	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerRight)))
 	;
@@ -479,7 +482,7 @@ sc::integer SynchronizationStatemachine::react(const sc::integer transitioned_be
 sc::integer SynchronizationStatemachine::main_region_Split_react(const sc::integer transitioned_before) {
 	/* The reactions of state Split. */
 	sc::integer transitioned_after = transitioned_before;
-	/* If no transition was taken then execute local reactions */
+	/* Always execute local reactions. */
 	transitioned_after = react(transitioned_before);
 	return transitioned_after;
 }
@@ -527,9 +530,10 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(co
 			transitioned_after = 1;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Split_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -547,9 +551,10 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Wait_react(cons
 			transitioned_after = 1;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = main_region_Split_react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -567,9 +572,10 @@ sc::integer SynchronizationStatemachine::main_region_Wait_react(const sc::intege
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -588,9 +594,10 @@ sc::integer SynchronizationStatemachine::main_region_Completed_react(const sc::i
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;

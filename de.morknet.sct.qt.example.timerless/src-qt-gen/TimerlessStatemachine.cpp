@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "TimerlessStatemachine.h"
 
@@ -74,6 +74,7 @@ bool TimerlessStatemachine::dispatchEvent(std::unique_ptr<TimerlessStatemachine:
 }
 
 
+/*! Slot for the in event 'clicked' that is defined in the interface scope 'gui'. */
 void TimerlessStatemachine::gui_clicked() {
 	incomingEventQueue.push_back(std::unique_ptr<TimerlessStatemachine::EventInstance>(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked)))
 	;
@@ -228,9 +229,10 @@ sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -249,9 +251,10 @@ sc::integer TimerlessStatemachine::main_region_State_On_react(const sc::integer 
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;

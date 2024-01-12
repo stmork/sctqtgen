@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #include "DelayedStatemachine.h"
 
@@ -84,6 +84,7 @@ bool DelayedStatemachine::dispatchEvent(std::unique_ptr<DelayedStatemachine::Eve
 }
 
 
+/*! Slot for the in event 'button1' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_button1() {
 	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button1)))
 	;
@@ -91,6 +92,7 @@ void DelayedStatemachine::gui_button1() {
 }
 
 
+/*! Slot for the in event 'button2' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_button2() {
 	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button2)))
 	;
@@ -98,6 +100,7 @@ void DelayedStatemachine::gui_button2() {
 }
 
 
+/*! Slot for the in event 'complete' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_complete() {
 	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete)))
 	;
@@ -340,9 +343,10 @@ sc::integer DelayedStatemachine::main_region_StateA_react(const sc::integer tran
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		if (ifaceGui.button1_raised)
 		{ 
 			emit gui_stopped();
@@ -374,9 +378,10 @@ sc::integer DelayedStatemachine::main_region_Do_Something_react(const sc::intege
 			} 
 		}
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -395,9 +400,10 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_1_react(const sc::integ
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;
@@ -416,9 +422,10 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_2_react(const sc::integ
 			transitioned_after = 0;
 		} 
 	} 
+	/* If no transition was taken */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		/* If no transition was taken then execute local reactions */
+		/* then execute local reactions. */
 		transitioned_after = react(transitioned_before);
 	} 
 	return transitioned_after;

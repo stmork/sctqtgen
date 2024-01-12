@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget * parent) :
 		QApplication::quit();
 	} );
 
-	statemachine.setOperationCallback(self);
+	statemachine.setOperationCallback(*this);
 	statemachine.enter();
 }
 

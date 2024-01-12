@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef DELAYEDSTATEMACHINE_H_
 #define DELAYEDSTATEMACHINE_H_
@@ -14,6 +14,7 @@ class DelayedStatemachine;
 #include "../src-qt-lib/sc_statemachine.h"
 #include "../src-qt-lib/sc_eventdriven.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -86,6 +87,7 @@ class DelayedStatemachine : public QObject, public sc::EventDrivenInterface
 				
 			protected:
 				friend class DelayedStatemachine;
+				
 				
 				/*! Indicates event 'button1' of interface scope 'gui' is active. */
 				bool button1_raised {false};
@@ -228,7 +230,6 @@ class DelayedStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		
 	private:
-		
 		
 		
 		

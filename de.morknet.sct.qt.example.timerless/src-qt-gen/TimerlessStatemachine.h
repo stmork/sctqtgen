@@ -1,4 +1,4 @@
-/* Copyright (C) 2023 - Steffen A. Mork */
+/* Copyright (C) 2024 - Steffen A. Mork */
 
 #ifndef TIMERLESSSTATEMACHINE_H_
 #define TIMERLESSSTATEMACHINE_H_
@@ -14,6 +14,7 @@ class TimerlessStatemachine;
 #include "../src-qt-lib/sc_statemachine.h"
 #include "../src-qt-lib/sc_eventdriven.h"
 #include <memory>
+#include <string.h>
 #include <QObject>
 
 /*! \file
@@ -75,6 +76,7 @@ class TimerlessStatemachine : public QObject, public sc::EventDrivenInterface
 				
 			protected:
 				friend class TimerlessStatemachine;
+				
 				
 				/*! Indicates event 'clicked' of interface scope 'gui' is active. */
 				bool clicked_raised {false};
@@ -187,7 +189,6 @@ class TimerlessStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		
 	private:
-		
 		
 		
 		
