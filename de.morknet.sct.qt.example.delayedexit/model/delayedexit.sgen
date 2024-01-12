@@ -1,15 +1,15 @@
 GeneratorModel for yakindu::cpp::qt
 {
-	const PROJECT : string = "de.morknet.sct.qt.example.timerless"
+	const PROJECT : string = "de.morknet.sct.qt.example.delayedexit"
 
 	const SRC_GEN_FOLDER : string = "src-qt-gen"
 	const SRC_LIB_FOLDER : string = "src-qt-lib"
 
-	statechart Timerless
+	statechart Delayed
 	{
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2023 - Steffen A. Mork" 
+			licenseText =  "Copyright (C) 2024 - Steffen A. Mork" 
 		}
 
 		feature Outlet
@@ -26,8 +26,8 @@ GeneratorModel for yakindu::cpp::qt
 
 		feature  IdentifierSettings
 		{
-			moduleName = "TimerlessStatemachine"
-			statemachinePrefix = "timerless"
+			moduleName = "DelayedStatemachine"
+			statemachinePrefix = "delayedexit"
 			separator =  "_"
 			headerFilenameExtension =  "h"
 			sourceFilenameExtension =  "cpp"

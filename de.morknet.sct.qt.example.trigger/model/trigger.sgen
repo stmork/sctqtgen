@@ -1,11 +1,11 @@
 GeneratorModel for yakindu::cpp::qt
 {
-	const PROJECT : string = "de.morknet.sct.qt.example.calculator"
+	const PROJECT : string = "de.morknet.sct.qt.example.trigger"
 
 	const SRC_GEN_FOLDER : string = "src-qt-gen"
 	const SRC_LIB_FOLDER : string = "src-qt-lib"
 
-	statechart Calculator
+	statechart Trigger
 	{
 		feature GeneralFeatures
 		{
@@ -14,7 +14,7 @@ GeneratorModel for yakindu::cpp::qt
 
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2023 - Steffen A. Mork" 
+			licenseText =  "Copyright (C) 2024 - Steffen A. Mork" 
 		}
 
 		feature Outlet
@@ -31,11 +31,11 @@ GeneratorModel for yakindu::cpp::qt
 
 		feature IdentifierSettings
 		{
-			moduleName =  "CalculatorStatemachine"
-			statemachinePrefix =  "calculator"
-			separator =  "_"
-			headerFilenameExtension =  "h"
-			sourceFilenameExtension =  "cpp"
+			moduleName =  "TriggerStatemachine" 
+			statemachinePrefix = "trigger"
+			separator =  "_" 
+			headerFilenameExtension =  "h" 
+			sourceFilenameExtension =  "cpp" 
 		}
 	}
 }

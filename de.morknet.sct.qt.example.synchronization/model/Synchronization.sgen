@@ -9,7 +9,7 @@ GeneratorModel for yakindu::cpp::qt
 	{
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2023 - Steffen A. Mork" 
+			licenseText =  "Copyright (C) 2024 - Steffen A. Mork" 
 		}
 
 		feature Outlet
