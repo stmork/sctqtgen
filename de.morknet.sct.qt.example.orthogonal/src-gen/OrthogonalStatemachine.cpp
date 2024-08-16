@@ -365,7 +365,11 @@ void OrthogonalStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Orthogonal */
 	exseq_Left();
+	stateConfVector[0] = OrthogonalStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 0;
 	exseq_Right();
+	stateConfVector[1] = OrthogonalStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 1;
 	isExecuting = false;
 }
 
@@ -373,4 +377,5 @@ void OrthogonalStatemachine::exit() {
 void OrthogonalStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

@@ -444,6 +444,7 @@ void HistoryStatemachine::exseq_main_region_Start()
 {
 	/* Default exit sequence for state Start */
 	exseq_main_region_Start_main();
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 }
 
 /* Default exit sequence for state StateA */
@@ -451,27 +452,28 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateA()
 {
 	/* Default exit sequence for state StateA */
 	exseq_main_region_Start_main_StateA_Inner_Left();
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start;
 }
 
 /* Default exit sequence for state Red */
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Red()
 {
 	/* Default exit sequence for state Red */
-	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA;
 }
 
 /* Default exit sequence for state Blue */
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Blue()
 {
 	/* Default exit sequence for state Blue */
-	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA;
 }
 
 /* Default exit sequence for state Green */
 void HistoryStatemachine::exseq_main_region_Start_main_StateA_Inner_Left_Green()
 {
 	/* Default exit sequence for state Green */
-	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateA;
 }
 
 /* Default exit sequence for state StateB */
@@ -479,20 +481,21 @@ void HistoryStatemachine::exseq_main_region_Start_main_StateB()
 {
 	/* Default exit sequence for state StateB */
 	exseq_main_region_Start_main_StateB_Inner_Right();
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start;
 }
 
 /* Default exit sequence for state Magenta */
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right_Magenta()
 {
 	/* Default exit sequence for state Magenta */
-	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateB;
 }
 
 /* Default exit sequence for state Cyan */
 void HistoryStatemachine::exseq_main_region_Start_main_StateB_Inner_Right_Cyan()
 {
 	/* Default exit sequence for state Cyan */
-	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
+	stateConfVector[0] = HistoryStatemachine::State::main_region_Start_main_StateB;
 }
 
 /* Default exit sequence for state Outside */
@@ -509,6 +512,16 @@ void HistoryStatemachine::exseq_main_region()
 	/* Handle exit of all possible states (of History.main_region) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
+		case HistoryStatemachine::State::main_region_Start :
+		{
+			exseq_main_region_Start();
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateA :
+		{
+			exseq_main_region_Start_main_StateA();
+			break;
+		}
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Red();
@@ -522,6 +535,11 @@ void HistoryStatemachine::exseq_main_region()
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateB :
+		{
+			exseq_main_region_Start_main_StateB();
 			break;
 		}
 		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
@@ -552,6 +570,11 @@ void HistoryStatemachine::exseq_main_region_Start_main()
 	/* Handle exit of all possible states (of History.main_region.Start.main) at position 0... */
 	switch(stateConfVector[ 0 ])
 	{
+		case HistoryStatemachine::State::main_region_Start_main_StateA :
+		{
+			exseq_main_region_Start_main_StateA();
+			break;
+		}
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Red :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Red();
@@ -565,6 +588,11 @@ void HistoryStatemachine::exseq_main_region_Start_main()
 		case HistoryStatemachine::State::main_region_Start_main_StateA_Inner_Left_Green :
 		{
 			exseq_main_region_Start_main_StateA_Inner_Left_Green();
+			break;
+		}
+		case HistoryStatemachine::State::main_region_Start_main_StateB :
+		{
+			exseq_main_region_Start_main_StateB();
 			break;
 		}
 		case HistoryStatemachine::State::main_region_Start_main_StateB_Inner_Right_Magenta :
@@ -961,6 +989,7 @@ void HistoryStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart History */
 	exseq_main_region();
+	stateConfVector[0] = HistoryStatemachine::State::NO_STATE;
 	isExecuting = false;
 }
 
@@ -968,4 +997,5 @@ void HistoryStatemachine::exit() {
 void HistoryStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

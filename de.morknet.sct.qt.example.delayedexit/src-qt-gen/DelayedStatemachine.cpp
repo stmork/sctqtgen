@@ -503,6 +503,7 @@ void DelayedStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Delayed */
 	exseq_main_region();
+	stateConfVector[0] = DelayedStatemachine::State::NO_STATE;
 	isExecuting = false;
 }
 
@@ -510,4 +511,5 @@ void DelayedStatemachine::exit() {
 void DelayedStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

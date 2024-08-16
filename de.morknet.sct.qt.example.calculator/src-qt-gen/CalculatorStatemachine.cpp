@@ -377,7 +377,7 @@ void CalculatorStatemachine::setInternalOperationCallback(std::shared_ptr<Intern
 void CalculatorStatemachine::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timerService->setTimer(shared_from_this(), 0, (((sc::time) 30) * 1000), false);
+	timerService->setTimer(shared_from_this(), 0, ((static_cast<sc::time> (30)) * 1000), false);
 	setAccu(0);
 	setOperand(0);
 }
@@ -661,6 +661,7 @@ void CalculatorStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Calculator */
 	exseq_main_region();
+	stateConfVector[0] = CalculatorStatemachine::State::NO_STATE;
 	isExecuting = false;
 }
 
@@ -668,4 +669,5 @@ void CalculatorStatemachine::exit() {
 void CalculatorStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

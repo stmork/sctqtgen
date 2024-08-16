@@ -94,6 +94,7 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
 		void triggerWithoutEvent() override;
+		
 		/*
 		 * Functions inherited from StatemachineInterface
 		 */

@@ -320,6 +320,7 @@ void TimerlessStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Timerless */
 	exseq_main_region();
+	stateConfVector[0] = TimerlessStatemachine::State::NO_STATE;
 	isExecuting = false;
 }
 
@@ -327,4 +328,5 @@ void TimerlessStatemachine::exit() {
 void TimerlessStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

@@ -243,21 +243,21 @@ void TriggerStatemachine::enact_main_region_Lanes()
 void TriggerStatemachine::enact_main_region_Lanes_r1_A()
 {
 	/* Entry action for state 'A'. */
-	timerService->setTimer(shared_from_this(), 0, ((sc::time) 200), false);
+	timerService->setTimer(shared_from_this(), 0, (static_cast<sc::time> (200)), false);
 }
 
 /* Entry action for state 'B'. */
 void TriggerStatemachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timerService->setTimer(shared_from_this(), 1, (((sc::time) 1) * 1000), false);
+	timerService->setTimer(shared_from_this(), 1, ((static_cast<sc::time> (1)) * 1000), false);
 }
 
 /* Entry action for state 'C'. */
 void TriggerStatemachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timerService->setTimer(shared_from_this(), 2, ((sc::time) 1500), false);
+	timerService->setTimer(shared_from_this(), 2, (static_cast<sc::time> (1500)), false);
 }
 
 /* Exit action for state 'A'. */
@@ -411,13 +411,18 @@ void TriggerStatemachine::exseq_main_region_Lanes()
 	exseq_main_region_Lanes_r2();
 	exseq_main_region_Lanes_r3();
 	exseq_main_region_Lanes_guard();
+	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[1] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[2] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[3] = TriggerStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 3;
 }
 
 /* Default exit sequence for state A */
 void TriggerStatemachine::exseq_main_region_Lanes_r1_A()
 {
 	/* Default exit sequence for state A */
-	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[0] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 0;
 	exact_main_region_Lanes_r1_A();
 }
@@ -426,7 +431,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1_A()
 void TriggerStatemachine::exseq_main_region_Lanes_r1__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[0] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 0;
 }
 
@@ -434,7 +439,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r2_B()
 {
 	/* Default exit sequence for state B */
-	stateConfVector[1] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[1] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 1;
 	exact_main_region_Lanes_r2_B();
 }
@@ -443,7 +448,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2_B()
 void TriggerStatemachine::exseq_main_region_Lanes_r2__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[1] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[1] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 1;
 }
 
@@ -451,7 +456,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r3_C()
 {
 	/* Default exit sequence for state C */
-	stateConfVector[2] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[2] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 2;
 	exact_main_region_Lanes_r3_C();
 }
@@ -460,7 +465,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3_C()
 void TriggerStatemachine::exseq_main_region_Lanes_r3__final_()
 {
 	/* Default exit sequence for final state. */
-	stateConfVector[2] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[2] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 2;
 }
 
@@ -468,7 +473,7 @@ void TriggerStatemachine::exseq_main_region_Lanes_r3__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_guard_wait()
 {
 	/* Default exit sequence for state wait */
-	stateConfVector[3] = TriggerStatemachine::State::NO_STATE;
+	stateConfVector[3] = TriggerStatemachine::State::main_region_Lanes;
 	stateConfVectorPosition = 3;
 }
 
@@ -925,6 +930,8 @@ void TriggerStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Trigger */
 	exseq_main_region();
+	stateConfVector[0] = TriggerStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 0;
 	isExecuting = false;
 }
 
@@ -932,4 +939,5 @@ void TriggerStatemachine::exit() {
 void TriggerStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 

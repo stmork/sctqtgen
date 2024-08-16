@@ -305,13 +305,16 @@ void SynchronizationStatemachine::exseq_main_region_Split()
 	/* Default exit sequence for state Split */
 	exseq_main_region_Split_left();
 	exseq_main_region_Split_right();
+	stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 1;
 }
 
 /* Default exit sequence for state Action */
 void SynchronizationStatemachine::exseq_main_region_Split_left_Action()
 {
 	/* Default exit sequence for state Action */
-	stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Split;
 	stateConfVectorPosition = 0;
 }
 
@@ -319,7 +322,7 @@ void SynchronizationStatemachine::exseq_main_region_Split_left_Action()
 void SynchronizationStatemachine::exseq_main_region_Split_left_Wait()
 {
 	/* Default exit sequence for state Wait */
-	stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[0] = SynchronizationStatemachine::State::main_region_Split;
 	stateConfVectorPosition = 0;
 }
 
@@ -327,7 +330,7 @@ void SynchronizationStatemachine::exseq_main_region_Split_left_Wait()
 void SynchronizationStatemachine::exseq_main_region_Split_right_Action()
 {
 	/* Default exit sequence for state Action */
-	stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[1] = SynchronizationStatemachine::State::main_region_Split;
 	stateConfVectorPosition = 1;
 }
 
@@ -335,7 +338,7 @@ void SynchronizationStatemachine::exseq_main_region_Split_right_Action()
 void SynchronizationStatemachine::exseq_main_region_Split_right_Wait()
 {
 	/* Default exit sequence for state Wait */
-	stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[1] = SynchronizationStatemachine::State::main_region_Split;
 	stateConfVectorPosition = 1;
 }
 
@@ -705,6 +708,9 @@ void SynchronizationStatemachine::exit() {
 	isExecuting = true;
 	/* Default exit sequence for statechart Synchronization */
 	exseq_main_region();
+	stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+	stateConfVectorPosition = 1;
 	isExecuting = false;
 }
 
@@ -712,4 +718,5 @@ void SynchronizationStatemachine::exit() {
 void SynchronizationStatemachine::triggerWithoutEvent() {
 	runCycle();
 }
+
 
