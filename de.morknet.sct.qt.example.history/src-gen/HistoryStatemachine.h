@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef HISTORYSTATEMACHINE_H_
 #define HISTORYSTATEMACHINE_H_
@@ -215,7 +215,6 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		void react_main_region_Start_main_StateB_Inner_Right__entry_Default();
 		void react_main_region_Start_main__entry_Default();
 		void react_main_region_Start_main_ReturnoftheQtknights();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_Start_react(const sc::integer transitioned_before);
 		sc::integer main_region_Start_main_StateA_react(const sc::integer transitioned_before);
 		sc::integer main_region_Start_main_StateA_Inner_Left_Red_react(const sc::integer transitioned_before);

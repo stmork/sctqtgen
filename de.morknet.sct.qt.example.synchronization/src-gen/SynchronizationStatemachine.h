@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef SYNCHRONIZATIONSTATEMACHINE_H_
 #define SYNCHRONIZATIONSTATEMACHINE_H_
@@ -209,8 +209,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		void react_main_region__entry_Default();
 		void react_main_region__sync0();
 		void react_main_region__sync1();
-		sc::integer react(const sc::integer transitioned_before);
-		sc::integer main_region_Split_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_left_Action_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_left_Wait_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_right_Action_react(const sc::integer transitioned_before);

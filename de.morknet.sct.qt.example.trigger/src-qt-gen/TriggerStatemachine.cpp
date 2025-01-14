@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "TriggerStatemachine.h"
 
@@ -422,8 +422,6 @@ void TriggerStatemachine::exseq_main_region_Lanes()
 void TriggerStatemachine::exseq_main_region_Lanes_r1_A()
 {
 	/* Default exit sequence for state A */
-	stateConfVector[0] = TriggerStatemachine::State::main_region_Lanes;
-	stateConfVectorPosition = 0;
 	exact_main_region_Lanes_r1_A();
 }
 
@@ -439,8 +437,6 @@ void TriggerStatemachine::exseq_main_region_Lanes_r1__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r2_B()
 {
 	/* Default exit sequence for state B */
-	stateConfVector[1] = TriggerStatemachine::State::main_region_Lanes;
-	stateConfVectorPosition = 1;
 	exact_main_region_Lanes_r2_B();
 }
 
@@ -456,8 +452,6 @@ void TriggerStatemachine::exseq_main_region_Lanes_r2__final_()
 void TriggerStatemachine::exseq_main_region_Lanes_r3_C()
 {
 	/* Default exit sequence for state C */
-	stateConfVector[2] = TriggerStatemachine::State::main_region_Lanes;
-	stateConfVectorPosition = 2;
 	exact_main_region_Lanes_r3_C();
 }
 
@@ -673,11 +667,6 @@ void TriggerStatemachine::react_main_region_Lanes_guard__entry_Default()
 	enseq_main_region_Lanes_guard_wait_default();
 }
 
-sc::integer TriggerStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state Wait. */
 	sc::integer transitioned_after = transitioned_before;
@@ -687,7 +676,6 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 		{ 
 			exseq_main_region_Wait();
 			enseq_main_region_Lanes_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -695,16 +683,8 @@ sc::integer TriggerStatemachine::main_region_Wait_react(const sc::integer transi
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
-	return transitioned_after;
-}
-
-sc::integer TriggerStatemachine::main_region_Lanes_react(const sc::integer transitioned_before) {
-	/* The reactions of state Lanes. */
-	sc::integer transitioned_after = transitioned_before;
-	/* Always execute local reactions. */
-	transitioned_after = react(transitioned_before);
 	return transitioned_after;
 }
 
@@ -727,11 +707,6 @@ sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer 
 	return transitioned_after;
 }
 
-sc::integer TriggerStatemachine::main_region_Lanes_r1__final__react(const sc::integer transitioned_before) {
-	/* The reactions of state null. */
-	return transitioned_before;
-}
-
 sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer transitioned_before) {
 	/* The reactions of state B. */
 	sc::integer transitioned_after = transitioned_before;
@@ -749,11 +724,6 @@ sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer 
 		} 
 	} 
 	return transitioned_after;
-}
-
-sc::integer TriggerStatemachine::main_region_Lanes_r2__final__react(const sc::integer transitioned_before) {
-	/* The reactions of state null. */
-	return transitioned_before;
 }
 
 sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer transitioned_before) {
@@ -775,11 +745,6 @@ sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer 
 	return transitioned_after;
 }
 
-sc::integer TriggerStatemachine::main_region_Lanes_r3__final__react(const sc::integer transitioned_before) {
-	/* The reactions of state null. */
-	return transitioned_before;
-}
-
 sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state wait. */
 	sc::integer transitioned_after = transitioned_before;
@@ -789,7 +754,6 @@ sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::in
 		{ 
 			exseq_main_region_Lanes();
 			enseq_main_region_Wait_default();
-			react(0);
 			transitioned_after = 3;
 		} 
 	} 
@@ -798,7 +762,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_guard_wait_react(const sc::in
 	{ 
 		/* then execute local reactions. */
 		emit gui_update();
-		transitioned_after = main_region_Lanes_react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -831,7 +795,6 @@ void TriggerStatemachine::microStep() {
 		}
 		case TriggerStatemachine::State::main_region_Lanes_r1__final_ :
 		{
-			transitioned = main_region_Lanes_r1__final__react(transitioned);
 			break;
 		}
 		default:
@@ -849,7 +812,6 @@ void TriggerStatemachine::microStep() {
 			}
 			case TriggerStatemachine::State::main_region_Lanes_r2__final_ :
 			{
-				transitioned = main_region_Lanes_r2__final__react(transitioned);
 				break;
 			}
 			default:
@@ -868,7 +830,6 @@ void TriggerStatemachine::microStep() {
 			}
 			case TriggerStatemachine::State::main_region_Lanes_r3__final_ :
 			{
-				transitioned = main_region_Lanes_r3__final__react(transitioned);
 				break;
 			}
 			default:

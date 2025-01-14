@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "SynchronizationStatemachine.h"
 
@@ -477,19 +477,6 @@ void SynchronizationStatemachine::react_main_region__sync1()
 	enseq_main_region_Completed_default();
 }
 
-sc::integer SynchronizationStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
-sc::integer SynchronizationStatemachine::main_region_Split_react(const sc::integer transitioned_before) {
-	/* The reactions of state Split. */
-	sc::integer transitioned_after = transitioned_before;
-	/* Always execute local reactions. */
-	transitioned_after = react(transitioned_before);
-	return transitioned_after;
-}
-
 sc::integer SynchronizationStatemachine::main_region_Split_left_Action_react(const sc::integer transitioned_before) {
 	/* The reactions of state Action. */
 	sc::integer transitioned_after = transitioned_before;
@@ -529,7 +516,6 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(co
 		{ 
 			exseq_main_region_Split_right_Action();
 			enseq_main_region_Split_right_Wait_default();
-			main_region_Split_react(0);
 			transitioned_after = 1;
 		} 
 	} 
@@ -537,7 +523,7 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(co
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = main_region_Split_react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -558,7 +544,7 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Wait_react(cons
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = main_region_Split_react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -579,7 +565,7 @@ sc::integer SynchronizationStatemachine::main_region_Wait_react(const sc::intege
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -593,7 +579,6 @@ sc::integer SynchronizationStatemachine::main_region_Completed_react(const sc::i
 		{ 
 			exseq_main_region_Completed();
 			enseq_main_region_Wait_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -601,7 +586,7 @@ sc::integer SynchronizationStatemachine::main_region_Completed_react(const sc::i
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -695,6 +680,7 @@ void SynchronizationStatemachine::enter() {
 	{ 
 		stateConfVectorChanged = false;
 		microStep();
+		clearInEvents();
 	} while (stateConfVectorChanged);
 	isExecuting = false;
 }

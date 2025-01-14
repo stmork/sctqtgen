@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef TRIGGERSTATEMACHINE_H_
 #define TRIGGERSTATEMACHINE_H_
@@ -258,15 +258,10 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		void react_main_region_Lanes_r2__entry_Default();
 		void react_main_region_Lanes_r3__entry_Default();
 		void react_main_region_Lanes_guard__entry_Default();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_Wait_react(const sc::integer transitioned_before);
-		sc::integer main_region_Lanes_react(const sc::integer transitioned_before);
 		sc::integer main_region_Lanes_r1_A_react(const sc::integer transitioned_before);
-		sc::integer main_region_Lanes_r1__final__react(const sc::integer transitioned_before);
 		sc::integer main_region_Lanes_r2_B_react(const sc::integer transitioned_before);
-		sc::integer main_region_Lanes_r2__final__react(const sc::integer transitioned_before);
 		sc::integer main_region_Lanes_r3_C_react(const sc::integer transitioned_before);
-		sc::integer main_region_Lanes_r3__final__react(const sc::integer transitioned_before);
 		sc::integer main_region_Lanes_guard_wait_react(const sc::integer transitioned_before);
 		void clearInEvents() noexcept;
 		void clearInternalEvents() noexcept;

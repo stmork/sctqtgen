@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "DelayedStatemachine.h"
 
@@ -325,11 +325,6 @@ void DelayedStatemachine::react_main_region__entry_Default()
 	enseq_main_region_StateA_default();
 }
 
-sc::integer DelayedStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer DelayedStatemachine::main_region_StateA_react(const sc::integer transitioned_before) {
 	/* The reactions of state StateA. */
 	sc::integer transitioned_after = transitioned_before;
@@ -339,7 +334,6 @@ sc::integer DelayedStatemachine::main_region_StateA_react(const sc::integer tran
 		{ 
 			exseq_main_region_StateA();
 			enseq_main_region_Do_Something_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -351,7 +345,7 @@ sc::integer DelayedStatemachine::main_region_StateA_react(const sc::integer tran
 		{ 
 			emit gui_stopped();
 		} 
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -365,7 +359,6 @@ sc::integer DelayedStatemachine::main_region_Do_Something_react(const sc::intege
 		{ 
 			exseq_main_region_Do_Something();
 			enseq_main_region_Wait_Button_2_default();
-			react(0);
 			transitioned_after = 0;
 		}  else
 		{
@@ -373,7 +366,6 @@ sc::integer DelayedStatemachine::main_region_Do_Something_react(const sc::intege
 			{ 
 				exseq_main_region_Do_Something();
 				enseq_main_region_Wait_Button_1_default();
-				react(0);
 				transitioned_after = 0;
 			} 
 		}
@@ -382,7 +374,7 @@ sc::integer DelayedStatemachine::main_region_Do_Something_react(const sc::intege
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -396,7 +388,6 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_1_react(const sc::integ
 		{ 
 			exseq_main_region_Wait_Button_1();
 			enseq_main_region_StateA_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -404,7 +395,7 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_1_react(const sc::integ
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -418,7 +409,6 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_2_react(const sc::integ
 		{ 
 			exseq_main_region_Wait_Button_2();
 			enseq_main_region_Do_Something_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -426,7 +416,7 @@ sc::integer DelayedStatemachine::main_region_Wait_Button_2_react(const sc::integ
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }

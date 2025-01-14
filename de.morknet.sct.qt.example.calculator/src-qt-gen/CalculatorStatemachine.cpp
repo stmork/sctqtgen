@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "CalculatorStatemachine.h"
 
@@ -456,11 +456,6 @@ void CalculatorStatemachine::react_main_region__entry_Default()
 	enseq_main_region_active_default();
 }
 
-sc::integer CalculatorStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer transitioned_before) {
 	/* The reactions of state active. */
 	sc::integer transitioned_after = transitioned_before;
@@ -481,7 +476,6 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 				ifaceInternalOperationCallback->Equals();
 				emit gui_ShowAccu(operand);
 				enseq_main_region_active_default();
-				react(0);
 				transitioned_after = 0;
 			} 
 		}
@@ -575,14 +569,9 @@ sc::integer CalculatorStatemachine::main_region_active_react(const sc::integer t
 			setOperand(0);
 			emit gui_ShowAccu(accu);
 		} 
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
-}
-
-sc::integer CalculatorStatemachine::main_region__final__react(const sc::integer transitioned_before) {
-	/* The reactions of state null. */
-	return react(transitioned_before);
 }
 
 void CalculatorStatemachine::clearInEvents() noexcept {
@@ -615,7 +604,6 @@ void CalculatorStatemachine::microStep() {
 		}
 		case CalculatorStatemachine::State::main_region__final_ :
 		{
-			main_region__final__react(-1);
 			break;
 		}
 		default:

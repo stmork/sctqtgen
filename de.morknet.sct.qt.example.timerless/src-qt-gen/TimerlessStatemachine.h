@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef TIMERLESSSTATEMACHINE_H_
 #define TIMERLESSSTATEMACHINE_H_
@@ -171,7 +171,6 @@ class TimerlessStatemachine : public QObject, public sc::EventDrivenInterface
 		void exseq_main_region_State_On();
 		void exseq_main_region();
 		void react_main_region__entry_Default();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_State_Off_react(const sc::integer transitioned_before);
 		sc::integer main_region_State_On_react(const sc::integer transitioned_before);
 		void clearInEvents() noexcept;

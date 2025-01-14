@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "TimerlessStatemachine.h"
 
@@ -211,11 +211,6 @@ void TimerlessStatemachine::react_main_region__entry_Default()
 	enseq_main_region_State_Off_default();
 }
 
-sc::integer TimerlessStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer transitioned_before) {
 	/* The reactions of state State Off. */
 	sc::integer transitioned_after = transitioned_before;
@@ -225,7 +220,6 @@ sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer
 		{ 
 			exseq_main_region_State_Off();
 			enseq_main_region_State_On_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -233,7 +227,7 @@ sc::integer TimerlessStatemachine::main_region_State_Off_react(const sc::integer
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -247,7 +241,6 @@ sc::integer TimerlessStatemachine::main_region_State_On_react(const sc::integer 
 		{ 
 			exseq_main_region_State_On();
 			enseq_main_region_State_Off_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -255,7 +248,7 @@ sc::integer TimerlessStatemachine::main_region_State_On_react(const sc::integer 
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }

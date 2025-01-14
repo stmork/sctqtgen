@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "HistoryStatemachine.h"
 
@@ -704,11 +704,6 @@ void HistoryStatemachine::react_main_region_Start_main_ReturnoftheQtknights()
 	} 
 }
 
-sc::integer HistoryStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer transitioned_before) {
 	/* The reactions of state Start. */
 	sc::integer transitioned_after = transitioned_before;
@@ -718,7 +713,6 @@ sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer trans
 		{ 
 			exseq_main_region_Start();
 			enseq_main_region_Outside_default();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -726,7 +720,7 @@ sc::integer HistoryStatemachine::main_region_Start_react(const sc::integer trans
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }
@@ -894,7 +888,6 @@ sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer tra
 		{ 
 			exseq_main_region_Outside();
 			react_main_region_Start_main_ReturnoftheQtknights();
-			react(0);
 			transitioned_after = 0;
 		} 
 	} 
@@ -902,7 +895,7 @@ sc::integer HistoryStatemachine::main_region_Outside_react(const sc::integer tra
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef DELAYEDSTATEMACHINE_H_
 #define DELAYEDSTATEMACHINE_H_
@@ -210,7 +210,6 @@ class DelayedStatemachine : public QObject, public sc::EventDrivenInterface
 		void exseq_main_region_Wait_Button_2();
 		void exseq_main_region();
 		void react_main_region__entry_Default();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_StateA_react(const sc::integer transitioned_before);
 		sc::integer main_region_Do_Something_react(const sc::integer transitioned_before);
 		sc::integer main_region_Wait_Button_1_react(const sc::integer transitioned_before);

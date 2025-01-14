@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef ORTHOGONALSTATEMACHINE_H_
 #define ORTHOGONALSTATEMACHINE_H_
@@ -175,7 +175,6 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		void exseq_Right();
 		void react_Left__entry_Default();
 		void react_Right__entry_Default();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer Left_State_react(const sc::integer transitioned_before);
 		sc::integer Right_State_react(const sc::integer transitioned_before);
 		void clearInEvents() noexcept;

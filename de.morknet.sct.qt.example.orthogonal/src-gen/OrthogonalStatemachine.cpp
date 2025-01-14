@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #include "OrthogonalStatemachine.h"
 
@@ -247,11 +247,6 @@ void OrthogonalStatemachine::react_Right__entry_Default()
 	enseq_Right_State_default();
 }
 
-sc::integer OrthogonalStatemachine::react(const sc::integer transitioned_before) {
-	/* State machine reactions. */
-	return transitioned_before;
-}
-
 sc::integer OrthogonalStatemachine::Left_State_react(const sc::integer transitioned_before) {
 	/* The reactions of state State. */
 	sc::integer transitioned_after = transitioned_before;
@@ -280,7 +275,6 @@ sc::integer OrthogonalStatemachine::Right_State_react(const sc::integer transiti
 			right++;
 			ifaceOperationCallback->label();
 			enseq_Right_State_default();
-			react(0);
 			transitioned_after = 1;
 		} 
 	} 
@@ -288,7 +282,7 @@ sc::integer OrthogonalStatemachine::Right_State_react(const sc::integer transiti
 	if ((transitioned_after) == (transitioned_before))
 	{ 
 		/* then execute local reactions. */
-		transitioned_after = react(transitioned_before);
+		transitioned_after = transitioned_before;
 	} 
 	return transitioned_after;
 }

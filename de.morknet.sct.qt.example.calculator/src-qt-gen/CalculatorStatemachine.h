@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2025 - Steffen A. Mork */
 
 #ifndef CALCULATORSTATEMACHINE_H_
 #define CALCULATORSTATEMACHINE_H_
@@ -329,9 +329,7 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		void exseq_main_region__final_();
 		void exseq_main_region();
 		void react_main_region__entry_Default();
-		sc::integer react(const sc::integer transitioned_before);
 		sc::integer main_region_active_react(const sc::integer transitioned_before);
-		sc::integer main_region__final__react(const sc::integer transitioned_before);
 		void clearInEvents() noexcept;
 		void microStep();
 		void runCycle();
