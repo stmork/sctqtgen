@@ -80,7 +80,7 @@
 			<plugin>
 				<groupId>org.jboss.tools.tycho-plugins</groupId>
 				<artifactId>repository-utils</artifactId>
-				<version>0.22.0</version>
+				<version>${tycho-version}</version>
 				<executions>
 					<execution>
 						<id>generate-facade</id>
