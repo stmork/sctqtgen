@@ -17,6 +17,7 @@ private:
 
 public:
 	explicit Statemachine(QObject * parent = nullptr);
+	Statemachine(const Statemachine & other) = delete;
 };
 
 #endif // STATEMACHINE_H

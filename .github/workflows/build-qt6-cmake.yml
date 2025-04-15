@@ -1,0 +1,17 @@
+name: Yakindu SCT Qt6 Example Applications (qmake6)
+on: [push]
+
+jobs:
+   Build:
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@v3
+         - run: sudo apt update -y
+         - name: Install needed components
+           run: sudo apt install -y qt6-base-dev cppcheck
+         - name: QMake
+           run: qmake6 -r
+         - name: Build
+           run: make -j `nproc`
+         - name: CPP-Check
+           run: make cppcheck

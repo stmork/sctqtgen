@@ -22,5 +22,5 @@ astyle.commands = astyle *.example.*/*.cpp *.example.*/*.h
 regen.commands  = bin/regen-examples.sh
 cppcheck.commands = cppcheck \
 	--language=c++ --std=c++14 \
-	--xml-version=2 --force -q -j 3 \
+	--xml-version=2 --force -q -j `nproc` \
 	*.example.*/*.cpp *.example.*/*.h 2>cppcheck.xml

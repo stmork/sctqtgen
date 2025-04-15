@@ -1,4 +1,4 @@
-name: Yakindu SCT Qt Example Applications
+name: Yakindu SCT Qt5 Example Applications (qmake)
 on: [push]
 
 jobs:
@@ -9,5 +9,9 @@ jobs:
          - run: sudo apt update -y
          - name: Install needed components
            run: sudo apt install -y qtbase5-dev cppcheck
+         - name: QMake
+           run: qmake -r
          - name: Build
-           run: bin/build-examples.sh
+           run: make -j `nproc`
+         - name: CPP-Check
+           run: make cppcheck

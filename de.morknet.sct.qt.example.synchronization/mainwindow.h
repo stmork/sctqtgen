@@ -5,8 +5,8 @@
 
 #include <QMainWindow>
 
-#include <src-gen/SynchronizationStatemachine.h>
-#include <src-lib/sc_self_pointer.h>
+#include "src-gen/SynchronizationStatemachine.h"
+#include "src-lib/sc_self_pointer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

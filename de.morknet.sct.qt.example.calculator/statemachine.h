@@ -28,6 +28,7 @@ private:
 
 public:
 	explicit StateMachine(QObject * parent = nullptr);
+	StateMachine(const StateMachine & other) = delete;
 
 protected:
 	virtual void Add() override;
