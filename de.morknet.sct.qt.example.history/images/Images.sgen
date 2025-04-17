@@ -1,4 +1,4 @@
-GeneratorModel for yakindu::images
+GeneratorModel for create::images
 {
 	const PROJECT : string = "de.morknet.sct.qt.example.history"
 	const FOLDER  : string = "images"
