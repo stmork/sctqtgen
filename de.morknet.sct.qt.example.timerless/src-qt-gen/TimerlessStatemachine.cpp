@@ -33,7 +33,7 @@ TimerlessStatemachine::Gui::Gui(TimerlessStatemachine* parent_) noexcept :
 
 std::unique_ptr<TimerlessStatemachine::EventInstance> TimerlessStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<TimerlessStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<TimerlessStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -76,8 +76,7 @@ bool TimerlessStatemachine::dispatchEvent(std::unique_ptr<TimerlessStatemachine:
 
 /*! Slot for the in event 'clicked' that is defined in the interface scope 'gui'. */
 void TimerlessStatemachine::gui_clicked() {
-	incomingEventQueue.push_back(std::unique_ptr<TimerlessStatemachine::EventInstance>(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<TimerlessStatemachine::EventInstance>(new TimerlessStatemachine::EventInstance(TimerlessStatemachine::Event::Gui_clicked)));
 	runCycle();
 }
 
@@ -93,10 +92,11 @@ bool TimerlessStatemachine::isActive() const noexcept
  */
 bool TimerlessStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool TimerlessStatemachine::check() const noexcept{
+bool TimerlessStatemachine::check() const noexcept
+{
 	return true;
 }
 

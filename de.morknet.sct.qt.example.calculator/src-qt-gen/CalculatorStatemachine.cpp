@@ -37,7 +37,7 @@ CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) noexcept :
 
 std::unique_ptr<CalculatorStatemachine::EventInstance> CalculatorStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<CalculatorStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<CalculatorStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -160,128 +160,112 @@ bool CalculatorStatemachine::dispatchEvent(std::unique_ptr<CalculatorStatemachin
 
 /*! Slot for the in event 'Button0' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button0() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button0)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button0)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button1' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button1() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button1)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button1)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button2' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button2() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button2)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button2)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button3' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button3() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button3)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button3)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button4' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button4() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button4)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button4)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button5' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button5() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button5)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button5)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button6' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button6() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button6)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button6)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button7' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button7() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button7)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button7)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button8' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button8() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button8)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button8)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'Button9' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_Button9() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button9)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_Button9)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonAdd' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonAdd() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonAdd)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonAdd)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonSub' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonSub() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonSub)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonSub)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonMult' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonMult() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonMult)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonMult)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonDiv' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonDiv() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonDiv)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonDiv)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonEquals' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonEquals() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonEquals)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonEquals)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'ButtonClear' that is defined in the interface scope 'gui'. */
 void CalculatorStatemachine::gui_ButtonClear() {
-	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonClear)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<CalculatorStatemachine::EventInstance>(new CalculatorStatemachine::EventInstance(CalculatorStatemachine::Event::Gui_ButtonClear)));
 	runCycle();
 }
 
@@ -297,7 +281,8 @@ bool CalculatorStatemachine::isFinal() const noexcept
 		return (stateConfVector[0] == CalculatorStatemachine::State::main_region__final_);
 }
 
-bool CalculatorStatemachine::check() const noexcept{
+bool CalculatorStatemachine::check() const noexcept
+{
 	if(timerService == nullptr) {
 		return false;
 	}

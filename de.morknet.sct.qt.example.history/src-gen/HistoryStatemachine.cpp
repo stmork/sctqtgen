@@ -33,7 +33,7 @@ HistoryStatemachine::~HistoryStatemachine()
 
 std::unique_ptr<HistoryStatemachine::EventInstance> HistoryStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<HistoryStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<HistoryStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -86,24 +86,21 @@ bool HistoryStatemachine::dispatchEvent(std::unique_ptr<HistoryStatemachine::Eve
 
 /*! Slot for the in event 'proceed' that is defined in the default interface scope. */
 void HistoryStatemachine::proceed() {
-	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::proceed)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'toggle' that is defined in the default interface scope. */
 void HistoryStatemachine::toggle() {
-	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::toggle)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'outside' that is defined in the default interface scope. */
 void HistoryStatemachine::outside() {
-	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<HistoryStatemachine::EventInstance>(new HistoryStatemachine::EventInstance(HistoryStatemachine::Event::outside)));
 	runCycle();
 }
 
@@ -119,10 +116,11 @@ bool HistoryStatemachine::isActive() const noexcept
  */
 bool HistoryStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool HistoryStatemachine::check() const noexcept{
+bool HistoryStatemachine::check() const noexcept
+{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}

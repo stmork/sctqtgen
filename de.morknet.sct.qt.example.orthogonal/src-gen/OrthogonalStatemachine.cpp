@@ -31,7 +31,7 @@ OrthogonalStatemachine::~OrthogonalStatemachine()
 
 std::unique_ptr<OrthogonalStatemachine::EventInstance> OrthogonalStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<OrthogonalStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<OrthogonalStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -74,8 +74,7 @@ bool OrthogonalStatemachine::dispatchEvent(std::unique_ptr<OrthogonalStatemachin
 
 /*! Slot for the in event 'trigger' that is defined in the default interface scope. */
 void OrthogonalStatemachine::trigger() {
-	incomingEventQueue.push_back(std::unique_ptr<OrthogonalStatemachine::EventInstance>(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<OrthogonalStatemachine::EventInstance>(new OrthogonalStatemachine::EventInstance(OrthogonalStatemachine::Event::trigger)));
 	runCycle();
 }
 
@@ -91,10 +90,11 @@ bool OrthogonalStatemachine::isActive() const noexcept
  */
 bool OrthogonalStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool OrthogonalStatemachine::check() const noexcept{
+bool OrthogonalStatemachine::check() const noexcept
+{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}

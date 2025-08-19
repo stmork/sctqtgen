@@ -37,7 +37,7 @@ TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) noexcept :
 
 std::unique_ptr<TriggerStatemachine::EventInstance> TriggerStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<TriggerStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<TriggerStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!internalEventQueue.empty()) {
 		nextEvent = std::move(internalEventQueue.front());
@@ -96,8 +96,7 @@ bool TriggerStatemachine::dispatchEvent(std::unique_ptr<TriggerStatemachine::Eve
 
 /*! Slot for the in event 'pressed' that is defined in the interface scope 'gui'. */
 void TriggerStatemachine::gui_pressed() {
-	incomingEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Gui_pressed)));
 	runCycle();
 }
 
@@ -113,10 +112,11 @@ bool TriggerStatemachine::isActive() const noexcept
  */
 bool TriggerStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool TriggerStatemachine::check() const noexcept{
+bool TriggerStatemachine::check() const noexcept
+{
 	if(timerService == nullptr) {
 		return false;
 	}
@@ -697,8 +697,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r1_A_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r1_A();
 			ifaceGui.setCounter(ifaceGui.counter + 1);
-			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
-			;
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)));
 			timeEvents[0] = false;
 			enseq_main_region_Lanes_r1__final__default();
 			transitioned_after = 0;
@@ -716,8 +715,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r2_B_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r2_B();
 			ifaceGui.setCounter(ifaceGui.counter + 1);
-			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
-			;
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)));
 			timeEvents[1] = false;
 			enseq_main_region_Lanes_r2__final__default();
 			transitioned_after = 1;
@@ -735,8 +733,7 @@ sc::integer TriggerStatemachine::main_region_Lanes_r3_C_react(const sc::integer 
 		{ 
 			exseq_main_region_Lanes_r3_C();
 			ifaceGui.setCounter(ifaceGui.counter + 1);
-			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)))
-			;
+			internalEventQueue.push_back(std::unique_ptr<TriggerStatemachine::EventInstance>(new TriggerStatemachine::EventInstance(TriggerStatemachine::Event::Internal_trigger)));
 			timeEvents[2] = false;
 			enseq_main_region_Lanes_r3__final__default();
 			transitioned_after = 2;

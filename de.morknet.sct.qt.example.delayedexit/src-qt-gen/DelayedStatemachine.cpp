@@ -33,7 +33,7 @@ DelayedStatemachine::Gui::Gui(DelayedStatemachine* parent_) noexcept :
 
 std::unique_ptr<DelayedStatemachine::EventInstance> DelayedStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<DelayedStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<DelayedStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -86,24 +86,21 @@ bool DelayedStatemachine::dispatchEvent(std::unique_ptr<DelayedStatemachine::Eve
 
 /*! Slot for the in event 'button1' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_button1() {
-	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button1)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button1)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'button2' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_button2() {
-	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button2)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_button2)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'complete' that is defined in the interface scope 'gui'. */
 void DelayedStatemachine::gui_complete() {
-	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<DelayedStatemachine::EventInstance>(new DelayedStatemachine::EventInstance(DelayedStatemachine::Event::Gui_complete)));
 	runCycle();
 }
 
@@ -119,10 +116,11 @@ bool DelayedStatemachine::isActive() const noexcept
  */
 bool DelayedStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool DelayedStatemachine::check() const noexcept{
+bool DelayedStatemachine::check() const noexcept
+{
 	return true;
 }
 

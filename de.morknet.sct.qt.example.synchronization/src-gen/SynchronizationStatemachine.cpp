@@ -32,7 +32,7 @@ SynchronizationStatemachine::~SynchronizationStatemachine()
 
 std::unique_ptr<SynchronizationStatemachine::EventInstance> SynchronizationStatemachine::getNextEvent() noexcept
 {
-	std::unique_ptr<SynchronizationStatemachine::EventInstance> nextEvent = 0;
+	std::unique_ptr<SynchronizationStatemachine::EventInstance> nextEvent = nullptr;
 
 	if(!incomingEventQueue.empty()) {
 		nextEvent = std::move(incomingEventQueue.front());
@@ -85,24 +85,21 @@ bool SynchronizationStatemachine::dispatchEvent(std::unique_ptr<SynchronizationS
 
 /*! Slot for the in event 'start' that is defined in the default interface scope. */
 void SynchronizationStatemachine::start() {
-	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::start)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::start)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'triggerLeft' that is defined in the default interface scope. */
 void SynchronizationStatemachine::triggerLeft() {
-	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerLeft)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerLeft)));
 	runCycle();
 }
 
 
 /*! Slot for the in event 'triggerRight' that is defined in the default interface scope. */
 void SynchronizationStatemachine::triggerRight() {
-	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerRight)))
-	;
+	incomingEventQueue.push_back(std::unique_ptr<SynchronizationStatemachine::EventInstance>(new SynchronizationStatemachine::EventInstance(SynchronizationStatemachine::Event::triggerRight)));
 	runCycle();
 }
 
@@ -118,10 +115,11 @@ bool SynchronizationStatemachine::isActive() const noexcept
  */
 bool SynchronizationStatemachine::isFinal() const noexcept
 {
-	   return false;
+	return false;
 }
 
-bool SynchronizationStatemachine::check() const noexcept{
+bool SynchronizationStatemachine::check() const noexcept
+{
 	if (this->ifaceOperationCallback == nullptr) {
 		return false;
 	}
