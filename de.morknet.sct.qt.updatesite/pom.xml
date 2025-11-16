@@ -111,9 +111,9 @@
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 		</pluginRepository>
 		<pluginRepository>
-			<id>jboss-snapshots-repository</id>
+			<id>jboss-releases-repository</id>
 			<name>JBoss Snapshots Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
 </project>
