@@ -1,6 +1,6 @@
 /* #
-# SPDX-License-Identifier: MIT
-# SPDX-FileCopyrightText: Copyright (C) 2022-2024 Steffen A. Mork
+# SPDX-License-Identifier: EPL-2.0
+# SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
 # */
 
 #ifndef SC_QT_TIMERSERVICE_H_
@@ -30,6 +30,9 @@ namespace sc::qt
 		virtual void unsetTimer(
 			std::shared_ptr<sc::timer::TimedInterface> statemachine,
 			sc::eventid                                event) override;
+		virtual void unsetTimerRaw(
+			sc::timer::TimedInterface * statemachine,
+			sc::eventid                 event) override;
 		virtual void cancel();
 
 	protected:

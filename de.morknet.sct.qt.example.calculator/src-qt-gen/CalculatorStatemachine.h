@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef CALCULATORSTATEMACHINE_H_
 #define CALCULATORSTATEMACHINE_H_
@@ -77,6 +77,8 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
+		
+		
 		
 		
 		//! Inner class for gui interface scope.
@@ -344,13 +346,11 @@ class CalculatorStatemachine : public QObject, public sc::timer::TimedInterface,
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
-		
 	private:
 		/*! Sets the value of the variable 'operand' that is defined in the internal scope. */
 		void setOperand(sc::integer operand) noexcept;
 		/*! Sets the value of the variable 'accu' that is defined in the internal scope. */
 		void setAccu(sc::integer accu) noexcept;
-		
 		
 		
 };

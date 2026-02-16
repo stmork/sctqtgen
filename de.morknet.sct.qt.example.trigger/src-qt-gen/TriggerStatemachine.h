@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef TRIGGERSTATEMACHINE_H_
 #define TRIGGERSTATEMACHINE_H_
@@ -79,6 +79,8 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
+		
+		
 		
 		
 		//! Inner class for gui interface scope.
@@ -280,12 +282,10 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
-		
 	private:
 		
 		/*! Indicates event 'trigger' of internal scope is active. */
 		bool trigger_raised {false};
-		
 		
 		
 };

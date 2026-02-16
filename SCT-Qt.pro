@@ -1,3 +1,8 @@
+#
+# SPDX-License-Identifier: EPL-2.0
+# SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
+#
+
 TEMPLATE         = subdirs
 SUBDIRS          = Calculator DelayedExit TimerLess Trigger History Orthogonal Synchronization
 
@@ -21,6 +26,7 @@ QMAKE_EXTRA_TARGETS += astyle cppcheck regen
 astyle.commands = astyle *.example.*/*.cpp *.example.*/*.h
 regen.commands  = bin/regen-examples.sh
 cppcheck.commands = cppcheck \
-	--language=c++ --std=c++14 \
+	--suppress=preprocessorErrorDirective \
+	--language=c++ --std=c++20 \
 	--xml-version=2 --force -q -j `nproc` \
 	*.example.*/*.cpp *.example.*/*.h 2>cppcheck.xml

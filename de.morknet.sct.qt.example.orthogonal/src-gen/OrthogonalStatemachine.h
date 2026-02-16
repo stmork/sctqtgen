@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef ORTHOGONALSTATEMACHINE_H_
 #define ORTHOGONALSTATEMACHINE_H_
@@ -60,6 +60,8 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
+		
+		
 		
 		
 		/*! Gets the value of the variable 'left' that is defined in the default interface scope. */
@@ -137,7 +139,6 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
-		
 	private:
 		OrthogonalStatemachine(const OrthogonalStatemachine &rhs);
 		OrthogonalStatemachine& operator=(const OrthogonalStatemachine&);
@@ -185,7 +186,6 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		/*! Indicates event 'trigger' of default interface scope is active. */
 		bool trigger_raised {false};
-		
 		
 		
 };

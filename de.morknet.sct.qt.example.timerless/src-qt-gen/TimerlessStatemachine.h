@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef TIMERLESSSTATEMACHINE_H_
 #define TIMERLESSSTATEMACHINE_H_
@@ -60,6 +60,8 @@ class TimerlessStatemachine : public QObject, public sc::EventDrivenInterface
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
+		
+		
 		
 		
 		//! Inner class for gui interface scope.
@@ -187,9 +189,7 @@ class TimerlessStatemachine : public QObject, public sc::EventDrivenInterface
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
-		
 	private:
-		
 		
 		
 };

@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "SynchronizationStatemachine.h"
 
@@ -14,6 +14,8 @@ SynchronizationStatemachine::SynchronizationStatemachine(QObject *parent) noexce
 	triggerLeft_raised(false),
 	triggerRight_raised(false),
 	ifaceOperationCallback(nullptr),
+	completed(false),
+	doCompletion(false),
 	isExecuting(false),
 	stateConfVectorPosition(0),
 	stateConfVectorChanged(false)
@@ -72,7 +74,6 @@ bool SynchronizationStatemachine::dispatchEvent(std::unique_ptr<SynchronizationS
 			triggerRight_raised = true;
 			break;
 		}
-		
 		
 		default:
 			//pointer got out of scope
@@ -195,11 +196,11 @@ void SynchronizationStatemachine::enact_main_region_Split_left_Action()
 	ifaceOperationCallback->left();
 }
 
-/* Entry action for state 'Wait'. */
 void SynchronizationStatemachine::enact_main_region_Split_left_Wait()
 {
 	/* Entry action for state 'Wait'. */
 	ifaceOperationCallback->leftClicked();
+	completed = true;
 }
 
 /* Entry action for state 'Action'. */
@@ -209,11 +210,11 @@ void SynchronizationStatemachine::enact_main_region_Split_right_Action()
 	ifaceOperationCallback->right();
 }
 
-/* Entry action for state 'Wait'. */
 void SynchronizationStatemachine::enact_main_region_Split_right_Wait()
 {
 	/* Entry action for state 'Wait'. */
 	ifaceOperationCallback->rightClicked();
+	completed = true;
 }
 
 /* Entry action for state 'Wait'. */
@@ -295,17 +296,6 @@ void SynchronizationStatemachine::enseq_main_region_default()
 {
 	/* 'default' enter sequence for region main region */
 	react_main_region__entry_Default();
-}
-
-/* Default exit sequence for state Split */
-void SynchronizationStatemachine::exseq_main_region_Split()
-{
-	/* Default exit sequence for state Split */
-	exseq_main_region_Split_left();
-	exseq_main_region_Split_right();
-	stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
-	stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
-	stateConfVectorPosition = 1;
 }
 
 /* Default exit sequence for state Action */
@@ -468,23 +458,30 @@ void SynchronizationStatemachine::react_main_region__sync0()
 	enseq_main_region_Split_right_Action_default();
 }
 
-/* The reactions of state null. */
-void SynchronizationStatemachine::react_main_region__sync1()
-{
-	/* The reactions of state null. */
-	enseq_main_region_Completed_default();
+sc::integer SynchronizationStatemachine::main_region_Split_react(const sc::integer transitioned_before) {
+	/* The reactions of state Split. */
+	sc::integer transitioned_after = transitioned_before;
+	if (!(doCompletion))
+	{ 
+		/* Always execute local reactions. */
+		transitioned_after = transitioned_before;
+	} 
+	return transitioned_after;
 }
 
 sc::integer SynchronizationStatemachine::main_region_Split_left_Action_react(const sc::integer transitioned_before) {
 	/* The reactions of state Action. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
+	if (!(doCompletion))
 	{ 
-		if (triggerLeft_raised)
+		if ((transitioned_after) < (0))
 		{ 
-			exseq_main_region_Split_left_Action();
-			enseq_main_region_Split_left_Wait_default();
-			transitioned_after = 0;
+			if (triggerLeft_raised)
+			{ 
+				exseq_main_region_Split_left_Action();
+				enseq_main_region_Split_left_Wait_default();
+				transitioned_after = 0;
+			} 
 		} 
 	} 
 	return transitioned_after;
@@ -493,35 +490,58 @@ sc::integer SynchronizationStatemachine::main_region_Split_left_Action_react(con
 sc::integer SynchronizationStatemachine::main_region_Split_left_Wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state Wait. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
+	if ((isStateActive(SynchronizationStatemachine::State::main_region_Split_left_Wait)) && ((isStateActive(SynchronizationStatemachine::State::main_region_Split_right_Wait)) && (doCompletion)))
 	{ 
-		if (isStateActive(SynchronizationStatemachine::State::main_region_Split_right_Wait))
+		/* Default exit sequence for state Split */
+		exseq_main_region_Split_left();
+		exseq_main_region_Split_right();
+		stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+		stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+		stateConfVectorPosition = 1;
+		/* The reactions of state null. */
+		enseq_main_region_Completed_default();
+	}  else
+	{
+		if ((transitioned_after) < (0))
 		{ 
-			exseq_main_region_Split();
-			react_main_region__sync1();
-			transitioned_after = 0;
+			if (isStateActive(SynchronizationStatemachine::State::main_region_Split_right_Wait))
+			{ 
+				/* Default exit sequence for state Split */
+				exseq_main_region_Split_left();
+				exseq_main_region_Split_right();
+				stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+				stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+				stateConfVectorPosition = 1;
+				/* The reactions of state null. */
+				enseq_main_region_Completed_default();
+				transitioned_after = 0;
+			} 
 		} 
-	} 
+	}
 	return transitioned_after;
 }
 
 sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(const sc::integer transitioned_before) {
 	/* The reactions of state Action. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (1))
+	if (!(doCompletion))
 	{ 
-		if (triggerRight_raised)
+		if ((transitioned_after) < (1))
 		{ 
-			exseq_main_region_Split_right_Action();
-			enseq_main_region_Split_right_Wait_default();
-			transitioned_after = 1;
+			if (triggerRight_raised)
+			{ 
+				exseq_main_region_Split_right_Action();
+				enseq_main_region_Split_right_Wait_default();
+				main_region_Split_react(0);
+				transitioned_after = 1;
+			} 
 		} 
-	} 
-	/* If no transition was taken */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		/* then execute local reactions. */
-		transitioned_after = transitioned_before;
+		/* If no transition was taken */
+		if ((transitioned_after) == (transitioned_before))
+		{ 
+			/* then execute local reactions. */
+			transitioned_after = main_region_Split_react(transitioned_before);
+		} 
 	} 
 	return transitioned_after;
 }
@@ -529,41 +549,59 @@ sc::integer SynchronizationStatemachine::main_region_Split_right_Action_react(co
 sc::integer SynchronizationStatemachine::main_region_Split_right_Wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state Wait. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (1))
+	if ((isStateActive(SynchronizationStatemachine::State::main_region_Split_left_Wait)) && ((isStateActive(SynchronizationStatemachine::State::main_region_Split_right_Wait)) && (doCompletion)))
 	{ 
-		if (isStateActive(SynchronizationStatemachine::State::main_region_Split_left_Wait))
+		/* Default exit sequence for state Split */
+		exseq_main_region_Split_left();
+		exseq_main_region_Split_right();
+		stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+		stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+		stateConfVectorPosition = 1;
+		/* The reactions of state null. */
+		enseq_main_region_Completed_default();
+	}  else
+	{
+		if ((transitioned_after) < (1))
 		{ 
-			exseq_main_region_Split();
-			react_main_region__sync1();
-			transitioned_after = 1;
+			if (isStateActive(SynchronizationStatemachine::State::main_region_Split_left_Wait))
+			{ 
+				/* Default exit sequence for state Split */
+				exseq_main_region_Split_left();
+				exseq_main_region_Split_right();
+				stateConfVector[0] = SynchronizationStatemachine::State::NO_STATE;
+				stateConfVector[1] = SynchronizationStatemachine::State::NO_STATE;
+				stateConfVectorPosition = 1;
+				/* The reactions of state null. */
+				enseq_main_region_Completed_default();
+				transitioned_after = 1;
+			} 
 		} 
-	} 
-	/* If no transition was taken */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		/* then execute local reactions. */
-		transitioned_after = transitioned_before;
-	} 
+		/* Always execute local reactions. */
+		transitioned_after = main_region_Split_react(transitioned_before);
+	}
 	return transitioned_after;
 }
 
 sc::integer SynchronizationStatemachine::main_region_Wait_react(const sc::integer transitioned_before) {
 	/* The reactions of state Wait. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
+	if (!(doCompletion))
 	{ 
-		if (start_raised)
+		if ((transitioned_after) < (0))
 		{ 
-			exseq_main_region_Wait();
-			react_main_region__sync0();
-			transitioned_after = 0;
+			if (start_raised)
+			{ 
+				exseq_main_region_Wait();
+				react_main_region__sync0();
+				transitioned_after = 0;
+			} 
 		} 
-	} 
-	/* If no transition was taken */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		/* then execute local reactions. */
-		transitioned_after = transitioned_before;
+		/* If no transition was taken */
+		if ((transitioned_after) == (transitioned_before))
+		{ 
+			/* then execute local reactions. */
+			transitioned_after = transitioned_before;
+		} 
 	} 
 	return transitioned_after;
 }
@@ -571,20 +609,23 @@ sc::integer SynchronizationStatemachine::main_region_Wait_react(const sc::intege
 sc::integer SynchronizationStatemachine::main_region_Completed_react(const sc::integer transitioned_before) {
 	/* The reactions of state Completed. */
 	sc::integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
+	if (!(doCompletion))
 	{ 
-		if (start_raised)
+		if ((transitioned_after) < (0))
 		{ 
-			exseq_main_region_Completed();
-			enseq_main_region_Wait_default();
-			transitioned_after = 0;
+			if (start_raised)
+			{ 
+				exseq_main_region_Completed();
+				enseq_main_region_Wait_default();
+				transitioned_after = 0;
+			} 
 		} 
-	} 
-	/* If no transition was taken */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		/* then execute local reactions. */
-		transitioned_after = transitioned_before;
+		/* If no transition was taken */
+		if ((transitioned_after) == (transitioned_before))
+		{ 
+			/* then execute local reactions. */
+			transitioned_after = transitioned_before;
+		} 
 	} 
 	return transitioned_after;
 }
@@ -655,18 +696,30 @@ void SynchronizationStatemachine::runCycle() {
 	dispatchEvent(getNextEvent());
 	do
 	{ 
+		doCompletion = false;
 		do
 		{ 
-			stateConfVectorChanged = false;
-			microStep();
-		} while (stateConfVectorChanged);
-		clearInEvents();
+			if (completed)
+			{ 
+				doCompletion = true;
+			} 
+			completed = false;
+			do
+			{ 
+				stateConfVectorChanged = false;
+				microStep();
+			} while (stateConfVectorChanged);
+			clearInEvents();
+			doCompletion = false;
+		} while (completed);
 	} while (dispatchEvent(getNextEvent()));
 	isExecuting = false;
 }
 
 void SynchronizationStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;
@@ -677,8 +730,18 @@ void SynchronizationStatemachine::enter() {
 	do
 	{ 
 		stateConfVectorChanged = false;
-		microStep();
-		clearInEvents();
+		doCompletion = false;
+		do
+		{ 
+			if (completed)
+			{ 
+				doCompletion = true;
+			} 
+			completed = false;
+			microStep();
+			clearInEvents();
+			doCompletion = false;
+		} while (completed);
 	} while (stateConfVectorChanged);
 	isExecuting = false;
 }

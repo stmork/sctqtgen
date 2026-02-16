@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef SYNCHRONIZATIONSTATEMACHINE_H_
 #define SYNCHRONIZATIONSTATEMACHINE_H_
@@ -72,6 +72,8 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 				virtual ~EventInstance() = default;
 				const Event eventId;
 		};
+		
+		
 		
 		
 		//! Inner class for default interface scope operation callbacks.
@@ -155,7 +157,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
 		
 		
-		
 	private:
 		SynchronizationStatemachine(const SynchronizationStatemachine &rhs);
 		SynchronizationStatemachine& operator=(const SynchronizationStatemachine&);
@@ -174,6 +175,8 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		
 		std::shared_ptr<OperationCallback> ifaceOperationCallback {nullptr};
 		
+		bool completed {false};
+		bool doCompletion {false};
 		bool isExecuting {false};
 		sc::integer stateConfVectorPosition {0};
 		bool stateConfVectorChanged {false};
@@ -196,7 +199,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		void enseq_main_region_Wait_default();
 		void enseq_main_region_Completed_default();
 		void enseq_main_region_default();
-		void exseq_main_region_Split();
 		void exseq_main_region_Split_left_Action();
 		void exseq_main_region_Split_left_Wait();
 		void exseq_main_region_Split_right_Action();
@@ -208,7 +210,7 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		void exseq_main_region_Split_right();
 		void react_main_region__entry_Default();
 		void react_main_region__sync0();
-		void react_main_region__sync1();
+		sc::integer main_region_Split_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_left_Action_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_left_Wait_react(const sc::integer transitioned_before);
 		sc::integer main_region_Split_right_Action_react(const sc::integer transitioned_before);
@@ -229,7 +231,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		
 		/*! Indicates event 'triggerRight' of default interface scope is active. */
 		bool triggerRight_raised {false};
-		
 		
 		
 };

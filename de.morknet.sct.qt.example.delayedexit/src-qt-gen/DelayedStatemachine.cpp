@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "DelayedStatemachine.h"
 
@@ -74,7 +74,6 @@ bool DelayedStatemachine::dispatchEvent(std::unique_ptr<DelayedStatemachine::Eve
 			ifaceGui.complete_raised = true;
 			break;
 		}
-		
 		default:
 			//pointer got out of scope
 			return false;
@@ -472,6 +471,8 @@ void DelayedStatemachine::runCycle() {
 
 void DelayedStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

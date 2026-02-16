@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "OrthogonalStatemachine.h"
 
@@ -61,7 +61,6 @@ bool OrthogonalStatemachine::dispatchEvent(std::unique_ptr<OrthogonalStatemachin
 			trigger_raised = true;
 			break;
 		}
-		
 		
 		default:
 			//pointer got out of scope
@@ -127,8 +126,7 @@ bool OrthogonalStatemachine::isStateActive(State state) const noexcept
 
 sc::integer OrthogonalStatemachine::getLeft() const noexcept
 {
-	return left
-	;
+	return left;
 }
 
 void OrthogonalStatemachine::setLeft(sc::integer left_) noexcept
@@ -137,8 +135,7 @@ void OrthogonalStatemachine::setLeft(sc::integer left_) noexcept
 }
 sc::integer OrthogonalStatemachine::getRight() const noexcept
 {
-	return right
-	;
+	return right;
 }
 
 void OrthogonalStatemachine::setRight(sc::integer right_) noexcept
@@ -339,6 +336,8 @@ void OrthogonalStatemachine::runCycle() {
 
 void OrthogonalStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

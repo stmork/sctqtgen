@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: EPL-2.0
+ * SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
+ */
+
 GeneratorModel for create::cpp::qt
 {
 	const PROJECT : string = "de.morknet.sct.qt.example.history"
@@ -9,7 +14,7 @@ GeneratorModel for create::cpp::qt
 	{
 		feature LicenseHeader
 		{
-			licenseText =  "Copyright (C) 2025 - Steffen A. Mork"
+			licenseText =  "Copyright (C) 2026 - Steffen A. Mork"
 		}
 
 		feature Outlet

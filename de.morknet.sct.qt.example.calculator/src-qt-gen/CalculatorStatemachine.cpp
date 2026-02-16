@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "CalculatorStatemachine.h"
 
@@ -26,6 +26,8 @@ CalculatorStatemachine::CalculatorStatemachine(QObject *parent) noexcept :
 
 CalculatorStatemachine::~CalculatorStatemachine()
 {
+	if(!timerService) return;
+	timerService->unsetTimerRaw(this, 0);
 }
 
 CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) noexcept :
@@ -143,7 +145,6 @@ bool CalculatorStatemachine::dispatchEvent(std::unique_ptr<CalculatorStatemachin
 			ifaceGui.ButtonClear_raised = true;
 			break;
 		}
-		
 		case CalculatorStatemachine::Event::_te0_main_region_active_:
 		{
 			timeEvents[static_cast<sc::integer>(event->eventId) - static_cast<sc::integer>(CalculatorStatemachine::Event::_te0_main_region_active_)] = true;
@@ -615,6 +616,8 @@ void CalculatorStatemachine::runCycle() {
 
 void CalculatorStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

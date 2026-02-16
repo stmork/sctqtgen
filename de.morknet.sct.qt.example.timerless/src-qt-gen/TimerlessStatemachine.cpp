@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "TimerlessStatemachine.h"
 
@@ -64,7 +64,6 @@ bool TimerlessStatemachine::dispatchEvent(std::unique_ptr<TimerlessStatemachine:
 			ifaceGui.clicked_raised = true;
 			break;
 		}
-		
 		default:
 			//pointer got out of scope
 			return false;
@@ -294,6 +293,8 @@ void TimerlessStatemachine::runCycle() {
 
 void TimerlessStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

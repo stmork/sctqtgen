@@ -1,3 +1,8 @@
+#
+# SPDX-License-Identifier: EPL-2.0
+# SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
+#
+
 cmake_minimum_required(VERSION 3.16)
 project(Sct-Qt-Generator VERSION 1.0.0 LANGUAGES CXX)
 
@@ -7,7 +12,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON) 
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options(-Wextra -Wpedantic)
@@ -24,7 +29,7 @@ add_subdirectory(de.morknet.sct.qt.example.trigger)
 
 add_custom_target(cppcheck
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-	COMMAND cppcheck --language=c++ --std=c++14
+	COMMAND cppcheck --language=c++ --std=c++20
 		--xml-version=2 --force -q -j `nproc`
 		*.example.*/*.cpp *.example.*/*.h 2>cppcheck.xml
 )

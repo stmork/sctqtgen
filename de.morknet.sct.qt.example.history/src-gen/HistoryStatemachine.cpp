@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "HistoryStatemachine.h"
 
@@ -73,7 +73,6 @@ bool HistoryStatemachine::dispatchEvent(std::unique_ptr<HistoryStatemachine::Eve
 			outside_raised = true;
 			break;
 		}
-		
 		
 		default:
 			//pointer got out of scope
@@ -961,6 +960,8 @@ void HistoryStatemachine::runCycle() {
 
 void HistoryStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

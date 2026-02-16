@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #include "TriggerStatemachine.h"
 
@@ -26,6 +26,10 @@ TriggerStatemachine::TriggerStatemachine(QObject *parent) noexcept :
 
 TriggerStatemachine::~TriggerStatemachine()
 {
+	if(!timerService) return;
+	timerService->unsetTimerRaw(this, 0);
+	timerService->unsetTimerRaw(this, 1);
+	timerService->unsetTimerRaw(this, 2);
 }
 
 TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) noexcept :
@@ -77,7 +81,6 @@ bool TriggerStatemachine::dispatchEvent(std::unique_ptr<TriggerStatemachine::Eve
 			ifaceGui.pressed_raised = true;
 			break;
 		}
-		
 		case TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_:
 		case TriggerStatemachine::Event::_te1_main_region_Lanes_r2_B_:
 		case TriggerStatemachine::Event::_te2_main_region_Lanes_r3_C_:
@@ -212,8 +215,7 @@ TriggerStatemachine::Gui& TriggerStatemachine::gui() noexcept
 }
 sc::integer TriggerStatemachine::Gui::getCounter() const noexcept
 {
-	return counter
-	;
+	return counter;
 }
 
 void TriggerStatemachine::Gui::setCounter(sc::integer counter_) noexcept
@@ -869,6 +871,8 @@ void TriggerStatemachine::runCycle() {
 
 void TriggerStatemachine::enter() {
 	/* Activates the state machine. */
+	{
+	};
 	if (isExecuting)
 	{ 
 		return;

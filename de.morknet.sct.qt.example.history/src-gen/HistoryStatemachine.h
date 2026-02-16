@@ -1,4 +1,4 @@
-/* Copyright (C) 2025 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef HISTORYSTATEMACHINE_H_
 #define HISTORYSTATEMACHINE_H_
@@ -78,6 +78,8 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		};
 		
 		
+		
+		
 		//! Inner class for default interface scope operation callbacks.
 		class OperationCallback
 		{
@@ -145,7 +147,6 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		std::unique_ptr<EventInstance> getNextEvent() noexcept;
 		
 		bool dispatchEvent(std::unique_ptr<EventInstance> event) noexcept;
-		
 		
 		
 	private:
@@ -238,7 +239,6 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		/*! Indicates event 'outside' of default interface scope is active. */
 		bool outside_raised {false};
-		
 		
 		
 };

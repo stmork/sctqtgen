@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef SC_TIMER_H_
 #define SC_TIMER_H_
@@ -65,6 +65,7 @@ class TimerServiceInterface
 		Unsets the given time event.
 		*/
 		virtual void unsetTimer(std::shared_ptr<TimedInterface> statemachine, sc::eventid event) = 0;
+		virtual void unsetTimerRaw(TimedInterface* statemachine, sc::eventid event) = 0; // destructor-only
 };
 
 inline TimerServiceInterface::~TimerServiceInterface() {}
