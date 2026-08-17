@@ -170,10 +170,10 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		bool isStateActive(State state) const noexcept;
 		
 		//! number of time events used by the state machine.
-		static const sc::integer timeEventsCount {3};
+		static constexpr sc::integer timeEventsCount {3};
 		
 		//! number of time events that can be active at once.
-		static const sc::integer parallelTimeEventsCount {3};
+		static constexpr sc::integer parallelTimeEventsCount {3};
 		
 		
 	public slots:
@@ -199,14 +199,13 @@ class TriggerStatemachine : public QObject, public sc::timer::TimedInterface, pu
 		
 		
 		
-		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates {4};
+		static constexpr sc::ushort maxOrthogonalStates {4};
 		
-		std::shared_ptr<sc::timer::TimerServiceInterface> timerService;
-		bool timeEvents[timeEventsCount];
+		std::shared_ptr<sc::timer::TimerServiceInterface> timerService = {};
+		bool timeEvents[timeEventsCount] = {};
 		
 		
-		State stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates] = {};
 		
 		
 		Gui ifaceGui {Gui{nullptr}};

@@ -18,16 +18,15 @@ CalculatorStatemachine::CalculatorStatemachine(QObject *parent) noexcept :
 	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
-		stateConfVector[state_vec_pos] = CalculatorStatemachine::State::NO_STATE;
-	
+	std::fill(std::begin(stateConfVector), std::end(stateConfVector), CalculatorStatemachine::State::NO_STATE);
 	clearInEvents();
 }
 
 CalculatorStatemachine::~CalculatorStatemachine()
 {
-	if(!timerService) return;
-	timerService->unsetTimerRaw(this, 0);
+	if (timerService != nullptr) {
+		timerService->unsetTimerRaw(this, 0);
+	}
 }
 
 CalculatorStatemachine::Gui::Gui(CalculatorStatemachine* parent_) noexcept :
@@ -308,11 +307,11 @@ sc::integer CalculatorStatemachine::getNumberOfParallelTimeEvents() noexcept {
 	return parallelTimeEventsCount;
 }
 
-void CalculatorStatemachine::raiseTimeEvent(sc::eventid evid)
+void CalculatorStatemachine::raiseTimeEvent(sc::eventid event)
 {
-	if (evid < timeEventsCount)
+	if (event < timeEventsCount)
 	{
-		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<CalculatorStatemachine::Event>(evid + static_cast<sc::integer>(CalculatorStatemachine::Event::_te0_main_region_active_)))));
+		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<CalculatorStatemachine::Event>(event + static_cast<sc::integer>(CalculatorStatemachine::Event::_te0_main_region_active_)))));
 		runCycle();
 	}
 }
@@ -363,7 +362,7 @@ void CalculatorStatemachine::setInternalOperationCallback(std::shared_ptr<Intern
 void CalculatorStatemachine::enact_main_region_active()
 {
 	/* Entry action for state 'active'. */
-	timerService->setTimer(shared_from_this(), 0, ((static_cast<sc::time> (30)) * 1000), false);
+	timerService->setTimer(shared_from_this(), 0, ((static_cast<::sc::time> (30)) * 1000), false);
 	setAccu(0);
 	setOperand(0);
 }

@@ -76,13 +76,15 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		class OperationCallback
 		{
 			public:
-				virtual ~OperationCallback() = 0;
-				
 				virtual bool isLeft() = 0;
 				
 				virtual bool isRight() = 0;
 				
 				virtual void label() = 0;
+				
+				
+			protected:
+				~OperationCallback() noexcept = default;
 				
 				
 		};
@@ -148,12 +150,11 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		
 		
-		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates {2};
+		static constexpr sc::ushort maxOrthogonalStates {2};
 		
 		
 		
-		State stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates] = {};
 		
 		
 		
@@ -191,7 +192,6 @@ class OrthogonalStatemachine : public QObject, public sc::EventDrivenInterface
 };
 
 
-inline OrthogonalStatemachine::OperationCallback::~OperationCallback() {}
 
 
 #endif /* ORTHOGONALSTATEMACHINE_H_ */

@@ -1,7 +1,7 @@
-/* #
-# SPDX-License-Identifier: EPL-2.0
-# SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
-# */
+/*
+ * SPDX-License-Identifier: EPL-2.0
+ * SPDX-FileCopyrightText: Copyright (C) 2022-2026 Steffen A. Mork
+ */
 
 #ifndef SC_QT_TIMERSERVICE_H_
 #define SC_QT_TIMERSERVICE_H_

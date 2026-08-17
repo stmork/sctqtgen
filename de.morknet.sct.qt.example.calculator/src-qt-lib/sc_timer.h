@@ -18,33 +18,31 @@ Interface for state machines which use timed event triggers.
 */
 class TimedInterface {
 	public:
-	
-		virtual ~TimedInterface() = 0;
-		
+
 		/*!
 		Set the timer service for the state machine. It must be set
 		externally on a timed state machine before a run cycle can be executed.
 		*/
-		virtual void setTimerService(std::shared_ptr<sc::timer::TimerServiceInterface> timerService) = 0;
-		
+		virtual void setTimerService(std::shared_ptr<sc::timer::TimerServiceInterface> timerService_) = 0;
+
 		/*!
 		Return the currently used timer service.
 		*/
 		virtual std::shared_ptr<sc::timer::TimerServiceInterface> getTimerService() = 0;
-		
+
 		/*!
 		Callback method if a time event occurred.
 		*/
 		virtual void raiseTimeEvent(sc::eventid event) = 0;
-		
+
 		/*!
 		Retrieve the number of time events that can be active at once in this state machine.
 		*/
 		virtual sc::integer getNumberOfParallelTimeEvents() = 0;
-		
-};
 
-inline TimedInterface::~TimedInterface() {}
+	protected:
+		~TimedInterface() noexcept = default;
+};
 
 
 /*! \file
@@ -53,22 +51,21 @@ Timer service interface.
 class TimerServiceInterface
 {
 	public:
-		
-		virtual ~TimerServiceInterface() = 0;
-	
+
 		/*!
 		Starts the timing for a time event.
-		*/ 
+		*/
 		virtual void setTimer(std::shared_ptr<TimedInterface> statemachine, sc::eventid event, sc::time time_ms, bool isPeriodic) = 0;
-		
+
 		/*!
 		Unsets the given time event.
 		*/
 		virtual void unsetTimer(std::shared_ptr<TimedInterface> statemachine, sc::eventid event) = 0;
 		virtual void unsetTimerRaw(TimedInterface* statemachine, sc::eventid event) = 0; // destructor-only
-};
 
-inline TimerServiceInterface::~TimerServiceInterface() {}
+	protected:
+		~TimerServiceInterface() noexcept = default;
+};
 
 } /* namespace sc::timer */
 } /* namespace sc */

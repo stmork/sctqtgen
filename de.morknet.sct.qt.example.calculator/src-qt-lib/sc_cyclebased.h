@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef SC_CYCLEBASED_H_
 #define SC_CYCLEBASED_H_
@@ -13,15 +13,14 @@ Interface for cycle-based state machines.
 class CycleBasedInterface : public sc::StatemachineInterface
 {
 	public:
-	
-		virtual ~CycleBasedInterface() = 0;
-	
+
 		/*! Start a run-to-completion cycle.
 		*/
 		virtual void runCycle() = 0;
-};
 
-inline CycleBasedInterface::~CycleBasedInterface() {}
+	protected:
+		~CycleBasedInterface() noexcept = default;
+};
 
 } /* namespace sc */
 

@@ -177,12 +177,11 @@ class DelayedStatemachine : public QObject, public sc::EventDrivenInterface
 	protected:
 		
 		
-		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates {1};
+		static constexpr sc::ushort maxOrthogonalStates {1};
 		
 		
 		
-		State stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates] = {};
 		
 		
 		Gui ifaceGui {Gui{nullptr}};

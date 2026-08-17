@@ -17,19 +17,18 @@ TriggerStatemachine::TriggerStatemachine(QObject *parent) noexcept :
 	stateConfVectorPosition(0)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
-		stateConfVector[state_vec_pos] = TriggerStatemachine::State::NO_STATE;
-	
+	std::fill(std::begin(stateConfVector), std::end(stateConfVector), TriggerStatemachine::State::NO_STATE);
 	clearInEvents();
 	clearInternalEvents();
 }
 
 TriggerStatemachine::~TriggerStatemachine()
 {
-	if(!timerService) return;
-	timerService->unsetTimerRaw(this, 0);
-	timerService->unsetTimerRaw(this, 1);
-	timerService->unsetTimerRaw(this, 2);
+	if (timerService != nullptr) {
+		timerService->unsetTimerRaw(this, 0);
+		timerService->unsetTimerRaw(this, 1);
+		timerService->unsetTimerRaw(this, 2);
+	}
 }
 
 TriggerStatemachine::Gui::Gui(TriggerStatemachine* parent_) noexcept :
@@ -141,11 +140,11 @@ sc::integer TriggerStatemachine::getNumberOfParallelTimeEvents() noexcept {
 	return parallelTimeEventsCount;
 }
 
-void TriggerStatemachine::raiseTimeEvent(sc::eventid evid)
+void TriggerStatemachine::raiseTimeEvent(sc::eventid event)
 {
-	if (evid < timeEventsCount)
+	if (event < timeEventsCount)
 	{
-		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<TriggerStatemachine::Event>(evid + static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_)))));
+		incomingEventQueue.push_back(std::unique_ptr< EventInstance>(new EventInstance(static_cast<TriggerStatemachine::Event>(event + static_cast<sc::integer>(TriggerStatemachine::Event::_te0_main_region_Lanes_r1_A_)))));
 		runCycle();
 	}
 }
@@ -245,21 +244,21 @@ void TriggerStatemachine::enact_main_region_Lanes()
 void TriggerStatemachine::enact_main_region_Lanes_r1_A()
 {
 	/* Entry action for state 'A'. */
-	timerService->setTimer(shared_from_this(), 0, (static_cast<sc::time> (200)), false);
+	timerService->setTimer(shared_from_this(), 0, (static_cast<::sc::time> (200)), false);
 }
 
 /* Entry action for state 'B'. */
 void TriggerStatemachine::enact_main_region_Lanes_r2_B()
 {
 	/* Entry action for state 'B'. */
-	timerService->setTimer(shared_from_this(), 1, ((static_cast<sc::time> (1)) * 1000), false);
+	timerService->setTimer(shared_from_this(), 1, ((static_cast<::sc::time> (1)) * 1000), false);
 }
 
 /* Entry action for state 'C'. */
 void TriggerStatemachine::enact_main_region_Lanes_r3_C()
 {
 	/* Entry action for state 'C'. */
-	timerService->setTimer(shared_from_this(), 2, (static_cast<sc::time> (1500)), false);
+	timerService->setTimer(shared_from_this(), 2, (static_cast<::sc::time> (1500)), false);
 }
 
 /* Exit action for state 'A'. */

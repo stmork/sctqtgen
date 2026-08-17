@@ -80,8 +80,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		class OperationCallback
 		{
 			public:
-				virtual ~OperationCallback() = 0;
-				
 				virtual void waiting() = 0;
 				
 				virtual void started() = 0;
@@ -95,6 +93,10 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 				virtual void rightClicked() = 0;
 				
 				virtual void completed() = 0;
+				
+				
+			protected:
+				~OperationCallback() noexcept = default;
 				
 				
 		};
@@ -164,12 +166,11 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 		
 		
 		
-		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates {2};
+		static constexpr sc::ushort maxOrthogonalStates {2};
 		
 		
 		
-		State stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates] = {};
 		
 		
 		
@@ -236,7 +237,6 @@ class SynchronizationStatemachine : public QObject, public sc::EventDrivenInterf
 };
 
 
-inline SynchronizationStatemachine::OperationCallback::~OperationCallback() {}
 
 
 #endif /* SYNCHRONIZATIONSTATEMACHINE_H_ */

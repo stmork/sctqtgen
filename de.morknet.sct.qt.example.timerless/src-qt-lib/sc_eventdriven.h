@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef SC_EVENTDRIVEN_H_
 #define SC_EVENTDRIVEN_H_
@@ -13,15 +13,14 @@ Interface for event-driven state machines.
 class EventDrivenInterface : public sc::StatemachineInterface
 {
 	public:
-	
-		virtual ~EventDrivenInterface() = 0;
-	
+
 		/*! Start a run-to-completion step without any event.
 		*/
 		virtual void triggerWithoutEvent() = 0;
-};
 
-inline EventDrivenInterface::~EventDrivenInterface() {}
+	protected:
+		~EventDrivenInterface() noexcept = default;
+};
 
 } /* namespace sc */
 

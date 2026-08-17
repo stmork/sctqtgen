@@ -16,12 +16,8 @@ HistoryStatemachine::HistoryStatemachine(QObject *parent) noexcept :
 	ifaceOperationCallback(nullptr),
 	isExecuting(false)
 {
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
-		stateConfVector[state_vec_pos] = HistoryStatemachine::State::NO_STATE;
-	
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxHistoryStates; ++state_vec_pos)
-		historyVector[state_vec_pos] = HistoryStatemachine::State::NO_STATE;
-	
+	std::fill(std::begin(stateConfVector), std::end(stateConfVector), HistoryStatemachine::State::NO_STATE);
+	std::fill(std::begin(historyVector), std::end(historyVector), HistoryStatemachine::State::NO_STATE);
 	clearInEvents();
 }
 

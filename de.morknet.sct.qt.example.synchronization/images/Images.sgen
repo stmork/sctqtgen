@@ -1,0 +1,19 @@
+GeneratorModel for create::images
+{
+	const PROJECT : string = "de.morknet.sct.qt.example.synchronization"
+	const FOLDER  : string = "images"
+
+	statechart Synchronization
+	{
+		feature Outlet
+		{
+			targetProject = PROJECT
+			targetFolder  = FOLDER
+		}
+
+		feature Renderer
+		{
+			format = "png"
+		}
+	}
+}

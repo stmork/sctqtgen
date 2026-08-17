@@ -14,9 +14,7 @@ DelayedStatemachine::DelayedStatemachine(QObject *parent) noexcept :
 	isExecuting(false)
 {
 	this->ifaceGui.parent = this;
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
-		stateConfVector[state_vec_pos] = DelayedStatemachine::State::NO_STATE;
-	
+	std::fill(std::begin(stateConfVector), std::end(stateConfVector), DelayedStatemachine::State::NO_STATE);
 	clearInEvents();
 }
 

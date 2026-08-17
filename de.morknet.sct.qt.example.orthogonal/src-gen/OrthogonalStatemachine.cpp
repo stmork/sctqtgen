@@ -17,9 +17,7 @@ OrthogonalStatemachine::OrthogonalStatemachine(QObject *parent) noexcept :
 	isExecuting(false),
 	stateConfVectorPosition(0)
 {
-	for (sc::ushort state_vec_pos = 0; state_vec_pos < maxOrthogonalStates; ++state_vec_pos)
-		stateConfVector[state_vec_pos] = OrthogonalStatemachine::State::NO_STATE;
-	
+	std::fill(std::begin(stateConfVector), std::end(stateConfVector), OrthogonalStatemachine::State::NO_STATE);
 	clearInEvents();
 }
 

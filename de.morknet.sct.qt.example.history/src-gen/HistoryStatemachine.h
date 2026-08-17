@@ -84,9 +84,11 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		class OperationCallback
 		{
 			public:
-				virtual ~OperationCallback() = 0;
-				
 				virtual void label(std::string text) = 0;
+				
+				
+			protected:
+				~OperationCallback() noexcept = default;
 				
 				
 		};
@@ -156,16 +158,14 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 		
 		
 		
-		//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
-		static const sc::ushort maxOrthogonalStates {1};
-		//! dimension of the state configuration vector for history states
-		static const sc::ushort maxHistoryStates {3};
+		static constexpr sc::ushort maxOrthogonalStates {1};
+		static constexpr sc::ushort maxHistoryStates {3};
 		
 		
 		
-		State stateConfVector[maxOrthogonalStates];
+		State stateConfVector[maxOrthogonalStates] = {};
 		
-		State historyVector[maxHistoryStates];
+		State historyVector[maxHistoryStates] = {};
 		
 		
 		std::shared_ptr<OperationCallback> ifaceOperationCallback {nullptr};
@@ -244,7 +244,6 @@ class HistoryStatemachine : public QObject, public sc::EventDrivenInterface
 };
 
 
-inline HistoryStatemachine::OperationCallback::~OperationCallback() {}
 
 
 #endif /* HISTORYSTATEMACHINE_H_ */

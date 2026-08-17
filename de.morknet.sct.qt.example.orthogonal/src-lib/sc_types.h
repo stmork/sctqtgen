@@ -1,4 +1,4 @@
-/* Copyright (C) 2024 - Steffen A. Mork */
+/* Copyright (C) 2026 - Steffen A. Mork */
 
 #ifndef SC_TYPES_H_
 #define SC_TYPES_H_
@@ -8,6 +8,10 @@
 #include <stdint.h>
 
 #include <string>
+
+#ifndef SC_UNUSED
+#define SC_UNUSED(x) (void)(x)
+#endif
 
 namespace sc {
 		
